@@ -1,0 +1,234 @@
+#navbar {
+  color:white;
+}
+.brand-logo {
+  margin-left: 10px;
+}
+#loginmodal {
+    position:absolute;
+    left:0;
+    top:0;
+    bottom: 0;
+    right: 0;
+    width:100%;
+    height:100%;
+    background-color:#237a1b !important;
+    /*background-image: url('/assets/images/seth-doyle-78210.jpg');*/
+    /*background-position: center;*/
+    /*background-repeat: no-repeat;*/
+    z-index: 3000;
+}
+#loginbox {
+    width: 400px;
+    height: 380px;
+    left:50%;
+    margin-left:-200px;
+    margin-top: 60px;
+    text-align: center;
+}
+#loginbox .widget-main {
+    padding: 16px 20px 20px;
+    min-height: 100%;
+}
+#loginbox .input-icon {
+    max-width: 320px;
+    margin: 0 auto;
+}
+#login-banner {
+    padding: 10px 12px !important;
+    margin-bottom: 0 !important;
+}
+#reportcontain {
+    width: 650px;
+    position: relative;
+    margin: 0 auto;
+    border: solid 1px #ccc;
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
+    min-height: 800px;
+    overflow-x: auto !important;
+}
+
+.logout_btn {
+    height: 45px;
+    overflow: hidden;
+}
+
+.fixedlabel {
+    min-width:90px !important;
+}
+.smfixedlabel {
+    min-width:60px !important;
+}
+.permcb {
+    vertical-align: top;
+}
+.tags {
+    width: 410px !important;
+}
+.tags .tag {
+    display: inline-block !important;
+}
+.tags input {
+    display: inline-block !important;
+    width: auto !important;
+    padding-left: 10px;
+}
+.tags .email-input {
+    display: none !important;
+}
+
+.dataTables_wrapper .col-sm-12 {
+    padding: 0;
+    width: 100%;
+}
+
+table.dataTable {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+table.dataTable th {
+    border-bottom-width: 1px;
+}
+
+table.dataTable tbody tr.selected, table.dataTable tbody th.selected, table.dataTable tbody td.selected {
+    color: inherit !important;
+}
+table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
+    background-color: inherit !important;
+}
+
+.dataTables_info {
+    padding-top: 2px !important;
+    font-size: 13px;
+}
+
+.refsearchbox {
+    margin-right: 8px;
+}
+
+.hasDatepicker {
+    width: 90px;
+}
+
+/* #Media Queries
+================================================== */
+
+/* Smaller than standard 960 (devices and browsers) */
+@media only screen and (max-width: 959px) {
+
+}
+
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+
+}
+
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    #reportcontain {
+        width: 480px;
+    }
+    #loginbox {
+        width: 350px;
+        margin-left:-175px;
+    }
+    .refsearchbox {
+        float: none !important;
+        margin: 10px 0 0 8px;
+    }
+    .dataTables_wrapper .row:nth-child(1), .dataTables_length, .dataTables_filter {
+        text-align: left !important;
+    }
+}
+
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+@media only screen and (max-width: 479px) {
+    #reportcontain {
+        width: 480px;
+    }
+    #loginbox {
+        width: 100%;
+        left: 0;
+        padding: 5px;
+        margin-left: 0;
+    }
+    .dataTables_filter {
+        float:left;
+    }
+    .refsearchbox {
+        float: none !important;
+        margin: 10px 0 0 8px;
+    }
+    .refsearchbox input {
+        width: 135px;
+    }
+    .dataTables_wrapper .row:nth-child(1), .dataTables_length {
+        text-align: left !important;
+    }
+}
+/*Login modal styles*/
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.login-page .form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.login-page .form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.login-page .form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.login-page .form button:hover,.login-page .form button:active,.login-page .form button:focus {
+  background: #43A047;
+}
+.login-page .form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.login-page .form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.login-page .form .register-form {
+  display: none;
+}

@@ -1,0 +1,23 @@
+{
+    "extra": {
+        "heroku": {
+            "index-document": "index.html",
+            "engines": {
+                "php": "5.5.9"
+            }
+        }
+    },
+    "config": {
+        "vendor-dir": "library"
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "wisembly/elephant.io": "~3.0",
+        "ifsnop/mysqldump-php":"2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ElephantIO\\": ["library/"]
+        }
+    }
+}

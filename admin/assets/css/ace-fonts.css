@@ -1,0 +1,41 @@
+/* included only when we don't want to use fonts from google server */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(../font/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(../font/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Lato normal';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../font/lato-regular-webfont.woff) format('woff');
+}
+@font-face {
+  font-family: 'Lato Bold';
+  font-style: bolder;
+  font-weight: 500;
+  src: url(../font/lato-bold-webfont.woff) format('woff');
+}
+@font-face {
+  font-family: 'Lato Black';
+  /*font-style: bold;*/
+  /*font-weight: 400;*/
+  src: url(../font/lato-black-webfont.woff) format('woff');
+}
+@font-face {
+  font-family:"octicons";
+  src:
+		url("../font/octicons.woff") format("woff"),
+		url("../font/octicons.eot") format("eot"),
+		url("../font/octicons.svg") format("svg"),
+		url("../font/octicons.ttf") format("ttf");
+  font-weight:normal;
+  font-style:normal;
+}

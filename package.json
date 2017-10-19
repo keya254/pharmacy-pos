@@ -1,0 +1,18 @@
+{
+  "name": "wpos",
+  "version": "1.0.0",
+  "repository": "https://github.com/micwallace/wallacepos.git",
+  "description": "Web based POS system",
+  "main": "/app/api/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "WallaceIT",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "socket.io": "~1.7.x"
+  },
+  "engines": {
+    "node": "~4.2.x"
+  }
+}
