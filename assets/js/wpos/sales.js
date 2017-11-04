@@ -131,7 +131,7 @@ function WPOSItems() {
                 invItems.push(this.stock[s].storeditemid);
                 level.push(this.stock[s].stocklevel);
             }
-                
+
         }
         for (var i in items){
             f = invItems.indexOf(items[i].id);
@@ -142,14 +142,14 @@ function WPOSItems() {
                                     '<h6 class="price">'+WPOS.util.currencyFormat(price)+'</h6>'+
                                     '<h6>('+level[f]+')</h6>'+
                                 '</div>');
-            } 
+            }
                 // price = (items[i].price==""?"??.??":parseFloat(items[i].price).toFixed(2));
                 // iboxitems.append('<div class="iboxitem col-xs-6 col-sm-4" onclick="WPOS.items.addItemFromId('+items[i].id+'); toggleItemBox(false); reduceQty(this)">' +
                 //                     '<h6>'+items[i].name+'</h6>'+
                 //                     '<h6 style="color:#bf211c;">'+WPOS.util.currencyFormat(price)+'</h6>'+
                 //                     '<h6>('+items[i].qty+')</h6>'+
                 //                 '</div>');
-            
+
         }
     };
 
@@ -626,7 +626,8 @@ function WPOSSales() {
             discountobj.val("0");
             distxtobj.text("("+WPOS.util.currencyFormat("0.00")+")");
         } else {
-            var discountsum = ((discount / 100) * curtotal).toFixed(2);
+            // var discountsum = ((discount / 100) * curtotal).toFixed(2);
+            var discountsum = discount;
             distxtobj.text("(" + WPOS.util.currencyFormat(discountsum) + ")");
             curtotal = (curtotal - discountsum);
         }
