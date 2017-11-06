@@ -81,7 +81,7 @@ class WposAdminGraph {
                     $serieslist[$key] = $key;
                 }
                 // put into array
-                $graph[$curstime] = $tempstats['data'];
+                $graph[strval($curstime)] = $tempstats['data'];
             } else {
                 $result['error'].= $tempstats['error'];
                 break;
