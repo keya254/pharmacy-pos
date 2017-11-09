@@ -4,7 +4,8 @@
         Item Inventory
     </h1>
     <button onclick="openAddStockDialog();" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
-    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportStock();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
+    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportStock();"><i class="icon-cloud-download align-top bigger-125"></i>Download Template</button>
+    <input type="file" id="files" name="inventory" data-buttonText="" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;"/>
 </div><!-- /.page-header -->
 
 <div class="row">
@@ -106,14 +107,19 @@
 </div>
 
 <!-- page specific plugin scripts; migrated to index.php due to heavy use -->
-
+<script type="text/javascript" src="/admin/assets/js/jquery.csv.js"></script>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     var stock = null;
     var items = null;
+    var suppliers = null;
+    var locations = null;
     var datatable;
     $(function() {
         stock = WPOS.getJsonData("stock/get");
+        items = WPOS.getJsonData("items/get");
+        suppliers = WPOS.getJsonData("suppliers/get");
+        locations = WPOS.locations;
         var stockarray = [];
         var tempstock;
         for (var key in stock){
@@ -298,7 +304,85 @@
 
         // hide loader
         WPOS.util.hideLoader();
+
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+          $('#files').bind('change', importStock);
+        } else {
+          alert('Update your browser.');
+        }
     });
+    // Update inventory
+
+    function importStock(event) {
+      var inventory = event.target.files[0];
+      var reader = new FileReader();
+      reader.readAsText(inventory);
+      reader.onload = function (event) {
+        var csv = event.target.result;
+        var data = $.csv.toArrays(csv);
+        for(var i=1; i<data.length;i++){
+          if (data[i][4] === "0") {
+            continue;
+          }
+          var item = {
+            storeditemid: getStoredItemId(data[i][1]),
+            locationid: getLocation(data[i][3]),
+            amount: data[i][4]
+          };
+          updateStock(item);
+        }
+      };
+      reader.onerror = function () {
+        alert('Unable to read ' + file.fileName);
+      };
+    }
+
+    function getLocation(location) {
+      var l = -1;
+      for(var i in locations) {
+        if(location === locations[0].name) {
+          l = 0;
+          break;
+        } else if (location !== locations[i].name) {
+          continue;
+        } else {
+          l = locations[i].id;
+        }
+      }
+      if (l === -1) {
+        alert(location + ' is not a registered location. Item will be added to Warehouse');
+      }
+      return l;
+    }
+
+    function updateStock(item) {
+      if (WPOS.sendJsonData("stock/add", JSON.stringify(item))!==false){
+        reloadTable();
+      }
+    }
+
+    function getStoredItemId(name) {
+      var n = '';
+      for(var item in items) {
+        if (items[item].name === name) {
+          n = item;
+        } else {
+          continue;
+        }
+        n === ''? alert(name + ' is not in the stock.') : '';
+        return n;
+      }
+
+    }
+
+    function getSupplier(id) {
+      var supplier = 'Unknown';
+      for (var i in suppliers) {
+        if (id == suppliers[i].id)
+          supplier = suppliers[i].name;
+      }
+      return supplier;
+    }
     // updating records
     function getStockHistory(id, locationid){
         WPOS.util.showLoader();
@@ -331,16 +415,14 @@
         $("#transferstockdialog").dialog("open");
     }
     function populateItems(){
-        if (items == null){
-            WPOS.util.showLoader();
-            items = WPOS.sendJsonData("items/get");
-            var itemselect = $(".itemselect");
-            itemselect.html('');
-            for (var i in items){
-                itemselect.append('<option class="itemid-'+items[i].id+'" value="'+items[i].id+'">'+items[i].name+'</option>');
-            }
-            WPOS.util.hideLoader();
+        WPOS.util.showLoader();
+        items = WPOS.sendJsonData("items/get");
+        var itemselect = $(".itemselect");
+        itemselect.html('');
+        for (var i in items){
+          itemselect.append('<option class="itemid-'+items[i].id+'" value="'+items[i].id+'">'+items[i].name+'</option>');
         }
+        WPOS.util.hideLoader();
     }
     function saveItem(type){
         // show loader
@@ -400,8 +482,9 @@
         filename = filename.replace(" ", "");
 
         var data = {};
+        var stockeditems = [];
         var ids = datatable.api().rows('.selected').data().map(function(row){ return row.id }).join(',').split(',');
-
+        // TODO:: remove  the select options
         if (ids && ids.length > 0 && ids[0]!='') {
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
@@ -411,6 +494,21 @@
         } else {
             data = stock;
         }
+        for (var i in stock){
+          stockeditems.push(getStoredItemId(stock[i].name));
+        }
+        for(var item in items) {
+          if (stockeditems.indexOf(item) === -1 ) {
+            data[item] = {
+              id: item,
+              name: items[item].name,
+              supplier: getSupplier(items[item].supplierid),
+              locationid: 0,
+              stocklevel: 0
+            };
+          }
+        }
+
 
         var csv = WPOS.data2CSV(
             ['ID', 'Name', 'Supplier', 'Location', 'Qty'],

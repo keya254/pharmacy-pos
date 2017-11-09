@@ -100,7 +100,7 @@ function WPOSItems() {
                 }
             }
         }
-        //alert(JSON.stringify(results));
+        // alert(JSON.stringify(results));
         return results;
     };
 
@@ -127,7 +127,7 @@ function WPOSItems() {
         var config = WPOS.getConfigTable();
         var locationid = config.locationid;
         for (var s in this.stock) {
-            if (this.stock[s].locationid === locationid) {
+            if (this.stock[s].locationid === locationid && this.stock[s].stocklevel > 0) {
                 invItems.push(this.stock[s].storeditemid);
                 level.push(this.stock[s].stocklevel);
             }
