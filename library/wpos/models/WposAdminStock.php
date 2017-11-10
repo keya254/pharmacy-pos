@@ -56,11 +56,12 @@ class WposAdminStock {
      * @param $storeditemid
      * @param $locationid
      * @param $amount
+     * @param $reorderpoint
      * @param bool $decrement
      * @return bool
      */
-    public function incrementStockLevel($storeditemid, $locationid, $amount, $decrement = false){
-        if ($this->stockMdl->incrementStockLevel($storeditemid, $locationid, $amount, $decrement)!==false){
+    public function incrementStockLevel($storeditemid, $locationid, $amount, $reorderpoint, $decrement = false){
+        if ($this->stockMdl->incrementStockLevel($storeditemid, $locationid, $amount, $reorderpoint, $decrement)!==false){
             return true;
         }
         return false;
@@ -73,7 +74,7 @@ class WposAdminStock {
      */
     public function transferStock($result){
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "newlocationid":1, "amount":">=1"}');
+        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "newlocationid":1, "amount":">=1", "reorderpoint":">=1"}');
         if (($errors = $jsonval->validate())!==true){
             $result['error'] = $errors;
             return $result;
@@ -97,7 +98,7 @@ class WposAdminStock {
             return $result;
         }
         // remove stock amount from current location
-        if ($this->incrementStockLevel($this->data->storeditemid, $this->data->locationid, $this->data->amount, true)===false){
+        if ($this->incrementStockLevel($this->data->storeditemid, $this->data->locationid, $this->data->amount, $this->data->reorderpoint, true)===false){
             $result['error'] = "Could not decrement stock from current location";
             return $result;
         }
@@ -107,7 +108,7 @@ class WposAdminStock {
             return $result;
         }
         // add stock amount to new location
-        if ($this->incrementStockLevel($this->data->storeditemid, $this->data->newlocationid, $this->data->amount, false)===false){
+        if ($this->incrementStockLevel($this->data->storeditemid, $this->data->newlocationid, $this->data->amount, $this->data->reorderpoint, false)===false){
             $result['error'] = "Could not add stock to the new location";
             return $result;
         }
@@ -125,7 +126,7 @@ class WposAdminStock {
      */
     public function setStockLevel($result){
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "amount":">=1"}');
+        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "amount":">=1, "reorderpoint":">=1""}');
         if (($errors = $jsonval->validate())!==true){
             $result['error'] = $errors;
             return $result;
@@ -135,7 +136,7 @@ class WposAdminStock {
             $result['error'] = "Could not create stock history record";
             return $result;
         }
-        if ($this->stockMdl->setStockLevel($this->data->storeditemid, $this->data->locationid, $this->data->amount)===false){
+        if ($this->stockMdl->setStockLevel($this->data->storeditemid, $this->data->locationid, $this->data->amount, $this->data->reorderpoint)===false){
             $result['error'] = "Could not add stock to the location";
         }
 
@@ -152,7 +153,7 @@ class WposAdminStock {
      */
     public function addStock($result){
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "amount":">=1"}');
+        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "amount":">=1", "reorderpoint":">=1"}');
         if (($errors = $jsonval->validate())!==true){
             $result['error'] = $errors;
             return $result;
@@ -163,7 +164,7 @@ class WposAdminStock {
             return $result;
         }
         // add stock amount to new location
-        if ($this->incrementStockLevel($this->data->storeditemid, $this->data->locationid, $this->data->amount, false)===false){
+        if ($this->incrementStockLevel($this->data->storeditemid, $this->data->locationid, $this->data->amount, $this->data->reorderpoint,false)===false){
             $result['error'] = "Could not add stock to the new location";
             return $result;
         }

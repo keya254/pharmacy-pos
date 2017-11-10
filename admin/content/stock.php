@@ -51,6 +51,10 @@
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
             <td><input id="setstockqty" type="text" value="1"/></td>
         </tr>
+        <tr>
+          <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+          <td><input id="setstockreorderpoint" type="text" value="1"/></td>
+        </tr>
     </table>
 </div>
 <div id="transferstockdialog" class="hide">
@@ -65,6 +69,10 @@
         <tr>
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
             <td><input id="tstockqty" type="text" value="1"/></td>
+        </tr>
+        <tr>
+          <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+          <td><input id="tstockreorderpoint" type="text" value="1"/></td>
         </tr>
     </table>
 </div>
@@ -83,6 +91,10 @@
         <tr>
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
             <td><input id="addstockqty" type="text" value="1"/></td>
+        </tr>
+        <tr>
+              <td style="text-align: right;"><label>Reorder point:&nbsp;</label></td>
+              <td><input id="addstockreorderpoint" type="text" value="1"/></td>
         </tr>
     </table>
 </div>
@@ -208,7 +220,7 @@
                 ],
             create: function( event, ui ) {
                 // Set maxWidth
-                $(this).css("maxWidth", "375px");
+                $(this).css("maxWidth", "400px");
             }
         });
         $( "#editstockdialog" ).removeClass('hide').dialog({
@@ -327,7 +339,8 @@
           var item = {
             storeditemid: getStoredItemId(data[i][1]),
             locationid: getLocation(data[i][3]),
-            amount: data[i][4]
+            amount: data[i][4],
+            reorderpoint: data[i][5]
           };
           updateStock(item);
         }
@@ -402,6 +415,7 @@
         $("#setstockitemid").val(item.storeditemid);
         $("#setstocklocid").val(item.locationid);
         $("#setstockqty").val(item.stocklevel);
+        $("#setstockreorderpoint").val(item.reorderpoint);
         $("#editstockdialog").dialog("open");
     }
     function openAddStockDialog(){
@@ -412,6 +426,7 @@
         var item = stock[id];
         $("#tstockitemid").val(item.storeditemid);
         $("#tstocklocid").val(item.locationid);
+        $("#tstockreorderpoint").val(item.reorderpoint);
         $("#transferstockdialog").dialog("open");
     }
     function populateItems(){
@@ -434,6 +449,7 @@
             item.storeditemid = $("#addstockitemid option:selected").val();
             item.locationid = $("#addstocklocid option:selected").val();
             item.amount = $("#addstockqty").val();
+            item.reorderpoint = $("#addstockreorderpoint").val();
             if (WPOS.sendJsonData("stock/add", JSON.stringify(item))!==false){
                 reloadTable();
                 $("#addstockdialog").dialog("close");
@@ -444,6 +460,7 @@
             item.storeditemid = $("#setstockitemid").val();
             item.locationid = $("#setstocklocid").val();
             item.amount = $("#setstockqty").val();
+            item.reorderpoint = $("#setstockreorderpoint").val();
             if (WPOS.sendJsonData("stock/set", JSON.stringify(item))!==false){
                 reloadTable();
                 $("#editstockdialog").dialog("close");
@@ -455,6 +472,7 @@
             item.locationid = $("#tstocklocid").val();
             item.newlocationid = $("#tstocknewlocid").val();
             item.amount = $("#tstockqty").val();
+            item.reorderpoint = $("#tstockreorderpoint").val();
             if (WPOS.sendJsonData("stock/transfer", JSON.stringify(item))!==false){
                reloadTable();
                $("#transferstockdialog").dialog("close");
@@ -504,15 +522,16 @@
               name: items[item].name,
               supplier: getSupplier(items[item].supplierid),
               locationid: 0,
-              stocklevel: 0
+              stocklevel: 0,
+              reorderpoint: 0
             };
           }
         }
 
 
         var csv = WPOS.data2CSV(
-            ['ID', 'Name', 'Supplier', 'Location', 'Qty'],
-            ['id', 'name', 'supplier', {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }}, 'stocklevel'],
+            ['ID', 'Name', 'Supplier', 'Location', 'Qty', 'Reorder Point'],
+            ['id', 'name', 'supplier', {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }}, 'stocklevel', 'reorderpoint'],
             data
         );
 

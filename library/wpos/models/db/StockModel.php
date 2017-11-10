@@ -28,7 +28,7 @@ class StockModel extends DbConfig
     /**
      * @var array
      */
-    protected $_columns = ['id', 'storeditemid', 'locationid', 'stocklevel', 'dt'];
+    protected $_columns = ['id', 'storeditemid', 'locationid', 'stocklevel', 'reorderpoint', 'dt'];
 
     /**
      * Init the DB
@@ -43,12 +43,13 @@ class StockModel extends DbConfig
      * @param $storeditemid
      * @param $locationid
      * @param $stocklevel
+     * @param $reorderpoint
      * @return bool|string Returns false on an unexpected failure, returns -1 if a unique constraint in the database fails, or the new rows id if the insert is successful
      */
-    public function create($storeditemid, $locationid, $stocklevel)
+    public function create($storeditemid, $locationid, $stocklevel, $reorderpoint)
     {
-        $sql          = "INSERT INTO stock_levels (`storeditemid`, `locationid`, `stocklevel`, `dt`) VALUES (:storeditemid, :locationid, :stocklevel, now());";
-        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$stocklevel];
+        $sql          = "INSERT INTO stock_levels (`storeditemid`, `locationid`, `stocklevel`, `reorderpoint`, `dt`) VALUES (:storeditemid, :locationid, :stocklevel, :reorderpoint, now());";
+        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$stocklevel, ":reorderpoint"=>$reorderpoint];
 
         return $this->insert($sql, $placeholders);
     }
@@ -57,12 +58,13 @@ class StockModel extends DbConfig
      * @param $storeditemid
      * @param $locationid
      * @param $stocklevel
+     * @param $reorderpoint
      * @return bool|int|string Returns false on failure, number of rows affected or a newly inserted id.
      */
-    public function setStockLevel($storeditemid, $locationid, $stocklevel){
+    public function setStockLevel($storeditemid, $locationid, $stocklevel, $reorderpoint){
 
-        $sql = "UPDATE stock_levels SET `stocklevel`=:stocklevel WHERE `storeditemid`=:storeditemid AND `locationid`=:locationid";
-        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$stocklevel];
+        $sql = "UPDATE stock_levels SET `stocklevel`=:stocklevel, `reorderpoint`=:reorderpoint WHERE `storeditemid`=:storeditemid AND `locationid`=:locationid";
+        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$stocklevel, ":reorderpoint"=>$reorderpoint];
         $result=$this->update($sql, $placeholders);
         if ($result>0) // if row has been updated, return
             return $result;
@@ -71,19 +73,20 @@ class StockModel extends DbConfig
             return false;
 
         // Otherwise add a new stock record, none exists
-        return $this->create($storeditemid, $locationid, $stocklevel);
+        return $this->create($storeditemid, $locationid, $stocklevel, $reorderpoint);
     }
 
     /**
      * @param $storeditemid
      * @param $locationid
      * @param $amount
+     * @param $reorderpoint
      * @param bool $decrement
      * @return bool|int|string Returns false on failure, number of rows affected or a newly inserted id.
      */
-    public function incrementStockLevel($storeditemid, $locationid, $amount, $decrement = false){
-        $sql = "UPDATE stock_levels SET `stocklevel`= (`stocklevel` ".($decrement==true?'-':'+')." :stocklevel) WHERE `storeditemid`=:storeditemid AND `locationid`=:locationid";
-        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$amount];
+    public function incrementStockLevel($storeditemid, $locationid, $amount, $reorderpoint, $decrement = false){
+        $sql = "UPDATE stock_levels SET `stocklevel`= (`stocklevel` ".($decrement==true?'-':'+')." :stocklevel) ,`reorderpoint`=:reorderpoint WHERE `storeditemid`=:storeditemid AND `locationid`=:locationid";
+        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$amount, ":reorderpoint"=>$reorderpoint];
 
         $result = $this->update($sql, $placeholders);
         if ($result>0) return $result;
@@ -91,7 +94,7 @@ class StockModel extends DbConfig
         if ($result===false) return false;
 
         if ($decrement===false){ // if adding stock and no record exists, create it
-            return $this->create($storeditemid, $locationid, $amount);
+            return $this->create($storeditemid, $locationid, $amount, $reorderpoint);
         }
 
         return true;

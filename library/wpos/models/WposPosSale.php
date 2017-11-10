@@ -477,7 +477,7 @@ class WposPosSale {
                         $wposStock = new WposAdminStock();
                         foreach($this->jsonobj->items as $item){
                             if ($item->sitemid>0){
-                                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, false);
+                                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, $item->reorderpoint, false);
                             }
                         }
                     }
@@ -512,7 +512,7 @@ class WposPosSale {
             // decrement stock level
             if ($item->sitemid>0){
                 /*$stockMdl->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, true);*/
-                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, true);
+                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, $item->reorderpoint,true);
             }
             $this->jsonobj->items[$key]->id = $res;
         }

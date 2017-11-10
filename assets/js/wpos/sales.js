@@ -29,7 +29,7 @@ function WPOSItems() {
      */
     this.addManualItemRow = function () {
         // add the row
-        addItemRow(1, "", "0.00", 1, 0, {desc:"", cost:0.00, unit_original:0.00});
+        addItemRow(1, "", "0.00", 1, 0, 0, {desc:"", cost:0.00, unit_original:0.00});
         // focus on qty
         $("#itemtable")
             .children('tr :last')
@@ -181,15 +181,16 @@ function WPOSItems() {
      * @param {String} unit
      * @param {Number} taxid
      * @param {Number} sitemid ; the stored item id to keep track of inventory sales
+     * @param {Number} reorderpoint
      * @param data
      */
-    function addItemRow(qty, name, unit, taxid, sitemid, data) {
+    function addItemRow(qty, name, unit, taxid, reorderpoint, sitemid, data) {
         sitemid = (sitemid>0?sitemid:0);
         var disable = (sitemid>0); // disable fields that are filled by the stored item
         var disableprice = (sitemid>0 && WPOS.getConfigTable().pos.priceedit!="always");
         var disabletax = (!WPOS.getConfigTable().pos.hasOwnProperty('taxedit') || WPOS.getConfigTable().pos.taxedit=='no');
         var row = $('<tr class="item_row">' +
-            '<td><input class="itemid form-control" type="hidden" value="' + sitemid + '" data-options=\''+JSON.stringify(data)+'\' /><input onChange="WPOS.sales.updateSalesTotal();" style="width:50px;" type="text" class="itemqty numpad form-control" value="' + qty + '" /></td>' +
+            '<td><input type="hidden" class="reorderpoint" value="' + reorderpoint + '" data-options=\''+JSON.stringify(data)+'\' /><input class="itemid form-control" type="hidden" value="' + sitemid + '" data-options=\''+JSON.stringify(data)+'\' /><input onChange="WPOS.sales.updateSalesTotal();" style="width:50px;" type="text" class="itemqty numpad form-control" value="' + qty + '" /></td>' +
             '<td><input '+((disable==true && name!="")?"disabled":"")+' type="text" class="itemname form-control" value="' + name + '" onChange="WPOS.sales.updateSalesTotal();" /><div class="itemmodtxt"></div></td>' +
             '<td><input '+((disableprice==true && unit!="")?"disabled":"")+' onChange="WPOS.sales.updateSalesTotal();" style="max-width:50px;" type="text" class="itemunit form-control numpad" value="' + unit + '" /></td>' +
             '<td><select '+((disabletax==true && taxid!=null)?"disabled":"")+' onChange="WPOS.sales.updateSalesTotal();" style="max-width:110px;" class="itemtax form-control">' +getTaxSelectHTML(taxid)+ '</select><input class="itemtaxval" type="hidden" value="0.00" /></td>' +
@@ -205,8 +206,8 @@ function WPOSItems() {
         // reinitialize keypad & field listeners
         WPOS.initKeypad();
     }
-    this.addItemRow = function(qty, name, unit, taxid, sitemid, data){
-        addItemRow(qty, name, unit, taxid, sitemid, data)
+    this.addItemRow = function(qty, name, unit, taxid, reorderpoint, sitemid, data){
+        addItemRow(qty, name, unit, taxid, reorderpoint, sitemid, data)
     };
 
     /**
@@ -225,26 +226,57 @@ function WPOSItems() {
         return taxselecthtml;
     }
 
-    /**
+  function getStockItem(id) {
+    var stock = WPOS.getStockLevel();
+    var item = {};
+    for(var i in stock){
+      if (stock[i].storeditemid === id) {
+        item =  {
+          qty: stock[i].stocklevel,
+          reorderPoint: stock[i].reorderpoint
+        };
+      }
+    }
+    return item;
+  }
+
+  /**
      *
      * @param {Object} item
      */
     function addItem(item) {
+      var stockItem = getStockItem(item.id);
+      var canSell =  true;
+      if (stockItem === null || stockItem.qty === undefined) {
+        alert(item.name + ' has not been stocked.');
+        canSell = false;
+      }
+
+      if (stockItem.qty === "0") {
+        alert(item.name + ' has reached 0 quantity and can\' be sold.');
+        canSell = false;
+      } else if (stockItem.qty < stockItem.reorderPoint) {
+        alert(item.name + ' is below reorder point, only ' + stockItem.qty + ' remaining.');
+      } else if (stockItem.qty === stockItem.reorderPoint && stockItem.qty !== undefined) {
+        alert(item.name + ' has reached reorder point. Make a purchase order, only ' + stockItem.qty + ' remaining.');
+      }
+      if (canSell){
         // Item cost may be null if we're adding stored items that were created in a previous version, explicitly set the cost in this case.
         if (!item.hasOwnProperty('cost')) item.cost = 0.00;
         // TODO: remove last row from table if its invalid?
         // check if a priced item is already present in the sale and if so increment it's qty
         if (item.price==""){
-            // insert item into table
-            addItemRow(1, item.name, item.price, item.taxid, item.id, {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.alt_name});
+          // insert item into table
+          addItemRow(1, item.name, item.price, item.taxid, stockItem.reorderPoint, item.id, {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.alt_name});
         } else {
-            if (!isItemAdded(item.id, true)){
-                // insert item into table
-                addItemRow(1, item.name, item.price, item.taxid, item.id, {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.alt_name});
-            }
+          if (!isItemAdded(item.id, true)){
+            // insert item into table
+            addItemRow(1, item.name, item.price, item.taxid, stockItem.reorderPoint, item.id, {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.alt_name});
+          }
         }
         $("#codeinput").val('');
         WPOS.sales.updateSalesTotal();
+      }
     }
 
     function isItemAdded(itemid, addqty){
@@ -1044,7 +1076,7 @@ function WPOSSales() {
                     orderid:item.orderid
                 };
                 if (item.hasOwnProperty('mod')) data.mod = item.mod;
-                WPOS.items.addItemRow(item.qty, item.name, item.unit, item.taxid, item.sitemid, data);
+                WPOS.items.addItemRow(item.qty, item.name, item.unit, item.taxid, item.reorderpoint, item.sitemid, data);
             }
             // add a new order row
             if (WPOS.isOrderTerminal())
@@ -1248,6 +1280,7 @@ function WPOSSales() {
                 var data = {
                     "ref": WPOS.util.getRandomId(), // use index as reference for this sale item,
                     "sitemid": $(element).find(".itemid").val(),
+                    "reorderpoint": $(element).find(".reorderpoint").val(),
                     "qty": tempqty,
                     "name": $(element).find(".itemname").val(),
                     "unit": parseFloat($(element).find(".itemunit").val()).toFixed(2),
@@ -1807,3 +1840,5 @@ function WPOSSales() {
         return true;
     }
 }
+// TODO: Update the itemboxes depending on stocklevel
+// TODO: Add notification system to the admin about stock level
