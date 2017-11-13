@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `config` (
 --
 
 INSERT INTO `config` (`id`, `name`, `data`) VALUES
-(1, 'general', '{"version":"1.4.0","dateformat":"d\\/m\\/y","currencyformat":"$~2~.~,~0","accntype":"cash","bizname":"Wallace IT","biznumber":"9999 999 999","bizemail":"demo@wallacepos.com","bizaddress":"1 Some St","bizsuburb":"Someville","bizstate":"NSW","bizpostcode":"2000","bizcountry":"Australia","bizlogo":"\\/assets\\/images\\/receipt-logo.png","bizicon":"\\/icon.ico","gcontact":0,"gcontacttoken":"","altlabels":{"cash":"Cash","credit":"Credit","eftpos":"Eftpos","mpesa":"Mpesa","deposit":"Deposit","tendered":"Tendered","change":"Change","transaction-ref":"Transaction Ref","sale-time":"Sale Time","subtotal":"Subtotal","total":"Total","item":"Item","items":"Items","refund":"Refund","void-transaction":"Void Transaction"}}'),
+(1, 'general', '{"version":"1.4.0","dateformat":"d\\/m\\/y","currencyformat":"$~2~.~,~0","accntype":"cash","bizname":"Magnum Digital Limited","biznumber":"9999 999 999","bizemail":"demo@wallacepos.com","bizaddress":"1 Some St","bizsuburb":"Someville","bizstate":"NSW","bizpostcode":"2000","bizcountry":"Australia","bizlogo":"\\/assets\\/images\\/receipt-logo.png","bizicon":"\\/icon.ico","gcontact":0,"gcontacttoken":"","altlabels":{"cash":"Cash","credit":"Credit","eftpos":"Eftpos","mpesa":"Mpesa","deposit":"Deposit","tendered":"Tendered","change":"Change","transaction-ref":"Transaction Ref","sale-time":"Sale Time","subtotal":"Subtotal","total":"Total","item":"Item","items":"Items","refund":"Refund","void-transaction":"Void Transaction"}}'),
 (2, 'pos', '{"rectemplate":"receipt","recline2":"Your business in the cloud","recline3":"an application by WallaceIT","reclogo":"\\/assets\\/images\\/receipt-logo-mono.png","recprintlogo":true,"reccurrency":"","reccurrency_codepage":"0","recemaillogo":"\\/assets\\/images\\/receipt-logo.png","recfooter":"Thanks for shopping with us!","recqrcode":"https:\\/\\/wallaceit.com.au","salerange":"week","saledevice":"location","priceedit":"blank","cashrounding":"5", "negative_items":false}'),
 (3, 'invoice', '{"defaulttemplate":"invoice","defaultduedt":"+2 weeks","payinst":"Please contact us for payment instructions","emailmsg":"<div align=\\"left\\">Dear %name%,<br><\\/div><br>Please find the attached invoice.<br><br>Kind regards,<br>Administration"}'),
 (4, 'accounting', '{"xeroenabled":0,"xerotoken":"","xeroaccnmap":""}'),
@@ -301,6 +301,7 @@ CREATE TABLE IF NOT EXISTS `stock_levels` (
   `storeditemid` int(11) NOT NULL,
   `locationid` int(11) NOT NULL,
   `stocklevel` int(11) NOT NULL,
+  `reorderpoint` int(11) NOT NULL,
   `dt` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
@@ -367,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `tax_items` (
 -- Dumping data for table `tax_items`
 --
 INSERT INTO `tax_items` (`id`, `name`, `type`, `value`, `multiplier`) VALUES
-(1, 'GST', 'standard', '10', '0.10');
+(1, 'VAT', 'standard', '16', '0.16');
 -- --------------------------------------------------------
 
 --
@@ -383,7 +384,7 @@ CREATE TABLE IF NOT EXISTS `tax_rules` (
 --
 INSERT INTO `tax_rules` (`id`, `data`) VALUES
 (1, '{"name":"No Tax", "inclusive":true, "mode":"single", "base":[], "locations":{}, "id":"1"}'),
-(2, '{"name":"GST", "inclusive":true, "mode":"single", "base":[1], "locations":{}, "id":"2"}');
+(2, '{"name":"VAT", "inclusive":true, "mode":"single", "base":[1], "locations":{}, "id":"2"}');
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
