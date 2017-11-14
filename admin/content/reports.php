@@ -10,6 +10,7 @@
         <option value="stats/categoryselling">Category Sales</option>
         <option value="stats/supplyselling">Supplier Sales</option>
         <option value="stats/stock">Current Stock</option>
+        <option value="stats/order">Order Items</option>
         <option value="stats/devices">Device Cash</option>
         <option value="stats/locations">Location Cash</option>
         <option value="stats/users">User Cash</option>
@@ -74,6 +75,9 @@
                 break;
             case "stats/stock":
                 populateStock();
+                break;
+            case "stats/order":
+                populateOrder();
                 break;
             case "stats/devices":
                 populateTakings("Device Cash", "Device Name");
@@ -183,6 +187,18 @@
         for (var i in repdata){
             rowdata = repdata[i];
             html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.stockvalue+"</td></tr>"
+        }
+        html += "</tbody></table>";
+
+        $("#reportcontain").html(html);
+    }
+
+    function populateOrder(){
+        var html = getCurrentReportHeader("Items to Order");
+        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Location</td><td>Stock Qty</td><td>Reorder Point</td></tr></thead><tbody>";
+        for (var i in repdata){
+            rowdata = repdata[i];
+            html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.reorderpoint+"</td></tr>"
         }
         html += "</tbody></table>";
 

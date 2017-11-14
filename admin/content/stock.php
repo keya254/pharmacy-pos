@@ -32,6 +32,7 @@
             <th data-priority="5">Supplier</th>
             <th data-priority="3">Location</th>
             <th data-priority="4">Qty</th>
+            <th>Reorder Point</th>
             <th data-priority="1" class="noexport"></th>
         </tr>
     </thead>
@@ -148,6 +149,7 @@
                 { mData:"supplier" },
                 { mData:function(data,type,val){return (data.locationid!=='0'?(WPOS.locations.hasOwnProperty(data.locationid)?WPOS.locations[data.locationid].name:'Unknown'):'Warehouse');} },
                 { mData:"stocklevel" },
+                { mData:"reorderpoint" },
                 { mData:function(data,type,val){return '<div class="action-buttons"><a class="green" onclick="openEditStockDialog('+data.id+');"><i class="icon-pencil bigger-130"></i></a><a class="blue" onclick="openTransferStockDialog('+data.id+')"><i class="icon-arrow-right bigger-130"></i></a><a class="red" onclick="getStockHistory('+data.storeditemid+', '+data.locationid+');"><i class="icon-time bigger-130"></i></a></div>'; }, "bSortable": false }
             ],
             "columns": [
@@ -155,6 +157,7 @@
                 {type: "string"},
                 {type: "string"},
                 {type: "string"},
+                {type: "numeric"},
                 {type: "numeric"},
                 {}
             ],

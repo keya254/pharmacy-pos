@@ -563,6 +563,10 @@ function routeApiCall($action, $data, $result) {
             $statsMdl = new WposAdminStats($data);
             $result = $statsMdl->getStockLevels($result);
             break;
+        case "stats/order": // show items to make restock
+            $statsMdl = new WposAdminStats($data);
+            $result = $statsMdl->getReorderPoints($result);
+            break;
         case "stats/devices": // whats selling, grouped by stored items
             $statsMdl = new WposAdminStats($data);
             $result = $statsMdl->getDeviceBreakdownStats($result);

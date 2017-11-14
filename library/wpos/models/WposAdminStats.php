@@ -432,4 +432,34 @@ class WposAdminStats {
         $result['data'] = $stats;
         return $result;
     }
+
+    /**
+     * Get the current reorder points, does not take into account the current range
+     * @param $result
+     * @return mixed
+     */
+    public function getReorderPoints($result){
+        $stats = [];
+        $stockMdl = new StockModel();
+        $stocks = $stockMdl->get(null, null, true);
+        if ($stocks===false){
+            $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
+        }
+        foreach ($stocks as $stock){
+            if ($stock['stocklevel'] <= $stock['reorderpoint']) {
+                $stats[$stock['id']] = new stdClass();
+                if ($stock['locationid']==0){
+                    $stats[$stock['id']]->location = "Warehouse";
+                } else {
+                    $stats[$stock['id']]->location = $stock['location'];
+                }
+                $stats[$stock['id']]->name = $stock['name'];
+                $stats[$stock['id']]->supplier = $stock['supplier'];
+                $stats[$stock['id']]->stocklevel = $stock['stocklevel'];
+                $stats[$stock['id']]->reorderpoint = $stock['reorderpoint'];
+            }
+        }
+        $result['data'] = $stats;
+        return $result;
+    }
 }
