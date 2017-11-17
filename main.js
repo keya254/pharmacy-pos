@@ -1,0 +1,20 @@
+const setupEvents = require('./release-builds/windows-installer/setup-events');
+const electron = require('electron');
+const server = require('./server');
+
+if (setupEvents.handleSquirrelEvent()) {
+  // squirrel event handled and app will exit in 1000ms, so don't do anything else
+  return;
+}
+const {
+  app,
+  BrowserWindow
+} = electron;
+
+app.on('ready', ()=>{
+  let win = new BrowserWindow({
+    width:1200,
+    height: 800
+  });
+  win.loadURL('http://localhost:3000');
+});

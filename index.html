@@ -6,34 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pharmacy+ POS</title>
 
-    <link rel="manifest" href="/wpos.json">
-    <link rel="shortcut icon" href="/assets/images/favicon.ico">
-    <link rel="apple-touch-icon" href="/assets/images/pos-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/pos-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/pos-icon142x142.png">
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/images/pos-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/pos-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/images/pos-icon142x142.png">
     <!-- UI FRAMEWORK STYLES -->
-    <link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.full.min.css"/>
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css"/>
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="admin/assets/css/octicons.min.css"/>
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link type="text/css" rel="stylesheet" href="assets/css/wpos.css"/>
     <!--[if IE 7]>
-    <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css"/>
+    <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
     <!-- fonts -->
     <link rel="stylesheet" href="admin/assets/css/ace-fonts.css"/>
     <!-- ace styles -->
     <link rel="stylesheet" href="admin/assets/css/uncompressed/ace.css"/>
-    <link rel="stylesheet" href="/assets/css/ace-rtl.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css"/>
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="/assets/css/ace-ie.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
     <![endif]-->
-    <link rel="stylesheet" href="/assets/libs/datatables/datatables.min.css"/>
+    <link rel="stylesheet" href="assets/libs/datatables/datatables.min.css"/>
 
-
+    <!-- Fixes jQuery not found in electron app  -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <!-- UI FRAMEWORK SCRIPTS -->
     <!--[if !IE]> -->
-        <script type="text/javascript" src="/assets/js/jquery-2.2.0.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery-2.2.0.min.js"></script>
     <!-- <![endif]-->
     <!--[if IE]>
         <script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
@@ -41,29 +42,29 @@
     <script type="text/javascript">
         if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/typeahead-bs2.min.js"></script>
-    <script src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
-    <script src="/assets/js/jquery.mustache.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/typeahead-bs2.min.js"></script>
+    <script src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
+    <script src="assets/js/jquery.mustache.js"></script>
 
     <!-- Wpos Libraries -->
-    <script type="text/javascript" src="/assets/js/wpos/core.js"></script>
-    <script type="text/javascript" src="/assets/js/wpos/sales.js"></script>
-    <script type="text/javascript" src="/assets/js/wpos/transactions.js"></script>
-    <script type="text/javascript" src="/assets/js/wpos/reports.js"></script>
-    <script type="text/javascript" src="/assets/js/wpos/print.js"></script>
-    <script type="text/javascript" src="/assets/js/wpos/orders.js"></script>
-    <script type="text/javascript" src="/assets/js/wpos/utilities.js"></script>
-    <script type="text/javascript" src="/assets/libs/webprint.js"></script>
+    <script type="text/javascript" src="assets/js/wpos/core.js"></script>
+    <script type="text/javascript" src="assets/js/wpos/sales.js"></script>
+    <script type="text/javascript" src="assets/js/wpos/transactions.js"></script>
+    <script type="text/javascript" src="assets/js/wpos/reports.js"></script>
+    <script type="text/javascript" src="assets/js/wpos/print.js"></script>
+    <script type="text/javascript" src="assets/js/wpos/orders.js"></script>
+    <script type="text/javascript" src="assets/js/wpos/utilities.js"></script>
+    <script type="text/javascript" src="assets/libs/webprint.js"></script>
     <!-- Websocket library -->
-    <script type="text/javascript" src="/assets/libs/socketio/socket.io-1.4.5.js"></script>
+    <script type="text/javascript" src="assets/libs/socketio/socket.io-1.4.5.js"></script>
     <!-- POS Keypad -->
-    <link type="text/css" href="/assets/libs/jquery-keypad/jquery.keypad.css" rel="stylesheet">
-    <script type="text/javascript" src="/assets/libs/jquery-keypad/jquery.plugin.min.js"></script>
-    <script type="text/javascript" src="/assets/libs/jquery-keypad/jquery.keypad.min.js"></script>
+    <link type="text/css" href="assets/libs/jquery-keypad/jquery.keypad.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/libs/jquery-keypad/jquery.plugin.min.js"></script>
+    <script type="text/javascript" src="assets/libs/jquery-keypad/jquery.keypad.min.js"></script>
     <!-- Datatables -->
-    <script src="/assets/libs/datatables/datatables.min.js"></script>
-    <script src="/assets/libs/datatables/datatableSorting.js"></script>
+    <script src="assets/libs/datatables/datatables.min.js"></script>
+    <script src="assets/libs/datatables/datatableSorting.js"></script>
 
 </head>
 <body style="overflow: hidden;">
@@ -908,7 +909,7 @@
 <div id="loginmodal">
     <div class="login-page">
         <div class="form text-center">
-            <img style="height: 35px; margin-top: -5px; margin-bottom: 10px;" src="/assets/images/Untitled-2.png">
+            <img style="height: 35px; margin-top: -5px; margin-bottom: 10px;" src="assets/images/Untitled-2.png">
             <div id="login-banner" class="alert alert-block alert-success" style="display:none;">
                 <i class="icon icon-lock green" style="margin-right: 3px;"></i>
                 <span id="login-banner-txt"></span>
@@ -1281,5 +1282,6 @@
       $(item).toggleClass('active-item')
     }
 </script>
+<script>if (window.module) module = window.module;</script>
 </body>
 </html>

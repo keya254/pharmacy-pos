@@ -1,18 +1,36 @@
 {
-  "name": "wpos",
-  "version": "1.0.0",
-  "repository": "https://github.com/micwallace/wallacepos.git",
+  "name": "pharmacy-pos",
+  "productName": "Pharmacy POS",
+  "version": "0.0.1",
+  "repository": "https://github.com/nyugoh/pharmacy_pos.git",
   "description": "Web based POS system",
-  "main": "/app/api/server.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "build": "electron-packager . pos --ignore=node_modules/electron-* && cp assets/icons/png/64x64.png pos-linux-x64/resources/atom.png",
+    "package": "asar pack pos-linux-x64/resources/app pos-linux-x64/resources/pos.asar",
+    "package-linux": "electron-packager . pharmacy-pos --ignore=node_modules/electron-* --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/images/pos-icon142x142.png --prune=true --out=release-builds",
+    "package-mac": "electron-packager . pos --ignore=node_modules/electron-* --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.png.hqx --prune=true --out=release-builds",
+    "package-win": "electron-packager . pharmacy-pos --ignore=node_modules/electron-* --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/images/favicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
+    "create-debian-installer": "electron-installer-debian --src release-builds/pharmacy-pos-linux-x64/ --arch amd64 --config debian.json",
+    "create-win-installer": "node release-builds/windows-installer/create-installer"
   },
-  "author": "WallaceIT",
+  "author": "Joe Nyugoh",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "express": "^4.16.2",
+    "express-request-proxy": "^2.0.0",
+    "http-proxy-middleware": "^0.17.4",
     "socket.io": "~1.7.x"
   },
   "engines": {
     "node": "~4.2.x"
+  },
+  "devDependencies": {
+    "electron": "^1.7.9",
+    "electron-winstaller": "^2.6.3"
+  },
+  "config": {
+    "forge": "electron-forge-config.js"
   }
 }

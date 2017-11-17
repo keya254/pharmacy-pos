@@ -1,64 +1,82 @@
-<?php
-/**
- * Created by PhpStorm
- * User: michael
- * Date: 2/06/14
- * Time: 4:58 PM
- */
-$_SERVER['APP_ROOT'] = "/";
-if (!isset($_SERVER['DOCUMENT_ROOT'])){
-    $_SERVER['DOCUMENT_ROOT'] = "/app"; // this is what dokku uses as docroot, we can catch it because it ain't defined (not using mod_php)
-}
-$_SERVER['DOCUMENT_ROOT'].= $_SERVER['APP_ROOT'];
-
-header('Content-Type: text/cache-manifest');
-header("Cache-Control: no-cache, must-revalidate");
-
-function create_manifest() {
-    $hashes = "";
-    $list = "";
-    // add the main app file
-    $masterfile = "index.html";
-    // Add masterfile into manifest as /, this is what the client should request.
-    $list.= "/index.html\n";
-    $hashes.= md5_file($_SERVER['DOCUMENT_ROOT'].$masterfile);
-    // Iterate through assets
-    $dir = new RecursiveDirectoryIterator("assets");
-    // Iterate through all the files/folders in the current directory
-    foreach (new RecursiveIteratorIterator($dir) as $file) {
-        $info = pathinfo($file);
-        // If the object is a file and it's not a dotfile, add it to the list
-        if ($file->IsFile() && substr($file->getFilename(), 0, 1)!=".") {
-            // Replace spaces with %20 or it will break
-            $list.= "/" . str_replace(' ', '%20', $file) . "\n";
-            // Add this file's hash to the $hashes string
-            $hashes.= md5_file($_SERVER['DOCUMENT_ROOT'].$file);
-        }
-    }
-    // Iterate through docs
-    $iterator = new RecursiveDirectoryIterator("docs");
-    // Iterate through all the files/folders in the current directory
-    foreach ($iterator as $file) {
-        $info = pathinfo($file);
-        // If the object is a file and it's not a dotfile, add it to the list
-        if ($file->IsFile() && substr($file->getFilename(), 0, 1)!=".") {
-            // Replace spaces with %20 or it will break
-            $list.= "/".str_replace(' ', '%20', $file) . "\n";
-            // Add this file's hash to the $hashes string
-            $hashes.= md5_file($_SERVER['DOCUMENT_ROOT'].$file);
-        }
-    }
-    $hash = md5($hashes);
-    return array($list, $hash);
-}
-
-$list = create_manifest();
-?>
 CACHE MANIFEST
-# v<?php echo($list[1]."\n"); ?>
+# v84de9f5e13eb5c655a824f2bdeb74603
 
 CACHE:
-<?php echo($list[0]); ?>
+/
+/assets/images/white_logo.png
+/assets/images/receipt-logo-mono-master.png
+/assets/images/logo3.png
+/assets/images/apple-touch-icon-114x114.png
+/assets/images/pos-icon-72x72.png
+/assets/images/logo.png
+/assets/images/icon.png
+/assets/images/receipt-logo-mono.png
+/assets/images/logo4.png
+/assets/images/seth-doyle-78210.jpg
+/assets/images/favicon.ico
+/assets/images/black_logo.png
+/assets/images/logo2.png
+/assets/images/pos-icon142x142.png
+/assets/images/ajax-loader.gif
+/assets/images/receipt-logo.png
+/assets/images/qrcode.png
+/assets/images/apple-touch-icon.png
+/assets/images/apple-touch-icon-72x72.png
+/assets/images/Untitled-2.png
+/assets/images/pos-icon-57x57.png
+/assets/img/loading.gif
+/assets/img/glyphicons-halflings-white.png
+/assets/img/clear.png
+/assets/img/glyphicons-halflings.png
+/assets/fonts/fontawesome-webfont.eot
+/assets/fonts/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff
+/assets/fonts/glyphicons-halflings-regular.ttf
+/assets/fonts/fontawesome-webfont.ttf
+/assets/fonts/FontAwesome.otf
+/assets/fonts/fontawesome-webfont.svg
+/assets/fonts/glyphicons-halflings-regular.woff
+/assets/fonts/fontawesome-webfont.woff
+/assets/fonts/glyphicons-halflings-regular.svg
+/assets/fonts/glyphicons-halflings-regular.woff2
+/assets/fonts/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff
+/assets/fonts/glyphicons-halflings-regular.eot
+/assets/libs/jquery-keypad/jquery.keypad.css
+/assets/libs/jquery-keypad/jquery.keypad.min.js
+/assets/libs/jquery-keypad/keypad.png
+/assets/libs/jquery-keypad/jquery.plugin.min.js
+/assets/libs/webprint.js
+/assets/libs/socketio/socket.io-1.4.5.js
+/assets/libs/datatables/datatables.min.js
+/assets/libs/datatables/datatableSorting.js
+/assets/libs/datatables/datatables.min.css
+/assets/css/ace.min.css
+/assets/css/ace-ie.min.css
+/assets/css/font-awesome.min.css
+/assets/css/jquery-ui-1.10.3.full.min.css
+/assets/css/ace-rtl.min.css
+/assets/css/font-awesome-ie7.min.css
+/assets/css/ace-fonts.css
+/assets/css/bootstrap.min.css
+/assets/css/wpos.css
+/assets/css/wpos-1.css
+/assets/sounds/bell_modern.mp3
+/assets/js/bootstrap.min.js
+/assets/js/wpos/reports.js
+/assets/js/wpos/core.js
+/assets/js/wpos/print.js
+/assets/js/wpos/transactions.js
+/assets/js/wpos/utilities.js
+/assets/js/wpos/sales.js
+/assets/js/wpos/orders.js
+/assets/js/jquery.mustache.js
+/assets/js/jquery-2.0.3.min.js
+/assets/js/jquery.mobile.custom.min.js
+/assets/js/jquery-ui-1.10.3.full.min.js
+/assets/js/jquery.scannerdetection.js
+/assets/js/jquery-1.10.2.min.js
+/assets/js/typeahead-bs2.min.js
+/assets/js/jquery-2.2.0.min.js
+/docs/qrcode.png
 
 NETWORK:
 /api/*

@@ -1,0 +1,10 @@
+{
+  "dest": "release-builds/",
+  "icon": "assets/images/pos-icon142x142.png",
+  "categories": [
+    "Utility"
+  ],
+  "lintianOverrides": [
+    "changelog-file-missing-in-native-package"
+  ]
+}
