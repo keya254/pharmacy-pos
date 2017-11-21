@@ -25,6 +25,15 @@ function WPOS() {
 
     var initialsetup = false;
     this.initApp = function () {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
+                console.log('Installing service worker under scope of ', registration.scope);
+            }).catch(error=>{
+                console.log('Error installing service worker,', error.message);
+            })
+        } else {
+          console.log('can\'t register service worker.');
+        }
         // set cache default to true
         $.ajaxSetup({
             cache: true
@@ -659,6 +668,9 @@ function WPOS() {
     };
 
     function checkOnlineStatus() {
+        // fetch('/api/hello?_=' + new Date().getTime()).then(response=>{
+        //     online = response.status === '200'
+        // });
         try {
             var res = $.ajax({
             timeout : 3000,
@@ -737,6 +749,7 @@ function WPOS() {
 
     // GLOBAL COM FUNCTIONS
     this.sendJsonData = function (action, data) {
+      console.log('send Json data sync')
         // send request to server
         try {
         var response = $.ajax({
@@ -788,6 +801,7 @@ function WPOS() {
     };
 
     this.sendJsonDataAsync = function (action, data, callback) {
+      console.log('send Json data async')
         // send request to server
         try {
             $.ajax({
@@ -833,6 +847,7 @@ function WPOS() {
     };
 
     this.getJsonDataAsync = function (action, callback) {
+        console.log('Get Json data async')
         // send request to server
         try {
             $.ajax({
