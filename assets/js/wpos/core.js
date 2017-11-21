@@ -25,6 +25,15 @@ function WPOS() {
 
     var initialsetup = false;
     this.initApp = function () {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
+                console.log('Installing service worker under scope of ', registration.scope);
+            }).catch(error=>{
+                console.log('Error installing service worker,', error.message);
+            })
+        } else {
+          console.log('can\'t register service worker.');
+        }
         // set cache default to true
         $.ajaxSetup({
             cache: true

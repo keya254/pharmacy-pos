@@ -519,16 +519,24 @@
           stockeditems.push(getStoredItemId(stock[i].name));
         }
         for(var item in items) {
-          if (stockeditems.indexOf(item) === -1 ) {
-            data[item] = {
-              id: item,
-              name: items[item].name,
-              supplier: getSupplier(items[item].supplierid),
-              locationid: 0,
-              stocklevel: 0,
-              reorderpoint: 0
-            };
-          }
+//          if (stockeditems.indexOf(item) === -1 ) {
+//            data[item] = {
+//              id: item,
+//              name: items[item].name,
+//              supplier: getSupplier(items[item].supplierid),
+//              locationid: 0,
+//              stocklevel: 0,
+//              reorderpoint: 0
+//            };
+//          }
+          data[item] = {
+            id: item,
+            name: items[item].name,
+            supplier: getSupplier(items[item].supplierid),
+            locationid: 0,
+            stocklevel: 0,
+            reorderpoint: 0
+          };
         }
 
 
