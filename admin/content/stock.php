@@ -5,6 +5,7 @@
     </h1>
     <button onclick="openAddStockDialog();" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
     <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportStock();"><i class="icon-cloud-download align-top bigger-125"></i>Download Template</button>
+<!--    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="openImportDialog();"><i class="icon-cloud-upload align-top bigger-125"></i>Update Inventory</button>-->
     <input type="file" id="files" name="inventory" data-buttonText="" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;"/>
 </div><!-- /.page-header -->
 
@@ -49,12 +50,18 @@
         <tr>
             <input type="hidden" id="setstockitemid" />
             <input type="hidden" id="setstocklocid" />
+            <input type="hidden" id="setstocksupid" />
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
             <td><input id="setstockqty" type="text" value="1"/></td>
         </tr>
         <tr>
           <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
           <td><input id="setstockreorderpoint" type="text" value="1"/></td>
+        </tr>
+        <tr>
+          <td style="text-align: right;">Supplier</td>
+          <td><select id="setstocksupplierid" class="supselect">
+            </select></td>
         </tr>
     </table>
 </div>
@@ -121,6 +128,11 @@
 
 <!-- page specific plugin scripts; migrated to index.php due to heavy use -->
 <script type="text/javascript" src="/admin/assets/js/jquery.csv.js"></script>
+<link rel="stylesheet" href="/admin/assets/js/csv-import/lib/jquery.ezdz.min.css"/>
+<script type="text/javascript" src="/admin/assets/js/csv-import/lib/jquery.ezdz.min.js"></script>
+<script type="text/javascript" src="/admin/assets/js/csv-import/lib/jquery-sortable-min.js"></script>
+<script type="text/javascript" src="/admin/assets/js/csv-import/lib/jquery.csv-0.71.min.js"></script>
+<script type="text/javascript" src="/admin/assets/js/csv-import/csv.import.tool.js"></script>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     var stock = null;
@@ -317,6 +329,13 @@
             }
         }
 
+        // fill supplier selects
+        var supselect = $(".supselect");
+        supselect.html('');
+        for (key in suppliers){
+          supselect.append('<option class="supid-'+suppliers[key].id+'" value="'+suppliers[key].id+'">'+suppliers[key].name+'</option>');
+        }
+
         // hide loader
         WPOS.util.hideLoader();
 
@@ -346,6 +365,9 @@
             reorderpoint: data[i][5]
           };
           updateStock(item);
+          var sitem = items[getStoredItemId(data[i][1])];
+          sitem.supplierid = getSupplierId(data[i][2]);
+          WPOS.sendJsonData("stock/supplier", JSON.stringify(sitem));
         }
       };
       reader.onerror = function () {
@@ -399,6 +421,15 @@
       }
       return supplier;
     }
+
+    function getSupplierId(name) {
+      var supplier = 0;
+      for (var i in suppliers) {
+        if (name == suppliers[i].name)
+          supplier = i;
+      }
+      return supplier;
+    }
     // updating records
     function getStockHistory(id, locationid){
         WPOS.util.showLoader();
@@ -417,8 +448,10 @@
         var item = stock[id];
         $("#setstockitemid").val(item.storeditemid);
         $("#setstocklocid").val(item.locationid);
+        $("#setstocksupid").val(items[item.storeditemid].supplierid);
         $("#setstockqty").val(item.stocklevel);
         $("#setstockreorderpoint").val(item.reorderpoint);
+        $(".supid-"+items[item.storeditemid].supplierid).attr('selected', 'selected');
         $("#editstockdialog").dialog("open");
     }
     function openAddStockDialog(){
@@ -464,6 +497,11 @@
             item.locationid = $("#setstocklocid").val();
             item.amount = $("#setstockqty").val();
             item.reorderpoint = $("#setstockreorderpoint").val();
+            if ($("#setstocksupid").val() !== $("#setstocksupplierid").val()) {
+              var sitem = items[item.storeditemid];
+              sitem.supplierid = $("#setstocksupplierid").val();
+              WPOS.sendJsonData("stock/supplier", JSON.stringify(sitem));
+            }
             if (WPOS.sendJsonData("stock/set", JSON.stringify(item))!==false){
                 reloadTable();
                 $("#editstockdialog").dialog("close");
@@ -503,32 +541,22 @@
         filename = filename.replace(" ", "");
 
         var data = {};
-        var stockeditems = [];
-        var ids = datatable.api().rows('.selected').data().map(function(row){ return row.id }).join(',').split(',');
-        // TODO:: remove  the select options
-        if (ids && ids.length > 0 && ids[0]!='') {
-            for (var i = 0; i < ids.length; i++) {
-                var id = ids[i];
-                if (stock.hasOwnProperty(id))
-                    data[id] = stock[id];
-            }
-        } else {
-            data = stock;
-        }
-        for (var i in stock){
-          stockeditems.push(getStoredItemId(stock[i].name));
-        }
+//        var stockeditems = [];
+//        var ids = datatable.api().rows('.selected').data().map(function(row){ return row.id }).join(',').split(',');
+//        // TODO:: remove  the select options
+//        if (ids && ids.length > 0 && ids[0]!='') {
+//            for (var i = 0; i < ids.length; i++) {
+//                var id = ids[i];
+//                if (stock.hasOwnProperty(id))
+//                    data[id] = stock[id];
+//            }
+//        } else {
+//            data = stock;
+//        }
+//        for (var i in stock){
+//          stockeditems.push(getStoredItemId(stock[i].name));
+//        }
         for(var item in items) {
-//          if (stockeditems.indexOf(item) === -1 ) {
-//            data[item] = {
-//              id: item,
-//              name: items[item].name,
-//              supplier: getSupplier(items[item].supplierid),
-//              locationid: 0,
-//              stocklevel: 0,
-//              reorderpoint: 0
-//            };
-//          }
           data[item] = {
             id: item,
             name: items[item].name,
@@ -548,7 +576,129 @@
 
         WPOS.initSave(filename, csv);
     }
+
+    var importdialog = null;
+    function openImportDialog(){
+      if (importdialog!=null) {
+        importdialog.csvImport("destroy");
+      }
+      importdialog = $("body").csvImport({
+        jsonFields: {
+          'ID': {title:'ID', required: true},
+          'name': {title:'Name', required: true},
+          'supplier': {title:'Supplier', required: true, value: ""},
+          'location': {title:'Location', required: true, value: ""},
+          'qty': {title:'Qty', required: true, value: 1},
+          'reorderpoint': {title:'Reorder point', required: true, value: 1}
+
+        },
+        csvHasHeader: true,
+        importOptions: [
+
+        ],
+        // callbacks
+        onImport: function(jsondata, options){
+          importItems(jsondata, options);
+        }
+      });
+    }
+
+    function importItems(jsondata, options){
+      showModalLoader("Importing Items");
+      var total = jsondata.length;
+      var percent_inc = total / 100;
+      setModalLoaderStatus("Uploading data...");
+      var data = {"options":options, "import_data": jsondata};
+      var result = WPOS.sendJsonDataAsync('stock/supplier', JSON.stringify(jsondata), function(data){
+        if (data!==false){
+          WPOS.startEventSourceProcess(
+            '/api/stock/supplier',
+            function(data){
+              if (data.hasOwnProperty('progress')) {
+                setModalLoaderSubStatus(data.progress +" of "+ total);
+                var progress = Math.round(percent_inc*data.progress);
+                setModalLoaderProgress(progress);
+              }
+
+              if (data.hasOwnProperty('status'))
+                setModalLoaderStatus(data.status);
+
+              if (data.hasOwnProperty('error')) {
+                if (data.error == "OK") {
+                  showModalCloseButton('Item Import Complete!');
+                } else {
+                  showModalCloseButton("Error Importing Items", data.error);
+                }
+                reloadTable();
+              }
+            },
+            function(e){
+              showModalCloseButton("Event feed failed "+ e.message);
+            }
+          );
+        } else {
+          showModalCloseButton("Item Import Failed!");
+        }
+      }, function(error){
+        showModalCloseButton("Item Import Failed!", error);
+      });
+      if (!result)
+        showModalCloseButton("Item Import Failed!");
+    }
+
+    var eventuiinit = false;
+    function initModalLoader(title){
+      $("#modalloader").removeClass('hide').dialog({
+        resizable: true,
+        width: 400,
+        modal: true,
+        autoOpen: false,
+        title: title,
+        title_html: true,
+        closeOnEscape: false,
+        open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); }
+      });
+    }
+    function showModalLoader(title){
+      if (!eventuiinit){
+        initModalLoader(title);
+        eventuiinit = true;
+      }
+      $("#modalloader_status").text('Initializing...');
+      $("#modalloader_substatus").text('');
+      $("#modalloader_cbtn").hide();
+      $("#modalloader_img").show();
+      $("#modalloader_prog").show();
+      var modalloader = $("#modalloader");
+      modalloader.dialog('open');
+    }
+    function setModalLoaderProgress(progress){
+      $("#modalloader_progbar").attr('width', progress+"%")
+    }
+    function showModalCloseButton(result, substatus){
+      $("#modalloader_status").text(result);
+      setModalLoaderSubStatus(substatus? substatus : '');
+      $("#modalloader_img").hide();
+      $("#modalloader_prog").hide();
+      $("#modalloader_cbtn").show();
+    }
+    function setModalLoaderStatus(status){
+      $("#modalloader_status").text(status);
+    }
+    function setModalLoaderSubStatus(status){
+      $("#modalloader_substatus").text(status);
+    }
 </script>
+<div id="modalloader" class="hide" style="width: 360px; height: 320px; text-align: center;">
+  <img id="modalloader_img" style="width: 128px; height: auto;" src="/admin/assets/images/cloud_loader.gif"/>
+  <div id="modalloader_prog" class="progress progress-striped active">
+    <div class="progress-bar" id="modalloader_progbar" style="width: 100%;"></div>
+  </div>
+  <h4 id="modalloader_status">Initializing...</h4>
+  <h5 id="modalloader_substatus"></h5>
+  <button id="modalloader_cbtn" class="btn btn-primary" style="display: none; margin-top:40px;" onclick="$('#modalloader').dialog('close');">Close</button>
+</div>
+
 <style type="text/css">
     #itemstable_processing {
         display: none;

@@ -37,14 +37,6 @@ self.addEventListener('fetch', event=>{
           caches.open(cacheName).then(cache=>{
             cache.put(event.request, responseToCache);
           })
-          $.ajax({
-            timeout : 3000,
-            url     : "/api/hello",
-            type    : "GET",
-            cache   : false,
-            dataType: "text",
-            async   : false
-          })
           return response;
         })
       })

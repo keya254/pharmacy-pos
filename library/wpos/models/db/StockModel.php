@@ -132,6 +132,18 @@ class StockModel extends DbConfig
     }
 
     /**
+     * @param $id
+     * @param $data
+     * @return bool|int Returns false on an unexpected failure or the number of rows affected by the update operation
+     */
+    public function editItemSupplier($id, $data){
+        $sql = "UPDATE stored_items SET data= :data, supplierid= :supplierid, categoryid= :categoryid, code= :code, name= :name, price= :price WHERE id= :id;";
+        $placeholders = [":id"=>$id, ":data"=>json_encode($data), ":supplierid"=>$data->supplierid, ":categoryid"=>$data->categoryid, ":code"=>$data->code, ":name"=>$data->name, ":price"=>$data->price];
+
+        return $this->update($sql, $placeholders);
+    }
+
+    /**
      * Remove stock record by item id.
      * @param $itemid
      * @return bool|int Returns false on failure, or number of records deleted

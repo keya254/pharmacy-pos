@@ -311,6 +311,10 @@ function routeApiCall($action, $data, $result) {
             $result = $adminMdl->deleteCategory($result);
             break;
         // suppliers
+        case "stock/supplier":
+            $stockMdl = new WposAdminStock($data);
+            $result = $stockMdl->editSupplier($result);
+            break;
         case "stock/get":
             $jsondata = new WposPosData();
             $result = $jsondata->getStock($result);

@@ -147,6 +147,26 @@ class WposAdminStock {
     }
 
     /**
+     * Set the supplier for an item
+     * @param $result
+     * @return mixed
+     */
+    public function editSupplier($result)
+    {
+        // validate input
+        $jsonval = new JsonValidate($this->data, '{"code":"","qty":1, "name":"", "taxid":1, "cost":-1, "price":-1,"type":""}');
+        if (($errors = $jsonval->validate()) !== true) {
+            $result['error'] = $errors;
+            return $result;
+        }
+
+        if ($this->stockMdl->editItemSupplier($this->data->id, $this->data) === false) {
+            $result['error'] = "Could not edit item supplier.";
+        }
+        return $result;
+    }
+
+    /**
      * Add stock to a location
      * @param $result
      * @return mixed
