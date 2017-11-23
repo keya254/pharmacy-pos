@@ -668,19 +668,20 @@ function WPOS() {
     };
 
     function checkOnlineStatus() {
-        try {
-            var res = $.ajax({
-            timeout : 3000,
-            url     : "/api/hello",
-            type    : "GET",
-            cache   : false,
-            dataType: "text",
-            async   : false
-            }).status;
-            online = res == "200";
-        } catch (ex){
-            online = false;
-        }
+
+        // try {
+        //     var res = $.ajax({
+        //     timeout : 3000,
+        //     url     : "/api/hello",
+        //     type    : "GET",
+        //     cache   : true,
+        //     dataType: "text",
+        //     async   : false
+        //     }).status;
+        //     online = res == 200;
+        // } catch (ex){
+        //     online = false;
+        // }
         return online;
     }
 
