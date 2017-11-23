@@ -1,6 +1,9 @@
-var cacheName = 'offline_'+ new Date().toISOString();
+var cacheName = 'offline_'+ new Date().getTime();
 var urlsToCache = [
-  '/'
+  '/',
+  '/assets/js/wpos/core.js',
+  '/service-worker.js',
+  '/api/stock/get'
 ];
 self.addEventListener('install', (event)=>{
   event.waitUntil(
@@ -28,7 +31,7 @@ self.addEventListener('fetch', event=>{
         return response;
       }
       var fetchRequest = event.request;
-      return fetch(fetchRequest).then(response=>{
+      return fetch(fetchRequest, { credentials: 'include' }).then(response=>{
         if(!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }

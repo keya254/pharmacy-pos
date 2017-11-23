@@ -668,9 +668,6 @@ function WPOS() {
     };
 
     function checkOnlineStatus() {
-        // fetch('/api/hello?_=' + new Date().getTime()).then(response=>{
-        //     online = response.status === '200'
-        // });
         try {
             var res = $.ajax({
             timeout : 3000,
@@ -710,7 +707,7 @@ function WPOS() {
     };
 
     function switchToOffline() {
-        if (canDoOffline()==true) {
+        if (canDoOffline() === true) {
             // set js indicator: important
             online = false;
             setStatusBar(3, "WPOS is Offline", "The POS is offine and will store sale data locally until a connection becomes available.", 0);
@@ -729,7 +726,7 @@ function WPOS() {
     }
 
     function doOnlineCheck() {
-        if (checkOnlineStatus()==true) {
+        if (checkOnlineStatus() === true) {
             clearInterval(checktimer);
             switchToOnline();
         }
