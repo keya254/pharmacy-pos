@@ -145,7 +145,7 @@ function WPOSItems() {
               '<h6 style="overflow: hidden;">'+sorted[i].name+'</h6>'+
               '<h6 class="price">'+WPOS.util.currencyFormat(price)+'</h6>'+
               '<h6>('+level[f]+')</h6>'+
-              '<h6>'+suppliers[sorted[i].supplierid].name+'</h6>'+
+              // '<h6>'+suppliers[sorted[i].supplierid].name+'</h6>'+
               '</div>');
           }
                 // price = (items[i].price==""?"??.??":parseFloat(items[i].price).toFixed(2));
