@@ -443,20 +443,32 @@ function WPOS() {
                 });
                 break;
 
-            case 3:
+          case 3:
                 // get customers
-                setLoadingBar(60, "Getting customer accounts...");
+                setLoadingBar(50, "Getting customer accounts...");
                 setStatusBar(4, "Updating customers...", statusmsg, 0);
                 fetchCustTable(function(data){
-                    if (data===false){
-                        showLogin();
-                        return;
-                    }
-                    loadOnlineData(4, loginloader);
+                  if (data===false){
+                    showLogin();
+                    return;
+                  }
+                  loadOnlineData(4, loginloader);
                 });
                 break;
-
-            case 4:
+          case 4:
+                // get suppliers
+                setLoadingBar(60, "Getting suppliers...");
+                setStatusBar(4, "Updating suppliers...", statusmsg, 0);
+                console.log('Step 4');
+                fetchSuppliersTable(function(data){
+                  if (data===false){
+                    showLogin();
+                    return;
+                  }
+                  loadOnlineData(5, loginloader);
+                });
+                break;
+          case 5:
                 // get all sales (Will limit to the weeks sales in future)
                 setLoadingBar(80, "Getting recent sales...");
                 setStatusBar(4, "Updating sales...", statusmsg, 0);
@@ -1221,6 +1233,13 @@ function WPOS() {
         return stocktable;
     };
 
+    this.getSuppliers = function() {
+         if (supplierstable == null) {
+           loadSuppliersTable();
+         }
+      return supplierstable;
+    };
+
     this.getStockIndex = function () {
         if (stockindex === undefined || stockindex === null) {
             if (itemtable == null) {
@@ -1269,6 +1288,17 @@ function WPOS() {
         });
     };
 
+      function fetchSuppliersTable(callback) {
+        return WPOS.getJsonDataAsync("suppliers/get", function(data){
+          if (data) {
+            supplierstable = data;
+            localStorage.setItem("wpos_suppliers", JSON.stringify(data));
+          }
+          if (callback)
+            callback(data);
+        });
+      }
+
     function generateItemIndex() {
         stockindex = {};
         categoryindex = {};
@@ -1307,6 +1337,14 @@ function WPOS() {
         return false;
     }
 
+      function loadSuppliersTable() {
+        var data = localStorage.getItem("wpos_suppliers");
+        if (data !== null) {
+          supplierstable = JSON.parse(data);
+          return true;
+        }
+        return false;
+      };
     // adds/edits a record to the current table
     function updateItemsTable(itemobject) {
         // delete the sale if id/ref supplied

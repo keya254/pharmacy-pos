@@ -52,6 +52,96 @@ class WposAdminStock {
     }
 
     /**
+     * Import items
+     * @param $result
+     * @return mixed
+     */
+    public function importItemsSet($result)
+    {
+        $_SESSION['import_data'] = $this->data->import_data;
+        $_SESSION['import_options'] = $this->data->options;
+        return $result;
+    }
+
+    /**
+     * Import items
+     * @param $result
+     * @return mixed
+     */
+    public function importItemsStart($result)
+    {
+        if (!isset($_SESSION['import_data']) || !is_array($_SESSION['import_data'])){
+            $result['error'] = "Import data was not received.";
+            EventStream::sendStreamData($result);
+            return $result;
+        }
+        $items = $_SESSION['import_data'];
+
+        EventStream::iniStream();
+        $stockMdl = new StockModel();
+
+
+        EventStream::sendStreamData(['status'=>"Validating Items..."]);
+        $jsonval = new JsonValidate($items, '{"storeditemid":1, "locationid":1, "amount":">=1", "reorderpoint":">=1"}');
+
+        $validator = new JsonValidate(null, '{"ID":"1", "locationid":1, "amount":">=1", "reorderpoint":">=1"}');
+        $count = 1;
+        foreach ($items as $key=>$item){
+            EventStream::sendStreamData(['status'=>"Validating Items...", 'progress'=>$count]);
+
+            $validator->validate($item);
+
+            $items[$key] = $item;
+
+            $count++;
+        }
+
+        EventStream::sendStreamData(['status'=>"Importing Items..."]);
+        $result['data'] = [];
+        $count = 1;
+        foreach ($items as $item){
+            EventStream::sendStreamData(['progress'=>$count]);
+
+            $stockObj = new WposStockItem($item);
+
+            // Check if item exists
+            $dupitems = $stockMdl->get($stockObj->storeditemid, $stockObj->locationid);
+            if (sizeof($dupitems) > 0) {
+                // Update the existing record
+                $id = $stockMdl->incrementStockLevel($stockObj->storeditemid, $stockObj->locationid, $stockObj->amount, $stockObj->reorderpoint);
+            } else {
+                // Add as new entry
+                $id = $stockMdl->create($stockObj->storeditemid, $stockObj->locationid, $stockObj->amount, $stockObj->reorderpoint);
+            }
+            if ($id===false){
+                $result['error'] = "Failed to add the item on line ".$count." of the CSV: ".$stockMdl->errorInfo;
+                EventStream::sendStreamData($result);
+                return $result;
+            } else {
+                // create history record for added stock
+                if ($this->createStockHistory($stockObj->storeditemid, $stockObj->locationid, $stockObj->amount, $stockObj->reorderpoint)===false){
+                    $result['error'] = "Could not create stock history record";
+                    EventStream::sendStreamData($result);
+                    return $result;
+                }
+            }
+            // Success; log data
+            Logger::write("Stock Added", "STOCK", json_encode($stockObj));
+
+            $stockObj->id = $id;
+            $result['data'][$id] = $stockObj;
+
+            $count++;
+        }
+
+        unset($_SESSION['import_data']);
+        unset($_SESSION['import_options']);
+
+        EventStream::sendStreamData($result);
+        return $result;
+    }
+
+    /**
      * This function is used by WposPosSale and WposInvoices to decrement/increment sold/voided transaction stock; it does not create a history record
      * @param $storeditemid
      * @param $locationid

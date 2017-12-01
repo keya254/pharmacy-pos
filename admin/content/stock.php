@@ -5,8 +5,8 @@
     </h1>
     <button onclick="openAddStockDialog();" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
     <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportStock();"><i class="icon-cloud-download align-top bigger-125"></i>Download Template</button>
-<!--    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="openImportDialog();"><i class="icon-cloud-upload align-top bigger-125"></i>Update Inventory</button>-->
-    <input type="file" id="files" name="inventory" data-buttonText="" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;"/>
+    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="openImportDialog();"><i class="icon-cloud-upload align-top bigger-125"></i>Update Inventory</button>
+<!--    <input type="file" id="files" name="inventory" data-buttonText="" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;"/>-->
 </div><!-- /.page-header -->
 
 <div class="row">
@@ -57,11 +57,6 @@
         <tr>
           <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
           <td><input id="setstockreorderpoint" type="text" value="1"/></td>
-        </tr>
-        <tr>
-          <td style="text-align: right;">Supplier</td>
-          <td><select id="setstocksupplierid" class="supselect">
-            </select></td>
         </tr>
     </table>
 </div>
@@ -497,11 +492,6 @@
             item.locationid = $("#setstocklocid").val();
             item.amount = $("#setstockqty").val();
             item.reorderpoint = $("#setstockreorderpoint").val();
-            if ($("#setstocksupid").val() !== $("#setstocksupplierid").val()) {
-              var sitem = items[item.storeditemid];
-              sitem.supplierid = $("#setstocksupplierid").val();
-              WPOS.sendJsonData("stock/supplier", JSON.stringify(sitem));
-            }
             if (WPOS.sendJsonData("stock/set", JSON.stringify(item))!==false){
                 reloadTable();
                 $("#editstockdialog").dialog("close");
@@ -541,27 +531,20 @@
         filename = filename.replace(" ", "");
 
         var data = {};
-//        var stockeditems = [];
-//        var ids = datatable.api().rows('.selected').data().map(function(row){ return row.id }).join(',').split(',');
-//        // TODO:: remove  the select options
-//        if (ids && ids.length > 0 && ids[0]!='') {
-//            for (var i = 0; i < ids.length; i++) {
-//                var id = ids[i];
-//                if (stock.hasOwnProperty(id))
-//                    data[id] = stock[id];
-//            }
-//        } else {
-//            data = stock;
-//        }
-//        for (var i in stock){
-//          stockeditems.push(getStoredItemId(stock[i].name));
-//        }
-        for(var item in items) {
+        var config = JSON.parse(localStorage.getItem('wpos_config'));
+        var sortable=[];
+        for(var key in items)
+          if(items.hasOwnProperty(key))
+            sortable.push([key, items[key]]);
+        var sorted = sortable.sort(function(a, b) {
+          return a[1].name.localeCompare(b[1].name);
+        });
+        for(var item in sorted) {
           data[item] = {
-            id: item,
-            name: items[item].name,
-            supplier: getSupplier(items[item].supplierid),
-            locationid: 0,
+            id: sorted[item][0],
+            name: sorted[item][1].name,
+            supplier: getSupplier(sorted[item][1].supplierid),
+            locationid: config.deviceconfig.locationid,
             stocklevel: 0,
             reorderpoint: 0
           };
@@ -586,11 +569,10 @@
         jsonFields: {
           'ID': {title:'ID', required: true},
           'name': {title:'Name', required: true},
-          'supplier': {title:'Supplier', required: true, value: ""},
-          'location': {title:'Location', required: true, value: ""},
-          'qty': {title:'Qty', required: true, value: 1},
-          'reorderpoint': {title:'Reorder point', required: true, value: 1}
-
+          'supplier': {title:'Supplier', required: true},
+          'location': {title:'Location', required: true},
+          'amount': {title:'Qty', required: true},
+          'reorderpoint': {title:'Reorder point', required: true}
         },
         csvHasHeader: true,
         importOptions: [
@@ -598,7 +580,19 @@
         ],
         // callbacks
         onImport: function(jsondata, options){
-          importItems(jsondata, options);
+          var data = [];
+          for(var i=0; i<jsondata.length;i++){
+            if (jsondata[i].amount === "0") {
+              continue;
+            }
+            data.push({
+              storeditemid: jsondata[i].ID,
+              locationid: getLocation(jsondata[i].location),
+              amount: jsondata[i].amount,
+              reorderpoint: jsondata[i].reorderpoint
+            });
+          }
+          importItems(data, options);
         }
       });
     }
@@ -609,14 +603,14 @@
       var percent_inc = total / 100;
       setModalLoaderStatus("Uploading data...");
       var data = {"options":options, "import_data": jsondata};
-      var result = WPOS.sendJsonDataAsync('stock/supplier', JSON.stringify(jsondata), function(data){
+      var result = WPOS.sendJsonDataAsync('stock/import/set', JSON.stringify(data), function(data){
         if (data!==false){
           WPOS.startEventSourceProcess(
-            '/api/stock/supplier',
+            '/api/stock/import/start',
             function(data){
               if (data.hasOwnProperty('progress')) {
                 setModalLoaderSubStatus(data.progress +" of "+ total);
-                var progress = Math.round(percent_inc*data.progress);
+                var progress = Math.round((100*data.progress)/total);
                 setModalLoaderProgress(progress);
               }
 
@@ -625,11 +619,18 @@
 
               if (data.hasOwnProperty('error')) {
                 if (data.error == "OK") {
-                  showModalCloseButton('Item Import Complete!');
+                  showModalCloseButton('Stock Import Complete!');
                 } else {
-                  showModalCloseButton("Error Importing Items", data.error);
+                  showModalCloseButton("Error Importing Stock", data.error);
                 }
-                reloadTable();
+                if (data.hasOwnProperty('data')){
+                  // update table with imported items
+                  for (var i in data.data) {
+                    if (data.data.hasOwnProperty(i))
+                      stock[i] = data.data[i];
+                  }
+                  reloadTable();
+                }
               }
             },
             function(e){
@@ -637,13 +638,13 @@
             }
           );
         } else {
-          showModalCloseButton("Item Import Failed!");
+          showModalCloseButton("Stock Import Failed!");
         }
       }, function(error){
-        showModalCloseButton("Item Import Failed!", error);
+        showModalCloseButton("Stock Import Failed!", error);
       });
       if (!result)
-        showModalCloseButton("Item Import Failed!");
+        showModalCloseButton("Stock Import Failed!");
     }
 
     var eventuiinit = false;
@@ -673,12 +674,13 @@
       modalloader.dialog('open');
     }
     function setModalLoaderProgress(progress){
-      $("#modalloader_progbar").attr('width', progress+"%")
+      $("#modalloader_progbar").css('width', progress+"%")
+      $("#modalloader_progbar").text(progress+"%");
     }
     function showModalCloseButton(result, substatus){
       $("#modalloader_status").text(result);
       setModalLoaderSubStatus(substatus? substatus : '');
-      $("#modalloader_img").hide();
+      $("#modalloader_img").attr('src', '/assets/images/Check_mark.png');
       $("#modalloader_prog").hide();
       $("#modalloader_cbtn").show();
     }
