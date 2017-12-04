@@ -177,7 +177,7 @@
             nodebtn.removeClass("btn-success");
             nodebtn.addClass("btn-danger");
             nodebtn.attr("onclick", "stopNode();");
-            nodebtn.hide(); // hide for production we don't ever want to stop it
+//            nodebtn.hide(); // hide for production we don't ever want to stop it
             // set status
             nodestattxt.text("Online");
             nodestaticon.removeClass("red");

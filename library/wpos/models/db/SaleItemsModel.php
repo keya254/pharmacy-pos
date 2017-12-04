@@ -158,6 +158,28 @@ class SaleItemsModel extends DbConfig
     }
 
     /**
+     * @param int $saleid
+     * @param int $sitemid
+     * @param int $saleitemid
+     * @param int $qty
+     * @param string $name
+     * @param int $desc
+     * @param int $taxid
+     * @param int $tax
+     * @param int $cost
+     * @param int $unit
+     * @param int $price
+     * @return array|bool Returns false on an unexpected failure or the rows found by the statement. Returns an empty array when nothing is found
+     */
+    public function getDuplicate($saleid, $sitemid, $saleitemid, $qty, $name, $desc, $taxid, $tax, $cost, $unit, $price)
+    {
+        $sql = 'SELECT * FROM sale_items WHERE saleid= :saleid AND storeditemid= :sitemid AND saleitemid= :saleitemid AND qty= :qty AND name= :name AND description= :desc AND taxid= :taxid AND tax= :tax AND cost= :cost AND unit= :unit AND price= :price';
+        $placeholders = [":saleid"=>$saleid, ":sitemid"=>$sitemid, ":saleitemid"=>$saleitemid, ":qty"=>$qty, ":name"=>$name, ":desc"=>$desc, ":taxid"=>$taxid, ":tax"=>json_encode($tax), ":cost"=>$cost, ":unit"=>$unit, ":price"=>$price];
+
+        return $this->select($sql, $placeholders);
+    }
+
+    /**
      * @param int $itemid
      * @param null $sitemid
      * @param int|null $saleitemid

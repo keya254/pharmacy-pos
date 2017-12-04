@@ -21,8 +21,8 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].$_SERVER['APP_ROOT']."docs/.config.jso
 ini_set('date.timezone', $timezone);
 
 // Error handling
-ini_set('display_errors', 'On');
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+ini_set('display_errors', 'Off');
+error_reporting(E_ALL);
 
 /**
  * Php error handler, sets & returns json result object

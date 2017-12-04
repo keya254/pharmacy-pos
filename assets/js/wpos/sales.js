@@ -123,38 +123,33 @@ function WPOSItems() {
 
         var invItems = [];
         var level = [];
-        var f;
         var config = WPOS.getConfigTable();
         var locationid = config.locationid;
-        var suppliers = WPOS.getSuppliers();
         for (var s in this.stock) {
             if (this.stock[s].locationid === locationid && this.stock[s].stocklevel > 0) {
                 invItems.push(this.stock[s].storeditemid);
                 level.push(this.stock[s].stocklevel);
             }
-
         }
-          var sorted = items.sort(function(a, b) {
-            return a.name.localeCompare(b.name);
-          });
-        for (var i in sorted){
-          f = invItems.indexOf(sorted[i].id);
-          if (f !== -1) {
-            price = (sorted[i].price==""?"??.??":parseFloat(sorted[i].price).toFixed(2));
-            iboxitems.append('<div class="iboxitem col-xs-6 col-sm-4" onmouseenter="handleMOver(this);" onmouseleave="handleMOut(this);" onclick="WPOS.items.addItemFromId('+sorted[i].id+'); toggleItemBox(false);">' +
-              '<h6 style="overflow: hidden;">'+sorted[i].name+'</h6>'+
-              '<h6 class="price">'+WPOS.util.currencyFormat(price)+'</h6>'+
-              '<h6>('+level[f]+')</h6>'+
-              // '<h6>'+suppliers[sorted[i].supplierid].name+'</h6>'+
-              '</div>');
-          }
-                // price = (items[i].price==""?"??.??":parseFloat(items[i].price).toFixed(2));
-                // iboxitems.append('<div class="iboxitem col-xs-6 col-sm-4" onclick="WPOS.items.addItemFromId('+items[i].id+'); toggleItemBox(false); reduceQty(this)">' +
-                //                     '<h6>'+items[i].name+'</h6>'+
-                //                     '<h6 style="color:#bf211c;">'+WPOS.util.currencyFormat(price)+'</h6>'+
-                //                     '<h6>('+items[i].qty+')</h6>'+
-                //                 '</div>');
 
+        var sorted = items.sort(function(a, b) {
+          return a.name.localeCompare(b.name);
+        });
+
+        for (var i in sorted){
+          for (var s in this.stock) {
+            if (this.stock[s].storeditemid == sorted[i].id) {
+              if (this.stock[s].locationid == locationid && this.stock[s].stocklevel > 0) {
+                price = (sorted[i].price==""?"??.??":parseFloat(sorted[i].price).toFixed(2));
+                iboxitems.append('<div class="iboxitem col-xs-6 col-sm-4" onmouseenter="handleMOver(this);" onmouseleave="handleMOut(this);" onclick="WPOS.items.addItemFromId('+sorted[i].id+'); toggleItemBox(false);">' +
+                  '<h6 style="overflow: hidden;">'+sorted[i].name+'</h6>'+
+                  '<h6 class="price">'+WPOS.util.currencyFormat(price)+'</h6>'+
+                  '<h6>('+this.stock[s].stocklevel+')</h6>'+
+                  // '<h6>'+suppliers[sorted[i].supplierid].name+'</h6>'+
+                  '</div>');
+              }
+            }
+          }
         }
     };
 
@@ -1851,5 +1846,3 @@ function WPOSSales() {
         return true;
     }
 }
-// TODO: Update the itemboxes depending on stocklevel
-// TODO: Add notification system to the admin about stock level

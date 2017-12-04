@@ -505,6 +505,16 @@ class WposPosSale {
             // fix for offline sales not containing cost field and getting stuck
             if (!isset($item->cost)) $item->cost = 0.00;
             $unit_original = (isset($item->unit_original) ? $item->unit_original : $item->unit);
+            // Check for duplicate
+            $dupitems = $itemsMdl->getDuplicate($this->id, $item->sitemid, $item->ref, $item->qty, $item->name, $item->desc, $item->taxid, $item->tax, $item->cost, $item->unit, $item->price);
+            if (sizeof($dupitems) > 0) { // There exists the same record
+                foreach ($dupitems as $ke=>$pay) {
+                    if (!$itemsMdl->removeById($pay->id)) {
+                        $this->paymentErr = $itemsMdl->errorInfo;
+                        return false;
+                    }
+                }
+            }
             if (!$res=$itemsMdl->create($this->id, $item->sitemid, $item->ref, $item->qty, $item->name, $item->desc, $item->taxid, $item->tax, $item->cost, $item->unit, $item->price, $unit_original)) {
                 $this->itemErr = $itemsMdl->errorInfo;
                 return false;
@@ -528,6 +538,15 @@ class WposPosSale {
     {
         $payMdl = new SalePaymentsModel();
         foreach ($this->jsonobj->payments as $key=>$payment) {
+            $dupitems = $payMdl->getDuplicate($this->id, $payment->method, $payment->amount, $this->jsonobj->processdt);
+            if (sizeof($dupitems) > 0) { // There exists the same record
+                foreach ($dupitems as $ke=>$pay) {
+                    if (!$payMdl->removeById($pay->id)) {
+                        $this->paymentErr = $payMdl->errorInfo;
+                        return false;
+                    }
+                }
+            }
             if (!$id=$payMdl->create($this->id, $payment->method, $payment->amount, $this->jsonobj->processdt)) {
                 $this->paymentErr = $payMdl->errorInfo;
                 return false;

@@ -199,12 +199,13 @@ CREATE TABLE IF NOT EXISTS `sales` (
 --
 
 CREATE TABLE IF NOT EXISTS `sale_history` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `saleid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `type` varchar(66) NOT NULL,
   `description` varchar(256) NOT NULL,
-  `dt` datetime NOT NULL
+  `dt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
 
 -- --------------------------------------------------------

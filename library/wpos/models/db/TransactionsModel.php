@@ -60,6 +60,16 @@ class TransactionsModel extends DbConfig
     }
 
     /**
+     * @param $id
+     * @return array|bool Returns false on failure or an array with a single record on success
+     */
+    public function getDuplicate($id){
+        $sql = 'SELECT * FROM sales WHERE id= :id;';
+        $placeholders = [":id"=>$id];
+        return $this->select($sql, $placeholders);
+    }
+
+    /**
      * Get a single sale object using its reference.
      * @param $ref
      * @return array|bool Returns false on failure or an array with a single record on success

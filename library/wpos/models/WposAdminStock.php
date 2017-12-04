@@ -119,7 +119,7 @@ class WposAdminStock {
                 return $result;
             } else {
                 // create history record for added stock
-                if ($this->createStockHistory($stockObj->storeditemid, $stockObj->locationid, $stockObj->amount, $stockObj->reorderpoint)===false){
+                if ($this->createStockHistory($stockObj->storeditemid, $stockObj->locationid, 'Stock Added', $stockObj->amount)===false){
                     $result['error'] = "Could not create stock history record";
                     EventStream::sendStreamData($result);
                     return $result;

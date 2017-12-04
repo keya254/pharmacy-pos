@@ -116,6 +116,60 @@ class SalePaymentsModel extends DbConfig
     }
 
     /**
+     * @param int $saleid
+     * @param int $method
+     * @param int $amount
+     * @param $processdt
+     *
+     *
+     * @return array|bool Returns false on an unexpected failure or the rows found by the statement. Returns an empty array when nothing is found
+     */
+    public function getDuplicate($saleid, $method, $amount, $processdt)
+    {
+        $sql = 'SELECT * FROM sale_payments';
+        $placeholders = [];
+
+        if ($saleid !== null) {
+            if (empty($placeholders)) {
+                $sql .= ' WHERE';
+            } else {
+                $sql .= ' AND';
+            }
+            $sql .= 'saleid = :saleid';
+            $placeholders[':saleid'] = $saleid;
+        }
+        if ($amount !== null) {
+            if (empty($placeholders)) {
+                $sql .= ' WHERE';
+            } else {
+                $sql .= ' AND';
+            }
+            $sql .= 'amount = :amount';
+            $placeholders[':amount'] = $amount;
+        }
+        if ($method !== null) {
+            if (empty($placeholders)) {
+                $sql .= ' WHERE';
+            } else {
+                $sql .= ' AND';
+            }
+            $sql .= 'method = :method';
+            $placeholders[':method'] = $method;
+        }
+        if ($processdt !== null) {
+            if (empty($placeholders)) {
+                $sql .= ' WHERE';
+            } else {
+                $sql .= ' AND';
+            }
+            $sql .= 'processdt = :processdt';
+            $placeholders[':processdt'] = $processdt;
+        }
+
+        return $this->select($sql, $placeholders);
+    }
+
+    /**
      * @param int $itemid
      * @param String $method
      * @param String $amount
