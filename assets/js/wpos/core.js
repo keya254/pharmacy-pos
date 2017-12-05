@@ -459,7 +459,6 @@ function WPOS() {
                 // get suppliers
                 setLoadingBar(60, "Getting suppliers...");
                 setStatusBar(4, "Updating suppliers...", statusmsg, 0);
-                console.log('Step 4');
                 fetchSuppliersTable(function(data){
                   if (data===false){
                     showLogin();
@@ -759,7 +758,6 @@ function WPOS() {
 
     // GLOBAL COM FUNCTIONS
     this.sendJsonData = function (action, data) {
-      console.log('send Json data sync')
         // send request to server
         try {
         var response = $.ajax({
@@ -811,7 +809,6 @@ function WPOS() {
     };
 
     this.sendJsonDataAsync = function (action, data, callback) {
-      console.log('send Json data async')
         // send request to server
         try {
             $.ajax({
@@ -857,7 +854,6 @@ function WPOS() {
     };
 
     this.getJsonDataAsync = function (action, callback) {
-        console.log('Get Json data async')
         // send request to server
         try {
             $.ajax({

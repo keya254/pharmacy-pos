@@ -118,7 +118,10 @@ function WPOSItems() {
                 }
             }
         } else {
-            items = WPOS.getItemsTable();
+          var tempitems = WPOS.getItemsTable();
+          for (var x in tempitems) {
+            items[x] = tempitems[x];
+          }
         }
 
         var invItems = [];
