@@ -507,7 +507,7 @@ function WPOS() {
     function initDataSuccess(loginloader){
         if (loginloader){
             setLoadingBar(100, "Massaging the data...");
-            $("title").text("Pharmacy+ POS");
+            $("title").text("Biashara Retail POS");
             WPOS.initPlugins();
             populateDeviceInfo();
             setTimeout(hideLogin, 500);
