@@ -25,15 +25,8 @@
 
 class WposStoredItem extends stdClass {
 
-    public $code = "";
-    public $qty = "";
     public $name = "";
-    public $alt_name = "";
     public $description = "";
-    public $taxid = 1;
-    public $price = "";
-    public $cost = "";
-    public $supplierid = 0;
     public $categoryid = 0;
     public $type = "general";
     public $modifiers = [];

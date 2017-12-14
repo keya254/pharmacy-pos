@@ -47,16 +47,15 @@ class WposAdminItems {
     public function addStoredItem($result)
     {
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"code":"","qty":1, "name":"", "taxid":1, "cost":-1, "price":-1,"type":""}');
+        $jsonval = new JsonValidate($this->data, '{"name":"", "categoryid":1}');
         if (($errors = $jsonval->validate()) !== true) {
             $result['error'] = $errors;
             return $result;
         }
         // create model and check for duplicate stockcode
         $itemMdl = new StoredItemsModel();
-        $this->data->code = strtoupper($this->data->code); // make sure stockcode is upper case
-        if (sizeof($itemMdl->get(null, $this->data->code)) > 0) {
-            $result['error'] = "An item with that stockcode already exists";
+        if ($itemMdl->getDuplicate($this->data) > 0) {
+            $result['error'] = "An item with that name already exists";
             return $result;
         }
         // create the new item
@@ -84,22 +83,14 @@ class WposAdminItems {
     public function updateStoredItem($result)
     {
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"id":1, "code":"", "qty":1, "name":"", "taxid":1, "cost":-1, "price":-1}');
+        $jsonval = new JsonValidate($this->data, '{"id":1, "name":"", "categoryid":1}');
         if (($errors = $jsonval->validate()) !== true) {
             $result['error'] = $errors;
             return $result;
         }
         // create model and check for duplicate stockcode
         $itemMdl = new StoredItemsModel();
-        $this->data->code = strtoupper($this->data->code); // make sure stockcode is upper case
-        $dupitems = $itemMdl->get(null, $this->data->code);
-        if (sizeof($dupitems) > 0) {
-            $dupitem = $dupitems[0];
-            if ($dupitem['id'] != $this->data->id) {
-                $result['error'] = "An item with that stockcode already exists";
-                return $result;
-            }
-        }
+
         // update the item
         $qresult = $itemMdl->edit($this->data->id, $this->data);
         if ($qresult === false) {
@@ -193,60 +184,22 @@ class WposAdminItems {
         EventStream::iniStream();
         $itemMdl = new StoredItemsModel();
         $catMdl = new CategoriesModel();
-        $supMdl = new SuppliersModel();
-        $taxMdl = new TaxRulesModel();
 
         $categories = $catMdl->get();
-        $suppliers = $supMdl->get();
-        $taxRules = $taxMdl->get();
-        foreach ($taxRules as $key=>$rule){
-            $data = json_decode($rule['data'], true);
-            $data['id'] = $rule['id'];
-            $taxRules[$rule['id']] = $data;
-        }
 
-        if ($categories===false || $suppliers===false || $taxRules===false){
-            $result['error'] = "Could not load categories, suppliers or tax rules: ".$catMdl->errorInfo." ".$supMdl->errorInfo." ".$taxMdl->errorInfo;
+        if ($categories===false){
+            $result['error'] = "Could not load categories: ".$catMdl->errorInfo;
             EventStream::sendStreamData($result);
             return $result;
         }
 
         EventStream::sendStreamData(['status'=>"Validating Items..."]);
-        $validator = new JsonValidate(null, '{"code":"", "qty":1, "name":"", "price":-1, "tax_name":"", "category_name":"", "supplier_name":""}');
+        $validator = new JsonValidate(null, '{"name":"", "category_name":""}');
         $count = 1;
         foreach ($items as $key=>$item){
             EventStream::sendStreamData(['status'=>"Validating Items...", 'progress'=>$count]);
 
             $validator->validate($item);
-
-            $item->code = strtoupper($item->code); // make sure stockcode is upper case
-            $dupitems = $itemMdl->get(null, $item->code);
-            if (sizeof($dupitems) > 0) {
-                $dupitem = $dupitems[0];
-                if ($dupitem['id'] != $item->id) {
-                    $result['error'] = "An item with the stockcode ".$item->code." already exists on line ".$count;
-                    EventStream::sendStreamData($result);
-                    return $result;
-                }
-            }
-
-            // remove currency symbol from price & cost
-            $item->price = preg_replace("/([^0-9\\.])/i", "", $item->price);
-            $item->cost = preg_replace("/([^0-9\\.])/i", "", $item->cost);
-
-            // Match tax id with name
-            if (!$item->tax_name){
-                $id = 1;
-            } else {
-                $id = $this->getIdForName($taxRules, $item->tax_name);
-            }
-            if ($id===false){
-                $result['error'] = "Could not find tax rule id for name ".$item->tax_name." on line ".$count." of the CSV";
-                EventStream::sendStreamData($result);
-                return $result;
-            }
-            $item->taxid = $id;
-            unset($item->tax_name);
 
             // Match category
             if (!$item->category_name || $item->category_name=="None" || $item->category_name=="Misc"){
@@ -273,30 +226,12 @@ class WposAdminItems {
             $item->categoryid = $id;
             unset($item->category_name);
 
-            // Match supplier
-            if (!$item->supplier_name || $item->supplier_name=="None" || $item->supplier_name=="Misc"){
-                $id = 0;
-            } else {
-                $id = $this->getIdForName($suppliers, $item->supplier_name);
+            $dupitems = $itemMdl->getDuplicate($item);
+            if ($dupitems > 0) {
+                $result['error'] = "An item ".$item->name." already exists on line ".$count;
+                EventStream::sendStreamData($result);
+                return $result;
             }
-            if ($id===false){
-                if ((isset($options->add_suppliers) && $options->add_suppliers===true)){
-                    EventStream::sendStreamData(['status'=>"Adding supplier..."]);
-                    $id = $supMdl->create($item->supplier_name);
-                    if (!is_numeric($id)){
-                        $result['error'] = "Could not add new supplier " . $item->supplier_name . " on line ".$count." of the CSV: ".$catMdl->errorInfo;
-                        EventStream::sendStreamData($result);
-                        return $result;
-                    }
-                    $suppliers[] = [''=>$id, 'name'=>$item->supplier_name];
-                } else {
-                    $result['error'] = "Could not find supplier id for name " . $item->supplier_name . " on line ".$count." of the CSV";
-                    EventStream::sendStreamData($result);
-                    return $result;
-                }
-            }
-            $item->supplierid = $id;
-            unset($item->supplier_name);
 
             $items[$key] = $item;
 

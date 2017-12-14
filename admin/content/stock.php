@@ -34,6 +34,11 @@
             <th data-priority="3">Location</th>
             <th data-priority="4">Qty</th>
             <th>Reorder Point</th>
+            <th data-priority="5">Cost</th>
+            <th data-priority="6">Price</th>
+            <th data-priority="7">Code</th>
+            <th data-priority="8">Inventry No</th>
+            <th data-priority="9">Expiry Date</th>
             <th data-priority="1" class="noexport"></th>
         </tr>
     </thead>
@@ -48,34 +53,67 @@
 <div id="editstockdialog" class="hide">
     <table>
         <tr>
-            <input type="hidden" id="setstockitemid" />
+            <input type="hidden" id="setstockid" />
+            <input type="hidden" id="setstockinventoryid" />
             <input type="hidden" id="setstocklocid" />
-            <input type="hidden" id="setstocksupid" />
-            <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
-            <td><input id="setstockqty" type="text" value="1"/></td>
+<!--            <input type="hidden" id="setstocksupid" />-->
         </tr>
-        <tr>
-          <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-          <td><input id="setstockreorderpoint" type="text" value="1"/></td>
-        </tr>
+      <tr>
+        <td style="text-align: right;"><label>Name:</label></td>
+        <td><input type="text" id="setstockname" class="form-control" disabled/></td>
+      </tr>
+<!--      <tr>-->
+<!--        <td style="text-align: right;"><label>Supplier:</label></td>-->
+<!--        <td><select id="addstocksupid" class="supselect form-control">-->
+<!--          </select></td>-->
+<!--      </tr>-->
+      <tr>
+        <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
+        <td><input id="setstockqty" type="text" class="form-control"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+        <td><input id="setstockreorderpoint" class="form-control" type="text"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Cost:&nbsp;</label></td>
+        <td><input id="setstockcost" class="form-control" type="text"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Price:&nbsp;</label></td>
+        <td><input id="setstockprice" class="form-control" type="text"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Expiry Date:&nbsp;</label></td>
+        <td><input id="setstockexpiryDate" class="form-control" type="text" value=""/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Inventory No:&nbsp;</label></td>
+        <td><input id="setstockinventoryNo" class="form-control" type="text"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>BatchNo/Code:&nbsp;</label></td>
+        <td><input id="setstockcode" class="form-control" type="text"/></td>
+      </tr>
     </table>
 </div>
 <div id="transferstockdialog" class="hide">
     <table>
         <tr>
+            <input type="hidden" id="tstockitem" />
             <input type="hidden" id="tstockitemid" />
             <input type="hidden" id="tstocklocid" />
             <td style="text-align: right;"><label>Transfer to:&nbsp;</label></td>
-            <td><select id="tstocknewlocid" class="locselect">
+            <td><select id="tstocknewlocid" class="locselect form-control">
                 </select></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
-            <td><input id="tstockqty" type="text" value="1"/></td>
+            <td><input id="tstockqty" type="text" class="form-control" value="1"/></td>
         </tr>
         <tr>
           <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-          <td><input id="tstockreorderpoint" type="text" value="1"/></td>
+          <td><input id="tstockreorderpoint" type="text" class="form-control" value="1"/></td>
         </tr>
     </table>
 </div>
@@ -83,21 +121,46 @@
     <table>
         <tr>
             <td style="text-align: right;"><label>Item:</label></td>
-            <td><select id="addstockitemid" class="itemselect">
+            <td><select id="addstockitemid" class="itemselect form-control">
                 </select></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Location:</label></td>
-            <td><select id="addstocklocid" class="locselect">
+            <td><select id="addstocklocid" class="locselect form-control">
             </select></td>
         </tr>
+      <tr>
+        <td style="text-align: right;"><label>Supplier:</label></td>
+        <td><select id="addstocksupid" class="supselect form-control">
+          </select></td>
+      </tr>
         <tr>
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
-            <td><input id="addstockqty" type="text" value="1"/></td>
+            <td><input id="addstockqty" type="text" class="form-control" value="1"/></td>
         </tr>
         <tr>
-              <td style="text-align: right;"><label>Reorder point:&nbsp;</label></td>
-              <td><input id="addstockreorderpoint" type="text" value="1"/></td>
+            <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+            <td><input id="addstockreorderpoint" class="form-control" type="text"/></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;"><label>Cost:&nbsp;</label></td>
+            <td><input id="addstockcost" class="form-control" type="text"/></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;"><label>Price:&nbsp;</label></td>
+            <td><input id="addstockprice" class="form-control" type="text"/></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;"><label>Expiry Date:&nbsp;</label></td>
+            <td><input id="addstockexpiryDate" class="form-control" type="text" value=""/></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;"><label>Inventory No:&nbsp;</label></td>
+            <td><input id="addstockinventoryNo" class="form-control" type="text"/></td>
+        </tr>
+        <tr>
+              <td style="text-align: right;"><label>BatchNo/Code:&nbsp;</label></td>
+              <td><input id="addstockcode" class="form-control" type="text"/></td>
         </tr>
     </table>
 </div>
@@ -148,7 +211,7 @@
         }
         datatable = $('#stocktable').dataTable({"bProcessing": true,
             "aaData": stockarray,
-            "aaSorting": [[ 2, "asc" ]],
+            "aaSorting": [[ 1, "asc" ]],
             "aLengthMenu": [ 10, 25, 50, 100, 200],
             "aoColumns": [
                 { mData:null, sDefaultContent:'<div style="text-align: center"><label><input class="ace dt-select-cb" type="checkbox"><span class="lbl"></span></label><div>', bSortable: false },
@@ -156,8 +219,13 @@
                 { mData:"supplier" },
                 { mData:function(data,type,val){return (data.locationid!=='0'?(WPOS.locations.hasOwnProperty(data.locationid)?WPOS.locations[data.locationid].name:'Unknown'):'Warehouse');} },
                 { mData:"stocklevel" },
-                { mData:"reorderpoint" },
-                { mData:function(data,type,val){return '<div class="action-buttons"><a class="green" onclick="openEditStockDialog('+data.id+');"><i class="icon-pencil bigger-130"></i></a><a class="blue" onclick="openTransferStockDialog('+data.id+')"><i class="icon-arrow-right bigger-130"></i></a><a class="red" onclick="getStockHistory('+data.storeditemid+', '+data.locationid+');"><i class="icon-time bigger-130"></i></a></div>'; }, "bSortable": false }
+                { mData:"reorderPoint" },
+                { mData:"cost" },
+                { mData:"price" },
+                { mData:"code" },
+                { mData:"inventoryNo" },
+                { mData:"expiryDate" },
+                { mData:function(data,type,val){return '<div class="action-buttons"><a class="green" onclick="openEditStockDialog('+data.id+');"><i class="icon-pencil bigger-130"></i></a><a class="blue" onclick="openTransferStockDialog('+data.id+')"><i class="icon-arrow-right bigger-130"></i></a><a class="red" onclick="getStockHistory('+data.id+', '+data.locationid+');"><i class="icon-time bigger-130"></i></a><a class="red" onclick="deleteStockItem('+data.id+');"><i class="icon-trash bigger-130"></i></a></div>'; }, "bSortable": false }
             ],
             "columns": [
                 {},
@@ -166,6 +234,11 @@
                 {type: "string"},
                 {type: "numeric"},
                 {type: "numeric"},
+                {type: "numeric"},
+                {type: "numeric"},
+                {type: "string"},
+                {type: "string"},
+                {type: "string"},
                 {}
             ],
             "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
@@ -318,9 +391,9 @@
         locselect.html('');
         for (key in WPOS.locations){
             if (key == 0){
-                locselect.append('<option class="locid-0" value="0">Warehouse</option>');
+                locselect.append('<option class="form-control locid-0" value="0">Warehouse</option>');
             } else {
-                locselect.append('<option class="locid-'+WPOS.locations[key].id+'" value="'+WPOS.locations[key].id+'">'+WPOS.locations[key].name+'</option>');
+                locselect.append('<option class="form-control locid-'+WPOS.locations[key].id+'" value="'+WPOS.locations[key].id+'">'+WPOS.locations[key].name+'</option>');
             }
         }
 
@@ -328,7 +401,7 @@
         var supselect = $(".supselect");
         supselect.html('');
         for (key in suppliers){
-          supselect.append('<option class="supid-'+suppliers[key].id+'" value="'+suppliers[key].id+'">'+suppliers[key].name+'</option>');
+          supselect.append('<option class="form-control supid-'+suppliers[key].id+'" value="'+suppliers[key].id+'">'+suppliers[key].name+'</option>');
         }
 
         // hide loader
@@ -428,7 +501,7 @@
     // updating records
     function getStockHistory(id, locationid){
         WPOS.util.showLoader();
-        var stockhist = WPOS.sendJsonData("stock/history", JSON.stringify({storeditemid: id, locationid: locationid}));
+        var stockhist = WPOS.sendJsonData("stock/history", JSON.stringify({stockitemid: id, locationid: locationid}));
         // populate stock dialog with list
         $("#stockhisttable").html("");
         var hist;
@@ -439,14 +512,25 @@
         WPOS.util.hideLoader();
         $("#stockhistdialog").dialog('open');
     }
+    function deleteStockItem(id){
+      var results = WPOS.sendJsonData("stock/delete", JSON.stringify(id));
+      if (results) {
+        reloadTable();
+      }
+    }
     function openEditStockDialog(id){
         var item = stock[id];
-        $("#setstockitemid").val(item.storeditemid);
+        $("#setstockid").val(item.id);
+        $("#setstockname").val(item.name);
+        $("#setstockinventoryid").val(item.stockinventoryid);
         $("#setstocklocid").val(item.locationid);
-        $("#setstocksupid").val(items[item.storeditemid].supplierid);
         $("#setstockqty").val(item.stocklevel);
-        $("#setstockreorderpoint").val(item.reorderpoint);
-        $(".supid-"+items[item.storeditemid].supplierid).attr('selected', 'selected');
+        $("#setstockcost").val(item.cost);
+        $("#setstockprice").val(item.price);
+        $("#setstockexpiryDate").val(item.expiryDate);
+        $("#setstockinventoryNo").val(item.inventoryNo);
+        $("#setstockcode").val(item.code);
+        $("#setstockreorderpoint").val(item.reorderPoint);
         $("#editstockdialog").dialog("open");
     }
     function openAddStockDialog(){
@@ -455,7 +539,8 @@
     }
     function openTransferStockDialog(id){
         var item = stock[id];
-        $("#tstockitemid").val(item.storeditemid);
+        $("#tstockitem").val(id);
+        $("#tstockitemid").val(item.stockinventoryid);
         $("#tstocklocid").val(item.locationid);
         $("#tstockreorderpoint").val(item.reorderpoint);
         $("#transferstockdialog").dialog("open");
@@ -479,8 +564,14 @@
             // adding new stock
             item.storeditemid = $("#addstockitemid option:selected").val();
             item.locationid = $("#addstocklocid option:selected").val();
+            item.supplierid = $("#addstocksupid option:selected").val();
             item.amount = $("#addstockqty").val();
             item.reorderpoint = $("#addstockreorderpoint").val();
+            item.cost = $("#addstockcost").val();
+            item.price = $("#addstockprice").val();
+            item.expiryDate = $("#addstockexpiryDate").val();
+            item.inventoryNo = $("#addstockinventoryNo").val();
+            item.code = $("#addstockcode").val();
             if (WPOS.sendJsonData("stock/add", JSON.stringify(item))!==false){
                 reloadTable();
                 $("#addstockdialog").dialog("close");
@@ -488,10 +579,17 @@
             break;
         case 2:
             // set stock level
-            item.storeditemid = $("#setstockitemid").val();
+            item.id = $("#setstockid").val();
+            item.name = $("#setstockname").val();
+            item.stockinventoryid = $("#setstockinventoryid").val();
             item.locationid = $("#setstocklocid").val();
-            item.amount = $("#setstockqty").val();
-            item.reorderpoint = $("#setstockreorderpoint").val();
+            item.stocklevel = $("#setstockqty").val();
+            item.reorderPoint = $("#setstockreorderpoint").val();
+            item.cost = $("#setstockcost").val();
+            item.price = $("#setstockprice").val();
+            item.expiryDate = $("#setstockexpiryDate").val();
+            item.code = $("#setstockcode").val();
+            item.inventoryNo = $("#setstockinventoryNo").val();
             if (WPOS.sendJsonData("stock/set", JSON.stringify(item))!==false){
                 reloadTable();
                 $("#editstockdialog").dialog("close");
@@ -499,6 +597,8 @@
             break;
         case 3:
             // transfer stock
+            item = stock[$("#tstockitem").val()];
+            item.data = {};
             item.storeditemid = $("#tstockitemid").val();
             item.locationid = $("#tstocklocid").val();
             item.newlocationid = $("#tstocknewlocid").val();
@@ -531,6 +631,7 @@
         filename = filename.replace(" ", "");
 
         var data = {};
+//        var items = WPOS.getJsonData('stock/get');
         var config = JSON.parse(localStorage.getItem('wpos_config'));
         var sortable=[];
         for(var key in items)
@@ -543,17 +644,25 @@
           data[item] = {
             id: sorted[item][0],
             name: sorted[item][1].name,
-            supplier: getSupplier(sorted[item][1].supplierid),
+            description: "",
+            supplier: '',
             locationid: config.deviceconfig.locationid,
-            stocklevel: 0,
-            reorderpoint: 0
+            cost: 0.00,
+            price: 0.00,
+            stocklevel: "",
+            reorderpoint: "",
+            code: "",
+            expiryDate: "31/12/2020",
+            inventoryNo: "0000",
+            taxName: "No VAT",
+            category: "Medicine"
           };
         }
 
 
         var csv = WPOS.data2CSV(
-            ['ID', 'Name', 'Supplier', 'Location', 'Qty', 'Reorder Point'],
-            ['id', 'name', 'supplier', {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }}, 'stocklevel', 'reorderpoint'],
+            ['Name', 'Description', 'Supplier', 'Location', 'Unit Cost', 'Unit Price', 'Amount', 'Reorder Point', 'Item Code/Batch No', 'Expiry Date', 'Inventory No', 'Tax Name', 'Category Name'],
+            ['name', 'description', 'supplier', {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }}, 'cost', 'price', 'stocklevel', 'reorderpoint', 'code', 'expiryDate', 'inventoryNo', 'taxName', 'category'],
             data
         );
 
@@ -567,16 +676,26 @@
       }
       importdialog = $("body").csvImport({
         jsonFields: {
-          'ID': {title:'ID', required: true},
           'name': {title:'Name', required: true},
-          'supplier': {title:'Supplier', required: true},
+          'description': {title:'Description', required: false, value: ""},
+          'supplier_name': {title:'Supplier Name', required: true},
           'location': {title:'Location', required: true},
-          'amount': {title:'Qty', required: true},
-          'reorderpoint': {title:'Reorder point', required: true}
+          'cost': {title:'Unit Cost', required: true},
+          'price': {title:'Unit Price', required: true},
+          'amount': {title:'Amount', required: true},
+          'reorderpoint': {title:'Reorder Point', required: false, value: "0"},
+          'code': {title:'Item Code/Batch No', required: false, value: "0000"},
+          'expiryDate': {title:'Expiry Date', required: false, value: "31/12/2020"},
+          'inventoryNo': {title:'Inventory No', required: false, value: "0000"},
+          'tax_name': {title:'Tax Name', required: false, value: "VAT"},
+          'category_name': {title:'Category Name', required: false, value: "Medicine"}
         },
         csvHasHeader: true,
         importOptions: [
-
+          {label: "Set unknown tax names to no tax", id:"skip_tax", checked:false},
+          {label: "Create Items if doesn't exists", id:"add_items", checked:true},
+          {label: "Create unknown suppliers", id:"add_suppliers", checked:true},
+          {label: "Create unknown categories", id:"add_categories", checked:true}
         ],
         // callbacks
         onImport: function(jsondata, options){
@@ -586,10 +705,18 @@
               continue;
             }
             data.push({
-              storeditemid: jsondata[i].ID,
+              name: jsondata[i].name,
+              description: jsondata[i].description,
+              supplier_name: jsondata[i].supplier_name,
               locationid: getLocation(jsondata[i].location),
+              cost: jsondata[i].cost,
+              price: jsondata[i].price,
               amount: jsondata[i].amount,
-              reorderpoint: jsondata[i].reorderpoint
+              reorderPoint: jsondata[i].reorderpoint,
+              code: jsondata[i].code,
+              expiryDate: jsondata[i].expiryDate,
+              inventoryNo: jsondata[i].inventoryNo,
+              category_name: jsondata[i].category_name
             });
           }
           importItems(data, options);
@@ -598,9 +725,8 @@
     }
 
     function importItems(jsondata, options){
-      showModalLoader("Importing Items");
+      showModalLoader("Importing Stock");
       var total = jsondata.length;
-      var percent_inc = total / 100;
       setModalLoaderStatus("Uploading data...");
       var data = {"options":options, "import_data": jsondata};
       var result = WPOS.sendJsonDataAsync('stock/import/set', JSON.stringify(data), function(data){

@@ -199,7 +199,12 @@ class WposAdminStats {
         $stime = isset($this->data->stime)?$this->data->stime:(strtotime('-1 week')*1000);
         $etime = isset($this->data->etime)?$this->data->etime:(time()*1000);
 
-        if (is_array($items = $itemsMdl->getStoredItemTotals($stime, $etime, $group, true, $this->data->type))){
+        if($group == 2) {
+            $items = $itemsMdl->getStoredItemTotalsSupplier($stime, $etime, $group, true, $this->data->type);
+        } else {
+            $items = $itemsMdl->getStoredItemTotals($stime, $etime, $group, true, $this->data->type);
+        }
+        if (is_array($items)){
             foreach ($items as $item){
                 $stats[$item['groupid']] = new stdClass();
                 if ($item['groupid']==0){

@@ -29,7 +29,7 @@ class StoredItemsModel extends DbConfig
     /**
      * @var array available columns
      */
-    protected $_columns = ['id' ,'data', 'supplierid', 'categoryid', 'code', 'name', 'price'];
+    protected $_columns = ['id' ,'data', 'categoryid', 'name'];
 
     /**
      * Init DB
@@ -45,18 +45,19 @@ class StoredItemsModel extends DbConfig
      */
     public function create($data)
     {
-        $sql          = "INSERT INTO stored_items (`data`, `supplierid`, `categoryid`, `code`, `name`, `price`) VALUES (:data, :supplierid, :categoryid, :code, :name, :price);";
-        $placeholders = [":data"=>json_encode($data),":supplierid"=>$data->supplierid, ":categoryid"=>$data->categoryid, ":code"=>$data->code, ":name"=>$data->name, ":price"=>$data->price];
+        $dataObj = json_encode(['name'=>$data->name, 'description'=>$data->description, 'categoryid'=>$data->categoryid]);
+
+        $sql          = "INSERT INTO stored_items (`data`, `categoryid`, `name`, `description`) VALUES (:data, :categoryid, :name, :description);";
+        $placeholders = [":data"=>$dataObj, ":categoryid"=>$data->categoryid, ":name"=>$data->name, ":description"=>$data->description];
 
         return $this->insert($sql, $placeholders);
     }
 
     /**
      * @param null $Id
-     * @param null $code
      * @return array|bool Returns false on an unexpected failure or an array of selected rows
      */
-    public function get($Id = null, $code = null) {
+    public function get($Id = null) {
         $sql = 'SELECT * FROM stored_items';
         $placeholders = [];
         if ($Id !== null) {
@@ -65,13 +66,6 @@ class StoredItemsModel extends DbConfig
             }
             $sql .= ' id = :id';
             $placeholders[':id'] = $Id;
-        }
-        if ($code !== null) {
-            if (empty($placeholders)) {
-                $sql .= ' WHERE';
-            }
-            $sql .= ' code = :code';
-            $placeholders[':code'] = $code;
         }
 
         $items = $this->select($sql, $placeholders);
@@ -87,6 +81,40 @@ class StoredItemsModel extends DbConfig
         return $items;
     }
 
+    // TODO:: Remove this function
+    public function getIdForName($name){
+
+        $sql          = "SELECT * FROM stored_items WHERE name=:storeditemid;";
+        $placeholders = [":storeditemid"=>$name];
+
+        $items = $this->select($sql, $placeholders);
+        if ($items===false)
+            return false;
+
+        foreach($items as $key=>$item){
+            $data = json_decode($item['data'], true);
+            $data['id'] = $item['id'];
+            $items[$key] = $data;
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param $data
+     * @return array|bool Returns false on an unexpected failure or an array of selected rows
+     */
+    public function getDuplicate($data) {
+        $sql = 'SELECT * FROM stored_items WHERE `name`=:name AND `categoryid`=:categoryid';
+        $placeholders = [":name"=>$data->name, ":categoryid"=>$data->categoryid];
+
+        $items = $this->select($sql, $placeholders);
+        if ($items===false)
+            return false;
+        else
+            return sizeof($items);
+    }
+
     /**
      * @param $id
      * @param $data
@@ -94,8 +122,8 @@ class StoredItemsModel extends DbConfig
      */
     public function edit($id, $data){
 
-        $sql = "UPDATE stored_items SET data= :data, supplierid= :supplierid, categoryid= :categoryid, code= :code, name= :name, price= :price WHERE id= :id;";
-        $placeholders = [":id"=>$id, ":data"=>json_encode($data), ":supplierid"=>$data->supplierid, ":categoryid"=>$data->categoryid, ":code"=>$data->code, ":name"=>$data->name, ":price"=>$data->price];
+        $sql = "UPDATE stored_items SET data= :data, categoryid= :categoryid, name= :name WHERE id= :id;";
+        $placeholders = [":id"=>$id, ":data"=>json_encode($data), ":categoryid"=>$data->categoryid, ":name"=>$data->name];
 
         return $this->update($sql, $placeholders);
     }
@@ -107,7 +135,7 @@ class StoredItemsModel extends DbConfig
     public function remove($id){
 
         $placeholders = [];
-        $sql = "DELETE FROM stored_items WHERE";
+        $sql = "DELETE FROM stored_items WHERE ";
         if (is_numeric($id)){
             $sql .= " `id`=:id;";
             $placeholders[":id"] = $id;

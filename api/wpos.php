@@ -339,10 +339,13 @@ function routeApiCall($action, $data, $result) {
             $adminMdl = new WposAdminStock($data);
             $result = $adminMdl->importItemsSet($result);
             break;
-
         case "stock/import/start":
             $adminMdl = new WposAdminStock($data);
             $result = $adminMdl->importItemsStart($result);
+            break;
+        case "stock/delete":
+            $adminMdl = new WposAdminStock($data);
+            $result = $adminMdl->deleteStoredItem($result);
             break;
 
         // customers

@@ -286,7 +286,7 @@ class WposPosSale {
         } else {
             if ($orderid==0)
                 $this->removeTransactionRecords(); // This is probably not needed but oh well
-            $result['error'] = "My SQL server error: the transaction did not complete successfully and has been rolled back. ".$this->salesMdl->errorInfo;
+            $result['error'] = "My SQL server error: the transaction did not complete successfully and has been rolled back.".json_encode($this->jsonobj);
             return $result;
         }
         // check if the sale has void/refund data and process it
@@ -474,10 +474,10 @@ class WposPosSale {
                 } else {
                     // return stock to original sale location
                     if (sizeof($this->jsonobj->items)>0){
-                        $wposStock = new WposAdminStock();
+                        $stockItemsMdl = new StockItemsModel();
                         foreach($this->jsonobj->items as $item){
                             if ($item->sitemid>0){
-                                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, $item->reorderpoint, false);
+                                $stockItemsMdl->decrementStockLevel($item->sitemid, $item->qty, true);
                             }
                         }
                     }
@@ -499,8 +499,6 @@ class WposPosSale {
     private function insertTransactionItems()
     {
         $itemsMdl = new SaleItemsModel();
-        //$stockMdl = new StockModel();
-        $wposStock = new WposAdminStock();
         foreach ($this->jsonobj->items as $key=>$item) {
             // fix for offline sales not containing cost field and getting stuck
             if (!isset($item->cost)) $item->cost = 0.00;
@@ -521,8 +519,8 @@ class WposPosSale {
             }
             // decrement stock level
             if ($item->sitemid>0){
-                /*$stockMdl->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, true);*/
-                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, $item->reorderpoint,true);
+                $stockItemsMdl = new StockItemsModel();
+                $stockItemsMdl->decrementStockLevel($item->sitemid, $item->qty, true);
             }
             $this->jsonobj->items[$key]->id = $res;
         }
