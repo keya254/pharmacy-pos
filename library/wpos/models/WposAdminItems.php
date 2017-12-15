@@ -47,7 +47,7 @@ class WposAdminItems {
     public function addStoredItem($result)
     {
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"name":"", "categoryid":1}');
+        $jsonval = new JsonValidate($this->data, '{"name":"", "categoryid":1", taxid":1", reorderPoint":1, "description":""}');
         if (($errors = $jsonval->validate()) !== true) {
             $result['error'] = $errors;
             return $result;
@@ -184,17 +184,24 @@ class WposAdminItems {
         EventStream::iniStream();
         $itemMdl = new StoredItemsModel();
         $catMdl = new CategoriesModel();
+        $taxMdl = new TaxRulesModel();
 
         $categories = $catMdl->get();
+        $taxRules = $taxMdl->get();
+        foreach ($taxRules as $key=>$rule){
+            $data = json_decode($rule['data'], true);
+            $data['id'] = $rule['id'];
+            $taxRules[$rule['id']] = $data;
+        }
 
-        if ($categories===false){
-            $result['error'] = "Could not load categories: ".$catMdl->errorInfo;
+        if ($categories===false || $taxRules===false){
+            $result['error'] = "Could not load categories or tax rules: ".$catMdl->errorInfo. ' '.$taxMdl->errorInfo;
             EventStream::sendStreamData($result);
             return $result;
         }
 
         EventStream::sendStreamData(['status'=>"Validating Items..."]);
-        $validator = new JsonValidate(null, '{"name":"", "category_name":""}');
+        $validator = new JsonValidate(null, '{"name":"","description":"", "category_name":"", "tax_name": "", "reorderPoint":1}');
         $count = 1;
         foreach ($items as $key=>$item){
             EventStream::sendStreamData(['status'=>"Validating Items...", 'progress'=>$count]);
@@ -225,6 +232,20 @@ class WposAdminItems {
             }
             $item->categoryid = $id;
             unset($item->category_name);
+
+            // Match tax id with name
+            if (!$item->tax_name){
+                $id = 1;
+            } else {
+                $id = $this->getIdForName($taxRules, $item->tax_name);
+            }
+            if ($id===false){
+                $result['error'] = "Could not find tax rule id for name ".$item->tax_name." on line ".$count." of the CSV";
+                EventStream::sendStreamData($result);
+                return $result;
+            }
+            $item->taxid = $id;
+            unset($item->tax_name);
 
             $dupitems = $itemMdl->getDuplicate($item);
             if ($dupitems > 0) {

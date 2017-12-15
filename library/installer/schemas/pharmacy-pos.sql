@@ -6,9 +6,9 @@
 -- Generation Time: Oct 07, 2014 at 01:18 PM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
-CREATE DATABASE IF NOT EXISTS pharmacy_pos;
+CREATE DATABASE IF NOT EXISTS pharmacy;
 
-USE pharmacy_pos;
+USE pharmacy;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -297,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `stock_history` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stock_levels`
+-- Table structure for table `stock_items`
 --
 
 CREATE TABLE IF NOT EXISTS `stock_items` (
@@ -305,7 +305,6 @@ CREATE TABLE IF NOT EXISTS `stock_items` (
   `stockinventoryid` int(11) NOT NULL,
   `stocklevel` int(11) NOT NULL,
   `expiryDate` BIGINT(30) NOT NULL,
-  `reorderPoint` int(11) NOT NULL,
   `cost` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `code` VARCHAR(30) NOT NULL,
@@ -342,6 +341,8 @@ CREATE TABLE IF NOT EXISTS `stored_items` (
   `categoryid` int(11) NOT NULL,
   `name` varchar(66) NOT NULL,
   `description` varchar(66) NOT NULL,
+  `reorderPoint` int(11) NOT NULL,
+  `taxid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
 

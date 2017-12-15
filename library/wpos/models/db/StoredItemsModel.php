@@ -29,7 +29,7 @@ class StoredItemsModel extends DbConfig
     /**
      * @var array available columns
      */
-    protected $_columns = ['id' ,'data', 'categoryid', 'name'];
+    protected $_columns = ['id' ,'data', 'categoryid', 'name', 'taxid', 'reorderPoint'];
 
     /**
      * Init DB
@@ -45,10 +45,10 @@ class StoredItemsModel extends DbConfig
      */
     public function create($data)
     {
-        $dataObj = json_encode(['name'=>$data->name, 'description'=>$data->description, 'categoryid'=>$data->categoryid]);
+        $dataObj = json_encode(['name'=>$data->name, 'description'=>$data->description, 'categoryid'=>$data->categoryid, 'taxid'=>$data->taxid, 'reorderPoint'=>$data->reorderPoint]);
 
-        $sql          = "INSERT INTO stored_items (`data`, `categoryid`, `name`, `description`) VALUES (:data, :categoryid, :name, :description);";
-        $placeholders = [":data"=>$dataObj, ":categoryid"=>$data->categoryid, ":name"=>$data->name, ":description"=>$data->description];
+        $sql          = "INSERT INTO stored_items (`data`, `categoryid`, `name`, `description`, `taxid`, `reorderPoint`) VALUES (:data, :categoryid, :name, :description, :taxid, :reorderPoint);";
+        $placeholders = [":data"=>$dataObj, ":categoryid"=>$data->categoryid, ":name"=>$data->name, ":description"=>$data->description, ":taxid"=>$data->taxid, ":reorderPoint"=>$data->reorderPoint];
 
         return $this->insert($sql, $placeholders);
     }
@@ -122,8 +122,8 @@ class StoredItemsModel extends DbConfig
      */
     public function edit($id, $data){
 
-        $sql = "UPDATE stored_items SET data= :data, categoryid= :categoryid, name= :name WHERE id= :id;";
-        $placeholders = [":id"=>$id, ":data"=>json_encode($data), ":categoryid"=>$data->categoryid, ":name"=>$data->name];
+        $sql = "UPDATE stored_items SET data= :data, categoryid= :categoryid, name= :name, taxid= :taxid, reorderPoint= :reorderPoint WHERE id= :id;";
+        $placeholders = [":id"=>$id, ":data"=>json_encode($data), ":categoryid"=>$data->categoryid, ":name"=>$data->name, ":taxid"=>$data->taxid, ":reorderPoint"=>$data->reorderPoint];
 
         return $this->update($sql, $placeholders);
     }

@@ -32,6 +32,8 @@
     <th data-priority="2">Name</th>
     <th data-priority="3">Description</th>
     <th data-priority="4">Category</th>
+    <th data-priority="5">Tax</th>
+    <th data-priority="6">Reorder Point</th>
     <th class="noexport" data-priority="2"></th>
 </tr>
 </thead>
@@ -59,12 +61,12 @@
                 </a>
             </li>
         </ul>
-        <div class="tab-content" style="min-height: 320px;">
+        <div class="tab-content" style="min-height: 320px;padding-top:5px;">
             <div class="tab-pane active in" id="itemdetails">
                 <table>
                     <tr>
                         <td style="text-align: right;"><label>Name:&nbsp;</label></td>
-                        <td><input id="itemname" type="text"/>
+                        <td><input id="itemname" class="form-control" type="text"/>
                             <input id="itemid" type="hidden"/></td>
                     </tr>
                     <tr>
@@ -75,6 +77,15 @@
                         <td style="text-align: right;"><label>Category:&nbsp;</label></td>
                         <td><select id="itemcategory" class="catselect form-control">
                             </select></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
+                        <td><select id="itemtax" class="taxselect form-control">
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+                        <td><input class="form-control" id="itemreorderpoint" type="text"/></td>
                     </tr>
                 </table>
             </div>
@@ -138,6 +149,15 @@
             <td><select id="newitemcategory" class="catselect form-control">
                 </select></td>
         </tr>
+        <tr>
+            <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
+            <td><select id="newitemtax" class="taxselect form-control">
+                </select></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+            <td><input id="newitemreorderpoint" class="form-control" type="text"/></td>
+        </tr>
     </table>
 </div>
 
@@ -159,8 +179,16 @@
         stock = data['items/get'];
         categories = data['categories/get'];
         var itemarray = [];
+        var tempitem;
+        var taxrules = WPOS.getTaxTable().rules;
         for (var key in stock){
-            itemarray.push(stock[key]);
+          tempitem = stock[key];
+          if (taxrules.hasOwnProperty(tempitem.taxid)){
+            tempitem.taxname = taxrules[tempitem.taxid].name;
+          } else {
+            tempitem.taxname = "Not Defined";
+          }
+          itemarray.push(tempitem);
         }
         datatable = $('#itemstable').dataTable({
             "bProcessing": true,
@@ -173,6 +201,8 @@
                 { "mData":"name" },
                 { "mData":"description" },
                 { "mData":function(data,type,val){return (categories.hasOwnProperty(data.categoryid)?categories[data.categoryid].name:'None'); } },
+                { "mData":"taxname"},
+                { "mData":"reorderPoint"},
                 { mData:null, sDefaultContent:'<div class="action-buttons"><a class="green" onclick="openEditDialog($(this).closest(\'tr\').find(\'td\').eq(1).text());"><i class="icon-pencil bigger-130"></i></a><a class="red" onclick="removeItem($(this).closest(\'tr\').find(\'td\').eq(1).text())"><i class="icon-trash bigger-130"></i></a></div>', "bSortable": false }
             ],
             "columns": [
@@ -181,6 +211,8 @@
                 {type: "string"},
                 {type: "string"},
                 {type: "string"},
+                {type: "string"},
+                {type: "numeric"},
                 {}
             ],
             "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
@@ -321,6 +353,8 @@
         $("#itemname").val(item.name);
         $("#itemdesc").val(item.description);
         $("#itemcategory").val(item.categoryid);
+        $("#itemtax").val(item.taxid);
+        $("#itemreorderpoint").val(item.reorderPoint);
         $("#itemtype").val(item.type);
         var modtable = $("#itemmodtable");
         var modselecttable = $("#itemselmodtable");
@@ -373,6 +407,8 @@
             item.name = $("#newitemname").val();
             item.description = $("#newitemdesc").val();
             item.categoryid = $("#newitemcategory").val();
+            item.taxid = $("#newitemtax").val();
+            item.reorderPoint = $("#newitemreorderpoint").val();
             item.type = "general";
             item.modifiers = [];
             result = WPOS.sendJsonData("items/add", JSON.stringify(item));
@@ -387,6 +423,8 @@
           item.name = $("#itemname").val();
           item.description = $("#itemdesc").val();
           item.categoryid = $("#itemcategory").val();
+          item.taxid = $("#itemtax").val();
+          item.reorderPoint = $("#itemreorderpoint").val();
           item.type = $("#itemtype").val();
           item.modifiers = [];
             item.modifiers = [];
@@ -463,6 +501,7 @@
         var tempitem;
         for (var key in stock){
             tempitem = stock[key];
+            tempitem.taxname = WPOS.getTaxTable().rules[tempitem.taxid].name;
             itemarray.push(tempitem);
         }
         datatable.fnClearTable(false);
@@ -499,13 +538,16 @@
             id: sorted[item][0],
             name: sorted[item][1].name,
             description: sorted[item][1].description,
-            categoryid: sorted[item][1].categoryid
+            categoryid: sorted[item][1].categoryid,
+            taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
+            reorderPoint: sorted[item][1].reorderPoint
           };
         }
         var csv = WPOS.data2CSV(
-            ['ID', 'Name', 'Description', 'Category Name'],
+            ['ID', 'Name', 'Description', 'Category Name', 'Tax', 'Reorder Point'],
             ['id', 'name', 'description',
-                {key:'categoryid', func: function(value){ return categories.hasOwnProperty(value) ? categories[value].name : 'Unknown'; }}
+                {key:'categoryid', func: function(value){ return categories.hasOwnProperty(value) ? categories[value].name : 'Unknown'; }},
+              'taxname', 'reorderPoint'
             ],
             sortedData
         );
@@ -522,16 +564,31 @@
             jsonFields: {
                 'name': {title:'Name', required: true},
                 'description': {title:'Description', required: true},
-                'category_name': {title:'Category Name', required: true}
+                'category_name': {title:'Category Name', required: true},
+                'tax_name': {title:'Tax Name', required: true},
+                'reorderPoint': {title:'Reorder Point', required: true}
             },
             csvHasHeader: true,
             importOptions: [
-                {label: "Create unknown categories", id:"add_categories", checked:true}
+              {label: "Set unknown tax names to no tax", id:"skip_tax", checked:false},
+              {label: "Create unknown categories", id:"add_categories", checked:true}
             ],
             // callbacks
             onImport: function(jsondata, options){
-                //console.log(options);
-                importItems(jsondata, options);
+                var data = [];
+                for(var i=0; i<jsondata.length;i++) {
+                  if (jsondata[i].name === '' || jsondata[i].name === null) {
+                    continue;
+                  }
+                  data.push({
+                    name: jsondata[i].name,
+                    description: jsondata[i].description !== '' ? jsondata[i].description: "No description",
+                    reorderPoint: jsondata[i].reorderPoint !== '' ? jsondata[i].reorderPoint: "0",
+                    tax_name: jsondata[i].tax_name !== '' ? jsondata[i].tax_name.toUpperCase(): "No Tax",
+                    category_name: jsondata[i].category_name !== '' ? jsondata[i].category_name.toUpperCase(): "GENERAL"
+                  });
+                }
+                importItems(data, options);
             }
         });
     }
