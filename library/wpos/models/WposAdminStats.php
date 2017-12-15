@@ -451,7 +451,7 @@ class WposAdminStats {
             $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
         }
         foreach ($stocks as $stock){
-            if ($stock['stocklevel'] <= $stock['reorderpoint']) {
+            if ($stock['stocklevel'] <= $stock['reorderPoint']) {
                 $stats[$stock['id']] = new stdClass();
                 if ($stock['locationid']==0){
                     $stats[$stock['id']]->location = "Warehouse";
@@ -461,9 +461,73 @@ class WposAdminStats {
                 $stats[$stock['id']]->name = $stock['name'];
                 $stats[$stock['id']]->supplier = $stock['supplier'];
                 $stats[$stock['id']]->stocklevel = $stock['stocklevel'];
-                $stats[$stock['id']]->reorderpoint = $stock['reorderpoint'];
+                $stats[$stock['id']]->reorderpoint = $stock['reorderPoint'];
             }
         }
+        $result['data'] = $stats;
+        return $result;
+    }
+
+    /**
+     * Get the expired items, does not take into account the current range
+     * @param $result
+     * @return mixed
+     */
+    public function getExpiredItems($result){
+        $stats = [];
+        $stockMdl = new StockModel();
+        $stocks = $stockMdl->get(null, null, true);
+        if ($stocks===false){
+            $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
+        }
+        foreach ($stocks as $stock){
+            $stats[$stock['id']] = new stdClass();
+            if ($stock['locationid']==0){
+                $stats[$stock['id']]->location = "Warehouse";
+            } else {
+                $stats[$stock['id']]->location = $stock['location'];
+            }
+            $stats[$stock['id']]->name = $stock['name'];
+            $stats[$stock['id']]->supplier = $stock['supplier'];
+            $stats[$stock['id']]->stocklevel = $stock['stocklevel'];
+            $stats[$stock['id']]->reorderpoint = $stock['reorderPoint'];
+            $stats[$stock['id']]->expiryDate = $stock['expiryDate'];
+        }
+        $result['data'] = $stats;
+        return $result;
+    }
+
+    /**
+     * Get the expired drugs, does not take into account the current range
+     * @param $result
+     * @return mixed
+     */
+    public function getItemsCost($result){
+        $stats = [];
+        $stockMdl = new StockModel();
+        $itemsMdl = new StoredItemsModel();
+        $stocks = $stockMdl->getCosts();
+        $items = $itemsMdl->get();
+        if ($stocks===false){
+            $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
+        }
+        if ($items===false){
+            $result['error']= "Error getting items: ".$itemsMdl->errorInfo;
+        }
+//        print_r($stocks);
+
+        foreach ($items as $item) {
+            $stats[$item['name']] = new stdClass();
+            $stats[$item['name']]->suppliers = array();
+            $stats[$item['name']]->costs = array();
+            foreach ($stocks as $stock){
+                if ($item['name'] == $stock['name']) {
+                    array_push($stats[$stock['name']]->suppliers, $stock['supplier']);
+                    array_push($stats[$stock['name']]->costs, $stock['cost']);
+                }
+            }
+        }
+//        print_r($stats);
         $result['data'] = $stats;
         return $result;
     }

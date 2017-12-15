@@ -10,7 +10,9 @@
         <option value="stats/categoryselling">Category Sales</option>
         <option value="stats/supplyselling">Supplier Sales</option>
         <option value="stats/stock">Current Stock</option>
-        <option value="stats/order">Order Items</option>
+        <option value="stats/order">Purchase Order</option>
+        <option value="stats/expired">Expired Items</option>
+<!--        <option value="stats/costs">Suppliers Cost</option>-->
         <option value="stats/devices">Device Cash</option>
         <option value="stats/locations">Location Cash</option>
         <option value="stats/users">User Cash</option>
@@ -79,6 +81,12 @@
             case "stats/order":
                 populateOrder();
                 break;
+            case "stats/expired":
+              populateExpired();
+              break;
+            case "stats/costs":
+              populateCost();
+              break;
             case "stats/devices":
                 populateTakings("Device Cash", "Device Name");
                 break;
@@ -194,7 +202,7 @@
     }
 
     function populateOrder(){
-        var html = getCurrentReportHeader("Items to Order");
+        var html = getCurrentReportHeader("Purchase Order");
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Location</td><td>Stock Qty</td><td>Reorder Point</td></tr></thead><tbody>";
         for (var i in repdata){
             rowdata = repdata[i];
@@ -203,6 +211,32 @@
         html += "</tbody></table>";
 
         $("#reportcontain").html(html);
+    }
+
+    function populateExpired(){
+        var html = getCurrentReportHeader("Expired Items");
+        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Location</td><td>Stock Qty</td><td>Expiry Date</td></tr></thead><tbody>";
+        for (var i in repdata){
+            rowdata = repdata[i];
+            if (new Date(rowdata.expiryDate) <= new Date())
+              html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.expiryDate+"</td></tr>"
+        }
+        html += "</tbody></table>";
+
+        $("#reportcontain").html(html);
+    }
+
+    function populateCost(){
+      var html = getCurrentReportHeader("Suppliers Cost");
+      html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Cost</td></tr></thead><tbody>";
+      console.log(repdata);
+//      for (var i in repdata){
+//        rowdata = repdata[i];
+//        html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.cost+"</td></tr>"
+//      }
+      html += "</tbody></table>";
+
+      $("#reportcontain").html(html);
     }
 
     function printCurrentReport(){

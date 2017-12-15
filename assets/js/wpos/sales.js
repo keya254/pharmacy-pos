@@ -53,13 +53,22 @@ function WPOSItems() {
      */
     this.addItemFromStockCode = function (code) {
         // find the item id from the stock code index and use it to retrieve the record.
-        var item = WPOS.getItemsTable()[WPOS.getStockIndex()[code.toUpperCase()]];
-        if (item === null || item === undefined || item === "") {//ADAM: Should use triple equals
+        // var items = WPOS.getStockLevel();
+        var filteredItems = this.filterStock(WPOS.getItemsTable());
+        console.log(filteredItems);
+        var searchItem = "";
+        code.trim();
+        for (var item in filteredItems) {
+          if (filteredItems[item].code === code) {
+            searchItem = filteredItems[item].id;
+          }
+        }
+        if (searchItem === null || searchItem === undefined || searchItem === "") {//ADAM: Should use triple equals
             alert("Item not found");
             $("#codeinput").val('');
         } else {
             // add the item
-            addItem(item);
+            this.addItemFromId(searchItem);
         }
     };
 
@@ -128,10 +137,9 @@ function WPOSItems() {
         for (var i in sorted){
           price = (sorted[i].price==""?"??.??":parseFloat(sorted[i].price).toFixed(2));
           iboxitems.append('<div class="iboxitem col-xs-6 col-sm-4" onmouseenter="handleMOver(this);" onmouseleave="handleMOut(this);" onclick="WPOS.items.addItemFromId('+sorted[i].id+'); toggleItemBox(false);">' +
-            '<h6 style="overflow: hidden;">'+sorted[i].name+'</h6>'+
+            '<h6 class="name">'+sorted[i].name+'</h6>'+
             '<h6 class="price">'+WPOS.util.currencyFormat(price)+'</h6>'+
             '<h6>('+sorted[i].qty+')</h6>'+
-            '<h6>'+sorted[i].supplier+'</h6>'+
             '</div>');
         }
     };
@@ -143,7 +151,8 @@ function WPOSItems() {
     this.generateItemGridCategories = function(){
         WPOS.fetchStockLevel(this.setStock());
         var iboxitems = $("#iboxitems");
-        var stock = this.filterStock(WPOS.getItemsTable());
+        var items = WPOS.getItemsTable();
+        var stock = this.filterStock(items);
         iboxitems.html('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(-1);"><h5>All Categories</h5><h6>('+Object.keys(stock).length+' items)</h6></div>');
         var catindex = WPOS.getCategoryIndex();
         var categories = WPOS.getConfigTable().item_categories;
@@ -297,12 +306,12 @@ function WPOSItems() {
         canSell = false;
       }
       // Prevent negative sales
-      if (parseInt(item.stocklevel) <= 0) {
+      if (parseInt(item.stocklevel) <= 0 && canSell) {
         alert(item.name + ' has reached 0 quantity and can\' be sold.');
         canSell = false;
-      } else if (parseInt(item.stocklevel) < parseInt(item.reorderPoint)) {
+      } else if (parseInt(item.stocklevel) < parseInt(item.reorderPoint) && canSell) {
         alert(item.name + ' is below reorder point, only ' + item.stocklevel + ' remaining.');
-      } else if (parseInt(item.stocklevel) === parseInt(item.reorderPoint) && item.stocklevel !== undefined) {
+      } else if (canSell && parseInt(item.stocklevel) === parseInt(item.reorderPoint) && item.stocklevel !== undefined) {
         alert(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
       }
       if (canSell){

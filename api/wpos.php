@@ -583,6 +583,14 @@ function routeApiCall($action, $data, $result) {
             $statsMdl = new WposAdminStats($data);
             $result = $statsMdl->getReorderPoints($result);
             break;
+        case "stats/expired": // show items that are expired
+            $statsMdl = new WposAdminStats($data);
+            $result = $statsMdl->getExpiredItems($result);
+            break;
+        case "stats/costs": // show cost of drug from different suppliers
+            $statsMdl = new WposAdminStats($data);
+            $result = $statsMdl->getItemsCost($result);
+            break;
         case "stats/devices": // whats selling, grouped by stored items
             $statsMdl = new WposAdminStats($data);
             $result = $statsMdl->getDeviceBreakdownStats($result);

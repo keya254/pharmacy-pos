@@ -701,22 +701,22 @@
         onImport: function(jsondata, options){
           var data = [];
           for(var i=0; i<jsondata.length;i++){
-            if (jsondata[i].amount === "0") {
+            if (jsondata[i].amount === "0" || jsondata[i].amount === '' || jsondata[i].amount === null ) {
               continue;
             }
             data.push({
               name: jsondata[i].name,
               description: jsondata[i].description,
-              supplier_name: jsondata[i].supplier_name,
+              supplier_name: jsondata[i].supplier_name.toUpperCase(),
               locationid: getLocation(jsondata[i].location),
               cost: jsondata[i].cost,
               price: jsondata[i].price,
               amount: jsondata[i].amount,
-              reorderPoint: jsondata[i].reorderpoint,
-              code: jsondata[i].code,
-              expiryDate: jsondata[i].expiryDate,
-              inventoryNo: jsondata[i].inventoryNo,
-              category_name: jsondata[i].category_name
+              reorderPoint: jsondata[i].reorderpoint !== '' ? jsondata[i].reorderpoint: "0",
+              code: jsondata[i].code !== '' ? jsondata[i].code.toUpperCase(): "0000",
+              expiryDate: jsondata[i].expiryDate !== '' ? jsondata[i].expiryDate: "30/12/2050",
+              inventoryNo: jsondata[i].inventoryNo !== '' ? jsondata[i].inventoryNo.toUpperCase(): "INV0000",
+              category_name: jsondata[i].category_name !== '' ? jsondata[i].category_name.toUpperCase(): "Miscellaneous"
             });
           }
           importItems(data, options);

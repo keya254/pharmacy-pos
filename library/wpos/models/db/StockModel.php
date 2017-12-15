@@ -104,6 +104,17 @@ class StockModel extends DbConfig
     }
 
     /**
+     * Returns an array of stock records, optionally including special reporting values
+     * @return array|bool Returns false on failure, or an array of stock records
+     */
+    public function getCosts(){
+
+        $sql = 'SELECT s.*, i.name AS name, COALESCE(items.cost, "0") AS cost, COALESCE(p.name, "Misc") AS supplier FROM stock_inventory as s LEFT JOIN stored_items as i ON i.id=s.storeditemid LEFT JOIN stock_items as items ON s.id=items.stockinventoryid LEFT JOIN stored_suppliers as p ON s.supplierid=p.id ORDER BY s.supplierid';
+        $placeholders = [];
+        return $this->select($sql, $placeholders);
+    }
+
+    /**
      * Get stock record by item id.
      * @param $storeditemid
      * @param $supplierid

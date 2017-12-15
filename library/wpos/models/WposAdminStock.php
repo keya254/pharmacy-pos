@@ -244,9 +244,15 @@ class WposAdminStock {
                 // create add the item in stock Items model
                 unset($stockObj->storeditemid);
                 $stockObj->stockinventoryid = $stockinventoryid;
-                if ($id=$stockItemsMdl->create($stockObj->stockinventoryid, $stockObj->amount, $stockObj->expiryDate,  $stockObj->reorderPoint,  $stockObj->cost,  $stockObj->price,  $stockObj->code, $stockObj->inventoryNo,  json_encode($stockObj),  $stockObj->locationid, time())===false){
-                    $result['error'] = "Could add item to stock, ".$stockItemsMdl->errorInfo;
+                $id=$stockItemsMdl->create($stockObj->stockinventoryid, $stockObj->amount, $stockObj->expiryDate,  $stockObj->reorderPoint,  $stockObj->cost,  $stockObj->price,  $stockObj->code, $stockObj->inventoryNo,  json_encode($stockObj),  $stockObj->locationid, time());
+                if ($id===false){
+                    $result['error'] = "Could not add item to stock, ".json_encode($stockObj);
                     EventStream::sendStreamData($result);
+                    return $result;
+                }
+                // create history record for imported stock
+                if ($this->histMdl->create($id, $stockObj->locationid, 'Stock Imported', $stockObj->amount)===false){
+                    $result['error'] = "Could not create stock history record".$this->histMdl->errorInfo;
                     return $result;
                 }
             }
