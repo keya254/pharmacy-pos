@@ -161,10 +161,6 @@ class WposAdminStock {
                         return $result;
                     }
                     $categories[] = [''=>$id, 'name'=>$item->category_name];
-                } else {
-                    $result['error'] = "Could not find category id for name " . $item->category_name . " on line ".$count." of the CSV";
-                    EventStream::sendStreamData($result);
-                    return $result;
                 }
             }
             $item->categoryid = $id;
