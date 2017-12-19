@@ -151,7 +151,7 @@ class WposAdminStock {
             } else {
                 $id = $this->getIdForName($categories, $item->category_name);
             }
-            if ($id===false){
+            if ($id===false && $id !== null){
                 if ((isset($options->add_categories) && $options->add_categories===true)){
                     EventStream::sendStreamData(['status'=>"Adding category..."]);
                     $id = $catMdl->create($item->category_name);
