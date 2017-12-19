@@ -649,7 +649,7 @@
             inventoryNo: "0000",
             expiryDate: "30/12/2050",
             taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
-            category: sorted[item][1].categoryid
+            categoryid: sorted[item][1].categoryid
           };
         }
         if (Object.keys(data).length === 0) {
