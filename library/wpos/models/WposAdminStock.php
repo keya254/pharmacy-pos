@@ -171,8 +171,8 @@ class WposAdminStock {
             unset($item->category_name);
 
             // Match Item Name
-            $id=$this->getIdForName($storedItems, $item->name);
-            if ($id == false){
+            $id = $this->getIdForName($storedItems, $item->name);
+            if ($id === false || $id === null){
                 if ((isset($options->add_items) && $options->add_items===true)){
                     EventStream::sendStreamData(['status'=>"Adding Item..."]);
                     $id = $storedItemsMdl->create($item);
@@ -181,7 +181,7 @@ class WposAdminStock {
                         EventStream::sendStreamData($result);
                         return $result;
                     }
-                    $storedItems[] = [''=>$id, 'name'=>$item->name, 'category'=>$item->categoryid, 'description'=>$item->description];
+                    $storedItems[] = [''=>$id, 'name'=>$item->name];
                 }
             }
             $item->storeditemid = $id;
@@ -244,7 +244,7 @@ class WposAdminStock {
                 // create add the item in stock Items model
                 unset($stockObj->storeditemid);
                 $stockObj->stockinventoryid = $stockinventoryid;
-                $id=$stockItemsMdl->create($stockObj->stockinventoryid, $stockObj->amount, $stockObj->expiryDate,  $stockObj->reorderPoint,  $stockObj->cost,  $stockObj->price,  $stockObj->code, $stockObj->inventoryNo,  json_encode($stockObj),  $stockObj->locationid, time());
+                $id=$stockItemsMdl->create($stockObj->stockinventoryid, $stockObj->amount, $stockObj->expiryDate,  $stockObj->cost,  $stockObj->price,  $stockObj->code, $stockObj->inventoryNo,  json_encode($stockObj),  $stockObj->locationid, time());
                 if ($id===false){
                     $result['error'] = "Could not add item to stock, ".json_encode($stockObj);
                     EventStream::sendStreamData($result);
@@ -279,7 +279,6 @@ class WposAdminStock {
      * @param $stocklevel
      * @param $inventoryNo
      * @param $expiryDate
-     * @param $reorderPoint
      * @param $cost
      * @param $price
      * @param $code
@@ -288,8 +287,8 @@ class WposAdminStock {
      * @param bool $decrement
      * @return bool
      */
-    public function incrementStockLevel($stockinventoryid, $stocklevel, $locationid, $decrement = false, $expiryDate=null, $reorderPoint=null, $cost=null, $price=null, $code=null, $inventoryNo=null, $data=null){
-        if ($this->stockItemsMdl->incrementStockLevel($stockinventoryid, $stocklevel, $locationid, $decrement, $expiryDate, $reorderPoint, $cost, $price, $code, $inventoryNo, $data)!==false){
+    public function incrementStockLevel($stockinventoryid, $stocklevel, $locationid, $decrement = false, $expiryDate=null, $cost=null, $price=null, $code=null, $inventoryNo=null, $data=null){
+        if ($this->stockItemsMdl->incrementStockLevel($stockinventoryid, $stocklevel, $locationid, $decrement, $expiryDate, $cost, $price, $code, $inventoryNo, $data)!==false){
             return true;
         }
         return $this->stockItemsMdl->errorInfo;
@@ -304,7 +303,7 @@ class WposAdminStock {
         // validate input
         // remove the data object
         unset($this->data->data);
-        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "newlocationid":1, "amount":">=1", "reorderpoint":">=1"}');
+        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "newlocationid":1, "amount":">=1"}');
         if (($errors = $jsonval->validate())!==true){
             $result['error'] = $errors;
             return $result;
@@ -324,7 +323,7 @@ class WposAdminStock {
         }
 
         // remove stock amount from current location
-        if ($id=$this->stockItemsMdl->incrementStockLevel($this->data->stockinventoryid, $this->data->amount, $this->data->locationid, true, $this->data->expiryDate, $this->data->reorderPoint, $this->data->cost, $this->data->price, $this->data->code, $this->data->inventoryNo, json_encode($this->data))===false){
+        if ($id=$this->stockItemsMdl->incrementStockLevel($this->data->stockinventoryid, $this->data->amount, $this->data->locationid, true, $this->data->expiryDate, $this->data->cost, $this->data->price, $this->data->code, $this->data->inventoryNo, json_encode($this->data))===false){
             $result['error'] = "Could not decrement stock from current location".$this->stockItemsMdl->errorInfo;
             return $result;
         }
@@ -338,7 +337,7 @@ class WposAdminStock {
         }
 
         // add stock amount to new location
-        $id = $this->stockItemsMdl->incrementStockLevel($this->data->stockinventoryid, $this->data->amount, $this->data->newlocationid, false, $this->data->expiryDate, $this->data->reorderPoint, $this->data->cost, $this->data->price, $this->data->code, $this->data->inventoryNo, json_encode($this->data));
+        $id = $this->stockItemsMdl->incrementStockLevel($this->data->stockinventoryid, $this->data->amount, $this->data->newlocationid, false, $this->data->expiryDate, $this->data->cost, $this->data->price, $this->data->code, $this->data->inventoryNo, json_encode($this->data));
         if ($id===false){
             $result['error'] = "Could not add stock to the new location";
             return $result;
@@ -362,7 +361,7 @@ class WposAdminStock {
      */
     public function setStockLevel($result){
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "amount":">=1, "reorderpoint":">=1""}');
+        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "amount":">=1}');
         if (($errors = $jsonval->validate())!==true){
             $result['error'] = $errors;
             return $result;
@@ -372,7 +371,7 @@ class WposAdminStock {
             $result['error'] = "Could not create stock history record";
             return $result;
         }
-        if ($this->stockItemsMdl->setStockLevel($this->data->id, $this->data->stockinventoryid, $this->data->stocklevel, $this->data->expiryDate,  $this->data->reorderPoint,  $this->data->cost,  $this->data->price,  $this->data->code, $this->data->inventoryNo,  json_encode($this->data),  $this->data->locationid)===false){
+        if ($this->stockItemsMdl->setStockLevel($this->data->id, $this->data->stockinventoryid, $this->data->stocklevel, $this->data->expiryDate,   $this->data->cost,  $this->data->price,  $this->data->code, $this->data->inventoryNo,  json_encode($this->data),  $this->data->locationid)===false){
             $result['error'] = "Could not add stock to the location".$this->stockItemsMdl->errorInfo;
         }
 
@@ -383,33 +382,13 @@ class WposAdminStock {
     }
 
     /**
-     * Set the supplier for an item
-     * @param $result
-     * @return mixed
-     */
-    public function editSupplier($result)
-    {
-        // validate input
-        $jsonval = new JsonValidate($this->data, '{"code":"","qty":1, "name":"", "taxid":1, "cost":-1, "price":-1,"type":""}');
-        if (($errors = $jsonval->validate()) !== true) {
-            $result['error'] = $errors;
-            return $result;
-        }
-
-        if ($this->stockMdl->editItemSupplier($this->data->id, $this->data) === false) {
-            $result['error'] = "Could not edit item supplier.";
-        }
-        return $result;
-    }
-
-    /**
      * Add stock to a location
      * @param $result
      * @return mixed
      */
     public function addStock($result){
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "supplierid":1, "amount":1, "cost":1, "price":1, "expiryDate":, "inventoryNo":, "batchNo":"", "reorderpoint":">=1"}');
+        $jsonval = new JsonValidate($this->data, '{"storeditemid":1, "locationid":1, "supplierid":1, "amount":1, "cost":1, "price":1, "expiryDate":, "inventoryNo":, "batchNo":""}');
         if (($errors = $jsonval->validate())!==true){
             $result['error'] = $errors;
             return $result;
@@ -425,7 +404,7 @@ class WposAdminStock {
         unset($this->data->storeditemid);
         $this->data->stockinventoryid = $stockinventoryid;
         if ($stockinventoryid > 0) {
-            $id = $this->stockItemsMdl->create($this->data->stockinventoryid, $this->data->amount, $this->data->expiryDate,  $this->data->reorderpoint,  $this->data->cost,  $this->data->price,  $this->data->code, $this->data->inventoryNo,  json_encode($this->data),  $this->data->locationid, time());
+            $id = $this->stockItemsMdl->create($this->data->stockinventoryid, $this->data->amount, $this->data->expiryDate, $this->data->cost,  $this->data->price,  $this->data->code, $this->data->inventoryNo,  json_encode($this->data),  $this->data->locationid, time());
             if ($id===false){
                 $result['error'] = "Could add item to stock, error ".$this->stockItemsMdl->errorInfo;
                 return $result;

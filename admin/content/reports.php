@@ -203,10 +203,11 @@
 
     function populateOrder(){
         var html = getCurrentReportHeader("Purchase Order");
-        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Location</td><td>Stock Qty</td><td>Reorder Point</td></tr></thead><tbody>";
+        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Stock Qty</td><td>Reorder Point</td></tr></thead><tbody>";
         for (var i in repdata){
             rowdata = repdata[i];
-            html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.reorderpoint+"</td></tr>"
+            if (rowdata.stocklevel <= rowdata.reorderpoint)
+              html += "<tr><td>"+i+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.reorderpoint+"</td></tr>"
         }
         html += "</tbody></table>";
 

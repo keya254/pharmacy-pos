@@ -431,16 +431,17 @@ function WPOS() {
                 break;
 
             case 2:
-                // get stored items
-                setLoadingBar(30, "Getting stored items...");
-                setStatusBar(4, "Updating stored items...", statusmsg, 0);
-                fetchItemsTable(function(data){
+                  // get stock
+                  setLoadingBar(30, "Getting stock...");
+                  setStatusBar(4, "Updating stock...", statusmsg, 0);
+                  fetchStockLevel(function(data){
                     if (data===false){
-                        showLogin();
-                        return;
+                      showLogin();
+                      return;
                     }
                     loadOnlineData(3, loginloader);
-                });
+                  });
+
                 break;
 
           case 3:
@@ -468,6 +469,18 @@ function WPOS() {
                 });
                 break;
           case 5:
+                // Get stored items
+                setLoadingBar(70, "Getting stored items...");
+                setStatusBar(4, "Updating stored items...", statusmsg, 0);
+                fetchItemsTable(function(data){
+                  if (data===false){
+                    showLogin();
+                    return;
+                  }
+                  loadOnlineData(6, loginloader);
+                });
+                break;
+          case 6:
                 // get all sales (Will limit to the weeks sales in future)
                 setLoadingBar(80, "Getting recent sales...");
                 setStatusBar(4, "Updating sales...", statusmsg, 0);
@@ -1273,7 +1286,7 @@ function WPOS() {
         });
     }
 
-    this.fetchStockLevel = function(callback) {
+    function fetchStockLevel(callback) {
        return WPOS.getJsonDataAsync("stock/get", function(data){
             if (data) {
                 localStorage.setItem("stock_items", JSON.stringify(data));

@@ -446,22 +446,22 @@ class WposAdminStats {
     public function getReorderPoints($result){
         $stats = [];
         $stockMdl = new StockModel();
+        $itemsMdl = new StoredItemsModel();
+        $items = $itemsMdl->get();
         $stocks = $stockMdl->get(null, null, true);
         if ($stocks===false){
             $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
         }
-        foreach ($stocks as $stock){
-            if ($stock['stocklevel'] <= $stock['reorderPoint']) {
-                $stats[$stock['id']] = new stdClass();
-                if ($stock['locationid']==0){
-                    $stats[$stock['id']]->location = "Warehouse";
-                } else {
-                    $stats[$stock['id']]->location = $stock['location'];
+        if ($items===false){
+            $result['error']= "Error getting items data: ".$itemsMdl->errorInfo;
+        }
+        foreach ($items as $item) {
+            $stats[$item['name']] = new stdClass();
+            foreach ($stocks as $stock){
+                if ($item['name'] == $stock['name']) {
+                    $stats[$stock['name']]->stocklevel += $stock['stocklevel'];
+                    $stats[$stock['name']]->reorderpoint = $stock['reorderPoint'];
                 }
-                $stats[$stock['id']]->name = $stock['name'];
-                $stats[$stock['id']]->supplier = $stock['supplier'];
-                $stats[$stock['id']]->stocklevel = $stock['stocklevel'];
-                $stats[$stock['id']]->reorderpoint = $stock['reorderPoint'];
             }
         }
         $result['data'] = $stats;

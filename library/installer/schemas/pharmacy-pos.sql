@@ -304,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `stock_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stockinventoryid` int(11) NOT NULL,
   `stocklevel` int(11) NOT NULL,
-  `expiryDate` BIGINT(30) NOT NULL,
+  `expiryDate` VARCHAR(30) NOT NULL,
   `cost` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `code` VARCHAR(30) NOT NULL,

@@ -17,7 +17,6 @@ class WposStockItem extends stdClass
     public $price = 0;
     public $code = 0;
     public $data = "";
-    public $reorderPoint = 0;
     public $locationid = 0;
     public $inventoryNo = 0;
 

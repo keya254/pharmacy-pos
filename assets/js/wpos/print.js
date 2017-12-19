@@ -451,6 +451,7 @@ function WPOSPrint(kitchenMode) {
 
     function printReceipt(ref) {
         var record = WPOS.trans.getTransactionRecord(ref);
+
         var method = getPrintSetting('receipts', 'method');
         switch (method) {
             case "br":
@@ -1145,11 +1146,45 @@ function WPOSPrint(kitchenMode) {
             alert("Could not load template");
             return;
         }
+        var items = record.items;
+        var names = [];
+        for (var i in items) {
+            names[items[i].name] = [];
+            names[items[i].name].name = items[i].name;
+            names[items[i].name].alt_name = items[i].alt_name;
+            names[items[i].name].qty = 0;
+            names[items[i].name].ref = items[i].ref;
+            names[items[i].name].price = 0;
+            names[items[i].name].cost = items[i].cost;
+            names[items[i].name].sitemid = items[i].sitemid;
+            names[items[i].name].tax = items[i].tax;
+            names[items[i].name].taxid = items[i].taxid;
+            names[items[i].name].reorderpoint = items[i].reorderpoint;
+            names[items[i].name].desc = items[i].desc;
+            names[items[i].name].unit = items[i].unit;
+            names[items[i].name].unit_original = items[i].unit_original;
+        }
+      for (var i in items) {
+        names[items[i].name].qty += parseInt(items[i].qty);// Sum all the qty from same item name
+        names[items[i].name].price += parseFloat(items[i].price);// Sum all the qty from same item name
+      }
+      console.log(names);
+      var filteredItems = [];
+      for (var i in items) {
+          filteredItems.push(items[i].name);// get all names
+      }
+      var uniqueItems = [...new Set(filteredItems)]; //get only unque names
+      var list = [];
+      for(var i in names) {
+          if (uniqueItems.indexOf(names[i].name) !== -1) {
+              list[uniqueItems.indexOf(names[i].name)] = names[i];
+          }
+      }
         var temp_data = {
             sale_id: record.id,
             sale_ref: record.ref,
             sale_dt: WPOS.util.getDateFromTimestamp(record.processdt),
-            sale_items: record.items,
+            sale_items: list,
             sale_numitems: record.numitems,
             sale_discount: parseFloat(record.discount),
             sale_discountamt: WPOS.util.currencyFormat(Math.abs(parseFloat(record.total) - (parseFloat(record.subtotal) + parseFloat(record.tax))).toFixed(2)),

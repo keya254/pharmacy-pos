@@ -29,16 +29,18 @@
                     <span class="lbl"></span>
                 </label>
             </th>
+            <th data-priority="7">Code</th>
             <th data-priority="2">Name</th>
-            <th data-priority="5">Supplier</th>
+            <th data-priority="10">Description</th>
             <th data-priority="3">Location</th>
-            <th data-priority="4">Qty</th>
-            <th>Reorder Point</th>
             <th data-priority="5">Cost</th>
             <th data-priority="6">Price</th>
-            <th data-priority="7">Code</th>
-            <th data-priority="8">Inventry No</th>
+            <th data-priority="4">Qty</th>
+            <th data-priority="5">Supplier</th>
+            <th data-priority="8">Inventory No</th>
             <th data-priority="9">Expiry Date</th>
+            <th data-priority="11">Tax</th>
+            <th data-priority="12">Category</th>
             <th data-priority="1" class="noexport"></th>
         </tr>
     </thead>
@@ -70,10 +72,6 @@
       <tr>
         <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
         <td><input id="setstockqty" type="text" class="form-control"/></td>
-      </tr>
-      <tr>
-        <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-        <td><input id="setstockreorderpoint" class="form-control" type="text"/></td>
       </tr>
       <tr>
         <td style="text-align: right;"><label>Cost:&nbsp;</label></td>
@@ -111,10 +109,6 @@
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
             <td><input id="tstockqty" type="text" class="form-control" value="1"/></td>
         </tr>
-        <tr>
-          <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-          <td><input id="tstockreorderpoint" type="text" class="form-control" value="1"/></td>
-        </tr>
     </table>
 </div>
 <div id="addstockdialog" class="hide">
@@ -137,10 +131,6 @@
         <tr>
             <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
             <td><input id="addstockqty" type="text" class="form-control" value="1"/></td>
-        </tr>
-        <tr>
-            <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-            <td><input id="addstockreorderpoint" class="form-control" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Cost:&nbsp;</label></td>
@@ -196,35 +186,45 @@
     var stock = null;
     var items = null;
     var suppliers = null;
+    var categories = null;
     var locations = null;
     var datatable;
     $(function() {
         stock = WPOS.getJsonData("stock/get");
         items = WPOS.getJsonData("items/get");
         suppliers = WPOS.getJsonData("suppliers/get");
+        categories = WPOS.getJsonData("categories/get");
         locations = WPOS.locations;
         var stockarray = [];
         var tempstock;
+        var taxrules = WPOS.getTaxTable().rules;
         for (var key in stock){
             tempstock = stock[key];
+            if (taxrules.hasOwnProperty(tempstock.taxid)){
+              tempstock.taxname = taxrules[tempstock.taxid].name;
+            } else {
+              tempstock.taxname = "Not Defined";
+            }
             stockarray.push(tempstock);
         }
         datatable = $('#stocktable').dataTable({"bProcessing": true,
             "aaData": stockarray,
-            "aaSorting": [[ 1, "asc" ]],
+            "aaSorting": [[ 2, "asc" ]],
             "aLengthMenu": [ 10, 25, 50, 100, 200],
             "aoColumns": [
                 { mData:null, sDefaultContent:'<div style="text-align: center"><label><input class="ace dt-select-cb" type="checkbox"><span class="lbl"></span></label><div>', bSortable: false },
+                { mData:"code" },
                 { mData:function(data,type,val){return (data.name==null?"Unknown":data.name) } },
-                { mData:"supplier" },
+                { mData:"description" },
                 { mData:function(data,type,val){return (data.locationid!=='0'?(WPOS.locations.hasOwnProperty(data.locationid)?WPOS.locations[data.locationid].name:'Unknown'):'Warehouse');} },
-                { mData:"stocklevel" },
-                { mData:"reorderPoint" },
                 { mData:"cost" },
                 { mData:"price" },
-                { mData:"code" },
+                { mData:"stocklevel" },
+                { mData:"supplier" },
                 { mData:"inventoryNo" },
                 { mData:"expiryDate" },
+                { mData:"taxname" },
+                { mData:function(data,type,val){return (data.categoryid!=='0'?(categories.hasOwnProperty(data.categoryid)?categories[data.categoryid].name:'Unknown'):'General');} },
                 { mData:function(data,type,val){return '<div class="action-buttons"><a class="green" onclick="openEditStockDialog('+data.id+');"><i class="icon-pencil bigger-130"></i></a><a class="blue" onclick="openTransferStockDialog('+data.id+')"><i class="icon-arrow-right bigger-130"></i></a><a class="red" onclick="getStockHistory('+data.id+', '+data.locationid+');"><i class="icon-time bigger-130"></i></a><a class="red" onclick="deleteStockItem('+data.id+');"><i class="icon-trash bigger-130"></i></a></div>'; }, "bSortable": false }
             ],
             "columns": [
@@ -530,7 +530,6 @@
         $("#setstockexpiryDate").val(item.expiryDate);
         $("#setstockinventoryNo").val(item.inventoryNo);
         $("#setstockcode").val(item.code);
-        $("#setstockreorderpoint").val(item.reorderPoint);
         $("#editstockdialog").dialog("open");
     }
     function openAddStockDialog(){
@@ -542,7 +541,6 @@
         $("#tstockitem").val(id);
         $("#tstockitemid").val(item.stockinventoryid);
         $("#tstocklocid").val(item.locationid);
-        $("#tstockreorderpoint").val(item.reorderpoint);
         $("#transferstockdialog").dialog("open");
     }
     function populateItems(){
@@ -566,7 +564,6 @@
             item.locationid = $("#addstocklocid option:selected").val();
             item.supplierid = $("#addstocksupid option:selected").val();
             item.amount = $("#addstockqty").val();
-            item.reorderpoint = $("#addstockreorderpoint").val();
             item.cost = $("#addstockcost").val();
             item.price = $("#addstockprice").val();
             item.expiryDate = $("#addstockexpiryDate").val();
@@ -584,7 +581,6 @@
             item.stockinventoryid = $("#setstockinventoryid").val();
             item.locationid = $("#setstocklocid").val();
             item.stocklevel = $("#setstockqty").val();
-            item.reorderPoint = $("#setstockreorderpoint").val();
             item.cost = $("#setstockcost").val();
             item.price = $("#setstockprice").val();
             item.expiryDate = $("#setstockexpiryDate").val();
@@ -603,7 +599,6 @@
             item.locationid = $("#tstocklocid").val();
             item.newlocationid = $("#tstocknewlocid").val();
             item.amount = $("#tstockqty").val();
-            item.reorderpoint = $("#tstockreorderpoint").val();
             if (WPOS.sendJsonData("stock/transfer", JSON.stringify(item))!==false){
                reloadTable();
                $("#transferstockdialog").dialog("close");
@@ -619,6 +614,7 @@
         var tempstock;
         for (var key in stock){
             tempstock = stock[key];
+            tempstock.taxname = WPOS.getTaxTable().rules[tempstock.taxid].name;
             stockarray.push(tempstock);
         }
         datatable.fnClearTable(false);
@@ -631,7 +627,6 @@
         filename = filename.replace(" ", "");
 
         var data = {};
-//        var items = WPOS.getJsonData('stock/get');
         var config = JSON.parse(localStorage.getItem('wpos_config'));
         var sortable=[];
         for(var key in items)
@@ -642,27 +637,46 @@
         });
         for(var item in sorted) {
           data[item] = {
-            id: sorted[item][0],
+            code: "",
             name: sorted[item][1].name,
-            description: "",
-            supplier: '',
+            description: sorted[item][1].description,
             locationid: config.deviceconfig.locationid,
             cost: 0.00,
             price: 0.00,
             stocklevel: "",
-            reorderpoint: "",
-            code: "",
-            expiryDate: "31/12/2020",
+            reorderpoint: sorted[item][1].reorderPoint,
+            supplier: '',
             inventoryNo: "0000",
-            taxName: "No VAT",
-            category: "Medicine"
+            expiryDate: "30/12/2050",
+            taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
+            category: sorted[item][1].categoryid
           };
         }
-
+        if (Object.keys(data).length === 0) {
+          data[0] = {
+            code: "M00001",
+            name: "Flu-gone 200ml",
+            description: "Syrup",
+            locationid: config.deviceconfig.locationid,
+            cost: 100,
+            price: 150,
+            stocklevel: 25,
+            reorderpoint: 10,
+            supplier: 'Freb',
+            inventoryNo: "INV0001",
+            expiryDate: "30/12/2050",
+            taxname: "VAT",
+            category: "Medicine"
+          }
+        }
 
         var csv = WPOS.data2CSV(
-            ['Name', 'Description', 'Supplier', 'Location', 'Unit Cost', 'Unit Price', 'Amount', 'Reorder Point', 'Item Code/Batch No', 'Expiry Date', 'Inventory No', 'Tax Name', 'Category Name'],
-            ['name', 'description', 'supplier', {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }}, 'cost', 'price', 'stocklevel', 'reorderpoint', 'code', 'expiryDate', 'inventoryNo', 'taxName', 'category'],
+            ['Stock Code', 'Name *', 'Description', 'Location *', 'Unit Cost *', 'Unit Price *', 'Stock Level *', 'Reorder Point', 'Supplier Name *', 'Inventory No', 'Expiry Date', 'Tax Name', 'Category Name'],
+            ['code', 'name', 'description',
+              {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }},
+              'cost', 'price', 'stocklevel', 'reorderpoint', 'supplier', 'inventoryNo', 'expiryDate', 'taxname',
+              {key:'categoryid', func: function(value){ return categories.hasOwnProperty(value) ? categories[value].name : 'GENERAL'; }}
+            ],
             data
         );
 
@@ -676,19 +690,19 @@
       }
       importdialog = $("body").csvImport({
         jsonFields: {
-          'name': {title:'Name', required: true},
-          'description': {title:'Description', required: false, value: ""},
-          'supplier_name': {title:'Supplier Name', required: true},
-          'location': {title:'Location', required: true},
-          'cost': {title:'Unit Cost', required: true},
-          'price': {title:'Unit Price', required: true},
-          'amount': {title:'Amount', required: true},
+          'code': {title:'Stock Code', required: false, value: "0000"},
+          'name': {title:'Name *', required: true},
+          'description': {title:'Description', required: false, value: "No Description"},
+          'location': {title:'Location *', required: true},
+          'cost': {title:'Unit Cost *', required: true},
+          'price': {title:'Unit Price *', required: true},
+          'amount': {title:'Stock Level *', required: true},
           'reorderpoint': {title:'Reorder Point', required: false, value: "0"},
-          'code': {title:'Item Code/Batch No', required: false, value: "0000"},
-          'expiryDate': {title:'Expiry Date', required: false, value: "31/12/2020"},
+          'supplier_name': {title:'Supplier Name *', required: true},
           'inventoryNo': {title:'Inventory No', required: false, value: "0000"},
-          'tax_name': {title:'Tax Name', required: false, value: "VAT"},
-          'category_name': {title:'Category Name', required: false, value: "Medicine"}
+          'expiryDate': {title:'Expiry Date', required: false, value: "31/12/2050"},
+          'tax_name': {title:'Tax Name', required: false, value: "No Tax"},
+          'category_name': {title:'Category Name', required: false, value: "General"}
         },
         csvHasHeader: true,
         importOptions: [
@@ -706,7 +720,7 @@
             }
             data.push({
               name: jsondata[i].name,
-              description: jsondata[i].description,
+              description: jsondata[i].description !== '' ? jsondata[i].description.toUpperCase(): "No Description",
               supplier_name: jsondata[i].supplier_name.toUpperCase(),
               locationid: getLocation(jsondata[i].location),
               cost: jsondata[i].cost,
@@ -716,7 +730,8 @@
               code: jsondata[i].code !== '' ? jsondata[i].code.toUpperCase(): "0000",
               expiryDate: jsondata[i].expiryDate !== '' ? jsondata[i].expiryDate: "30/12/2050",
               inventoryNo: jsondata[i].inventoryNo !== '' ? jsondata[i].inventoryNo.toUpperCase(): "INV0000",
-              category_name: jsondata[i].category_name !== '' ? jsondata[i].category_name.toUpperCase(): "Miscellaneous"
+              category_name: jsondata[i].category_name !== '' ? jsondata[i].category_name.toUpperCase(): "GENERAL",
+              tax_name: jsondata[i].tax_name !== '' ? jsondata[i].tax_name: "No Tax"
             });
           }
           importItems(data, options);
