@@ -156,7 +156,11 @@ class WposAdminStock {
                     EventStream::sendStreamData(['status'=>"Adding category..."]);
                     $id = $catMdl->create($item->category_name);
                     if (!is_numeric($id)){
-                        $result['error'] = "Could not add new category " . $item->category_name . " on line ".$count." of the CSV: ".$catMdl->errorInfo;
+                        $result['error'] = "Could not add new category " . $item->category_name . " on line ".$count." of the CSV: ".$categories;
+                        EventStream::sendStreamData($result);
+                        return $result;
+                    } else {
+                        $result['error'] = "Could not find category id for name " . $item->category_name . " on line ".$count." of the CSV";
                         EventStream::sendStreamData($result);
                         return $result;
                     }
