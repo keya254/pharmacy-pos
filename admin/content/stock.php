@@ -533,6 +533,7 @@
         var data = {};
         var config = JSON.parse(localStorage.getItem('wpos_config'));
         var sortable=[];
+        var items = WPOS.getJsonData("stock/get");
         for(var key in items)
           if(items.hasOwnProperty(key))
             sortable.push([key, items[key]]);
@@ -540,20 +541,26 @@
           return a[1].name.localeCompare(b[1].name);
         });
         for(var item in sorted) {
+          var dataobj = JSON.parse(sorted[item][1].data);
           data[item] = {
-            id: sorted[item][0],
+            code: sorted[item][1].code,
             name: sorted[item][1].name,
-            supplier: getSupplier(sorted[item][1].supplierid),
+            desc: dataobj.description,
+            supplier: sorted[item][1].supplier,
+            cost: dataobj.cost,
+            price: sorted[item][1].price,
             locationid: config.deviceconfig.locationid,
-            stocklevel: 0,
-            reorderpoint: 0
+            stocklevel: sorted[item][1].stocklevel,
+            reorderpoint: sorted[item][1].reorderpoint,
+            catid: sorted[item][1].cat === null ? "medicine": sorted[item][1].cat
           };
         }
-
+        console.log(data);
 
         var csv = WPOS.data2CSV(
-            ['ID', 'Name', 'Supplier', 'Location', 'Qty', 'Reorder Point'],
-            ['id', 'name', 'supplier', {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }}, 'stocklevel', 'reorderpoint'],
+            ['Stock Code','Name', 'Description', 'Supplier', 'Cost', 'Price', 'Location', 'Qty', 'Reorder Point', 'Category'],
+            ['code', 'name', 'desc', 'supplier', 'cost', 'price', {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }}, 'stocklevel', 'reorderpoint',
+              'catid'],
             data
         );
 

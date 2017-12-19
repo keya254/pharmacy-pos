@@ -109,7 +109,7 @@ class StockModel extends DbConfig
      */
     public function get($storeditemid= null, $locationid= null, $report=false){
 
-        $sql = 'SELECT s.*, i.name AS name, COALESCE(p.name, "Misc") AS supplier'.($report?', l.name AS location, i.price*s.stocklevel as stockvalue':'').' FROM stock_levels as s LEFT JOIN stored_items as i ON s.storeditemid=i.id LEFT JOIN stored_suppliers as p ON i.supplierid=p.id'.($report?' LEFT JOIN locations as l ON s.locationid=l.id':'');
+        $sql = 'SELECT s.*, i.name AS name, i.price AS price,i.code AS code, c.name AS cat, i.data AS data, COALESCE(p.name, "Misc") AS supplier'.($report?', l.name AS location, i.price*s.stocklevel as stockvalue':'').' FROM stock_levels as s LEFT JOIN stored_items as i ON s.storeditemid=i.id LEFT JOIN stored_suppliers as p ON i.supplierid=p.id LEFT JOIN stored_categories as c ON i.categoryid=c.id'.($report?' LEFT JOIN locations as l ON s.locationid=l.id':'');
         $placeholders = [];
         if ($storeditemid !== null) {
             if (empty($placeholders)) {
