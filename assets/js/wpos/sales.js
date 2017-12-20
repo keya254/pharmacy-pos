@@ -53,15 +53,21 @@ function WPOSItems() {
      */
     this.addItemFromStockCode = function (code) {
         // find the item id from the stock code index and use it to retrieve the record.
-        var filteredItems = this.filterStock(JSON.parse(this.stock), WPOS.getStockLevel());
+        var filteredItems = stock;
         var searchItem = "";
+        var canAdd = true;
         code.trim();
         for (var item in filteredItems) {
           if (filteredItems[item].code === code) {
             searchItem = filteredItems[item].id;
+            if (filteredItems[item].stocklevel <= 0 || filteredItems[item].locationid !== WPOS.getConfigTable().locationid) {
+              alert('Item is below 0 or belongs to another location');
+              canAdd = false;
+            }
           }
+
         }
-        if (searchItem === null || searchItem === undefined || searchItem === "") {//ADAM: Should use triple equals
+        if (searchItem === null || searchItem === undefined || searchItem === "" || !canAdd) {//ADAM: Should use triple equals
             alert("Item not found");
             $("#codeinput").val('');
         } else {
@@ -75,8 +81,12 @@ function WPOSItems() {
      * @param {Number} id
      */
     this.addItemFromId = function (id) {
-        var item = WPOS.getStockLevel()[id];
-        var items = this.filterStock(JSON.parse(this.stock), WPOS.getStockLevel());
+        if( typeof id == "object") {
+          var item = WPOS.getStockLevel()[id[id.length-1]];
+        }else {
+          var item = WPOS.getStockLevel()[id];
+        }
+        var items = this.filterStock(WPOS.getItemsTable());
         for (var i in items) {
           if (items[i].name === item.name) {
             item.totalStockLevel = items[i].qty;
@@ -102,7 +112,7 @@ function WPOSItems() {
         if (query !== '') {
             var upquery = query.toUpperCase();
             // search items for the text.
-            var itemtable = this.filterStock(stock);
+            var itemtable = this.filterStock(WPOS.getItemsTable());
             for (var key in itemtable) {
                 if (!itemtable.hasOwnProperty(key)) {
                     continue;
@@ -126,13 +136,13 @@ function WPOSItems() {
         if (categoryId>-1){
             if (WPOS.getCategoryIndex().hasOwnProperty(categoryId)) {
                 var index = WPOS.getCategoryIndex()[categoryId];
-                var tempitems = stock;
+                var tempitems = WPOS.getItemsTable();
                 for (var x = 0; x < index.length; x++) {
                     items[index[x]] = tempitems[index[x]];
                 }
             }
         } else {
-          var tempitems = stock;
+          var tempitems = WPOS.getItemsTable();
           for (var x in tempitems) {
             items[x] = tempitems[x];
           }
@@ -327,7 +337,7 @@ function WPOSItems() {
           // insert item into table
           addItemRow(1, item.name, item.price, item.taxid, item.reorderPoint, item.stocklevel, item.id[item.id.length-1], {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.alt_name}, item.otherIds, item.totalStockLevel, false);
         } else {
-          if (!isItemAdded(item.id, true)){
+          if (!isItemAdded(item.name, true)){
             // insert item into table
             addItemRow(1, item.name, item.price, item.taxid, item.reorderPoint, item.stocklevel, item.id[item.id.length-1], {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.alt_name}, item.otherIds, item.totalStockLevel, false);
           }
@@ -337,15 +347,15 @@ function WPOSItems() {
       }
     }
 
-    function isItemAdded(itemid, addqty){
+    function isItemAdded(itemname, addqty){
         var found = false;
         $("#itemtable").children(".valid").each(function(index, element) {
-            var itemfield = $(element).find(".itemid");
-            if (itemfield.val()==itemid){
-                // check for item modifiers, a new line item must be added if a modifier is used
-                if (itemfield.data('options').hasOwnProperty('mod') && itemfield.data('options').mod.items.length>0){
-                    return true;
-                }
+            var itemfield = $(element).find(".itemname");
+            if (itemfield.val()==itemname){
+                // // check for item modifiers, a new line item must be added if a modifier is used
+                // if (itemfield.data('options').hasOwnProperty('mod') && itemfield.data('options').mod.items.length>0){
+                //     return true;
+                // }
                 if (addqty) $(element).find(".itemqty").val(parseInt($(element).find(".itemqty").val())+1);
                 found = true;
                 return false;

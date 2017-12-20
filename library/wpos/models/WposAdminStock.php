@@ -164,10 +164,10 @@ class WposAdminStock {
                         EventStream::sendStreamData($result);
                         return $result;
                     }
-                    $categories[] = [''=>$id, 'name'=>$item->category_name];
                 }
             }
             $item->categoryid = $id;
+            $categories[] = [''=>$id, 'name'=>$item->category_name];
             unset($item->category_name);
 
             // Match Item Name
@@ -181,10 +181,10 @@ class WposAdminStock {
                         EventStream::sendStreamData($result);
                         return $result;
                     }
-                    $storedItems[] = [''=>$id, 'name'=>$item->name];
                 }
             }
             $item->storeditemid = $id;
+            $storedItems[] = [''=>$id, 'name'=>$item->name];
             unset($item->name);
 
 
