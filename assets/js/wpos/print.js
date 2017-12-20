@@ -1168,7 +1168,6 @@ function WPOSPrint(kitchenMode) {
         names[items[i].name].qty += parseInt(items[i].qty);// Sum all the qty from same item name
         names[items[i].name].price += parseFloat(items[i].price);// Sum all the qty from same item name
       }
-      console.log(names);
       var filteredItems = [];
       for (var i in items) {
           filteredItems.push(items[i].name);// get all names

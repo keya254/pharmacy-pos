@@ -353,19 +353,40 @@
         if (!items){
             return false;
         }
+      var names = [];
+      for (var i in items) {
+        names[items[i].name] = [];
+        names[items[i].name].name = items[i].name;
+        names[items[i].name].netqty = 0;
+        names[items[i].name].soldtotal = 0;
+      }
+      for (var i in items) {
+        names[items[i].name].netqty += parseInt(items[i].netqty);// Sum all the qty from same item name
+        names[items[i].name].soldtotal += parseFloat(items[i].soldtotal);// Sum all the qty from same item name
+      }
+      var filteredItems = [];
+      for (var i in items) {
+        filteredItems.push(items[i].name);// get all names
+      }
+      var uniqueItems = [...new Set(filteredItems)]; //get only unque names
+      var list = [];
+      for(var i in names) {
+        if (uniqueItems.indexOf(names[i].name) !== -1) {
+          list[uniqueItems.indexOf(names[i].name)] = names[i];
+        }
+      }
         var sort = [];
         var order = [];
         // put indexes into array and sort
-        // console.log(items);
-        for (var i in items){
-            order.push([items[i]['soldqty'], items[i]]);
-            sort.push([i, items[i].sold]);
+        for (var i in list){
+            order.push([list[i]['soldqty'], list[i]]);
+            sort.push([i, list[i].soldtotal]);
         }
         order.sort(function(a, b){ return b[0] - a[0] });
         sort.sort(function(a, b){ return b[1] - a[1];});
 
-        for (i=0; (i<6 && i<order.length); i++){
-            $('#popularitems').append('<tr><td><b>'+order[i][1].name+'</b></td><td><b class="blue">'+order[i][1].soldqty+'</b></td><td><b class="green">'+WPOS.util.currencyFormat(order[i][1].soldtotal)+'</b></td></tr>');
+        for (i=0; (i<6 && i<sort.length); i++){
+            $('#popularitems').append('<tr><td><b>'+order[sort[i][0]][1].name+'</b></td><td><b class="blue">'+order[sort[i][0]][1].netqty+'</b></td><td><b class="green">'+WPOS.util.currencyFormat(order[sort[i][0]][1].soldtotal)+'</b></td></tr>');
         }
 
         // for (i=0; (i<6 && i<sort.length); i++){

@@ -1481,16 +1481,16 @@
 </div>
 <canvas id="receipt_canvas" style="background-color: white; display: none;" width="576"></canvas>
 <script type="text/javascript">
-    Kshs ('.message a').click(function(){
-       Kshs ('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    $('.message a').click(function(){
+      $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });
 
     function handleMOver(item) {
-        Kshs (item).toggleClass('active-item')
+      $(item).toggleClass('active-item')
     }
 
     function handleMOut(item) {
-        Kshs (item).toggleClass('active-item')
+      $(item).toggleClass('active-item')
     }
 </script>
 </body>

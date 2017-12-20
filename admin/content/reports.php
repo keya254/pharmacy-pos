@@ -159,7 +159,50 @@
     function populateItems(title){
         var html = getReportHeader(title);
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td># Sold</td><td>Discounts</td><td>Tax</td><td>Total</td><td># Refunded</td><td>Total</td><td>Balance</td></tr></thead><tbody>";
-        var rowdata;
+        var items = repdata;
+      var names = [];
+      for (var i in items) {
+        names[items[i].name] = [];
+        names[items[i].name].name = items[i].name;
+        names[items[i].name].refs = items[i].refs;
+        names[items[i].name].discounttotal = 0;
+        names[items[i].name].refundqty = 0;
+        names[items[i].name].refundtotal = 0;
+        names[items[i].name].balance = 0;
+        names[items[i].name].taxtotal = 0;
+        names[items[i].name].soldqty = 0;
+        names[items[i].name].netqty = 0;
+        names[items[i].name].soldtotal = 0;
+      }
+      for (var i in items) {
+        names[items[i].name].netqty += parseInt(items[i].netqty);// Sum all the qty from same item name
+        names[items[i].name].soldtotal += parseFloat(items[i].soldtotal);// Sum all the qty from same item name
+        names[items[i].name].netqty += parseInt(items[i].netqty);// Sum all the qty from same item name
+        names[items[i].name].taxtotal += parseInt(items[i].taxtotal);// Sum all the qty from same item name
+        names[items[i].name].balance += parseFloat(items[i].balance);// Sum all the qty from same item name
+        names[items[i].name].refundtotal += parseFloat(items[i].refundtotal);// Sum all the qty from same item name
+        names[items[i].name].refundqty += parseFloat(items[i].refundqty);// Sum all the qty from same item name
+        names[items[i].name].discounttotal += parseFloat(items[i].discounttotal);// Sum all the qty from same item name
+      }
+      var filteredItems = [];
+      for (var i in items) {
+        filteredItems.push(items[i].name);// get all names
+      }
+      var uniqueItems = [...new Set(filteredItems)]; //get only unque names
+      var list = [];
+      for(var i in names) {
+        if (uniqueItems.indexOf(names[i].name) !== -1) {
+          list[uniqueItems.indexOf(names[i].name)] = names[i];
+        }
+      }
+      var sort = [];
+      var order = [];
+      // put indexes into array and sort
+      for (var i in list){
+        order.push([list[i]['soldqty'], list[i]]);
+        sort.push([i, list[i].soldtotal]);
+      }
+      repdata = list;
         for (var i in repdata){
             rowdata = repdata[i];
             html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+rowdata.refs+'\');">'+rowdata.name+'</a></td><td>'+rowdata.soldqty+'</td><td>'+WPOS.util.currencyFormat(rowdata.discounttotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.taxtotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.soldtotal)+'</td><td>'+rowdata.refundqty+'</td><td>'+WPOS.util.currencyFormat(rowdata.refundtotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.balance)+'</td></tr>';
@@ -191,10 +234,42 @@
 
     function populateStock(){
         var html = getCurrentReportHeader("Current Stock");
-        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Location</td><td>Stock Qty</td><td>Stock Value</td></tr></thead><tbody>";
+        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Location</td><td>Stock Qty</td><td>Stock Value</td></tr></thead><tbody>";
+      var items = repdata;
+      var names = [];
+      for (var i in items) {
+        names[items[i].name] = [];
+        names[items[i].name].name = items[i].name;
+        names[items[i].name].stocklevel = 0;
+        names[items[i].name].stockvalue = 0;
+        names[items[i].name].location = items[i].location;
+      }
+      for (var i in items) {
+        names[items[i].name].stocklevel += parseInt(items[i].stocklevel);// Sum all the qty from same item name
+        names[items[i].name].stockvalue += parseFloat(items[i].stockvalue);// Sum all the qty from same item name
+      }
+      var filteredItems = [];
+      for (var i in items) {
+        filteredItems.push(items[i].name);// get all names
+      }
+      var uniqueItems = [...new Set(filteredItems)]; //get only unque names
+      var list = [];
+      for(var i in names) {
+        if (uniqueItems.indexOf(names[i].name) !== -1) {
+          list[uniqueItems.indexOf(names[i].name)] = names[i];
+        }
+      }
+      var sort = [];
+      var order = [];
+      // put indexes into array and sort
+      for (var i in list){
+        order.push([list[i]['soldqty'], list[i]]);
+        sort.push([i, list[i].soldtotal]);
+      }
+      repdata = list;
         for (var i in repdata){
             rowdata = repdata[i];
-            html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.stockvalue+"</td></tr>"
+            html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.stockvalue+"</td></tr>"
         }
         html += "</tbody></table>";
 
