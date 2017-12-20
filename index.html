@@ -72,7 +72,7 @@
         <div class="panel-heading clearfix">
             <ul class="nav nav-tabs pull-right" id="admin-cog">
                 <li id="cashier" class="active"><a href="#tab1primary" onclick="WPOS.sales.setItemListPadding();" data-toggle="tab">Cashier</a></li>
-                <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
+                <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="Kshs ('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
                 <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Reports</a></li>
                 <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
                 <li class="dropdown">
@@ -98,8 +98,8 @@
                                                 <div class="col-sm-6">
                                                     <label class="col-xs-3" style="vertical-align:bottom;" for="codeinput">Stock Code:</label>
                                                     <div class="col-xs-8 input-group"  id="codeInput">
-                                                      <input class="form-control" id="codeinput" type="text" onkeypress="if(event.keyCode=='13' || event.keyCode=='7'){ WPOS.items.addItemFromStockCode($('#codeinput').val()); }" placeholder="Add Stock Code ..." />
-                                                      <div class="input-group-addon" onclick="WPOS.items.addItemFromStockCode($('#codeinput').val());">Add</div>
+                                                      <input class="form-control" id="codeinput" type="text" onkeypress="if(event.keyCode=='13' || event.keyCode=='7'){ WPOS.items.addItemFromStockCode(Kshs ('#codeinput').val()); }" placeholder="Add Stock Code ..." />
+                                                      <div class="input-group-addon" onclick="WPOS.items.addItemFromStockCode(Kshs ('#codeinput').val());">Add</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
@@ -112,8 +112,8 @@
                                             </form>
 
                                             <div class="wscan-btn inline" style="display: none !important;">
-                                                <button class="btn btn-sm inline field-button" onclick="$.wscan.scanOnce();"><i class="icon-barcode" style="vertical-align: top;">&nbsp;x1</i></button>
-                                                <button class="btn btn-sm inline field-button" onclick="$.wscan.startScanning();"><i class="icon-barcode" style="vertical-align: top;"></i></button>
+                                                <button class="btn btn-sm inline field-button" onclick="Kshs .wscan.scanOnce();"><i class="icon-barcode" style="vertical-align: top;">&nbsp;x1</i></button>
+                                                <button class="btn btn-sm inline field-button" onclick="Kshs .wscan.startScanning();"><i class="icon-barcode" style="vertical-align: top;"></i></button>
                                             </div>
                                         </div>
                                         <div id="items_contain" style="overflow: auto; max-height: 300px;">
@@ -146,9 +146,9 @@
                                             <table class="pull-right col-xs-12 col-sm-8 table-responsive table-condensed totals-container">
                                                 <tr>
                                                     <th>Subtotals</th>
-                                                    <td><span id="subtotal">$0.00</span></td>
+                                                    <td><span id="subtotal">Kshs 0.00</span></td>
                                                     <th>Tax</th>
-                                                    <td class="text-right"><span id="totaltax">$0.00</span></td>
+                                                    <td class="text-right"><span id="totaltax">Kshs 0.00</span></td>
                                                 </tr>
                                                 <tr>
                                                     <th>Discount</th>
@@ -157,11 +157,11 @@
                                                         <!-- <div class="input-group">
                                                           <div class="input-group-addon">%</div>
                                                           <input class="form-control" onChange="WPOS.sales.updateDiscount();" size="2" id="salediscount" type="text" class="numpad" value="0" autocomplete="off"/>
-                                                          <div class="input-group-addon" id="discounttxt">$0.00</div>
+                                                          <div class="input-group-addon" id="discounttxt">Kshs 0.00</div>
                                                         </div> -->
                                                     </td>
                                                     <th>Total</th>
-                                                    <td><span id="total" style="font-family: Lato Bold;margin-bottom: 0px;" class="total-bill lead pull-right">$0.00</span></td>
+                                                    <td><span id="total" style="font-family: Lato Bold;margin-bottom: 0px;" class="total-bill lead pull-right">Kshs 0.00</span></td>
                                                 </tr>
                                             </table>
                                             <div class="pull-right col-xs-12 col-sm-8" id="cashierBtns">
@@ -171,7 +171,7 @@
                                                 </div>
                                                 <div class="col-xs-6 col-sm-4 til-btns">
                                                     <button class="btn btn-default btn-block" onclick="WPOS.trans.recallLastTransaction();">Recall</button>
-                                                    <button class="btn btn-primary btn-block" onclick="WPOS.trans.setupTransactionView();$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');$('#cashier').removeClass('active');$('#salesLink').addClass('active');" href="#tab2primary" data-toggle="tab">Sales</button>
+                                                    <button class="btn btn-primary btn-block" onclick="WPOS.trans.setupTransactionView();Kshs ('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');Kshs ('#cashier').removeClass('active');Kshs ('#salesLink').addClass('active');" href="#tab2primary" data-toggle="tab">Sales</button>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-4 payment-btn">
                                                     <button class="btn btn-success btn-block" onclick="WPOS.sales.showPaymentDialog()" style="height:100px;">Payment</button>
@@ -193,9 +193,9 @@
                                         </div>
                                         <div id="totals-container" style="display: none;">
                                             <div class="order_terminal_options" style="margin-top: 10px;">
-                                                <label class="fixedlabel" style="margin-right: 5px;"><input type="radio" id="radio_takeaway" name="eatin" value="0" onclick="$('#tablenumber').val(0).prop('readonly', true);" checked="checked"/><b>&nbsp;Take Away</b></label>
-                                                <label class="fixedlabel" style="margin-right: 5px;"><input type="radio" id="radio_eatin" name="eatin" value="1" onclick="$('#tablenumber').prop('readonly', false);"/><b>&nbsp;Eat In</b></label>
-                                                <label class="fixedlabel"><b>Table #:</b><input class="numpad" type="text" id="tablenumber" value="0" size="3" onclick="$('#radio_eatin').prop('checked', true); $(this).prop('readonly', false);" readonly="readonly"/></label>
+                                                <label class="fixedlabel" style="margin-right: 5px;"><input type="radio" id="radio_takeaway" name="eatin" value="0" onclick="Kshs ('#tablenumber').val(0).prop('readonly', true);" checked="checked"/><b>&nbsp;Take Away</b></label>
+                                                <label class="fixedlabel" style="margin-right: 5px;"><input type="radio" id="radio_eatin" name="eatin" value="1" onclick="Kshs ('#tablenumber').prop('readonly', false);"/><b>&nbsp;Eat In</b></label>
+                                                <label class="fixedlabel"><b>Table #:</b><input class="numpad" type="text" id="tablenumber" value="0" size="3" onclick="Kshs ('#radio_eatin').prop('checked', true); Kshs (this).prop('readonly', false);" readonly="readonly"/></label>
                                             </div>
                                             <table style="margin-top: 10px; margin-bottom: 10px; width: 100%; text-align: left;" class="ui-widget-content">
                                                 <tr>
@@ -203,7 +203,7 @@
                                                     <td>
                                                         <input id="custemail" type="email" onchange="WPOS.items.processNewEmail();" autocomplete="off"/>
                                                         <input id="custid" type="hidden" value="0" />
-                                                        <button class="btn btn-xs btn-primary field-button field-button-attach" onclick="WPOS.items.openCustomerDialog($('#custid').val());">
+                                                        <button class="btn btn-xs btn-primary field-button field-button-attach" onclick="WPOS.items.openCustomerDialog(Kshs ('#custid').val());">
                                                             Details
                                                         </button>
                                                     </td>
@@ -366,25 +366,25 @@
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <td style="text-align: right;">$100:</td>
+                                        <td style="text-align: right;">Kshs 100:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom100" value="0"/></td>
-                                        <td style="text-align: right;">$50:</td>
+                                        <td style="text-align: right;">Kshs 50:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom50" value="0"/></td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: right;">$20:</td>
+                                        <td style="text-align: right;">Kshs 20:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom20" value="0"/></td>
-                                        <td style="text-align: right;">$10:</td>
+                                        <td style="text-align: right;">Kshs 10:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom10" value="0"/></td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: right;">$5:</td>
+                                        <td style="text-align: right;">Kshs 5:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom5" value="0"/></td>
-                                        <td style="text-align: right;">$2:</td>
+                                        <td style="text-align: right;">Kshs 2:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom2" value="0"/></td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: right;">$1:</td>
+                                        <td style="text-align: right;">Kshs 1:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom1" value="0"/></td>
                                         <td style="text-align: right;">50c:</td>
                                         <td><input onchange="WPOS.reports.calcReconcil();" type="text" size="4" id="recdenom50c" value="0"/></td>
@@ -619,7 +619,7 @@
                                             </h4>
                                         </div>
                                         <div class="widget-body" style="padding-top: 10px; text-align: left;">
-                                            <label>Use On-screen keypad: <input id="keypadset" type="checkbox" style="vertical-align: top;" onclick="WPOS.setLocalConfigValue('keypad', $('#keypadset').is(':checked'))"></label>
+                                            <label>Use On-screen keypad: <input id="keypadset" type="checkbox" style="vertical-align: top;" onclick="WPOS.setLocalConfigValue('keypad', Kshs ('#keypadset').is(':checked'))"></label>
                                         </div>
                                         <div class="widget-header widget-header-flat">
                                             <h4 class="lighter">
@@ -684,7 +684,7 @@
                                                         <div class="panel-collapse collapse" id="settings-1-1">
                                                             <div class="panel-body">
                                                                 <div class="settings-row">
-                                                                    <label>Ask to print: <select id="recask" onchange="WPOS.print.setGlobalPrintSetting('recask', $('#recask').val());" style="margin-right: 20px;">
+                                                                    <label>Ask to print: <select id="recask" onchange="WPOS.print.setGlobalPrintSetting('recask', Kshs ('#recask').val());" style="margin-right: 20px;">
                                                                         <option value="ask">Always Ask</option>
                                                                         <option value="email">Ask if not emailed</option>
                                                                         <option value="print">Always Print</option>
@@ -705,7 +705,7 @@
                                                             <div class="panel-body">
                                                                 <div class="settings-row" style="display: inline-block;">
                                                                     <label style="margin-right: 20px;">Method:
-                                                                        <select class="psetting_method" onchange="WPOS.print.setPrintSetting('receipts', 'method', $(this).val())">
+                                                                        <select class="psetting_method" onchange="WPOS.print.setPrintSetting('receipts', 'method', Kshs (this).val())">
                                                                             <option value="br">
                                                                                 browser printing
                                                                             </option>
@@ -715,7 +715,7 @@
                                                                         </select>
                                                                     </label>
                                                                     <label class="advprintoptions">Type:
-                                                                        <select class="psetting_type"  onchange="WPOS.print.setPrintSetting('receipts', 'type', $(this).val())">
+                                                                        <select class="psetting_type"  onchange="WPOS.print.setPrintSetting('receipts', 'type', Kshs (this).val())">
                                                                             <option value="serial">
                                                                                 Serial
                                                                             </option>
@@ -731,15 +731,15 @@
                                                                 <div class="advprintoptions settings-row" style="display: inline-block;">
                                                                     <div class="tcpoptions" style="display: inline-block;">
                                                                         <label style="margin-right: 20px;">Printer IP:
-                                                                            <input class="psetting_printerip" size="16" onchange="WPOS.print.setPrintSetting('receipts', 'printerip', $(this).val());" placeholder="192.168.1.100" type="text">
+                                                                            <input class="psetting_printerip" size="16" onchange="WPOS.print.setPrintSetting('receipts', 'printerip', Kshs (this).val());" placeholder="192.168.1.100" type="text">
                                                                         </label>
                                                                         <label>Printer Port:
-                                                                            <input class="psetting_printerport" size="6" onchange="WPOS.print.setPrintSetting('receipts', 'printerport', $(this).val());" placeholder="9100" type="text">
+                                                                            <input class="psetting_printerport" size="6" onchange="WPOS.print.setPrintSetting('receipts', 'printerport', Kshs (this).val());" placeholder="9100" type="text">
                                                                         </label>
                                                                     </div>
                                                                     <div class="rawoptions" style="display: inline-block;">
                                                                         <label>Printer:
-                                                                            <select class="psetting_printer" onchange="WPOS.print.setPrintSetting('receipts', 'printer', $(this).val());">
+                                                                            <select class="psetting_printer" onchange="WPOS.print.setPrintSetting('receipts', 'printer', Kshs (this).val());">
 
                                                                             </select>
                                                                             <button class="btn btn-primary btn-xs field-button" onclick="WPOS.print.populatePrinters();"><i class="icon-refresh"></i></button>
@@ -747,11 +747,11 @@
                                                                     </div>
                                                                     <div class="serialoptions" style="display: inline-block;">
                                                                         <label>Port:
-                                                                            <select class="psetting_port" onchange="WPOS.print.setPrintSetting('receipts', 'port', $(this).val());"></select>
+                                                                            <select class="psetting_port" onchange="WPOS.print.setPrintSetting('receipts', 'port', Kshs (this).val());"></select>
                                                                             <button class="btn btn-primary btn-xs field-button" onclick="WPOS.print.populatePorts();"><i class="icon-refresh"></i></button>
                                                                         </label>
                                                                         <label>Baud:
-                                                                            <select class="psetting_baud" onchange="WPOS.print.setPrintSetting('receipts', 'baud', $(this).val());">
+                                                                            <select class="psetting_baud" onchange="WPOS.print.setPrintSetting('receipts', 'baud', Kshs (this).val());">
                                                                                 <option value="4800">4800</option>
                                                                                 <option value="9600">9600</option>
                                                                                 <option value="19200">19200</option>
@@ -761,26 +761,26 @@
                                                                             </select>
                                                                         </label>
                                                                         <label>Data Bits:
-                                                                            <select class="psetting_databits" onchange="WPOS.print.setPrintSetting('receipts', 'databits', $(this).val());">
+                                                                            <select class="psetting_databits" onchange="WPOS.print.setPrintSetting('receipts', 'databits', Kshs (this).val());">
                                                                                 <option value="7">7</option>
                                                                                 <option value="8">8</option>
                                                                             </select>
                                                                         </label>
                                                                         <label>Stop Bits:
-                                                                            <select class="psetting_stopbits" onchange="WPOS.print.setPrintSetting('receipts', 'stopbits', $(this).val());">
+                                                                            <select class="psetting_stopbits" onchange="WPOS.print.setPrintSetting('receipts', 'stopbits', Kshs (this).val());">
                                                                                 <option value="1">1</option>
                                                                                 <option value="0">0</option>
                                                                             </select>
                                                                         </label>
                                                                         <label>Parity:
-                                                                            <select class="psetting_parity" onchange="WPOS.print.setPrintSetting('receipts', 'parity', $(this).val());">
+                                                                            <select class="psetting_parity" onchange="WPOS.print.setPrintSetting('receipts', 'parity', Kshs (this).val());">
                                                                                 <option value="none">None</option>
                                                                                 <option value="even">Even</option>
                                                                                 <option value="odd">Odd</option>
                                                                             </select>
                                                                         </label>
                                                                         <label>Flow Control:
-                                                                            <select class="psetting_flow" onchange="WPOS.print.setPrintSetting('receipts', 'flow', $(this).val());">
+                                                                            <select class="psetting_flow" onchange="WPOS.print.setPrintSetting('receipts', 'flow', Kshs (this).val());">
                                                                                 <option value="none">None</option>
                                                                                 <option value="xonxoff">XON/XOFF</option>
                                                                                 <option value="rtscts">RTS/CTS</option>
@@ -806,12 +806,12 @@
                                                         <div class="panel-collapse collapse" id="settings-1-3">
                                                             <div class="panel-body">
                                                                 <div class="settings-row">
-                                                                    <label>Cash Draw Connected: <input onchange="WPOS.print.setGlobalPrintSetting('cashdraw', $('#cashdraw').is(':checked'));" id="cashdraw"  type="checkbox" style="margin-right:20px; vertical-align:top;" /></label>
+                                                                    <label>Cash Draw Connected: <input onchange="WPOS.print.setGlobalPrintSetting('cashdraw', Kshs ('#cashdraw').is(':checked'));" id="cashdraw"  type="checkbox" style="margin-right:20px; vertical-align:top;" /></label>
                                                                     <button class="btn btn-primary btn-xs field-button" onclick="WPOS.print.openCashDraw();">Test</button>
                                                                 </div>
                                                                 <div class="settings-row">
                                                                     <label style="margin-right: 20px;">Cutter Command:
-                                                                        <select class="psetting_cutter" onchange="WPOS.print.setPrintSetting('receipts', 'cutter', $(this).val());">
+                                                                        <select class="psetting_cutter" onchange="WPOS.print.setPrintSetting('receipts', 'cutter', Kshs (this).val());">
                                                                             <option value="none">None</option>
                                                                             <option value="gs_full">GS full cut</option>
                                                                             <option value="gs_partial">GS partial cut</option>
@@ -820,7 +820,7 @@
                                                                         </select>
                                                                     </label>
                                                                     <label>Page Feed:
-                                                                        <input class="psetting_feed" type="number" onchange="WPOS.print.setPrintSetting('receipts', 'feed', parseInt($(this).val()));">
+                                                                        <input class="psetting_feed" type="number" onchange="WPOS.print.setPrintSetting('receipts', 'feed', parseInt(Kshs (this).val()));">
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -837,29 +837,29 @@
                                                         <div class="panel-collapse collapse" id="settings-1-4">
                                                             <div class="panel-body">
                                                                 <div class="settings-row escpoptions">
-                                                                    <label style="margin-right:20px">ESCP Receipt Mode: <select id="escpreceiptmode" onchange="WPOS.print.setGlobalPrintSetting('escpreceiptmode', $('#escpreceiptmode').val());">
+                                                                    <label style="margin-right:20px">ESCP Receipt Mode: <select id="escpreceiptmode" onchange="WPOS.print.setGlobalPrintSetting('escpreceiptmode', Kshs ('#escpreceiptmode').val());">
                                                                         <option value="text">Text</option>
                                                                         <option value="bitmap">Bitmap (Unicode support)</option>
                                                                     </select></label>
 
                                                                 </div>
                                                                 <div class="settings-row">
-                                                                    <label id="rectemplatefield" style="margin-right:20px">Receipt Template: <select id="rectemplate" onchange="WPOS.print.setGlobalPrintSetting('rectemplate', $('#rectemplate').val());">
+                                                                    <label id="rectemplatefield" style="margin-right:20px">Receipt Template: <select id="rectemplate" onchange="WPOS.print.setGlobalPrintSetting('rectemplate', Kshs ('#rectemplate').val());">
                                                                     </select></label>
-                                                                    <label class="broptions" style="margin-right:20px">Invoice Template: <select id="invtemplate" onchange="WPOS.print.setGlobalPrintSetting('invtemplate', $('#invtemplate').val());" style="margin-right: 20px;">
+                                                                    <label class="broptions" style="margin-right:20px">Invoice Template: <select id="invtemplate" onchange="WPOS.print.setGlobalPrintSetting('invtemplate', Kshs ('#invtemplate').val());" style="margin-right: 20px;">
                                                                     </select></label>
-                                                                    <label class="broptions"><input type="checkbox" id="printinv" onchange="WPOS.print.setGlobalPrintSetting('printinv', $('#printinv').is(':checked'));"/> Print Invoices By Default</label>
+                                                                    <label class="broptions"><input type="checkbox" id="printinv" onchange="WPOS.print.setGlobalPrintSetting('printinv', Kshs ('#printinv').is(':checked'));"/> Print Invoices By Default</label>
                                                                 </div>
                                                                 <div class="settings-row escptextmodeoptions">
                                                                     <label style="margin-right: 20px;">Language:
-                                                                    <select id="rec_language" onchange="WPOS.print.setGlobalPrintSetting('rec_language', $('#rec_language').val());">
+                                                                    <select id="rec_language" onchange="WPOS.print.setGlobalPrintSetting('rec_language', Kshs ('#rec_language').val());">
                                                                         <option value="primary">Primary</option>
                                                                         <option value="mixed">Mixed</option>
                                                                         <option value="alternate">Alternate</option>
                                                                     </select>
                                                                     </label>
                                                                     <label>Orientation
-                                                                        <select id="rec_orientation" onchange="WPOS.print.setGlobalPrintSetting('rec_orientation', $('#rec_orientation').val());">
+                                                                        <select id="rec_orientation" onchange="WPOS.print.setGlobalPrintSetting('rec_orientation', Kshs ('#rec_orientation').val());">
                                                                             <option value="ltr">Left to Right</option>
                                                                             <option value="rtl">Right to Left</option>
                                                                         </select>
@@ -867,24 +867,24 @@
                                                                 </div>
                                                                 <div class="settings-row escptextmodeoptions">
                                                                     <label>Alternate Charset & codepage:
-                                                                        <select id="alt_charset" onchange="WPOS.print.setGlobalPrintSetting('alt_charset', $('#alt_charset').val());">
+                                                                        <select id="alt_charset" onchange="WPOS.print.setGlobalPrintSetting('alt_charset', Kshs ('#alt_charset').val());">
                                                                             <option value="pc864">PC864</option>
                                                                             <option value="pc1256">PC1256</option>
                                                                         </select>
-                                                                        <input id="alt_codepage" onchange="WPOS.print.setGlobalPrintSetting('alt_codepage', $('#alt_codepage').val());" type="number" />
+                                                                        <input id="alt_codepage" onchange="WPOS.print.setGlobalPrintSetting('alt_codepage', Kshs ('#alt_codepage').val());" type="number" />
                                                                     </label>
                                                                 </div>
                                                                 <div class="settings-row escptextmodeoptions">
                                                                     <label>Override currency character
-                                                                        <input type="checkbox" id="currency_override" onchange="WPOS.print.setGlobalPrintSetting('currency_override', $('#currency_override').is(':checked'));"/>
+                                                                        <input type="checkbox" id="currency_override" onchange="WPOS.print.setGlobalPrintSetting('currency_override', Kshs ('#currency_override').is(':checked'));"/>
                                                                     </label><br/>
                                                                     <label style="margin-right:20px">
                                                                         Currency Codepage:
-                                                                        <input id="currency_codepage" onchange="WPOS.print.setGlobalPrintSetting('currency_codepage', $('#currency_codepage').val());" type="number" />
+                                                                        <input id="currency_codepage" onchange="WPOS.print.setGlobalPrintSetting('currency_codepage', Kshs ('#currency_codepage').val());" type="number" />
                                                                     </label>
                                                                     <label>
                                                                         Currency Codes:
-                                                                        <input id="currency_codes" onchange="WPOS.print.setGlobalPrintSetting('currency_codes', $('#currency_codes').val());" type="text" />
+                                                                        <input id="currency_codes" onchange="WPOS.print.setGlobalPrintSetting('currency_codes', Kshs ('#currency_codes').val());" type="text" />
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -901,7 +901,7 @@
                                                 </div>
                                                 <div class="settings-row" style="display: inline-block;">
                                                     <label>Method:
-                                                        <select class="psetting_method" onchange="WPOS.print.setPrintSetting('kitchen', 'method', $(this).val())">
+                                                        <select class="psetting_method" onchange="WPOS.print.setPrintSetting('kitchen', 'method', Kshs (this).val())">
                                                             <option value="wp" class="wp-option">
                                                                 Web Print ESCP
                                                             </option>
@@ -910,7 +910,7 @@
                                                 </div>
                                                 <div class="advprintoptions settings-row" style="display: inline-block;">
                                                     <label style="margin-right: 20px;">Type:
-                                                        <select class="psetting_type"  onchange="WPOS.print.setPrintSetting('kitchen', 'type', $(this).val())">
+                                                        <select class="psetting_type"  onchange="WPOS.print.setPrintSetting('kitchen', 'type', Kshs (this).val())">
                                                             <option value="serial">
                                                                 Serial
                                                             </option>
@@ -924,15 +924,15 @@
                                                     </label>
                                                     <div class="tcpoptions" style="display: inline-block;">
                                                         <label style="margin-right: 20px">Printer IP:
-                                                            <input class="psetting_printerip" size="16" onchange="WPOS.print.setPrintSetting('kitchen', 'printerip', $(this).val());" placeholder="192.168.1.100" type="text">
+                                                            <input class="psetting_printerip" size="16" onchange="WPOS.print.setPrintSetting('kitchen', 'printerip', Kshs (this).val());" placeholder="192.168.1.100" type="text">
                                                         </label>
                                                         <label>Printer Port:
-                                                            <input class="psetting_printerport" size="6" onchange="WPOS.print.setPrintSetting('kitchen', 'printerport', $(this).val());" placeholder="9100" type="text">
+                                                            <input class="psetting_printerport" size="6" onchange="WPOS.print.setPrintSetting('kitchen', 'printerport', Kshs (this).val());" placeholder="9100" type="text">
                                                         </label>
                                                     </div>
                                                     <div class="rawoptions" style="display: inline-block;">
                                                         <label>Printer:
-                                                            <select class="psetting_printer" onchange="WPOS.print.setPrintSetting('kitchen', 'printer', $(this).val());">
+                                                            <select class="psetting_printer" onchange="WPOS.print.setPrintSetting('kitchen', 'printer', Kshs (this).val());">
 
                                                             </select>
                                                             <button class="btn btn-primary btn-xs field-button" onclick="WPOS.print.populatePrinters();"><i class="icon-refresh"></i></button>
@@ -940,13 +940,13 @@
                                                     </div>
                                                     <div class="serialoptions" style="display: inline-block;">
                                                         <label>Port:
-                                                            <select class="psetting_port" onchange="WPOS.print.setPrintSetting('kitchen', 'port', $(this).val());">
+                                                            <select class="psetting_port" onchange="WPOS.print.setPrintSetting('kitchen', 'port', Kshs (this).val());">
 
                                                             </select>
                                                             <button class="btn btn-primary btn-xs field-button" onclick="WPOS.print.populatePorts();"><i class="icon-refresh"></i></button>
                                                         </label><br/>
                                                         <label>Baud:
-                                                            <select class="psetting_baud" onchange="WPOS.print.setPrintSetting('kitchen', 'baud', $(this).val());">
+                                                            <select class="psetting_baud" onchange="WPOS.print.setPrintSetting('kitchen', 'baud', Kshs (this).val());">
                                                                 <option value="4800">4800</option>
                                                                 <option value="9600">9600</option>
                                                                 <option value="19200">19200</option>
@@ -956,19 +956,19 @@
                                                             </select>
                                                         </label>
                                                         <label>Data Bits:
-                                                            <select class="psetting_databits" onchange="WPOS.print.setPrintSetting('kitchen', 'databits', $(this).val());">
+                                                            <select class="psetting_databits" onchange="WPOS.print.setPrintSetting('kitchen', 'databits', Kshs (this).val());">
                                                                 <option value="7">7</option>
                                                                 <option value="8">8</option>
                                                             </select>
                                                         </label>
                                                         <label>Stop Bits:
-                                                            <select class="psetting_stopbits" onchange="WPOS.print.setPrintSetting('kitchen', 'stopbits', $(this).val());">
+                                                            <select class="psetting_stopbits" onchange="WPOS.print.setPrintSetting('kitchen', 'stopbits', Kshs (this).val());">
                                                                 <option value="1">1</option>
                                                                 <option value="0">0</option>
                                                             </select>
                                                         </label>
                                                         <label>Parity:
-                                                            <select class="psetting_parity" onchange="WPOS.print.setPrintSetting('kitchen', 'parity', $(this).val());">
+                                                            <select class="psetting_parity" onchange="WPOS.print.setPrintSetting('kitchen', 'parity', Kshs (this).val());">
                                                                 <option value="none">none</option>
                                                                 <option value="even">even</option>
                                                                 <option value="odd">odd</option>
@@ -989,7 +989,7 @@
                                                 </div>
                                                 <div class="settings-row" style="display: inline-block;">
                                                     <label>Method:
-                                                        <select class="psetting_method" onchange="WPOS.print.setPrintSetting('reports', 'method', $(this).val())">
+                                                        <select class="psetting_method" onchange="WPOS.print.setPrintSetting('reports', 'method', Kshs (this).val())">
                                                             <option value="br">
                                                                 browser printing
                                                             </option>
@@ -1000,7 +1000,7 @@
                                                 </div>
                                                 <div class="advprintoptions settings-row" style="display: inline-block;">
                                                     <label>Printer:
-                                                        <select class="psetting_printer" onchange="WPOS.print.setPrintSetting('reports', 'printer', $(this).val());">
+                                                        <select class="psetting_printer" onchange="WPOS.print.setPrintSetting('reports', 'printer', Kshs (this).val());">
 
                                                         </select>
                                                         <button class="btn btn-primary btn-xs field-button" onclick="WPOS.print.populatePrinters();"><i class="icon-refresh"></i></button>
@@ -1015,8 +1015,8 @@
                                                     </h4>
                                                 </div>
                                                 <div class="settings-row" style="display: inline-block;">
-                                                    <label>IP Address: <input id="serviceip" type="text" onchange="WPOS.print.setGlobalPrintSetting('serviceip', $(this).val());" value="127.0.0.1"></label>
-                                                    <label>Port: <input id="serviceport" type="text" onchange="WPOS.print.setGlobalPrintSetting('serviceport', $(this).val());" value="8080"></label>
+                                                    <label>IP Address: <input id="serviceip" type="text" onchange="WPOS.print.setGlobalPrintSetting('serviceip', Kshs (this).val());" value="127.0.0.1"></label>
+                                                    <label>Port: <input id="serviceport" type="text" onchange="WPOS.print.setGlobalPrintSetting('serviceport', Kshs (this).val());" value="8080"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -1033,19 +1033,19 @@
                                         <div class="widget-body eftpos_settings hide" style="padding-top: 10px; text-align: left;">
                                             <div class="settings-row" style="display: inline-block;">
                                                 <label>Provider:
-                                                    <select id="eftposprovider" style="vertical-align: middle; margin-right: 20px;" onchange="WPOS.eftpos.setEftposSetting('provider', $('#eftposenabled').val());">
+                                                    <select id="eftposprovider" style="vertical-align: middle; margin-right: 20px;" onchange="WPOS.eftpos.setEftposSetting('provider', Kshs ('#eftposenabled').val());">
                                                         <option value="tyro">Tyro</option>
                                                     </select></label>
-                                                <label>Enabled: <input id="eftposenabled" type="checkbox" onclick="WPOS.eftpos.setEftposSetting('enabled', $('#eftposenabled').is(':checked'));" style="vertical-align: top; margin-right: 20px;"></label>
-                                                <label>Integrated Receipts: <input id="eftposreceipts" type="checkbox" onclick="WPOS.eftpos.setEftposSetting('receipts', $('#eftposreceipts').is(':checked'));" style="vertical-align: top;"></label>
+                                                <label>Enabled: <input id="eftposenabled" type="checkbox" onclick="WPOS.eftpos.setEftposSetting('enabled', Kshs ('#eftposenabled').is(':checked'));" style="vertical-align: top; margin-right: 20px;"></label>
+                                                <label>Integrated Receipts: <input id="eftposreceipts" type="checkbox" onclick="WPOS.eftpos.setEftposSetting('receipts', Kshs ('#eftposreceipts').is(':checked'));" style="vertical-align: top;"></label>
                                             </div>
                                             <div id="eftrecsettings" class="settings-row" style="display: inline-block;">
-                                                <label>Print Merchant Receipts: <select id="eftposmerchrec" style="margin-right: 20px;" onchange="WPOS.eftpos.setEftposSetting('merchrec', $('#eftposmerchrec option:selected').val());">
+                                                <label>Print Merchant Receipts: <select id="eftposmerchrec" style="margin-right: 20px;" onchange="WPOS.eftpos.setEftposSetting('merchrec', Kshs ('#eftposmerchrec option:selected').val());">
                                                     <option value="ask">Always Ask</option>
                                                     <option value="print">Always Print</option>
                                                     <option value="never">Never</option>
                                                 </select></label>
-                                                <label>Print Declined Customer Receipts: <select id="eftposcustrec" onchange="WPOS.eftpos.setEftposSetting('custrec', $('#eftposcustrec option:selected').val());">
+                                                <label>Print Declined Customer Receipts: <select id="eftposcustrec" onchange="WPOS.eftpos.setEftposSetting('custrec', Kshs ('#eftposcustrec option:selected').val());">
                                                     <option value="ask">Always Ask</option>
                                                     <option value="print">Always Print</option>
                                                     <option value="never">Never</option>
@@ -1149,12 +1149,12 @@
             <!-- <div>
                 <table width="100%" class="ui-widget-content">
                     <tr>
-                        <td><strong style="width: 60px; display: inline-block;">Total:</strong><span id="salestotal">$0.00</span></td>
-                        <td><strong style="width: 80px; display: inline-block;">Payments:</strong><span id="paymentstotal">$0.00</span></td>
+                        <td><strong style="width: 60px; display: inline-block;">Total:</strong><span id="salestotal">Kshs 0.00</span></td>
+                        <td><strong style="width: 80px; display: inline-block;">Payments:</strong><span id="paymentstotal">Kshs 0.00</span></td>
                     </tr>
                     <tr>
-                        <td><strong style="width: 60px; display: inline-block;">Balance:</strong><span id="salesbalance">$0.00</span></td>
-                        <td><strong style="width: 80px; display: inline-block;">Change:</strong><span id="saleschange">$0.00</span></td>
+                        <td><strong style="width: 60px; display: inline-block;">Balance:</strong><span id="salesbalance">Kshs 0.00</span></td>
+                        <td><strong style="width: 80px; display: inline-block;">Change:</strong><span id="saleschange">Kshs 0.00</span></td>
                     </tr>
                 </table>
             </div> -->
@@ -1163,17 +1163,17 @@
         <div class="modal-footer">
             <button id="endsalebtn" class="btn btn-success" onclick="WPOS.sales.processSale();">Complete</button>
             <button id="savesalebtn" class="btn btn-primary" onclick="WPOS.sales.saveOrder();">Add Order</button>
-            <button class="btn btn-danger" onClick="$('#paymentsdiv').dialog('close');" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-danger" onClick="Kshs ('#paymentsdiv').dialog('close');" data-dismiss="modal">Cancel</button>
         </div>
     </div>
     <!-- <table width="100%" class="ui-widget-content">
         <tr>
-            <td><strong style="width: 60px; display: inline-block;">Total:</strong><span id="salestotal">$0.00</span></td>
-            <td><strong style="width: 80px; display: inline-block;">Payments:</strong><span id="paymentstotal">$0.00</span></td>
+            <td><strong style="width: 60px; display: inline-block;">Total:</strong><span id="salestotal">Kshs 0.00</span></td>
+            <td><strong style="width: 80px; display: inline-block;">Payments:</strong><span id="paymentstotal">Kshs 0.00</span></td>
         </tr>
         <tr>
-            <td><strong style="width: 60px; display: inline-block;">Balance:</strong><span id="salesbalance">$0.00</span></td>
-            <td><strong style="width: 80px; display: inline-block;">Change:</strong><span id="saleschange">$0.00</span></td>
+            <td><strong style="width: 60px; display: inline-block;">Balance:</strong><span id="salesbalance">Kshs 0.00</span></td>
+            <td><strong style="width: 80px; display: inline-block;">Change:</strong><span id="saleschange">Kshs 0.00</span></td>
         </tr>
     </table>
     <div style="height:250px; overflow:auto; padding:0;">
@@ -1202,7 +1202,7 @@
     </div>
     <button id="endsalebtn" class="btn btn-success" onclick="WPOS.sales.processSale();">Complete</button>
     <button id="savesalebtn" class="btn btn-primary" onclick="WPOS.sales.saveOrder();">Add Order</button>
-    <button class="btn btn-danger" onClick="$('#paymentsdiv').dialog('close');">Cancel</button> -->
+    <button class="btn btn-danger" onClick="Kshs ('#paymentsdiv').dialog('close');">Cancel</button> -->
 </div>
 <div id="custdiv" style="display:none;" title="Customer Details">
     <form id="custform">
@@ -1215,7 +1215,7 @@
     <label style="width: 80px;">Country:</label><input onchange="WPOS.sales.setUpdateCust();" type="text" id="custcountry"/><br/>
     </form>
     <div style="text-align: center; margin-top: 10px;">
-        <button class="btn btn-primary" onclick="$('#custdiv').dialog('close');">Close</button>
+        <button class="btn btn-primary" onclick="Kshs ('#custdiv').dialog('close');">Close</button>
     </div>
 </div>
 <div id="transactiondiv" style="display:none; padding: 4px; min-height: 450px;" title="Transaction Details">
@@ -1236,18 +1236,18 @@
             <div class="col-sm-12">
                 <label style="vertical-align: middle;" class="fixedlabel">Notes:</label>
                 <textarea style="width:250px;display: inline;resize: none;" id="transnotes" tabindex="-1" class="form-control"></textarea>
-                <button class="btn btn-primary" onclick="WPOS.trans.updateSaleNotes($('#transref').text(), $('#transnotes').text());">Save</button>
+                <button class="btn btn-primary" onclick="WPOS.trans.updateSaleNotes(Kshs ('#transref').text(), Kshs ('#transnotes').text());">Save</button>
             </div>
             <div id="transoptions" style="margin-bottom: 10px; margin-top: 10px;" class="col-sm-12">
                 <div id="voidbuttons" style="display: inline-block;">
-                    <button class="btn btn-danger" onclick="WPOS.sales.openVoidDialog($('#transref').text());"><i class="icon-ban-circle"></i>&nbsp;Void</button>
-                    <button class="btn btn-warning" onclick="WPOS.sales.openRefundDialog($('#transref').text());"><i class="icon-backward"></i>&nbsp;Refund</button>
+                    <button class="btn btn-danger" onclick="WPOS.sales.openVoidDialog(Kshs ('#transref').text());"><i class="icon-ban-circle"></i>&nbsp;Void</button>
+                    <button class="btn btn-warning" onclick="WPOS.sales.openRefundDialog(Kshs ('#transref').text());"><i class="icon-backward"></i>&nbsp;Refund</button>
                 </div>
                 <div id="orderbuttons" style="display: inline-block;">
-                    <button class="btn btn-success" onclick="WPOS.sales.loadOrder($('#transref').text());"><i class="icon-check"></i>&nbsp;Complete</button>
-                    <button class="btn btn-danger" onclick="WPOS.sales.removeOrder($('#transref').text());"><i class="icon-trash"></i>&nbsp;Remove</button>
+                    <button class="btn btn-success" onclick="WPOS.sales.loadOrder(Kshs ('#transref').text());"><i class="icon-check"></i>&nbsp;Complete</button>
+                    <button class="btn btn-danger" onclick="WPOS.sales.removeOrder(Kshs ('#transref').text());"><i class="icon-trash"></i>&nbsp;Remove</button>
                 </div>
-                <button class="btn btn-primary" onclick="WPOS.print.printReceipt($('#transref').text());"><i class="icon-print"></i>&nbsp;Print</button>
+                <button class="btn btn-primary" onclick="WPOS.print.printReceipt(Kshs ('#transref').text());"><i class="icon-print"></i>&nbsp;Print</button>
             </div>
         </div>
 
@@ -1367,21 +1367,21 @@
     <div style="display: inline-block; margin-bottom: 10px;">
         Select a device to merge with or enter a new device name<br/>
         <label>Existing device:</label><br/>
-        <select id="posdevices" onchange="$('#newposdevice').val('');">
+        <select id="posdevices" onchange="Kshs ('#newposdevice').val('');">
             <option value="" selected></option>
         </select><br/><br/>
 
         <label>New device name:</label><br/>
-        <input id="newposdevice" type="text" onchange="$('#posdevices>option:eq(0)').prop('selected', true);"/>
+        <input id="newposdevice" type="text" onchange="Kshs ('#posdevices>option:eq(0)').prop('selected', true);"/>
     </div>
     <div style="display: inline-block;">
         Select an existing location for the device or enter a new location<br/>
         <label>Existing location:</label><br/>
-        <select id="poslocations" onchange="$('#newposlocation').val('');">
+        <select id="poslocations" onchange="Kshs ('#newposlocation').val('');">
             <option value="" selected></option>
         </select><br/><br/>
         <label>New location name:</label><br/>
-        <input id="newposlocation" type="text" onchange="$('#poslocations>option:eq(0)').prop('selected', true);"/>
+        <input id="newposlocation" type="text" onchange="Kshs ('#poslocations>option:eq(0)').prop('selected', true);"/>
     </div>
     <div style="text-align: center; margin-top: 10px;">
         <button class="btn btn-primary btn-sm" onclick="WPOS.deviceSetup();">Register</button>
@@ -1411,7 +1411,7 @@
         <label>Refund Amount:
         <input id="refundamount" class="numpad" type="text" value="0" autocomplete="off" onclick="alert('Please be careful when manually specifying the refund amount!');"/></label><br/>
         <div style="text-align: center;">
-            <button style="margin:5px; margin-bottom:10px;" id="eftposrefundbtn" class="btn btn-sm btn-success" onclick="WPOS.eftpos.startEftposRefund($('#refundamount').val());">Start Eftpos Refund</button>
+            <button style="margin:5px; margin-bottom:10px;" id="eftposrefundbtn" class="btn btn-sm btn-success" onclick="WPOS.eftpos.startEftposRefund(Kshs ('#refundamount').val());">Start Eftpos Refund</button>
         </div>
         <label>Refund Payment Type:
         <select id="refundmethod">
@@ -1421,7 +1421,7 @@
         </select></label>
     </div>
     <button id="procvoidbtn" class="btn btn-success" onclick="">Process</button>
-    <button class="btn" onclick="$('#formdiv').dialog('close');">Cancel</button>
+    <button class="btn" onclick="Kshs ('#formdiv').dialog('close');">Cancel</button>
 </div>
 <div id="itemoptionsdialog" class="hide" title="Item Options">
     <label class="fixedlabel">
@@ -1454,7 +1454,7 @@
 </div>
 <div id="codialog" class="hide" title="Cashout">
     <input type="hidden" autofocus="autofocus" />
-    <label>Cashout: <input id="cashoutamount" type="text" onclick="$(this).focus();" class="numpad"/></label>
+    <label>Cashout: <input id="cashoutamount" type="text" onclick="Kshs (this).focus();" class="numpad"/></label>
 </div>
 <div id="eftdetailsdialog" class="hide" title="Payment Details">
     <div>
@@ -1466,11 +1466,11 @@
     <div>
         <div style="width: 250px; display: inline-block; text-align: center; vertical-align: top;">
             <pre id="eftcustrec"></pre>
-            <button class="btn btn-primary btn-xs" onclick="WPOS.print.printArbReceipt($('#eftcustrec').text())" style="float: left;"><i class="icon-print"></i>&nbsp;Print</button>
+            <button class="btn btn-primary btn-xs" onclick="WPOS.print.printArbReceipt(Kshs ('#eftcustrec').text())" style="float: left;"><i class="icon-print"></i>&nbsp;Print</button>
         </div>
         <div style="width: 250px; display: inline-block; text-align: center; vertical-align: top;">
             <pre id="eftmerchrec"></pre>
-            <button class="btn btn-primary btn-xs" onclick="WPOS.print.printArbReceipt($('#eftmerchrec').text())" style="float: left;"><i class="icon-print"></i>&nbsp;Print</button>
+            <button class="btn btn-primary btn-xs" onclick="WPOS.print.printArbReceipt(Kshs ('#eftmerchrec').text())" style="float: left;"><i class="icon-print"></i>&nbsp;Print</button>
         </div>
     </div>
 </div>
@@ -1481,16 +1481,16 @@
 </div>
 <canvas id="receipt_canvas" style="background-color: white; display: none;" width="576"></canvas>
 <script type="text/javascript">
-    $('.message a').click(function(){
-       $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    Kshs ('.message a').click(function(){
+       Kshs ('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });
 
     function handleMOver(item) {
-        $(item).toggleClass('active-item')
+        Kshs (item).toggleClass('active-item')
     }
 
     function handleMOut(item) {
-        $(item).toggleClass('active-item')
+        Kshs (item).toggleClass('active-item')
     }
 </script>
 </body>
