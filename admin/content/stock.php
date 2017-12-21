@@ -37,7 +37,7 @@
             <th data-priority="6">Price</th>
             <th data-priority="4">Qty</th>
             <th data-priority="5">Supplier</th>
-            <th data-priority="8">Inventory No</th>
+            <th data-priority="8">Invoice No</th>
             <th data-priority="9">Expiry Date</th>
             <th data-priority="11">Tax</th>
             <th data-priority="12">Category</th>
@@ -134,23 +134,23 @@
         </tr>
         <tr>
             <td style="text-align: right;"><label>Cost:&nbsp;</label></td>
-            <td><input id="addstockcost" class="form-control" type="text"/></td>
+            <td><input id="addstockcost" class="form-control" value="0.00" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Price:&nbsp;</label></td>
-            <td><input id="addstockprice" class="form-control" type="text"/></td>
+            <td><input id="addstockprice" class="form-control" value="0.00" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Expiry Date:&nbsp;</label></td>
-            <td><input id="addstockexpiryDate" class="form-control" type="text" value=""/></td>
+            <td><input id="addstockexpiryDate" class="form-control" value="31/12/2050" type="text" value=""/></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Inventory No:&nbsp;</label></td>
-            <td><input id="addstockinventoryNo" class="form-control" type="text"/></td>
+            <td style="text-align: right;"><label>Invoice No:&nbsp;</label></td>
+            <td><input id="addstockinventoryNo" class="form-control" value="INV000" type="text"/></td>
         </tr>
         <tr>
               <td style="text-align: right;"><label>BatchNo/Code:&nbsp;</label></td>
-              <td><input id="addstockcode" class="form-control" type="text"/></td>
+              <td><input id="addstockcode" class="form-control" value="M0001" type="text"/></td>
         </tr>
     </table>
 </div>
