@@ -177,7 +177,7 @@
       for (var i in items) {
         names[items[i].name].netqty += parseInt(items[i].netqty);// Sum all the qty from same item name
         names[items[i].name].soldtotal += parseFloat(items[i].soldtotal);// Sum all the qty from same item name
-        names[items[i].name].netqty += parseInt(items[i].netqty);// Sum all the qty from same item name
+        names[items[i].name].soldqty += parseInt(items[i].soldqty);// Sum all the qty from same item name
         names[items[i].name].taxtotal += parseInt(items[i].taxtotal);// Sum all the qty from same item name
         names[items[i].name].balance += parseFloat(items[i].balance);// Sum all the qty from same item name
         names[items[i].name].refundtotal += parseFloat(items[i].refundtotal);// Sum all the qty from same item name
