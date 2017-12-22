@@ -212,6 +212,11 @@ function routeApiCall($action, $data, $result) {
             $result = $sale->updateTransationNotes($result);
             break;
 
+        case "sales/updatepayments":
+            $sale = new WposPosSale($data, false);
+            $result = $sale->updateTransationPayments($result);
+            break;
+
         case "transactions/get":
             $trans = new WposTransactions($data);
             $result = $trans->getTransaction($result);

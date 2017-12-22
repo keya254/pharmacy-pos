@@ -1619,6 +1619,22 @@ $(function () {
         }
     });
 
+    $("#creditpaymentsdiv").dialog({
+        maxWidth : 380,
+        width : 'auto',
+        modal   : true,
+        autoOpen: false,
+        open    : function (event, ui) {
+        },
+        close   : function (event, ui) {
+        },
+        create: function( event, ui ) {
+            // Set maxWidth
+            $(this).css("maxWidth", "370px");
+            $(this).css("minWidth", "325px");
+        }
+    });
+
     $("#transactiondiv").dialog({
         width   : 'auto',
         maxWidth: 900,
