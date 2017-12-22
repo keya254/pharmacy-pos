@@ -123,7 +123,7 @@ class WposAdminStock {
 //                if ($dupitem['id'] != $item->id) {
 //                    $result['error'] = "An item with the stockcode ".$item->code." already exists on line ".$count;
 //                    EventStream::sendStreamData($result);
-//                    return $result;
+//                    return $result;at
 //                }
 //            }
 
@@ -151,23 +151,19 @@ class WposAdminStock {
             } else {
                 $id = $this->getIdForName($categories, $item->category_name);
             }
-            if ($id===false && $id !== null){
+            if ($id===false){
                 if ((isset($options->add_categories) && $options->add_categories===true)){
                     EventStream::sendStreamData(['status'=>"Adding category..."]);
                     $id = $catMdl->create($item->category_name);
+                    $categories[] = ['id'=>$id, 'name'=>$item->category_name];
                     if (!is_numeric($id)){
-                        $result['error'] = "Could not add new category " . $item->category_name . " on line ".$count." of the CSV: ".$categories;
-                        EventStream::sendStreamData($result);
-                        return $result;
-                    } else {
-                        $result['error'] = "Could not find category id for name " . $item->category_name . " on line ".$count." of the CSV";
+                        $result['error'] = "Could not add new category " . $item->category_name . " on line ".$count." of the CSV: ".$catMdl->errorInfo.json_encode($categories);
                         EventStream::sendStreamData($result);
                         return $result;
                     }
                 }
             }
             $item->categoryid = $id;
-            $categories[] = [''=>$id, 'name'=>$item->category_name];
             unset($item->category_name);
 
             // Match Item Name
@@ -184,7 +180,7 @@ class WposAdminStock {
                 }
             }
             $item->storeditemid = $id;
-            $storedItems[] = [''=>$id, 'name'=>$item->name];
+            $storedItems[] = ['id'=>$id, 'name'=>$item->name];
             unset($item->name);
 
 
@@ -203,11 +199,7 @@ class WposAdminStock {
                         EventStream::sendStreamData($result);
                         return $result;
                     }
-                    $suppliers[] = [''=>$id, 'name'=>$item->supplier_name];
-                } else {
-                    $result['error'] = "Could not find supplier id for name " . $item->supplier_name . " on line ".$count." of the CSV";
-                    EventStream::sendStreamData($result);
-                    return $result;
+                    $suppliers[] = ['id'=>$id, 'name'=>$item->supplier_name];
                 }
             }
             $item->supplierid = $id;

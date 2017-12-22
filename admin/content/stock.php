@@ -407,41 +407,7 @@
         // hide loader
         WPOS.util.hideLoader();
 
-        if (window.File && window.FileReader && window.FileList && window.Blob) {
-          $('#files').bind('change', importStock);
-        } else {
-          alert('Update your browser.');
-        }
     });
-    // Update inventory
-
-    function importStock(event) {
-      var inventory = event.target.files[0];
-      var reader = new FileReader();
-      reader.readAsText(inventory);
-      reader.onload = function (event) {
-        var csv = event.target.result;
-        var data = $.csv.toArrays(csv);
-        for(var i=1; i<data.length;i++){
-          if (data[i][4] === "0") {
-            continue;
-          }
-          var item = {
-            storeditemid: getStoredItemId(data[i][1]),
-            locationid: getLocation(data[i][3]),
-            amount: data[i][4],
-            reorderpoint: data[i][5]
-          };
-          updateStock(item);
-          var sitem = items[getStoredItemId(data[i][1])];
-          sitem.supplierid = getSupplierId(data[i][2]);
-          WPOS.sendJsonData("stock/supplier", JSON.stringify(sitem));
-        }
-      };
-      reader.onerror = function () {
-        alert('Unable to read ' + file.fileName);
-      };
-    }
 
     function getLocation(location) {
       var l = -1;
@@ -461,43 +427,6 @@
       return l;
     }
 
-    function updateStock(item) {
-      if (WPOS.sendJsonData("stock/add", JSON.stringify(item))!==false){
-        reloadTable();
-      }
-    }
-
-    function getStoredItemId(name) {
-      var n = '';
-      for(var item in items) {
-        if (items[item].name === name) {
-          n = item;
-        } else {
-          continue;
-        }
-        n === ''? alert(name + ' is not in the stock.') : '';
-        return n;
-      }
-
-    }
-
-    function getSupplier(id) {
-      var supplier = 'Unknown';
-      for (var i in suppliers) {
-        if (id == suppliers[i].id)
-          supplier = suppliers[i].name;
-      }
-      return supplier;
-    }
-
-    function getSupplierId(name) {
-      var supplier = 0;
-      for (var i in suppliers) {
-        if (name == suppliers[i].name)
-          supplier = i;
-      }
-      return supplier;
-    }
     // updating records
     function getStockHistory(id, locationid){
         WPOS.util.showLoader();
@@ -744,6 +673,7 @@
       var total = jsondata.length;
       setModalLoaderStatus("Uploading data...");
       var data = {"options":options, "import_data": jsondata};
+      console.log(data);
       var result = WPOS.sendJsonDataAsync('stock/import/set', JSON.stringify(data), function(data){
         if (data!==false){
           WPOS.startEventSourceProcess(
