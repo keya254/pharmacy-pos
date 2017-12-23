@@ -600,7 +600,7 @@
         }
 
         var csv = WPOS.data2CSV(
-            ['Stock Code', 'Name *', 'Description', 'Location *', 'Unit Cost *', 'Unit Price *', 'Stock Level *', 'Reorder Point', 'Supplier Name *', 'Inventory No', 'Expiry Date', 'Tax Name', 'Category Name'],
+            ['Stock Code', '*Name', 'Description', '*Location', '*Unit Cost', '*Unit Price', '*Stock Level', 'Reorder Point', '*Supplier Name', 'Inventory No', 'Expiry Date', 'Tax Name', 'Category Name'],
             ['code', 'name', 'description',
               {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }},
               'cost', 'price', 'stocklevel', 'reorderpoint', 'supplier', 'inventoryNo', 'expiryDate', 'taxname',
@@ -620,14 +620,14 @@
       importdialog = $("body").csvImport({
         jsonFields: {
           'code': {title:'Stock Code', required: false, value: "0000"},
-          'name': {title:'Name *', required: true},
+          'name': {title:'*Name', required: true},
           'description': {title:'Description', required: false, value: "No Description"},
-          'location': {title:'Location *', required: true},
-          'cost': {title:'Unit Cost *', required: true},
-          'price': {title:'Unit Price *', required: true},
-          'amount': {title:'Stock Level *', required: true},
+          'location': {title:'*Location', required: true},
+          'cost': {title:'*Unit Cost', required: true},
+          'price': {title:'*Unit Price', required: true},
+          'amount': {title:'*Stock Level', required: true},
           'reorderpoint': {title:'Reorder Point', required: false, value: "0"},
-          'supplier_name': {title:'Supplier Name *', required: true},
+          'supplier_name': {title:'*Supplier Name', required: true},
           'inventoryNo': {title:'Inventory No', required: false, value: "0000"},
           'expiryDate': {title:'Expiry Date', required: false, value: "31/12/2050"},
           'tax_name': {title:'Tax Name', required: false, value: "No Tax"},
