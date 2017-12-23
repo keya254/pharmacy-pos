@@ -265,6 +265,17 @@ class WposAdminStock {
     }
 
     /**
+     * Import items
+     * @param $result
+     * @return mixed
+     */
+    public function importItemsStop($result)
+    {
+        unset($_SESSION['import_data']);
+        unset($_SESSION['import_options']);
+        return $result;
+    }
+    /**
      * This function is used by WposPosSale and WposInvoices to decrement/increment sold/voided transaction stock; it does not create a history record
      * @param $stockinventoryid
      * @param $locationid

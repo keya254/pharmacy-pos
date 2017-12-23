@@ -673,7 +673,6 @@
       var total = jsondata.length;
       setModalLoaderStatus("Uploading data...");
       var data = {"options":options, "import_data": jsondata};
-      console.log(data);
       var result = WPOS.sendJsonDataAsync('stock/import/set', JSON.stringify(data), function(data){
         if (data!==false){
           WPOS.startEventSourceProcess(
