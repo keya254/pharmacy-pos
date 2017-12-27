@@ -16,8 +16,8 @@ server.use('/assets', express.static(require('path').join(__dirname, 'assets')))
 server.use('/docs', express.static(require('path').join(__dirname, 'docs')));
 server.use('/content', express.static(require('path').join(__dirname, 'admin/content')));
 server.use('/admin/assets', express.static(require('path').join(__dirname, 'admin/assets')));
-server.use('/api', proxy({target: 'http://192.168.0.137', changeOrigin: true}));
-server.use('/socket.io', proxy({target: 'http://192.168.0.137', changeOrigin: true}));
+server.use('/api', proxy({target: 'http://35.224.196.185/', changeOrigin: true}));
+server.use('/socket.io', proxy({target: 'http://35.224.196.185/', changeOrigin: true}));
 
 // Routes
 server.get('/', function(req, res, next){

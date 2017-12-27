@@ -1,4 +1,4 @@
-const setupEvents = require('./release-builds/windows-installer/setup-events');
+const setupEvents = require('./windows-installer/setup-events');
 const electron = require('electron');
 const server = require('./server');
 
