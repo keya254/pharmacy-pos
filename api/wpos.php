@@ -212,6 +212,11 @@ function routeApiCall($action, $data, $result) {
             $result = $sale->updateTransationNotes($result);
             break;
 
+        case "sales/updatepayments":
+            $sale = new WposPosSale($data, false);
+            $result = $sale->updateTransationPayments($result);
+            break;
+
         case "transactions/get":
             $trans = new WposTransactions($data);
             $result = $trans->getTransaction($result);
@@ -339,10 +344,13 @@ function routeApiCall($action, $data, $result) {
             $adminMdl = new WposAdminStock($data);
             $result = $adminMdl->importItemsSet($result);
             break;
-
         case "stock/import/start":
             $adminMdl = new WposAdminStock($data);
             $result = $adminMdl->importItemsStart($result);
+            break;
+        case "stock/delete":
+            $adminMdl = new WposAdminStock($data);
+            $result = $adminMdl->deleteStoredItem($result);
             break;
 
         // customers
@@ -579,6 +587,14 @@ function routeApiCall($action, $data, $result) {
         case "stats/order": // show items to make restock
             $statsMdl = new WposAdminStats($data);
             $result = $statsMdl->getReorderPoints($result);
+            break;
+        case "stats/expired": // show items that are expired
+            $statsMdl = new WposAdminStats($data);
+            $result = $statsMdl->getExpiredItems($result);
+            break;
+        case "stats/costs": // show cost of drug from different suppliers
+            $statsMdl = new WposAdminStats($data);
+            $result = $statsMdl->getItemsCost($result);
             break;
         case "stats/devices": // whats selling, grouped by stored items
             $statsMdl = new WposAdminStats($data);

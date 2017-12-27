@@ -551,11 +551,11 @@
             <div style="display: inline-block; margin: 0; width: 49%; min-width: 250px; max-width: 300px; padding: 0 10px 5px 10px;">
                 <input type="hidden" autofocus="true" />
                 <div class="transinvoptions">
-                    <label class="fixedlabel">Invoice Date:</label> <input type="text" id="invprocessdt" onclick="$(this).blur();" style="width: 110px"/>
+                    <label class="fixedlabel">Invoice Date:</label> <input type="text" id="invprocessdt" onclick="Kshs (this).blur();" style="width: 110px"/>
                     <div class="space-4"></div>
-                    <label class="fixedlabel">Due Date:</label> <input type="text" id="invduedt" onclick="$(this).blur();" style="width: 110px"/>
+                    <label class="fixedlabel">Due Date:</label> <input type="text" id="invduedt" onclick="Kshs (this).blur();" style="width: 110px"/>
                     <div class="space-4"></div>
-                    <label class="fixedlabel">Close Date:</label> <input type="text" id="invclosedt" onclick="$(this).blur();" style="width: 110px"/>
+                    <label class="fixedlabel">Close Date:</label> <input type="text" id="invclosedt" onclick="Kshs (this).blur();" style="width: 110px"/>
                     <div class="space-4"></div>
                     <label class="fixedlabel">Discount:</label> <input style="width: 60px;" type="text" id="invdiscountval" />%
                     <div class="space-4"></div>
@@ -636,7 +636,7 @@
                             M: <span id="tcustmobile"></span><br/>
                             E: <span id="tcustemail"></span><br/>
                             <input type="hidden" id="tcustid"/>
-                            <button id="transcustdtlbtn" class="btn btn-xs btn-primary" onclick="WPOS.customers.openCustomerDialog($('#tcustid').val());">Details</button>
+                            <button id="transcustdtlbtn" class="btn btn-xs btn-primary" onclick="WPOS.customers.openCustomerDialog(Kshs ('#tcustid').val());">Details</button>
                         </div>
                         </div>
                     </div>
@@ -718,7 +718,7 @@
             <form id="transpayform">
                 <input type="hidden" autofocus="true" />
                 <input type="hidden" id="transpayid" value="0"/>
-                <label class="fixedlabel">Invoice Date: </label><input type="text" id="transpaydt" onclick="$(this).blur();"/>
+                <label class="fixedlabel">Invoice Date: </label><input type="text" id="transpaydt" onclick="Kshs (this).blur();"/>
                 <div class="space-4"></div>
                 <label class="fixedlabel">Method: </label><select id="transpaymethod">
                 <option value="deposit">Deposit</option>
@@ -737,11 +737,11 @@
                 <select id="invoicetemplate">
                 </select>
                 <h3>View</h3>
-                <button onclick="WPOS.transactions.generateInvoice('html', 0, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
-                <button onclick="WPOS.transactions.generateInvoice('pdf', 0, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
+                <button onclick="WPOS.transactions.generateInvoice('html', 0, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
+                <button onclick="WPOS.transactions.generateInvoice('pdf', 0, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
                 <h3>Download</h3>
-                <button onclick="WPOS.transactions.generateInvoice('html', 1, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
-                <button onclick="WPOS.transactions.generateInvoice('pdf', 1, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
+                <button onclick="WPOS.transactions.generateInvoice('html', 1, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
+                <button onclick="WPOS.transactions.generateInvoice('pdf', 1, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
             </div>
             <div id="sendinvoiceform" style="min-width: 420px;">
                 <label class="smfixedlabel inline">Invoice Template: </label><div class="inline"><select id="emlinvoicetemplate"></select></div>

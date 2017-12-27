@@ -25,15 +25,15 @@ function WPOS() {
 
     var initialsetup = false;
     this.initApp = function () {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
-                console.log('Installing service worker under scope of ', registration.scope);
-            }).catch(error=>{
-                console.log('Error installing service worker,', error.message);
-            })
-        } else {
-          console.log('can\'t register service worker.');
-        }
+        // if ('serviceWorker' in navigator) {
+        //     navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
+        //         console.log('Installing service worker under scope of ', registration.scope);
+        //     }).catch(error=>{
+        //         console.log('Error installing service worker,', error.message);
+        //     })
+        // } else {
+        //   console.log('can\'t register service worker.');
+        // }
         // set cache default to true
         $.ajaxSetup({
             cache: true
@@ -431,16 +431,17 @@ function WPOS() {
                 break;
 
             case 2:
-                // get stored items
-                setLoadingBar(30, "Getting stored items...");
-                setStatusBar(4, "Updating stored items...", statusmsg, 0);
-                fetchItemsTable(function(data){
+                  // get stock
+                  setLoadingBar(30, "Getting stock...");
+                  setStatusBar(4, "Updating stock...", statusmsg, 0);
+                  fetchStockLevel(function(data){
                     if (data===false){
-                        showLogin();
-                        return;
+                      showLogin();
+                      return;
                     }
                     loadOnlineData(3, loginloader);
-                });
+                  });
+
                 break;
 
           case 3:
@@ -459,7 +460,6 @@ function WPOS() {
                 // get suppliers
                 setLoadingBar(60, "Getting suppliers...");
                 setStatusBar(4, "Updating suppliers...", statusmsg, 0);
-                console.log('Step 4');
                 fetchSuppliersTable(function(data){
                   if (data===false){
                     showLogin();
@@ -469,6 +469,18 @@ function WPOS() {
                 });
                 break;
           case 5:
+                // Get stored items
+                setLoadingBar(70, "Getting stored items...");
+                setStatusBar(4, "Updating stored items...", statusmsg, 0);
+                fetchItemsTable(function(data){
+                  if (data===false){
+                    showLogin();
+                    return;
+                  }
+                  loadOnlineData(6, loginloader);
+                });
+                break;
+          case 6:
                 // get all sales (Will limit to the weeks sales in future)
                 setLoadingBar(80, "Getting recent sales...");
                 setStatusBar(4, "Updating sales...", statusmsg, 0);
@@ -759,7 +771,6 @@ function WPOS() {
 
     // GLOBAL COM FUNCTIONS
     this.sendJsonData = function (action, data) {
-      console.log('send Json data sync')
         // send request to server
         try {
         var response = $.ajax({
@@ -811,7 +822,6 @@ function WPOS() {
     };
 
     this.sendJsonDataAsync = function (action, data, callback) {
-      console.log('send Json data async')
         // send request to server
         try {
             $.ajax({
@@ -857,7 +867,6 @@ function WPOS() {
     };
 
     this.getJsonDataAsync = function (action, callback) {
-        console.log('Get Json data async')
         // send request to server
         try {
             $.ajax({
@@ -1277,7 +1286,7 @@ function WPOS() {
         });
     }
 
-    this.fetchStockLevel = function(callback) {
+    function fetchStockLevel(callback) {
        return WPOS.getJsonDataAsync("stock/get", function(data){
             if (data) {
                 localStorage.setItem("stock_items", JSON.stringify(data));
@@ -1595,6 +1604,22 @@ $(function () {
     $("#wrapper").tabs();
 
     $("#paymentsdiv").dialog({
+        maxWidth : 380,
+        width : 'auto',
+        modal   : true,
+        autoOpen: false,
+        open    : function (event, ui) {
+        },
+        close   : function (event, ui) {
+        },
+        create: function( event, ui ) {
+            // Set maxWidth
+            $(this).css("maxWidth", "370px");
+            $(this).css("minWidth", "325px");
+        }
+    });
+
+    $("#creditpaymentsdiv").dialog({
         maxWidth : 380,
         width : 'auto',
         modal   : true,

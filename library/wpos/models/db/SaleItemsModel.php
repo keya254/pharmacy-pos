@@ -158,6 +158,28 @@ class SaleItemsModel extends DbConfig
     }
 
     /**
+     * @param int $saleid
+     * @param int $sitemid
+     * @param int $saleitemid
+     * @param int $qty
+     * @param string $name
+     * @param int $desc
+     * @param int $taxid
+     * @param int $tax
+     * @param int $cost
+     * @param int $unit
+     * @param int $price
+     * @return array|bool Returns false on an unexpected failure or the rows found by the statement. Returns an empty array when nothing is found
+     */
+    public function getDuplicate($saleid, $sitemid, $saleitemid, $qty, $name, $desc, $taxid, $tax, $cost, $unit, $price)
+    {
+        $sql = 'SELECT * FROM sale_items WHERE saleid= :saleid AND storeditemid= :sitemid AND saleitemid= :saleitemid AND qty= :qty AND name= :name AND description= :desc AND taxid= :taxid AND tax= :tax AND cost= :cost AND unit= :unit AND price= :price';
+        $placeholders = [":saleid"=>$saleid, ":sitemid"=>$sitemid, ":saleitemid"=>$saleitemid, ":qty"=>$qty, ":name"=>$name, ":desc"=>$desc, ":taxid"=>$taxid, ":tax"=>json_encode($tax), ":cost"=>$cost, ":unit"=>$unit, ":price"=>$price];
+
+        return $this->select($sql, $placeholders);
+    }
+
+    /**
      * @param int $itemid
      * @param null $sitemid
      * @param int|null $saleitemid
@@ -197,6 +219,30 @@ class SaleItemsModel extends DbConfig
 
         $sql = "SELECT ".($group>0?'si.'.$groupcol.' AS groupid, p.name AS name':'i.storeditemid AS groupid, i.name AS name').", COALESCE(SUM(i.qty), 0) AS itemnum, COALESCE(SUM(i.price-(i.price*(s.discount/100))), 0) AS itemtotal, COALESCE(SUM((i.price*(s.discount/100))), 0) AS discounttotal, COALESCE(SUM(i.tax_total-(i.tax_total*(s.discount/100))), 0) AS taxtotal, COALESCE(SUM(i.refundqty), 0) AS refnum, COALESCE(SUM(i.unit*i.refundqty), 0) AS reftotal, COALESCE(GROUP_CONCAT(DISTINCT s.ref SEPARATOR ','),'') as refs";
         $sql.= ' FROM sale_items AS i LEFT JOIN sales AS s ON i.saleid=s.id'.($group>0 ? ' LEFT JOIN stored_items AS si ON i.storeditemid=si.id LEFT JOIN '.$grouptable.' AS p ON si.'.$groupcol.'=p.id' : '').' WHERE (s.processdt>= :stime AND s.processdt<= :etime) '.($novoids?'AND s.status!=3':'');
+        $placeholders = [":stime"=>$stime, ":etime"=>$etime];
+
+        if ($ttype!=null){
+            $sql .= ' AND s.type=:type';
+            $placeholders[':type'] = $ttype;
+        }
+
+        $sql.= ' GROUP BY groupid, name';
+
+        return $this->select($sql, $placeholders);
+    }
+
+    public function getStoredItemTotalsSupplier($stime, $etime, $group = 0, $novoids = true, $ttype=null){
+
+        if ($group==2){
+            $groupcol = "supplierid";
+            $grouptable = "stored_suppliers";
+        } else {
+            $groupcol = "categoryid";
+            $grouptable = "stored_categories";
+        }
+
+        $sql = "SELECT ".($group>0?'s_inv.'.$groupcol.' AS groupid, p.name AS name':'i.storeditemid AS groupid, i.name AS name').", COALESCE(SUM(i.qty), 0) AS itemnum, COALESCE(SUM(i.price-(i.price*(s.discount/100))), 0) AS itemtotal, COALESCE(SUM((i.price*(s.discount/100))), 0) AS discounttotal, COALESCE(SUM(i.tax_total-(i.tax_total*(s.discount/100))), 0) AS taxtotal, COALESCE(SUM(i.refundqty), 0) AS refnum, COALESCE(SUM(i.unit*i.refundqty), 0) AS reftotal, COALESCE(GROUP_CONCAT(DISTINCT s.ref SEPARATOR ','),'') as refs";
+        $sql.= ' FROM sale_items AS i LEFT JOIN sales AS s ON i.saleid=s.id'.($group>0 ? ' LEFT JOIN stock_items AS si ON i.storeditemid=si.id LEFT JOIN stock_inventory AS s_inv ON si.stockinventoryid=s_inv.id LEFT JOIN '.$grouptable.' AS p ON s_inv.'.$groupcol.'=p.id' : '').' WHERE (s.processdt>= :stime AND s.processdt<= :etime) '.($novoids?'AND s.status!=3':'');
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
 
         if ($ttype!=null){

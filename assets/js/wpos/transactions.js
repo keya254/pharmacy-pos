@@ -23,6 +23,11 @@ var datatable;
 function WPOSTransactions() {
 
     var transdialog = $("#transactiondiv");
+    var creditdialog = $("#creditpaymentsdiv");
+    var creditpaymentdialog = $("#creditpaymentstable");
+    var paymentMethods = ['eftpos', 'cash', 'mpesa'];
+    var sale = {};
+    var curcredit = 0;
 
     this.showTransactionView = function () {
         $("#main-content").tabs("option", "active", 1);
@@ -39,6 +44,153 @@ function WPOSTransactions() {
         transdialog.dialog('open');
         repositionDialog();
     };
+
+    this.showPaymentDialog = function(ref) {
+        // Show integrated eftpos button if enabled
+        sale = getSale('"'+ref+'"');
+        var inteftbtn = $("#eftpospaybtn");
+        if (WPOS.hasOwnProperty('eftpos') && WPOS.eftpos.isEnabledAndReady()){
+          inteftbtn.show();
+          inteftbtn.text(WPOS.util.capFirstLetter(WPOS.eftpos.getType())+' Eftpos');
+        } else {
+          inteftbtn.hide();
+        }
+        creditdialog.dialog('open');
+        curcredit = getCredit(sale.payments);
+        $("#credit").text(WPOS.util.currencyFormat(curcredit));
+        $("#endcreditbtn").prop("disabled", false); // make sure the damn button is active, dunno why but when the page reloads it seems to keep its state.
+    };
+
+    this.addPayment = function(method){
+      addPaymentRow(method, curcredit, curcredit, null);
+      WPOS.sales.updatePaymentSums();
+    };
+
+    function addPaymentRow(method, value, tender, change, extraData){
+      var exmethod = '';
+      if ($.inArray(method, paymentMethods)==-1)
+        exmethod = '<option value="'+method+'" selected>'+method+'</option>';
+      var data = '';
+      if (extraData)
+        data = "data-paydata='"+JSON.stringify(extraData)+"'";
+
+      var curBefore = "", curAfter = "";
+      if (WPOS.util.getCurrencyPlacedAfter()){
+        curAfter = WPOS.util.getCurrencySymbol();
+      } else {
+        curBefore = WPOS.util.getCurrencySymbol();
+      }
+
+      var payrow =  '<tr '+data+'><td>' +
+        '<select class="paymethod form-control" style="max-width:150px;" onchange="WPOS.sales.onPaymentMethodChange(this);">' +
+        '<option value="eftpos" '+(method=='eftpos'?'selected':'')+'>Eftpos</option>' +
+        '<option value="cash" '+(method=='cash'?'selected':'')+'>Cash</option>' +
+        '<option value="mpesa" '+(method=='mpesa'?'selected':'')+'>Mpesa</option>' +
+        exmethod+ '</select>' +
+        '<div class="cashvals" '+(method!='cash'?'style="display: none"':'width:150px;')+'>' +
+        '<div style="margin:5px 0px;">Tendered:</div> <input onChange="WPOS.sales.updatePaymentChange($(this).parent());" class="paytender numpad form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(tender!=null?tender:value))+'" />' +
+        '<div style="margin:5px 0px;">Change:</div> <input class="paychange form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(change!=null?change:0.00))+'" readonly />' +
+        '</div></td>' +
+        '<td>'+curBefore+'<input onChange="WPOS.sales.updatePaymentSums();" class="payamount numpad form-control" style="width:80px;display:inline;" type="text" value="'+value+'" autocomplete="off"/> '+curAfter+'</td>' +
+        '<td><button class="btn btn-xs btn-danger" onclick="WPOS.sales.removePayment($(this));">X</button></td></tr>';
+
+      creditpaymentdialog.append(payrow);
+
+      // reinitialize keypad & field listeners
+      WPOS.initKeypad();
+    }
+
+
+    function getSale(ref) {
+        var sales = transtable;
+        for (var sale in sales) {
+            if (JSON.stringify(sales[sale].ref) === ref) {
+                return sales[sale];
+            }
+        }
+    }
+
+    function getCredit(payments) {
+        var credit = 0;
+        for(var i=0;i<payments.length;i++) {
+            if (payments[i].method === "credit") {
+                credit += parseFloat(payments[i].amount);
+            }
+        }
+        return credit;
+    }
+
+    this.processSale = function () {
+        var salebtn = $("#endcreditbtn");
+        salebtn.prop("disabled", true);
+        if (!validatePayments()){
+          alert("Only cash-out payments may have a negative amount");
+          salebtn.prop("disabled", false);
+          return;
+        }
+        ProcessSaleTransaction();
+        salebtn.prop("disabled", false);
+    };
+
+    function validatePayments(){
+        var valid = true;
+        creditpaymentdialog.children("tr").each(function (index, element) {
+          // Make sure payments are positive amounts, except cashout
+          if (parseFloat($(element).find(".payamount").val())<0){
+            if ($(element).find(".payamount").val()=='cash' && !$(element).data('paydata').hasOwnProperty('cashOut'))
+              valid = false;
+          }
+        });
+        return valid;
+    }
+
+    function ProcessSaleTransaction() {
+        // gather payments
+        var payments = [];
+        var paymenttotal = 0;
+        creditpaymentdialog.children("tr").each(function (index, element) {
+            paymenttotal += parseFloat($(element).find(".payamount").val());
+            var payment = {"method": $(element).find(".paymethod option:selected").val(), "amount": parseFloat($(element).find(".payamount").val()).toFixed(2)};
+            if (payment.method === 'cash'){
+              payment.tender = parseFloat($(element).find(".paytender").val()).toFixed(2);
+              payment.change = parseFloat($(element).find(".paychange").val()).toFixed(2);
+            }
+            if ($(element).data('paydata')){
+              payment.paydata = $(element).data('paydata');
+            }
+            payments.push(payment);
+        });
+        if (paymenttotal <= 0) {
+            alert('Please balance the amount');
+            return;
+        }
+        // Check if credit is complete
+        if (paymenttotal <= curcredit) {
+          for(var i in payments) {
+            sale.payments.push(payments[i]);
+          }
+        }
+        curcredit -= paymenttotal;
+        var index = -1;
+        for(var i in sale.payments) {
+          if (sale.payments[i].id !== null) {
+
+          }
+          if (sale.payments[i].method === 'credit') {
+              sale.payments[i].amount = curcredit;
+          }
+          if (sale.payments[i].method === "credit" && sale.payments[i].amount == 0)
+              index = i;
+        }
+        if(index !== -1) {
+          sale.payments.splice(index, 1);
+        }
+        updateSalePayments();
+        creditpaymentdialog.html('');
+        creditdialog.dialog('close');
+        transdialog.dialog('close');
+        WPOS.trans.setupTransactionView();
+    }
 
     function repositionDialog(){
         transdialog.dialog({
@@ -144,6 +296,9 @@ function WPOSTransactions() {
             case 3:
                 stathtml='<span class="label label-warning arrowed">Refunded</span>';
                 break;
+            case 4:
+                stathtml='<span class="label label-warning arrowed">Credit</span>';
+                break;
             default:
                 stathtml='<span class="label arrowed">Unknown</span>';
                 break
@@ -200,8 +355,8 @@ function WPOSTransactions() {
         $("#transtotal").text(WPOS.util.currencyFormat(record.total));
 
         populateItemsTable(record.items);
-        populatePaymentsTable(record.payments);
-        if (status>1){
+        populatePaymentsTable(record.payments, ref);
+        if (status == 3){
             $("#voidinfo").show();
             $("#orderbuttons").hide();
             if (status==2){
@@ -259,7 +414,7 @@ function WPOSTransactions() {
         }
     }
 
-    function populatePaymentsTable(payments){
+    function populatePaymentsTable(payments, ref){
         var paytable =$("#transpaymenttable");
         $(paytable).html('');
         var method, amount;
@@ -271,13 +426,16 @@ function WPOSTransactions() {
             if (payments[i].hasOwnProperty('paydata')){
                 // check for integrated payment details
                 if (payments[i].paydata.hasOwnProperty('transRef')){
-                    console.log(payments[i].paydata);
                     paydetailsbtn = "<button onclick='WPOS.trans.showPaymentInfo(this);' class='btn btn-xs btn-primary' data-paydata='"+JSON.stringify(payments[i].paydata)+"'>Details</button>";
                 }
                 // catch cash-outs
                 if (payments[i].paydata.hasOwnProperty('cashOut')){
                     method = "cashout ("+WPOS.util.currencyFormat((-amount).toFixed(2))+")";
                 }
+            }
+            // Add complete payments button
+            if (payments[i].method === 'credit') {
+            paydetailsbtn = '<button class="btn btn-primary" onclick="WPOS.trans.showPaymentDialog(\''+ref+'\');">Add Payment</button>';
             }
             $(paytable).append('<tr><td>'+WPOS.util.capFirstLetter(method)+'</td><td>'+WPOS.util.currencyFormat(amount)+'</td><td style="text-align: right;">'+paydetailsbtn+'</td></tr>');
         }
@@ -433,10 +591,9 @@ function WPOSTransactions() {
             var olsales = WPOS.sales.getOfflineSales();
             //var syncstat, gid;
             for (ref in olsales) {
-                    // add to the transaction info table
-                    delete transtable[ref];
-                    transtable[ref] = olsales[ref];
-
+                // add to the transaction info table
+                delete transtable[ref];
+                transtable[ref] = olsales[ref];
             }
 
         }
@@ -446,6 +603,7 @@ function WPOSTransactions() {
 
     function getTransactionStatus(ref){
         var record = getTransactionRecord(ref);
+        var credit = hasCredit(record.payments);
         if (record.hasOwnProperty('voiddata')){
             return 2;
         } else if (record.hasOwnProperty("refunddata")){
@@ -453,8 +611,20 @@ function WPOSTransactions() {
             return 3;
         } else if (record.hasOwnProperty("isorder")){
             return 0;
+        } else if (credit){
+            return 4;
         }
         return 1;
+    }
+
+    function hasCredit(payments) {
+        var has = false;
+         for(var i=0;i<payments.length;i++) {
+             if (payments[i].method === "credit" && payments[i].amount > 0) {
+                 has = true;
+             }
+         }
+         return has;
     }
 
     this.searchRemote = function(){
@@ -522,6 +692,35 @@ function WPOSTransactions() {
                 WPOS.util.hideLoader();
             });
         }
+    }
+    this.updateSalePayments = function(){
+        if (WPOS.isOnline()){
+          updateSalePayments();
+        } else {
+            // TODO: update notes and misc info offline
+            alert("Updating notes offline is not supported at this time\nsorry for the inconvenience");
+        }
+    };
+
+    function updateSalePayments(){
+      // show loader
+      var ref = sale.ref;
+      WPOS.util.showLoader();
+      WPOS.sendJsonDataAsync("sales/updatepayments", JSON.stringify({"ref":sale.ref, "payments":sale.payments}), function(result){
+        if (result!==false){
+          // update local copy
+          if (sale!=false){
+            // set new payments
+            if (WPOS.sales.isSaleOffline(ref)===true){
+              WPOS.sales.updateOfflineSale(sale, "sales/updatepayments");
+            } else {
+              WPOS.updateSalesTable(sale.ref, sale)
+            }
+          }
+        }
+        // hide loader
+        WPOS.util.hideLoader();
+      });
     }
 
 }

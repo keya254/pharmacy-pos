@@ -28,7 +28,7 @@ class StockModel extends DbConfig
     /**
      * @var array
      */
-    protected $_columns = ['id', 'storeditemid', 'locationid', 'stocklevel', 'reorderpoint', 'dt'];
+    protected $_columns = ['id', 'storeditemid', 'supplierid'];
 
     /**
      * Init the DB
@@ -41,30 +41,26 @@ class StockModel extends DbConfig
 
     /**
      * @param $storeditemid
-     * @param $locationid
-     * @param $stocklevel
-     * @param $reorderpoint
+     * @param $supplierid
      * @return bool|string Returns false on an unexpected failure, returns -1 if a unique constraint in the database fails, or the new rows id if the insert is successful
      */
-    public function create($storeditemid, $locationid, $stocklevel, $reorderpoint)
+    public function create($storeditemid, $supplierid)
     {
-        $sql          = "INSERT INTO stock_levels (`storeditemid`, `locationid`, `stocklevel`, `reorderpoint`, `dt`) VALUES (:storeditemid, :locationid, :stocklevel, :reorderpoint, now());";
-        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$stocklevel, ":reorderpoint"=>$reorderpoint];
+        $sql          = "INSERT INTO stock_inventory (`storeditemid`, `supplierid`) VALUES (:storeditemid, :supplierid);";
+        $placeholders = [":storeditemid"=>$storeditemid, ":supplierid"=>$supplierid];
 
         return $this->insert($sql, $placeholders);
     }
 
     /**
      * @param $storeditemid
-     * @param $locationid
-     * @param $stocklevel
-     * @param $reorderpoint
+     * @param $supplierid
      * @return bool|int|string Returns false on failure, number of rows affected or a newly inserted id.
      */
-    public function setStockLevel($storeditemid, $locationid, $stocklevel, $reorderpoint){
+    public function setStockLevel($storeditemid, $supplierid){
 
-        $sql = "UPDATE stock_levels SET `stocklevel`=:stocklevel, `reorderpoint`=:reorderpoint WHERE `storeditemid`=:storeditemid AND `locationid`=:locationid";
-        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$stocklevel, ":reorderpoint"=>$reorderpoint];
+        $sql = "UPDATE stock_inventory SET `storeditemid`=:storeditemid, `supplierid`=:supplierid WHERE `storeditemid`=:storeditemid AND `id`=:id";
+        $placeholders = [":storeditemid"=>$storeditemid, ":supplierid"=>$supplierid];
         $result=$this->update($sql, $placeholders);
         if ($result>0) // if row has been updated, return
             return $result;
@@ -73,31 +69,7 @@ class StockModel extends DbConfig
             return false;
 
         // Otherwise add a new stock record, none exists
-        return $this->create($storeditemid, $locationid, $stocklevel, $reorderpoint);
-    }
-
-    /**
-     * @param $storeditemid
-     * @param $locationid
-     * @param $amount
-     * @param $reorderpoint
-     * @param bool $decrement
-     * @return bool|int|string Returns false on failure, number of rows affected or a newly inserted id.
-     */
-    public function incrementStockLevel($storeditemid, $locationid, $amount, $reorderpoint, $decrement = false){
-        $sql = "UPDATE stock_levels SET `stocklevel`= (`stocklevel` ".($decrement==true?'-':'+')." :stocklevel) ,`reorderpoint`=:reorderpoint WHERE `storeditemid`=:storeditemid AND `locationid`=:locationid";
-        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":stocklevel"=>$amount, ":reorderpoint"=>$reorderpoint];
-
-        $result = $this->update($sql, $placeholders);
-        if ($result>0) return $result;
-
-        if ($result===false) return false;
-
-        if ($decrement===false){ // if adding stock and no record exists, create it
-            return $this->create($storeditemid, $locationid, $amount, $reorderpoint);
-        }
-
-        return true;
+        return $this->create($storeditemid, $supplierid);
     }
 
     /**
@@ -109,7 +81,7 @@ class StockModel extends DbConfig
      */
     public function get($storeditemid= null, $locationid= null, $report=false){
 
-        $sql = 'SELECT s.*, i.name AS name, COALESCE(p.name, "Misc") AS supplier'.($report?', l.name AS location, i.price*s.stocklevel as stockvalue':'').' FROM stock_levels as s LEFT JOIN stored_items as i ON s.storeditemid=i.id LEFT JOIN stored_suppliers as p ON i.supplierid=p.id'.($report?' LEFT JOIN locations as l ON s.locationid=l.id':'');
+        $sql = 'SELECT s.*, items.name AS name, items.categoryid AS categoryid, items.description AS description, items.taxid AS taxid, items.reorderPoint AS reorderPoint, COALESCE(p.name, "Misc") AS supplier'.($report?', l.name AS location, s.price*s.stocklevel as stockvalue':'').' FROM stock_items as s LEFT JOIN stock_inventory as i ON s.stockinventoryid=i.id LEFT JOIN stored_items as items ON i.storeditemid=items.id LEFT JOIN stored_suppliers as p ON i.supplierid=p.id LEFT JOIN stored_categories as c ON items.categoryid=c.id'.($report?' LEFT JOIN locations as l ON s.locationid=l.id':'');
         $placeholders = [];
         if ($storeditemid !== null) {
             if (empty($placeholders)) {
@@ -132,15 +104,30 @@ class StockModel extends DbConfig
     }
 
     /**
-     * @param $id
-     * @param $data
-     * @return bool|int Returns false on an unexpected failure or the number of rows affected by the update operation
+     * Returns an array of stock records, optionally including special reporting values
+     * @return array|bool Returns false on failure, or an array of stock records
      */
-    public function editItemSupplier($id, $data){
-        $sql = "UPDATE stored_items SET data= :data, supplierid= :supplierid, categoryid= :categoryid, code= :code, name= :name, price= :price WHERE id= :id;";
-        $placeholders = [":id"=>$id, ":data"=>json_encode($data), ":supplierid"=>$data->supplierid, ":categoryid"=>$data->categoryid, ":code"=>$data->code, ":name"=>$data->name, ":price"=>$data->price];
+    public function getCosts(){
 
-        return $this->update($sql, $placeholders);
+        $sql = 'SELECT s.*, i.name AS name, COALESCE(items.cost, "0") AS cost, COALESCE(p.name, "Misc") AS supplier FROM stock_inventory as s LEFT JOIN stored_items as i ON i.id=s.storeditemid LEFT JOIN stock_items as items ON s.id=items.stockinventoryid LEFT JOIN stored_suppliers as p ON s.supplierid=p.id ORDER BY s.supplierid';
+        $placeholders = [];
+        return $this->select($sql, $placeholders);
+    }
+
+    /**
+     * Get stock record by item id.
+     * @param $storeditemid
+     * @param $supplierid
+     * @return bool|int Returns false on failure, or number of records
+     */
+    public function getByItemId($storeditemid, $supplierid){
+        if ($storeditemid === null || $supplierid === null) {
+            return false;
+        }
+        $sql          = "SELECT * FROM stock_inventory WHERE storeditemid=:storeditemid AND supplierid=:supplierid;";
+        $placeholders = [":storeditemid"=>$storeditemid, ":supplierid"=>$supplierid];
+
+        return $this->select($sql, $placeholders);
     }
 
     /**
@@ -152,23 +139,23 @@ class StockModel extends DbConfig
         if ($itemid === null) {
             return false;
         }
-        $sql          = "DELETE FROM stock_levels WHERE itemid=:itemid;";
-        $placeholders = [":itemid"=>$itemid];
+        $sql          = "DELETE FROM stock_inventory WHERE id=:itemid;";
+        $placeholders = [":id"=>$itemid];
 
         return $this->delete($sql, $placeholders);
     }
 
     /**
-     * Remove stock record by location id.
-     * @param $locationid
+     * Remove stock record by supplierd id.
+     * @param $supplierid
      * @return bool|int Returns false on failure, or number of records deleted
      */
-    public function removeByLocationId($locationid){
-        if ($locationid === null) {
+    public function removeBySupplierId($supplierid){
+        if ($supplierid === null) {
             return false;
         }
-        $sql          = "DELETE FROM stock_levels WHERE locationid=:locationid;";
-        $placeholders = [":locationid"=>$locationid];
+        $sql          = "DELETE FROM stock_inventory WHERE supplierid=:supplierid;";
+        $placeholders = [":supplierid"=>$supplierid];
 
         return $this->delete($sql, $placeholders);
     }
