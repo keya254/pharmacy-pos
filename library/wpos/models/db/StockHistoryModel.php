@@ -39,7 +39,7 @@ class StockHistoryModel extends DbConfig
     }
 
     /**
-     * @param $storeditemid
+     * @param $stockitemid
      * @param $locationid
      * @param $type
      * @param $amount
@@ -47,27 +47,27 @@ class StockHistoryModel extends DbConfig
      * @param int $direction
      * @return bool|string Returns false on an unexpected failure, returns -1 if a unique constraint in the database fails, or the new rows id if the insert is successful
      */
-    public function create($storeditemid, $locationid, $type, $amount, $auxid=-1, $direction=0){
-        $sql = "INSERT INTO stock_history (storeditemid, locationid, auxid, auxdir, type, amount, dt) VALUES (:storeditemid, :locationid, :auxid, :auxdir, :type, :amount, '".date("Y-m-d H:i:s")."');";
-        $placeholders = [":storeditemid"=>$storeditemid, ":locationid"=>$locationid, ":auxid"=>$auxid, ":auxdir"=>$direction, ":type"=>$type, ":amount"=>$amount];
+    public function create($stockitemid, $locationid, $type, $amount, $auxid=-1, $direction=0){
+        $sql = "INSERT INTO stock_history (stockitemid, locationid, auxid, auxdir, type, amount, dt) VALUES (:stockitemid, :locationid, :auxid, :auxdir, :type, :amount, '".date("Y-m-d H:i:s")."');";
+        $placeholders = [":stockitemid"=>$stockitemid, ":locationid"=>$locationid, ":auxid"=>$auxid, ":auxdir"=>$direction, ":type"=>$type, ":amount"=>$amount];
 
         return $this->insert($sql, $placeholders);
     }
 
     /**
-     * @param bool $storeditemid
+     * @param bool $stockitemid
      * @param bool $locationid
      * @return array|bool Returns an array of results on success, false on failure
      */
-    public function get($storeditemid = false, $locationid = false){
-        $sql = "SELECT h.*, i.name as name, COALESCE(l.name, 'Warehouse') as location FROM stock_history as h LEFT JOIN stored_items as i ON h.storeditemid=i.id LEFT JOIN locations as l ON h.locationid=l.id";
+    public function get($stockitemid = false, $locationid = false){
+        $sql = "SELECT h.*, item.name as name, COALESCE(l.name, 'Warehouse') as location FROM stock_history as h LEFT JOIN stock_items as i ON h.stockitemid=i.id LEFT JOIN locations as l ON h.locationid=l.id LEFT JOIN stock_inventory AS inv ON i.stockinventoryid=inv.id LEFT JOIN stored_items AS item ON inv.storeditemid=item.id";
         $placeholders = [];
-        if ($storeditemid !== false) {
+        if ($stockitemid !== false) {
             if (empty($placeholders)) {
                 $sql .= ' WHERE';
             }
-            $sql .= ' h.storeditemid = :storeditemid';
-            $placeholders[':storeditemid'] = $storeditemid;
+            $sql .= ' h.stockitemid = :stockitemid';
+            $placeholders[':stockitemid'] = $stockitemid;
         }
         if ($locationid !== false) {
             if (empty($placeholders)) {

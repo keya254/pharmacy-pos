@@ -55,7 +55,7 @@ class SuppliersModel extends DbConfig
      * @return array|bool Returns false on an unexpected failure or an array of selected rows
      */
     public function get($Id = null) {
-        $sql = 'SELECT s.*, COUNT(i.id) as numitems FROM stored_suppliers as s LEFT OUTER JOIN stored_items as i ON s.id=i.supplierid';
+        $sql = 'SELECT s.*, COUNT(i.id) as numitems FROM stored_suppliers as s LEFT OUTER JOIN stock_inventory as i ON s.id=i.supplierid';
         $placeholders = [];
         if ($Id !== null) {
             if (empty($placeholders)) {

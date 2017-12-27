@@ -30,13 +30,10 @@
     </th>
     <th data-priority="1">ID</th>
     <th data-priority="2">Name</th>
-    <th data-priority="8">Description</th>
-    <th data-priority="7">Tax</th>
-    <th data-priority="6">Default Qty</th>
-    <th data-priority="4">Price</th>
-    <th data-priority="5">Stockcode</th>
-    <th data-priority="9">Category</th>
-    <th data-priority="10">Supplier</th>
+    <th data-priority="3">Description</th>
+    <th data-priority="4">Category</th>
+    <th data-priority="5">Tax</th>
+    <th data-priority="6">Reorder Point</th>
     <th class="noexport" data-priority="2"></th>
 </tr>
 </thead>
@@ -64,54 +61,31 @@
                 </a>
             </li>
         </ul>
-        <div class="tab-content" style="min-height: 320px;">
+        <div class="tab-content" style="min-height: 320px;padding-top:5px;">
             <div class="tab-pane active in" id="itemdetails">
                 <table>
                     <tr>
                         <td style="text-align: right;"><label>Name:&nbsp;</label></td>
-                        <td><input id="itemname" type="text"/>
+                        <td><input id="itemname" class="form-control" type="text"/>
                             <input id="itemid" type="hidden"/></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right;"><label>Alternate Name:&nbsp;</label></td>
-                        <td><input id="itemaltname" type="text"/><br/>
-                            <small>Alternate language name</small>
-                        </td>
-                    </tr>
-                    <tr>
                         <td style="text-align: right;"><label>Description:&nbsp;</label></td>
-                        <td><input id="itemdesc" type="text"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Unit Cost:&nbsp;</label></td>
-                        <td><input id="itemcost" type="text" value="0"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Unit Price:&nbsp;</label></td>
-                        <td><input id="itemprice" type="text" value="0"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
-                        <td><select id="itemtax" class="taxselect">
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Default Qty:&nbsp;</label></td>
-                        <td><input id="itemqty" type="text" value="1"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Stockcode:&nbsp;</label></td>
-                        <td><input id="itemcode" type="text"/></td>
+                        <td><input class="form-control" id="itemdesc" type="text"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>Category:&nbsp;</label></td>
-                        <td><select id="itemcategory" class="catselect">
+                        <td><select id="itemcategory" class="catselect form-control">
                             </select></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right;"><label>Supplier:&nbsp;</label></td>
-                        <td><select id="itemsupplier" class="supselect">
+                        <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
+                        <td><select id="itemtax" class="taxselect form-control">
                             </select></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+                        <td><input class="form-control" id="itemreorderpoint" type="text"/></td>
                     </tr>
                 </table>
             </div>
@@ -164,48 +138,25 @@
     <table>
         <tr>
            <td style="text-align: right;"><label>Name:&nbsp;</label></td>
-           <td><input id="newitemname" type="text"/><br/></td>
-        </tr>
-        <tr>
-            <td style="text-align: right;"><label>Alternate Name:&nbsp;</label></td>
-            <td><input id="newitemaltname" type="text"/><br/>
-                <small>Alternate language name</small>
-            </td>
+           <td><input id="newitemname" class="form-control" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Description:&nbsp;</label></td>
-            <td><input id="newitemdesc" type="text"/></td>
-        </tr>
-        <tr>
-            <td style="text-align: right;"><label>Unit Cost:&nbsp;</label></td>
-            <td><input id="newitemcost" type="text" value="0"/></td>
-        </tr>
-        <tr>
-            <td style="text-align: right;"><label>Unit Price:&nbsp;</label></td>
-            <td><input id="newitemprice" type="text" value="0"/></td>
-        </tr>
-        <tr>
-            <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
-            <td><select id="newitemtax" class="taxselect">
-            </select></td>
-        </tr>
-        <tr>
-            <td style="text-align: right;"><label>Default Qty:&nbsp;</label></td>
-            <td><input id="newitemqty" type="text" value="1"/></td>
-        </tr>
-        <tr>
-            <td style="text-align: right;"><label>Stockcode:&nbsp;</label></td>
-            <td><input id="newitemcode" type="text"/></td>
+            <td><input id="newitemdesc" class="form-control" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Category:&nbsp;</label></td>
-            <td><select id="newitemcategory" class="catselect">
+            <td><select id="newitemcategory" class="catselect form-control">
                 </select></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Supplier:&nbsp;</label></td>
-            <td><select id="newitemsupplier" class="supselect">
-            </select></td>
+            <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
+            <td><select id="newitemtax" class="taxselect form-control">
+                </select></td>
+        </tr>
+        <tr>
+            <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+            <td><input id="newitemreorderpoint" class="form-control" type="text"/></td>
         </tr>
     </table>
 </div>
@@ -224,21 +175,20 @@
     var categories = null;
     var datatable;
     $(function() {
-        var data = WPOS.sendJsonData("multi", JSON.stringify({"items/get":"", "suppliers/get":"", "categories/get":""}));
+        var data = WPOS.sendJsonData("multi", JSON.stringify({"items/get":"", "categories/get":""}));
         stock = data['items/get'];
-        suppliers = data['suppliers/get'];
         categories = data['categories/get'];
         var itemarray = [];
         var tempitem;
         var taxrules = WPOS.getTaxTable().rules;
         for (var key in stock){
-            tempitem = stock[key];
-            if (taxrules.hasOwnProperty(tempitem.taxid)){
-                tempitem.taxname = taxrules[tempitem.taxid].name;
-            } else {
-                tempitem.taxname = "Not Defined";
-            }
-            itemarray.push(tempitem);
+          tempitem = stock[key];
+          if (taxrules.hasOwnProperty(tempitem.taxid)){
+            tempitem.taxname = taxrules[tempitem.taxid].name;
+          } else {
+            tempitem.taxname = "Not Defined";
+          }
+          itemarray.push(tempitem);
         }
         datatable = $('#itemstable').dataTable({
             "bProcessing": true,
@@ -250,12 +200,9 @@
                 { "mData":"id" },
                 { "mData":"name" },
                 { "mData":"description" },
-                { "mData":"taxname" },
-                { "mData":"qty" },
-                { "mData":function(data,type,val){return (data['price']==""?"":WPOS.util.currencyFormat(data["price"]));} },
-                { "mData":"code" },
                 { "mData":function(data,type,val){return (categories.hasOwnProperty(data.categoryid)?categories[data.categoryid].name:'None'); } },
-                { "mData":function(data,type,val){return (suppliers.hasOwnProperty(data.supplierid)?suppliers[data.supplierid].name:'None'); } },
+                { "mData":"taxname"},
+                { "mData":"reorderPoint"},
                 { mData:null, sDefaultContent:'<div class="action-buttons"><a class="green" onclick="openEditDialog($(this).closest(\'tr\').find(\'td\').eq(1).text());"><i class="icon-pencil bigger-130"></i></a><a class="red" onclick="removeItem($(this).closest(\'tr\').find(\'td\').eq(1).text())"><i class="icon-trash bigger-130"></i></a></div>', "bSortable": false }
             ],
             "columns": [
@@ -264,11 +211,8 @@
                 {type: "string"},
                 {type: "string"},
                 {type: "string"},
+                {type: "string"},
                 {type: "numeric"},
-                {type: "currency"},
-                {type: "string"},
-                {type: "string"},
-                {type: "string"},
                 {}
             ],
             "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
@@ -407,15 +351,10 @@
         var item = stock[id];
         $("#itemid").val(item.id);
         $("#itemname").val(item.name);
-        $("#itemaltname").val(item.alt_name);
         $("#itemdesc").val(item.description);
-        $("#itemqty").val(item.qty);
-        $("#itemtax").val(item.taxid);
-        $("#itemcode").val(item.code);
-        $("#itemcost").val(item.cost);
-        $("#itemprice").val(item.price);
-        $("#itemsupplier").val(item.supplierid);
         $("#itemcategory").val(item.categoryid);
+        $("#itemtax").val(item.taxid);
+        $("#itemreorderpoint").val(item.reorderPoint);
         $("#itemtype").val(item.type);
         var modtable = $("#itemmodtable");
         var modselecttable = $("#itemselmodtable");
@@ -463,20 +402,13 @@
         WPOS.util.showLoader();
         var item = {};
         var result;
-        var costval;
         if (isnewitem){
             // adding a new item
-            item.code = $("#newitemcode").val();
-            item.qty = $("#newitemqty").val();
             item.name = $("#newitemname").val();
-            item.alt_name = $("#newitemaltname").val();
             item.description = $("#newitemdesc").val();
-            item.taxid = $("#newitemtax").val();
-            costval = $("#newitemcost").val();
-            item.cost = (costval ? costval : 0);
-            item.price = $("#newitemprice").val();
-            item.supplierid = $("#newitemsupplier").val();
             item.categoryid = $("#newitemcategory").val();
+            item.taxid = $("#newitemtax").val();
+            item.reorderPoint = $("#newitemreorderpoint").val();
             item.type = "general";
             item.modifiers = [];
             result = WPOS.sendJsonData("items/add", JSON.stringify(item));
@@ -487,19 +419,14 @@
             }
         } else {
             // updating an item
-            item.id = $("#itemid").val();
-            item.code = $("#itemcode").val();
-            item.qty = $("#itemqty").val();
-            item.name = $("#itemname").val();
-            item.alt_name = $("#itemaltname").val();
-            item.description = $("#itemdesc").val();
-            item.taxid = $("#itemtax").val();
-            costval = $("#itemcost").val();
-            item.cost = (costval ? costval : 0);
-            item.price = $("#itemprice").val();
-            item.supplierid = $("#itemsupplier").val();
-            item.categoryid = $("#itemcategory").val();
-            item.type = $("#itemtype").val();
+          item.id = $("#itemid").val();
+          item.name = $("#itemname").val();
+          item.description = $("#itemdesc").val();
+          item.categoryid = $("#itemcategory").val();
+          item.taxid = $("#itemtax").val();
+          item.reorderPoint = $("#itemreorderpoint").val();
+          item.type = $("#itemtype").val();
+          item.modifiers = [];
             item.modifiers = [];
             $("#itemselmodtable .selmoditem").each(function(){
                 var mod = {type:"select", options:[]};
@@ -598,15 +525,31 @@
         } else {
             data = stock;
         }
-
+        var sortable=[];
+        var sortedData = {};
+        for(var key in data)
+          if(data.hasOwnProperty(key))
+            sortable.push([key, data[key]]);
+        var sorted = sortable.sort(function(a, b) {
+          return a[1].name.localeCompare(b[1].name);
+        });
+        for(var item in sorted) {
+          sortedData[item] = {
+            id: sorted[item][0],
+            name: sorted[item][1].name,
+            description: sorted[item][1].description,
+            categoryid: sorted[item][1].categoryid,
+            taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
+            reorderPoint: sorted[item][1].reorderPoint
+          };
+        }
         var csv = WPOS.data2CSV(
-            ['ID', 'Stock Code', 'Name', 'Description', 'Default Qty', 'Unit Cost', 'Unit Price', 'Tax Rule Name', 'Category Name', 'Supplier Name'],
-            ['id', 'code', 'name', 'description', 'qty', 'cost', 'price',
-                {key:'taxid', func: function(value){ var taxtable = WPOS.getTaxTable().rules; return taxtable.hasOwnProperty(value) ? taxtable[value].name : 'Unknown'; }},
+            ['ID', 'Name', 'Description', 'Category Name', 'Tax', 'Reorder Point'],
+            ['id', 'name', 'description',
                 {key:'categoryid', func: function(value){ return categories.hasOwnProperty(value) ? categories[value].name : 'Unknown'; }},
-                {key:'supplierid', func: function(value){ return suppliers.hasOwnProperty(value) ? suppliers[value].name : 'Unknown'; }}
+              'taxname', 'reorderPoint'
             ],
-            data
+            sortedData
         );
 
         WPOS.initSave(filename, csv);
@@ -619,26 +562,33 @@
         }
         importdialog = $("body").csvImport({
             jsonFields: {
-                'code': {title:'Stock Code', required: true},
                 'name': {title:'Name', required: true},
-                'description': {title:'Description', required: false, value: ""},
-                'qty': {title:'Default Qty', required: false, value: 1},
-                'cost': {title:'Unit Cost', required: false, value: 0.00},
-                'price': {title:'Unit Price', required: false, value: ""},
-                'tax_name': {title:'Tax Rule Name', required: false, value: ""},
-                'supplier_name': {title:'Supplier Name', required: false, value: ""},
-                'category_name': {title:'Category Name', required: false, value: ""}
+                'description': {title:'Description', required: true},
+                'category_name': {title:'Category Name', required: true},
+                'tax_name': {title:'Tax Name', required: true},
+                'reorderPoint': {title:'Reorder Point', required: true}
             },
             csvHasHeader: true,
             importOptions: [
-                {label: "Set unknown tax names to no tax", id:"skip_tax", checked:false},
-                {label: "Create unknown suppliers", id:"add_suppliers", checked:true},
-                {label: "Create unknown categories", id:"add_categories", checked:true}
+              {label: "Set unknown tax names to no tax", id:"skip_tax", checked:false},
+              {label: "Create unknown categories", id:"add_categories", checked:true}
             ],
             // callbacks
             onImport: function(jsondata, options){
-                //console.log(options);
-                importItems(jsondata, options);
+                var data = [];
+                for(var i=0; i<jsondata.length;i++) {
+                  if (jsondata[i].name === '' || jsondata[i].name === null) {
+                    continue;
+                  }
+                  data.push({
+                    name: jsondata[i].name,
+                    description: jsondata[i].description !== '' ? jsondata[i].description: "No description",
+                    reorderPoint: jsondata[i].reorderPoint !== '' ? jsondata[i].reorderPoint: "0",
+                    tax_name: jsondata[i].tax_name !== '' ? jsondata[i].tax_name.toUpperCase(): "No Tax",
+                    category_name: jsondata[i].category_name !== '' ? jsondata[i].category_name.toUpperCase(): "GENERAL"
+                  });
+                }
+                importItems(data, options);
             }
         });
     }

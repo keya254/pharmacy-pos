@@ -199,7 +199,12 @@ class WposAdminStats {
         $stime = isset($this->data->stime)?$this->data->stime:(strtotime('-1 week')*1000);
         $etime = isset($this->data->etime)?$this->data->etime:(time()*1000);
 
-        if (is_array($items = $itemsMdl->getStoredItemTotals($stime, $etime, $group, true, $this->data->type))){
+        if($group == 2) {
+            $items = $itemsMdl->getStoredItemTotalsSupplier($stime, $etime, $group, true, $this->data->type);
+        } else {
+            $items = $itemsMdl->getStoredItemTotals($stime, $etime, $group, true, $this->data->type);
+        }
+        if (is_array($items)){
             foreach ($items as $item){
                 $stats[$item['groupid']] = new stdClass();
                 if ($item['groupid']==0){
@@ -441,24 +446,88 @@ class WposAdminStats {
     public function getReorderPoints($result){
         $stats = [];
         $stockMdl = new StockModel();
+        $itemsMdl = new StoredItemsModel();
+        $items = $itemsMdl->get();
+        $stocks = $stockMdl->get(null, null, true);
+        if ($stocks===false){
+            $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
+        }
+        if ($items===false){
+            $result['error']= "Error getting items data: ".$itemsMdl->errorInfo;
+        }
+        foreach ($items as $item) {
+            $stats[$item['name']] = new stdClass();
+            foreach ($stocks as $stock){
+                if ($item['name'] == $stock['name']) {
+                    $stats[$stock['name']]->stocklevel += $stock['stocklevel'];
+                    $stats[$stock['name']]->reorderpoint = $stock['reorderPoint'];
+                }
+            }
+        }
+        $result['data'] = $stats;
+        return $result;
+    }
+
+    /**
+     * Get the expired items, does not take into account the current range
+     * @param $result
+     * @return mixed
+     */
+    public function getExpiredItems($result){
+        $stats = [];
+        $stockMdl = new StockModel();
         $stocks = $stockMdl->get(null, null, true);
         if ($stocks===false){
             $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
         }
         foreach ($stocks as $stock){
-            if ($stock['stocklevel'] <= $stock['reorderpoint']) {
-                $stats[$stock['id']] = new stdClass();
-                if ($stock['locationid']==0){
-                    $stats[$stock['id']]->location = "Warehouse";
-                } else {
-                    $stats[$stock['id']]->location = $stock['location'];
+            $stats[$stock['id']] = new stdClass();
+            if ($stock['locationid']==0){
+                $stats[$stock['id']]->location = "Warehouse";
+            } else {
+                $stats[$stock['id']]->location = $stock['location'];
+            }
+            $stats[$stock['id']]->name = $stock['name'];
+            $stats[$stock['id']]->supplier = $stock['supplier'];
+            $stats[$stock['id']]->stocklevel = $stock['stocklevel'];
+            $stats[$stock['id']]->reorderpoint = $stock['reorderPoint'];
+            $stats[$stock['id']]->expiryDate = $stock['expiryDate'];
+        }
+        $result['data'] = $stats;
+        return $result;
+    }
+
+    /**
+     * Get the expired drugs, does not take into account the current range
+     * @param $result
+     * @return mixed
+     */
+    public function getItemsCost($result){
+        $stats = [];
+        $stockMdl = new StockModel();
+        $itemsMdl = new StoredItemsModel();
+        $stocks = $stockMdl->getCosts();
+        $items = $itemsMdl->get();
+        if ($stocks===false){
+            $result['error']= "Error getting stock data: ".$stockMdl->errorInfo;
+        }
+        if ($items===false){
+            $result['error']= "Error getting items: ".$itemsMdl->errorInfo;
+        }
+//        print_r($stocks);
+
+        foreach ($items as $item) {
+            $stats[$item['name']] = new stdClass();
+            $stats[$item['name']]->suppliers = array();
+            $stats[$item['name']]->costs = array();
+            foreach ($stocks as $stock){
+                if ($item['name'] == $stock['name']) {
+                    array_push($stats[$stock['name']]->suppliers, $stock['supplier']);
+                    array_push($stats[$stock['name']]->costs, $stock['cost']);
                 }
-                $stats[$stock['id']]->name = $stock['name'];
-                $stats[$stock['id']]->supplier = $stock['supplier'];
-                $stats[$stock['id']]->stocklevel = $stock['stocklevel'];
-                $stats[$stock['id']]->reorderpoint = $stock['reorderpoint'];
             }
         }
+//        print_r($stats);
         $result['data'] = $stats;
         return $result;
     }

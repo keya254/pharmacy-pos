@@ -375,6 +375,37 @@ function WPOSReports() {
         var html = reportheader("What's Selling Report") + '<table style="width:100%;" class="table table-stripped"><thead><tr><th>Item</th><th># Sold</th><th>Total</th></tr></thead><tbody>';
         var stats = getWhatsSellingStats();
         var item;
+      var items = stats.items;
+      var names = [];
+      for (var i in items) {
+        names[items[i].name] = [];
+        names[items[i].name].name = items[i].name;
+        names[items[i].name].qty = 0;
+        names[items[i].name].total = 0;
+      }
+      for (var i in items) {
+        names[items[i].name].qty += parseInt(items[i].qty);// Sum all the qty from same item name
+        names[items[i].name].total += parseInt(items[i].total);// Sum all the qty from same item name
+      }
+      var filteredItems = [];
+      for (var i in items) {
+        filteredItems.push(items[i].name);// get all names
+      }
+      var uniqueItems = [...new Set(filteredItems)]; //get only unque names
+      var list = [];
+      for(var i in names) {
+        if (uniqueItems.indexOf(names[i].name) !== -1) {
+          list[uniqueItems.indexOf(names[i].name)] = names[i];
+        }
+      }
+      var sort = [];
+      var order = [];
+      // put indexes into array and sort
+      for (var i in list){
+        order.push([list[i]['soldqty'], list[i]]);
+        sort.push([i, list[i].soldtotal]);
+      }
+      stats.items = list;
         for (var id in stats.items) {
             item = stats.items[id];
             html += '<tr><td>' + item.name + '</td><td>' + item.qty + '</td><td>' + WPOS.util.currencyFormat(item.total) + '</td></tr>';

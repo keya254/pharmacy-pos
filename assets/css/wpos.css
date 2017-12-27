@@ -203,6 +203,13 @@ body {
     cursor: pointer;
     transition: all 0.5s ease;
 }
+.iboxitem .name {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: 3px;
+}
 .iboxitem .price {
   color:#bf211c;
 }
