@@ -95,14 +95,14 @@
                                         <div style="margin-bottom: 10px;">
                                             <form class="form-horizontal">
                                               <div class="form-group">
-                                                <div class="col-sm-6">
+                                                <div class="form-group col-sm-6">
                                                     <label class="col-xs-3" style="vertical-align:bottom;" for="codeinput">Stock Code:</label>
                                                     <div class="col-xs-8 input-group"  id="codeInput">
                                                       <input class="form-control" id="codeinput" type="text" onkeypress="if(event.keyCode=='13' || event.keyCode=='7'){ WPOS.items.addItemFromStockCode($('#codeinput').val()); }" placeholder="Add Stock Code ..." />
                                                       <div class="input-group-addon" onclick="WPOS.items.addItemFromStockCode($('#codeinput').val());">Add</div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="form-group col-sm-6">
                                                     <label class="col-xs-3" style="vertical-align:bottom;" for="itemsearch">Stock Search:&nbsp;</label>
                                                     <div class="col-xs-8">
                                                       <input id="itemsearch" class="form-control" type="text" placeholder="Search for item ..." />
@@ -209,6 +209,7 @@
                         <!-- End of sales -->
                         <div class="col-xs-12 col-sm-6" style="margin-top: -20px;">
                            <div class="row">
+                               <button class="btn-xs btn-primary" id="refresh" onclick="WPOS.refreshRemoteData();">Refresh</button>
                               <div class="col-xs-12" id="iboxitems">
                               </div>
                           </div>
@@ -407,7 +408,7 @@
                 </div>
                 <div class="tab-pane fade" id="tab4primary">
                     <div id="tabs-4">
-                        <div class="tabbable">
+                        <div class="tabbable" style="margin:0 5px;">
                             <ul class="nav nav-tabs tab-size-bigger" id="myTab">
                                 <li class="active">
                                     <a data-toggle="tab" href="#settings-tab-1">
@@ -450,7 +451,7 @@
                                             </h4>
                                         </div>
                                         <div class="widget-body" style="padding-top: 10px; text-align: left;">
-                                            <table class="table tab-pane">
+                                            <table class="table tab-pane registration">
                                                 <tr>
                                                     <td>Device ID: </td>
                                                     <td class="device_id"></td>
@@ -467,10 +468,10 @@
                                                     <td>Registration ID: </td>
                                                     <td class="devicereg_id"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Registration UUID: </td>
-                                                    <td class="devicereg_uuid"></td>
-                                                </tr>
+                                                <!--<tr>-->
+                                                    <!--<td>Registration UUID: </td>-->
+                                                    <!--<td class="devicereg_uuid"></td>-->
+                                                <!--</tr>-->
                                                 <tr>
                                                     <td>Registration DT: </td>
                                                     <td class="devicereg_dt"></td>
@@ -1151,25 +1152,18 @@
         </table>
     </div>
 </div>
-<div id="setupdiv" style="display:none; padding:5px;" title="Initial Device Setup">
-    <div style="display: inline-block; margin-bottom: 10px;">
-        Select a device to merge with or enter a new device name<br/>
-        <label>Existing device:</label><br/>
-        <select id="posdevices" onchange="$('#newposdevice').val('');">
+<div id="setupdiv" class="text-center" style="display:none; padding:5px;" title="Initial Device Setup">
+    <div style="margin-bottom: 10px;">
+        Select a device<br/>
+        <select id="posdevices" class="form-control" onchange="$('#newposdevice').val('');">
             <option value="" selected></option>
-        </select><br/><br/>
-
-        <label>New device name:</label><br/>
-        <input id="newposdevice" type="text" onchange="$('#posdevices>option:eq(0)').prop('selected', true);"/>
+        </select><br/>
     </div>
-    <div style="display: inline-block;">
-        Select an existing location for the device or enter a new location<br/>
-        <label>Existing location:</label><br/>
-        <select id="poslocations" onchange="$('#newposlocation').val('');">
+    <div style="">
+        Select a location for the device<br/>
+        <select id="poslocations" class="form-control" onchange="$('#newposlocation').val('');">
             <option value="" selected></option>
-        </select><br/><br/>
-        <label>New location name:</label><br/>
-        <input id="newposlocation" type="text" onchange="$('#poslocations>option:eq(0)').prop('selected', true);"/>
+        </select><br/>
     </div>
     <div style="text-align: center; margin-top: 10px;">
         <button class="btn btn-primary btn-sm" onclick="WPOS.deviceSetup();">Register</button>

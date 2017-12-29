@@ -363,7 +363,7 @@ function WPOS() {
                     initialsetup = false;
                     $("#setupdiv").dialog("close");
                     showLogin();
-                    console.log(devicename)
+                    alert('Registration successful, login to start the demo');
                 } else {
                     alert("There was a problem setting up the device, please try again.");
                 }
@@ -1653,7 +1653,7 @@ $(function () {
 
     $("#setupdiv").dialog({
         width : 'auto',
-        maxWidth        : 370,
+        maxWidth     : 200,
         modal        : true,
         closeOnEscape: false,
         autoOpen     : false,
