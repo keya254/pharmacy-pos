@@ -915,8 +915,8 @@
                 <span id="login-banner-txt"></span>
             </div>
             <form class="login-form">
-              <input type="text" id="username" name="username" placeholder="username"/>
-              <input type="password" id="password" name="password" placeholder="password" onkeypress="if(event.keyCode == 13){WPOS.userLogin();}"/>
+              <input type="text" id="username" name="username" value="admin"/>
+              <input type="password" id="password" name="password" value="admin" onkeypress="if(event.keyCode == 13){WPOS.userLogin();}"/>
               <button id="loginbutton" onClick="WPOS.userLogin();">login</button>
             </form>
             <div id="loadingdiv" style="height: 225px;">
@@ -1152,22 +1152,24 @@
         </table>
     </div>
 </div>
-<div id="setupdiv" class="text-center" style="display:none; padding:5px;" title="Initial Device Setup">
+<div class="setupdiv">
+  <div id="setupdiv" class="text-center" style="display:none; padding:5px;" title="Initial Device Setup">
     <div style="margin-bottom: 10px;">
-        Select a device<br/>
-        <select id="posdevices" class="form-control" onchange="$('#newposdevice').val('');">
-            <option value="" selected></option>
-        </select><br/>
+      Select a device<br/>
+      <select id="posdevices" class="form-control" onchange="$('#newposdevice').val('');">
+        <option value="" selected></option>
+      </select><br/>
     </div>
     <div style="">
-        Select a location for the device<br/>
-        <select id="poslocations" class="form-control" onchange="$('#newposlocation').val('');">
-            <option value="" selected></option>
-        </select><br/>
+      Select a location for the device<br/>
+      <select id="poslocations" class="form-control" onchange="$('#newposlocation').val('');">
+        <option value="" selected></option>
+      </select><br/>
     </div>
     <div style="text-align: center; margin-top: 10px;">
-        <button class="btn btn-primary btn-sm" onclick="WPOS.deviceSetup();">Register</button>
+      <button class="btn btn-primary btn-sm" onclick="WPOS.deviceSetup();">Register</button>
     </div>
+  </div>
 </div>
 <div id="formdiv" style="display:none; padding:5px; z-index: 1100;" title="">
     <div id="voidform">

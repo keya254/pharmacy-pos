@@ -571,14 +571,6 @@ body {
   height: 100vh !important;
   padding-top:-15px;
 }
-#paymentdiv, .ui-dialog {
-  max-width:500px !important;
-  min-width: 500px !important;
-  /*width:500px !important;*/
-}
-.ui-dialog-content {
-  min-width: 500px !important;
-}
 .ui-dialog-title {
   font-size: 20px;
   margin:10px 15px !important;

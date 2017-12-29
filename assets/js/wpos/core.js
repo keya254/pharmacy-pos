@@ -362,6 +362,8 @@ function WPOS() {
                     currentuser = null;
                     initialsetup = false;
                     $("#setupdiv").dialog("close");
+                    $("#username").val("admin");
+                    $("#password").val("admin");
                     showLogin();
                     alert('Registration successful, login to start the demo');
                 } else {
@@ -1604,7 +1606,7 @@ $(function () {
     $("#wrapper").tabs();
 
     $("#paymentsdiv").dialog({
-        maxWidth : 380,
+        maxWidth : 500,
         width : 'auto',
         modal   : true,
         autoOpen: false,
@@ -1614,8 +1616,8 @@ $(function () {
         },
         create: function( event, ui ) {
             // Set maxWidth
-            $(this).css("maxWidth", "370px");
-            $(this).css("minWidth", "325px");
+            $(this).css("maxWidth", "500px");
+            $(this).css("minWidth", "500px");
         }
     });
 
@@ -1652,7 +1654,7 @@ $(function () {
     });
 
     $("#setupdiv").dialog({
-        width : 'auto',
+        width        : 200,
         maxWidth     : 200,
         modal        : true,
         closeOnEscape: false,
@@ -1666,7 +1668,7 @@ $(function () {
         },
         create: function( event, ui ) {
             // Set maxWidth
-            $(this).css("maxWidth", "370px");
+            $(this).css("maxWidth", "200px");
         }
     });
 
@@ -1848,10 +1850,10 @@ $(function () {
     });
 
     // dev/demo quick login
-    if (document.location.host=="demo.wallacepos.com" || document.location.host=="alpha.wallacepos.com"){
+    if (document.location.host==="localhost" || document.location.host==="localhost"){
         var login = $("#logindiv");
         login.append('<button class="btn btn-primary btn-sm" onclick="$(\'#username\').val(\'admin\');$(\'#password\').val(\'admin\'); WPOS.userLogin();">Demo Login</button>');
-        if (document.location.host=="alpha.wallacepos.com")
+        if (document.location.host==="localhost")
             login.append('<button class="btn btn-primary btn-sm" onclick="$(\'#loginmodal\').hide();">Hide Login</button>');
     }
 
