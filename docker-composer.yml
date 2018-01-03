@@ -1,0 +1,26 @@
+version: '1.0'
+services:
+  apache:
+    build:
+      context: apache/.
+      dockerfile: Dockerfile
+    links:
+      - mysql
+    ports:
+      - "80:80"
+      - "443:443"
+    image: apache
+    depends_on:
+      - mariadb
+    volumes:
+      - /var/www/html/pos:/var/www/html/
+
+  mariadb:
+    image: 'bitnami/mariadb:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '3306:3306'
+    container_name: mariadb
+    volumes:
+      - ./mariadb/data:/bitnami
