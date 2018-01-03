@@ -28,10 +28,10 @@ services:
     image: "bitnami/mariadb:10.1-master"
     environment:
       - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_DATABASE=pos
     ports:
       - "3306:3306"
     volumes:
       - ./mariadb/data:/bitnami/mariadb
     depends_on:
       - fix-mariadb-permissions
-#    command: mysql -user=root --password=root -e library/installer/schemas/pharmacy-pos.sql

@@ -20,6 +20,8 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 ADD config/php.ini /usr/local/etc/php/
 
+COPY mariadb/dbconfig.json library/wpos/.dbconfig.json
+
 EXPOSE 80
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
