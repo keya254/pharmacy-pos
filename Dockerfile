@@ -1,32 +1,25 @@
-FROM ubuntu:18.04
+FROM php:7.2-rc-apache
 
-MAINTAINER Joe Nyugoh <joenyugoh@gmail.com>
+RUN apt update -y && \
+    apt install git -y && \
+    apt install gnupg gnupg2 gnupg1 -y && \
+    curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
+    apt install nodejs -y
 
-# Install apps
-RUN apt  update -y && \
-    apt install -y git && \
-    apt install -y nodejs && \
-    apt install -y npm && \
-    apt install -y apache2 && \
-    apt install -y mysql-server && \
-    apt install -y php-5 libapache2-mod-php5
+WORKDIR /var/www/html
 
-# Enable apache mods.
+COPY . /var/www/html
+
+RUN npm install
+
 RUN a2enmod proxy_http proxy_wstunnel rewrite
 
-# Clone ripo
-RUN git clone https://github.com/nyugoh/pharmacy-pos
-
-#Move the files to www folder
-RUN mv pharmacy-pos/* /var/www/html && \
-    npm install
-
-
-# Expose apache.
-EXPOSE 80
-EXPOSE 8080
-EXPOSE 443
-EXPOSE 3306
-
-# Update the default apache site with the config we created.
 ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+ADD config/php.ini /usr/local/etc/php/
+
+EXPOSE 80
+
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
