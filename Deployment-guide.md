@@ -17,7 +17,7 @@ Follow these steps to get Pharmacy Plus POS up and running
 
 1. Clone the repository  `git clone git@github.com:nyugoh/pharmacy-pos.git`.
 
-2. Run `cd hospitalrun-server`. This should take you into the `pharmacy-pos` root folder
+2. Run `cd hospitalrun-server`. This should take you into the `pharmacy-pos` root folder. Switch to docker branch by typing `git checkout feature/docker-instance`. *Remove this when changes are merged into master branch.*
 
 3. From this location, edit the `docker-compose.yml` file. Within the mariadb service, edit the `MARIADB_ROOT_PASSWORD` argument and replace `root` with a strong password. *Use a strong password.*
 
@@ -49,3 +49,8 @@ This container runs a Maria DB server and listens for requests on port 3306. On 
 
 * * *
 
+**Issues**
+
+1. If you are on Linux you have to set permissions by `chown www-data:www-data -R .`.
+
+2. The `npm install` inside apache service Dockerfile isn't working as expected.
