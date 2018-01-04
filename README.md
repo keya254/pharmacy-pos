@@ -1,6 +1,6 @@
 # Pharmacy Plus POS
 ## An intuitive &amp; modern web based POS system
-![logo](https://wallacepos.com/images/wallacepos_logo_600.png)
+![logo](https://raw.githubusercontent.com/nyugoh/pharmacy-pos/develop/assets/images/pos-screenshot.png)
 
 For more information visit our [website](http://magnumdigitalke.com/our-digital-services/pharmacypos/)
 
@@ -24,11 +24,11 @@ For more information visit our [website](http://magnumdigitalke.com/our-digital-
 ![Enable autostart for Apache and MySql](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356631242_Screenshot_20170925_191314.png)
   4. Adding xampp to startup folder. Click **Windows + R** to  open run shell then type **shell:startup** and click enter. Create a shortcut to the xampp control panel and drag it to that startup folder, if you don’t have one yet go to the startmenu and left-click on the xampp control panel and select send-to Desktop, that will add a shortcut to the desktop. Now when you restart your machine it will start Xampp and an icon will appear on the system tray.
 ### 2. Installing Node.js
-  1. Run the installer and follow all the steps.
+  1. Run the nodejs installer and follow all the steps.
   2. Test if node is added to the System Environment Variable, open the terminal and run the following commands. **node -v** , this should show you the node version and **npm -v** to show the npm version.
 ### 3. Installing the POS
 1. Getting the application
-  Copy the application folder, or go to github and download the zip code of the [app](https://github.com/micwallace/wallacepos). Extract the content to the **htdocs** folder found at **C:\xampp\htdocs** . Rename the folder to **pos**. 
+  Copy the application folder, or go to github and download the zip code of the [app](https://github.com/nyugoh/pharmacy-pos). Extract the content to the **htdocs** folder found at **C:\xampp\htdocs** . Rename the folder to **pos**. 
 ![The htdocs content](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356338160_Screenshot_20170925_191403.png)
 ![pos folder content](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356364973_Screenshot_20170925_191443.png)
 
