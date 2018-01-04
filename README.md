@@ -137,4 +137,4 @@ Pharmacy Plus POS requires:
 
 If you have good infrastucture, this is the preferred and easy way of running `pharmacy-pos`.
 
-To deploy Pharmacy-Plus POS on docker follow the guide [here](https://github.com/nyugoh/pharmacy-pos/blob/feature/docker-instance/DEPLOYMENT_GUIDE.md).
+To deploy Pharmacy-Plus POS on docker follow the guide [here](https://github.com/nyugoh/pharmacy-pos/blob/master/Deployment-guide.md).
