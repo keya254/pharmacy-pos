@@ -1,15 +1,14 @@
 FROM php:7.2-rc-apache
 
+MAINTAINER Joe Nyugoh <joenyugoh@gmail.com>
+
 RUN apt update -y && \
-    apt install git -y && \
-    apt install gnupg gnupg2 gnupg1 -y && \
+    apt install -y gnupg gnupg2 gnupg1 && \
     curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
-    apt install nodejs -y
-
-RUN a2enmod proxy_http proxy_wstunnel rewrite
-
-RUN docker-php-ext-install mysqli pdo pdo_mysql && \
-    apt-get update && apt-get install -y \
+    apt install -y nodejs && \
+    a2enmod proxy_http proxy_wstunnel rewrite && \
+    docker-php-ext-install mysqli pdo pdo_mysql && \
+    apt update && apt install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
@@ -26,6 +25,10 @@ RUN npm install
 COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 COPY mariadb/dbconfig.json library/wpos/.dbconfig.json
 COPY mariadb/config.json library/wpos/.config.json
+
+
+RUN rm -rf /var/lib/apt/lists/*  && \
+    chown www-data:www-data -R /var/www/html/*
 
 EXPOSE 80
 
