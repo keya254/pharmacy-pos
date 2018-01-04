@@ -67,11 +67,11 @@
 
 </head>
 <body style="overflow: hidden;">
-<div class="">
+<div id="tabs">
     <div class="panel with-nav-tabs panel-primary" style="position: relative;">
         <div class="panel-heading clearfix">
             <ul class="nav nav-tabs pull-right" id="admin-cog">
-                <li id="cashier" class="active"><a href="#tab1primary" onclick="WPOS.sales.setItemListPadding();" data-toggle="tab">Cashier</a></li>
+                <li id="cashier" class="active"><a href="#tab1primary" id="cash" data-toggle="tab">Cashier</a></li>
                 <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
                 <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Reports</a></li>
                 <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
