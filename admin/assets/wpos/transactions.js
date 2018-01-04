@@ -422,7 +422,6 @@ function WPOSTransactions() {
         itemprice = isNaN(itemprice) ? 0 : itemprice;
         // calculate item tax
         var taxdata = WPOS.util.calcTax($('#transitemtaxid').val(), itemprice, itemcost);
-        console.log(taxdata);
         if (!taxdata.inclusive){
             itemprice = (itemprice + taxdata.total).toFixed(2);
         }
@@ -805,7 +804,7 @@ function WPOSTransactions() {
             var upquery = query.toUpperCase();
             // search items for the text.
             if (items === null) {
-                items = WPOS.getJsonData("items/get");
+                items = WPOS.getJsonData("stock/get");
             }
             for (var key in items) {
                 if (!items.hasOwnProperty(key)) {

@@ -1622,7 +1622,7 @@ $(function () {
     });
 
     $("#creditpaymentsdiv").dialog({
-        maxWidth : 380,
+        maxWidth : 500,
         width : 'auto',
         modal   : true,
         autoOpen: false,
@@ -1632,8 +1632,8 @@ $(function () {
         },
         create: function( event, ui ) {
             // Set maxWidth
-            $(this).css("maxWidth", "370px");
-            $(this).css("minWidth", "325px");
+            $(this).css("maxWidth", "500px");
+            $(this).css("minWidth", "500px");
         }
     });
 

@@ -303,8 +303,8 @@
                         <span id="login-banner-txt"></span>
                     </div>
                     <form class="login-form">
-                      <input id="loguser" type="text" placeholder="Admin"/>
-                      <input id="logpass" onkeypress="if(event.keyCode == 13){WPOS.login();}" type="password"  placeholder="Password"/>
+                      <input class="form-control"id="loguser" type="text" placeholder="Admin"/>
+                      <input class="form-control"id="logpass" onkeypress="if(event.keyCode == 13){WPOS.login();}" type="password"  placeholder="Password"/>
                       <button id="loginbutton" onClick="WPOS.userLogin();">login</button>
                     </form>
                     <div id="loadingdiv" style="height: 225px;">
@@ -330,13 +330,13 @@
                     <div id="logindiv" style="display: none;">
                         <label class="block clearfix">
                     <span class="block input-icon input-icon-right">
-                        <input class="form-control" id="loguser" type="text" placeholder="Username"/>
+                        <input class="form-control"class="form-control" id="loguser" type="text" placeholder="Username"/>
                         <i class="icon-user"></i>
                     </span>
                         </label>
                         <label class="block clearfix">
                     <span class="block input-icon input-icon-right">
-                        <input class="form-control" id="logpass" onkeypress="if(event.keyCode == 13){WPOS.login();}" type="password"  placeholder="Password"/>
+                        <input class="form-control"class="form-control" id="logpass" onkeypress="if(event.keyCode == 13){WPOS.login();}" type="password"  placeholder="Password"/>
                         <i class="icon-lock" style="margin-right: 1px;"></i>
                     </span>
                         </label>
@@ -389,39 +389,39 @@
                         <table>
                             <tr>
                                 <td style="text-align: right;"><label>Name:&nbsp;</label></td>
-                                <td><input id="custname" type="text"/><input id="custid" type="hidden"/></td>
+                                <td><input class="form-control"id="custname" type="text"/><input class="form-control"id="custid" type="hidden"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>Email:&nbsp;</label></td>
-                                <td><input id="custemail" type="text"/></td>
+                                <td><input class="form-control"id="custemail" type="text"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>Phone:&nbsp;</label></td>
-                                <td><input id="custphone" type="text"/></td>
+                                <td><input class="form-control"id="custphone" type="text"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>Mobile:&nbsp;</label></td>
-                                <td><input id="custmobile" type="text"/></td>
+                                <td><input class="form-control"id="custmobile" type="text"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>Address:&nbsp;</label></td>
-                                <td><input id="custaddress" type="text"/></td>
+                                <td><input class="form-control"id="custaddress" type="text"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>Suburb:&nbsp;</label></td>
-                                <td><input id="custsuburb" type="text"/></td>
+                                <td><input class="form-control"id="custsuburb" type="text"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>Postcode:&nbsp;</label></td>
-                                <td><input id="custpostcode" type="text"/></td>
+                                <td><input class="form-control"id="custpostcode" type="text"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>State:&nbsp;</label></td>
-                                <td><input id="custstate" type="text"/></td>
+                                <td><input class="form-control"id="custstate" type="text"/></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;"><label>Country:&nbsp;</label></td>
-                                <td><input id="custcountry" type="text"/></td>
+                                <td><input class="form-control"id="custcountry" type="text"/></td>
                             </tr>
                         </table>
                     </div>
@@ -448,7 +448,7 @@
                     <div class="tab-pane" id="options" style="text-align: center;">
                         <button id="custdisbtn" class="btn btn-primary" onclick="WPOS.customers.setOnlineAccess();">Disable Customer Access</button>
                         <div class="space-10"></div>
-                        <input id="newcustpass" type="password" autocomplete="off"/>
+                        <input class="form-control"id="newcustpass" type="password" autocomplete="off"/>
                         <button class="btn btn-primary" onclick="WPOS.customers.setOnlinePassword();">Set Customer Password</button>
                         <div class="space-10"></div>
                         <button class="btn btn-primary" onclick="WPOS.customers.sendResetEmail();">Send Password Reset Email</button>
@@ -461,70 +461,70 @@
             <table>
                 <tr>
                     <td style="text-align: right;"><label>Name:&nbsp;</label></td>
-                    <td><input id="newcustname" type="text"/></td>
+                    <td><input class="form-control"id="newcustname" type="text"/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>Email:&nbsp;</label></td>
-                    <td><input id="newcustemail" type="text"/><br/></td>
+                    <td><input class="form-control"id="newcustemail" type="text"/><br/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>Phone:&nbsp;</label></td>
-                    <td><input id="newcustphone" type="text"/></td>
+                    <td><input class="form-control"id="newcustphone" type="text"/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>Mobile:&nbsp;</label></td>
-                    <td><input id="newcustmobile" type="text"/></td>
+                    <td><input class="form-control"id="newcustmobile" type="text"/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>Address:&nbsp;</label></td>
-                    <td><input id="newcustaddress" type="text"/></td>
+                    <td><input class="form-control"id="newcustaddress" type="text"/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>Suburb:&nbsp;</label></td>
-                    <td><input id="newcustsuburb" type="text"/></td>
+                    <td><input class="form-control"id="newcustsuburb" type="text"/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>Postcode:&nbsp;</label></td>
-                    <td><input id="newcustpostcode" type="text"/></td>
+                    <td><input class="form-control"id="newcustpostcode" type="text"/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>State:&nbsp;</label></td>
-                    <td><input id="newcuststate" type="text"/></td>
+                    <td><input class="form-control"id="newcuststate" type="text"/></td>
                 </tr>
                 <tr>
                     <td style="text-align: right;"><label>Country:&nbsp;</label></td>
-                    <td><input id="newcustcountry" type="text"/></td>
+                    <td><input class="form-control"id="newcustcountry" type="text"/></td>
                 </tr>
             </table>
         </div>
         <div id="custcontactdialog" class="hide">
             <form id="custcontactform">
-                <input id="contid" type="hidden" value="0"/>
-                <input id="contcustid" type="hidden" value="0"/>
+                <input class="form-control"id="contid" type="hidden" value="0"/>
+                <input class="form-control"id="contcustid" type="hidden" value="0"/>
                 <table>
                     <tr>
                         <td style="text-align: right;"><label>Name:&nbsp;</label></td>
-                        <td><input id="contname" type="text"/></td>
+                        <td><input class="form-control"id="contname" type="text"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>Position:&nbsp;</label></td>
-                        <td><input id="contposition" type="text"/></td>
+                        <td><input class="form-control"id="contposition" type="text"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>Email:&nbsp;</label></td>
-                        <td><input id="contemail" type="text"/><br/></td>
+                        <td><input class="form-control"id="contemail" type="text"/><br/></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>Phone:&nbsp;</label></td>
-                        <td><input id="contphone" type="text"/></td>
+                        <td><input class="form-control"id="contphone" type="text"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>Mobile:&nbsp;</label></td>
-                        <td><input id="contmobile" type="text"/></td>
+                        <td><input class="form-control"id="contmobile" type="text"/></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>Receives Invoices:&nbsp;</label></td>
-                        <td><input id="contrecinv" type="checkbox"/></td>
+                        <td><input class="form-control"id="contrecinv" type="checkbox"/></td>
                     </tr>
                 </table>
             </form>
@@ -549,15 +549,15 @@
                 <div class="space-8"></div>
             </div>
             <div style="display: inline-block; margin: 0; width: 49%; min-width: 250px; max-width: 300px; padding: 0 10px 5px 10px;">
-                <input type="hidden" autofocus="true" />
+                <input class="form-control"type="hidden" autofocus="true" />
                 <div class="transinvoptions">
-                    <label class="fixedlabel">Invoice Date:</label> <input type="text" id="invprocessdt" onclick="Kshs (this).blur();" style="width: 110px"/>
+                    <label class="fixedlabel">Invoice Date:</label> <input class="form-control"type="text" id="invprocessdt" onclick="$(this).blur();" style="width: 110px"/>
                     <div class="space-4"></div>
-                    <label class="fixedlabel">Due Date:</label> <input type="text" id="invduedt" onclick="Kshs (this).blur();" style="width: 110px"/>
+                    <label class="fixedlabel">Due Date:</label> <input class="form-control"type="text" id="invduedt" onclick="$(this).blur();" style="width: 110px"/>
                     <div class="space-4"></div>
-                    <label class="fixedlabel">Close Date:</label> <input type="text" id="invclosedt" onclick="Kshs (this).blur();" style="width: 110px"/>
+                    <label class="fixedlabel">Close Date:</label> <input class="form-control"type="text" id="invclosedt" onclick="$(this).blur();" style="width: 110px"/>
                     <div class="space-4"></div>
-                    <label class="fixedlabel">Discount:</label> <input style="width: 60px;" type="text" id="invdiscountval" />%
+                    <label class="fixedlabel">Discount:</label> <input class="form-control"style="width: 60px;" type="text" id="invdiscountval" />%
                     <div class="space-4"></div>
                 </div>
             </div>
@@ -635,8 +635,8 @@
                             P: <span id="tcustphone"></span><br/>
                             M: <span id="tcustmobile"></span><br/>
                             E: <span id="tcustemail"></span><br/>
-                            <input type="hidden" id="tcustid"/>
-                            <button id="transcustdtlbtn" class="btn btn-xs btn-primary" onclick="WPOS.customers.openCustomerDialog(Kshs ('#tcustid').val());">Details</button>
+                            <input class="form-control"type="hidden" id="tcustid"/>
+                            <button id="transcustdtlbtn" class="btn btn-xs btn-primary" onclick="WPOS.customers.openCustomerDialog($('#tcustid').val());">Details</button>
                         </div>
                         </div>
                     </div>
@@ -689,23 +689,23 @@
         </div>
         <div id="transitemdialog" class="hide" style="padding-left: 20px; padding-right: 20px;">
             <form id="transitemform">
-                <input type="hidden" id="transitemid" value="0"/>
-                <input type="hidden" id="transitemsitemid" value="0"/>
-                <input type="hidden" id="transitemtaxval" value="0"/>
-                <input type="hidden" id="transitempriceval" value="0"/>
-                <label class="fixedlabel">Search: </label><input type="text" id="stitemsearch"/><br/>
+                <input class="form-control"type="hidden" id="transitemid" value="0"/>
+                <input class="form-control"type="hidden" id="transitemsitemid" value="0"/>
+                <input class="form-control"type="hidden" id="transitemtaxval" value="0"/>
+                <input class="form-control"type="hidden" id="transitempriceval" value="0"/>
+                <label class="fixedlabel">Search: </label><input class="form-control"class="form-control" type="text" id="stitemsearch"/><br/>
                 <div class="space-8"></div>
-                <label class="fixedlabel">Qty: </label><input type="text" id="transitemqty" onchange="WPOS.transactions.calculateItemTotals();"/>
+                <label class="fixedlabel">Qty: </label><input class="form-control"type="text" id="transitemqty" onchange="WPOS.transactions.calculateItemTotals();"/>
                 <div class="space-4"></div>
-                <label class="fixedlabel">Name: </label><input type="text" id="transitemname"/>
+                <label class="fixedlabel">Name: </label><input class="form-control"type="text" id="transitemname"/>
                 <div class="space-4"></div>
-                <label class="fixedlabel">Alt Name: </label><input type="text" id="transitemaltname"/><br/><small>Alternate language name</small>
+                <label class="fixedlabel">Alt Name: </label><input class="form-control"type="text" id="transitemaltname"/><br/><small>Alternate language name</small>
                 <div class="space-4"></div>
                 <label class="fixedlabel">Description: </label><textarea style="width: 178px;" id="transitemdesc"></textarea>
                 <div class="space-4"></div>
-                <label class="fixedlabel">Cost: </label><input type="text" id="transitemcost"/>
+                <label class="fixedlabel">Cost: </label><input class="form-control"type="text" id="transitemcost"/>
                 <div class="space-4"></div>
-                <label class="fixedlabel">Unit: </label><input type="text" id="transitemunit" onchange="WPOS.transactions.calculateItemTotals();"/>
+                <label class="fixedlabel">Unit: </label><input class="form-control"type="text" id="transitemunit" onchange="WPOS.transactions.calculateItemTotals();"/>
                 <div class="space-4"></div>
                 <label class="fixedlabel">Tax: </label><select type="text" id="transitemtaxid" class="taxselect" onchange="WPOS.transactions.calculateItemTotals();"></select>
                 <div class="space-4"></div>
@@ -716,9 +716,9 @@
         </div>
         <div id="transpaydialog" class="hide" style="padding-left: 20px; padding-right: 20px;">
             <form id="transpayform">
-                <input type="hidden" autofocus="true" />
-                <input type="hidden" id="transpayid" value="0"/>
-                <label class="fixedlabel">Invoice Date: </label><input type="text" id="transpaydt" onclick="Kshs (this).blur();"/>
+                <input class="form-control"type="hidden" autofocus="true" />
+                <input class="form-control"type="hidden" id="transpayid" value="0"/>
+                <label class="fixedlabel">Invoice Date: </label><input class="form-control"type="text" id="transpaydt" onclick="$(this).blur();"/>
                 <div class="space-4"></div>
                 <label class="fixedlabel">Method: </label><select id="transpaymethod">
                 <option value="deposit">Deposit</option>
@@ -728,7 +728,7 @@
                 <option value="credit">Credit</option>
             </select>
                 <div class="space-4"></div>
-                <label class="fixedlabel">Amount: </label><input type="text" id="transpayamount"/><br/>
+                <label class="fixedlabel">Amount: </label><input class="form-control"type="text" id="transpayamount"/><br/>
             </form>
         </div>
         <div id="miscdialog" class="hide">
@@ -737,22 +737,22 @@
                 <select id="invoicetemplate">
                 </select>
                 <h3>View</h3>
-                <button onclick="WPOS.transactions.generateInvoice('html', 0, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
-                <button onclick="WPOS.transactions.generateInvoice('pdf', 0, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
+                <button onclick="WPOS.transactions.generateInvoice('html', 0, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
+                <button onclick="WPOS.transactions.generateInvoice('pdf', 0, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
                 <h3>Download</h3>
-                <button onclick="WPOS.transactions.generateInvoice('html', 1, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
-                <button onclick="WPOS.transactions.generateInvoice('pdf', 1, Kshs ('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
+                <button onclick="WPOS.transactions.generateInvoice('html', 1, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">HTML</button>
+                <button onclick="WPOS.transactions.generateInvoice('pdf', 1, $('#invoicetemplate').val());" class="btn btn-sm btn-primary" style="padding: 5px;">PDF</button>
             </div>
             <div id="sendinvoiceform" style="min-width: 420px;">
                 <label class="smfixedlabel inline">Invoice Template: </label><div class="inline"><select id="emlinvoicetemplate"></select></div>
                 <div class="space-4"></div>
-                <label class="smfixedlabel inline">TO: </label><div class="inline"><input type="text" placeholder="Enter recipients..." id="emailto" class="email-input" name="tags"/></div>
+                <label class="smfixedlabel inline">TO: </label><div class="inline"><input class="form-control"type="text" placeholder="Enter recipients..." id="emailto" class="email-input" name="tags"/></div>
                 <div class="space-4"></div>
-                <label class="smfixedlabel inline">CC: </label><div class="inline"><input type="text" placeholder="Enter recipients..." id="emailcc" class="email-input" name="tags"/></div>
+                <label class="smfixedlabel inline">CC: </label><div class="inline"><input class="form-control"type="text" placeholder="Enter recipients..." id="emailcc" class="email-input" name="tags"/></div>
                 <div class="space-4"></div>
-                <label class="smfixedlabel inline">BCC: </label><div class="inline"><input type="text" placeholder="Enter recipients..." id="emailbcc" class="email-input" name="tags"/></div>
+                <label class="smfixedlabel inline">BCC: </label><div class="inline"><input class="form-control"type="text" placeholder="Enter recipients..." id="emailbcc" class="email-input" name="tags"/></div>
                 <div class="space-4"></div>
-                <label class="smfixedlabel inline">Subject: </label><input style="width: 410px;" type="text" placeholder="Enter Subject" id="emailsubject" />
+                <label class="smfixedlabel inline">Subject: </label><input class="form-control"style="width: 410px;" type="text" placeholder="Enter Subject" id="emailsubject" />
                 <div class="space-4"></div>
                 <div class="wysiwyg-editor" id="emailmessage"></div>
                 <div class="space-8"></div>
@@ -818,7 +818,7 @@
             </div>
         </div>
         <div id="voidform" style="display:none; padding:5px; z-index: 1100;" title="Void Invoice">
-            <input id="voidref" type="hidden" value=""/>
+            <input class="form-control"id="voidref" type="hidden" value=""/>
             <label class="fixedlabel">Reason:</label><br/>
             <textarea rows="6" id="voidreason" style="width: 100%;"></textarea>
         </div>
