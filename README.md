@@ -1,24 +1,61 @@
-# WallacePOS
-## An intuitive & modern web based POS system
+# Pharmacy Plus POS
+## An intuitive &amp; modern web based POS system
 ![logo](https://wallacepos.com/images/wallacepos_logo_600.png)
 
-WallacePOS uses the power of the modern web to provide an easy to use & extensible POS system.
+For more information visit our [website](http://magnumdigitalke.com/our-digital-services/pharmacypos/)
 
-It supports standard POS hardware including receipt printers, cashdraws and barcode scanners.
+***
 
-With a rich administration dashboard and reporting features, WallacePOS brings benefits to managers and staff alike.
+## Installation on Windows
 
-Take your business into the cloud with WallacePOS!
+  Requirement  
+- Xampp for windows
+- Node.js
+- Pharmacy POS App folder
 
-To find out more about WallacePOS, head over to [wallacepos.com](https://wallacepos.com)
+### NOTE:
+1. The guide is to be used on any edition of Windows 7 or higher 32 & 64 bits.
+2. When installing Node on the machine ensure that you have added the executable to the [System Environment Variables.](https://www.tutorialspoint.com/nodejs/nodejs_environment_setup.htm)
 
-If you find that WallacePOS is the perfect companion for your business, please donate to support further development.
+### 1. Installing XAMPP
+  1. Remove any other server that might be installed on the machine like WAMP, Nginx or other windows servers, and ensure no application is using port 80, 3306 or 8080. To do that run the CMD as admin and type the following command **netstat -tpan** If the ports are free they shouldn’t appear on the output of the command.
+  2. Click on the xampp executable and follow thought till the end. If everything installed successfully,  you should be presented with a simple control panel. Start apache and mysql server and go to your browser and open http://localhost and you should be servered with the default page. Click on phpmyadmin to confirm if mysql was installed.
+  3. Set apache and mysql to autostart when xampp starts. Click config on the control panel and check the two services( Apache and Mysql) under the autostart of modules.
+![Enable autostart for Apache and MySql](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356631242_Screenshot_20170925_191314.png)
+  4. Adding xampp to startup folder. Click **Windows + R** to  open run shell then type **shell:startup** and click enter. Create a shortcut to the xampp control panel and drag it to that startup folder, if you don’t have one yet go to the startmenu and left-click on the xampp control panel and select send-to Desktop, that will add a shortcut to the desktop. Now when you restart your machine it will start Xampp and an icon will appear on the system tray.
+### 2. Installing Node.js
+  1. Run the installer and follow all the steps.
+  2. Test if node is added to the System Environment Variable, open the terminal and run the following commands. **node -v** , this should show you the node version and **npm -v** to show the npm version.
+### 3. Installing the POS
+1. Getting the application
+  Copy the application folder, or go to github and download the zip code of the [app](https://github.com/micwallace/wallacepos). Extract the content to the **htdocs** folder found at **C:\xampp\htdocs** . Rename the folder to **pos**. 
+![The htdocs content](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356338160_Screenshot_20170925_191403.png)
+![pos folder content](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356364973_Screenshot_20170925_191443.png)
 
-[![Donate to WallacePOS](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=783UMXCNZGL68)
+2. Install dependencies. To do that, open your terminal, cmd or GIT bash should be okay, navigate to the **pos** folder and run the following command, **npm install socket.io**  
+3. Enable apache modules and adjust the root folder. Now open httpd.conf and search for the following lines:
+    To open httpd.conf click **config** button that’s highlighted below.
+![](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356567616_Screenshot_20170925_191236.png)
+  
+    `proxy_wstunnel` and uncomment the line by removing the # symbol at the start of the line.
+![enabling the proxy module](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356300661_Screenshot_20170925_191627.png)
 
-## Server Prerequisites
+    `DOCUMENTROOT` and adjust it as shown in the image below, to point to the pos folder.
+![setting the document root](https://d2mxuefqeaa7sj.cloudfront.net/s_A1859D6598480832CC3A69D343D349069DED4660B00B2771E2605A3493AA4DAD_1506356280127_Screenshot_20170925_191656.png)
 
-WallacePOS requires:
+  Restart apache server to apply the changes, clicking the stop button and then clicking the start button again. Now go to your browser to set-up the application for the first time.
+
+
+- Navigate to [localhost](http://localhost/installer) and follow the steps. Under requirements for the application, if you followed carefully, should have all of them checked except https active , which we only need if we have to go live and Application folder shouldn’t be writable, which doesn’t apply in windows environment. To proceed that way check the last item on the list and the next button will activate, then click it.
+- Open another tab and navigate to [PHPMYADMIN](http://localhost/phpmyadmin) and create an new database to be used by the pos.The name of the database will be required during the installation. Now go back to the installer and fill in your mysql database credentials on the form, the database name will be the name you gave to your database. If you have not changed any settings for MySql, your host - **127.0.0.1** , **port** **3306** , **username** - **root** , **password** - (nothing -leave it blank) which are the default login credentials.
+- Set any other required information till the end. Login and go to admin and Settings and set them to your liking.
+
+***
+
+## Installation on a Linux environment
+### Server Prerequisites
+
+Pharmacy Plus POS requires:
 
 1. A Lamp server with PHP version>=5.4, PHP cURL & GD extensions and Apache version>=2.4.7 with modules rewrite, proxy_http and proxy_wstunnel.
 
@@ -84,37 +121,20 @@ WallacePOS requires:
         sudo npm install socket.io
     ```
 
-## Installation & Startup
+### Installation & Startup
 
-1. Clone the latest WallacePOS release to %your_install_dir% if you haven't done so already.
+1. Clone the latest Pharmacy Plus POS release to %your_install_dir% if you haven't done so already.
    The installation dir must be your Apache document root directory!
    
 2. Run `composer install` in your install directory to update PHP dependencies (you may need to install composer first).
 
 3. Visit /installer in your browser & follow the installation wizard.
 
-4. Login to the admin dashboard at /admin, from the menu go to Settings -> Utilities and make sure the feed server has been started successfully.
 
-## Deploying using dokku
+*** 
 
-To deploy WallacePOS on dokku:
+### Deploying using docker
 
-1. Install the [dokku-apt](https://github.com/F4-Group/dokku-apt) plugin on your dokku host.
+If you have good infrastucture, this is the preferred and easy way of running `pharmacy-pos`.
 
-2. Fork the WallacePOS to a PRIVATE repo (IMPORTANT), edit /library/wpos/.dbconfig.json and fill in your own values.
-
-    **OR**
-
-   Use my [dokku mysql plugin](https://github.com/micwallace/dokku-mysql-server-plugin) to create and link the database automagically.   
-
-3. Commit deploy in the usual manner.
-
-4. Setup persistent storage by running:
-
-   `dokku storage:mount %APP_NAME% /var/lib/dokku/data/storage/%APP_NAME%:/app/docs`
-   
-   WARINING: Failure to do so will lead to data loss during subsequent upgrades.
-
-5. Access /installer/?install from the web browser to install the database schema & templates
-
-6. Login to the admin dashboard at /admin using credentials admin:admin & change the default passwords in Settings -> Staff & Admins!
+To deploy Pharmacy-Plus POS on docker follow the guide [here](https://github.com/nyugoh/pharmacy-pos/blob/feature/docker-instance/DEPLOYMENT_GUIDE.md).
