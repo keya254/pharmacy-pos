@@ -17,7 +17,7 @@ Follow these steps to get Pharmacy Plus POS up and running
 
 1. Clone the repository  `git clone git@github.com:nyugoh/pharmacy-pos.git`.
 
-2. Run `cd hospitalrun-server`. This should take you into the `pharmacy-pos` root folder. Switch to docker branch by typing `git checkout feature/docker-instance`. *Remove this when changes are merged into master branch.*
+2. Run `cd pharmacy-pos`. This should take you into the `pharmacy-pos` root folder. Switch to docker branch by typing `git checkout feature/docker-instance`. *Remove this when changes are merged into master branch.*
 
 3. From this location, edit the `docker-compose.yml` file. Within the mariadb service, edit the `MARIADB_ROOT_PASSWORD` argument and replace `root` with a strong password. *Use a strong password.*
 
