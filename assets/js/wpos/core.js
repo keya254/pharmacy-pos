@@ -526,7 +526,9 @@ function WPOS() {
             WPOS.initPlugins();
             populateDeviceInfo();
             setTimeout(hideLogin, 500);
-            setTimeout(WPOS.print.populatePrinters(), 5000);
+            setTimeout(function () {
+              $("#populate-printers").trigger("click");
+            }, 5000);
         }
     }
 
