@@ -34,11 +34,11 @@
 <script>
     function validatePassword(){
         var password = $("#password").val();
-        if (password.length<8){
-            alert("The password must be at least 8 characters");
+        if (password.length<4){
+            alert("The password must be at least 4 characters");
             return false;
         }
-        if ($("#cpassword").val()!=password){
+        if ($("#cpassword").val()!==password){
             alert("The provided passwords do not match");
             return false;
         }

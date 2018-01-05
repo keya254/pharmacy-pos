@@ -445,12 +445,12 @@ function WPOSPrint(kitchenMode) {
         }
     };
 
-    this.printReceipt = function (ref) {
-        printReceipt(ref);
+    this.printReceipt = function (ref, record) {
+        printReceipt(ref, record);
     };
 
-    function printReceipt(ref) {
-        var record = WPOS.trans.getTransactionRecord(ref);
+    function printReceipt(ref, record) {
+        record == null ? record = WPOS.trans.getTransactionRecord(ref): "";
 
         var method = getPrintSetting('receipts', 'method');
         switch (method) {
@@ -1217,34 +1217,38 @@ function WPOSPrint(kitchenMode) {
             temp_data.sale_tax.push({label: label, altlabel: alttaxlabel, value: WPOS.util.currencyFormat(record.taxdata[i])});
         }
         // format payments and collect eftpos receipts
-        temp_data.sale_payments = [];
-        temp_data.eftpos_receipts = '';
-        var item, method, amount;
-        var altlabels = config.general.altlabels;
-        for (i in record.payments) {
+        if (!record.isorder) {
+          temp_data.sale_payments = [];
+          temp_data.eftpos_receipts = '';
+          var item, method, amount;
+          var altlabels = config.general.altlabels;
+          for (i in record.payments) {
             item = record.payments[i];
             method = item.method;
             amount = item.amount;
             // check for special payment values
             if (item.hasOwnProperty('paydata')) {
-                // check for integrated eftpos receipts
-                if (item.paydata.hasOwnProperty('customerReceipt')) {
-                    temp_data.eftpos_receipts += item.paydata.customerReceipt;
-                }
-                // catch cash-outs
-                if (item.paydata.hasOwnProperty('cashOut')) {
-                    method = "cashout";
-                    amount = (-amount).toFixed(2);
-                }
+              // check for integrated eftpos receipts
+              if (item.paydata.hasOwnProperty('customerReceipt')) {
+                temp_data.eftpos_receipts += item.paydata.customerReceipt;
+              }
+              // catch cash-outs
+              if (item.paydata.hasOwnProperty('cashOut')) {
+                method = "cashout";
+                amount = (-amount).toFixed(2);
+              }
             }
             var altlabel = altlabels.hasOwnProperty(method)?altlabels[method]:WPOS.util.capFirstLetter(method);
             temp_data.sale_payments.push({label: WPOS.util.capFirstLetter(method), altlabel: altlabel, amount: amount});
             if (method == 'cash') {
-                // If cash print tender & change.
-                temp_data.sale_payments.push({label: "Tendered", altlabel: altlabels.tendered, amount: item.tender});
-                temp_data.sale_payments.push({label: "Change", altlabel: altlabels.change, amount: item.change});
+              // If cash print tender & change.
+              temp_data.sale_payments.push({label: "Tendered", altlabel: altlabels.tendered, amount: item.tender});
+              temp_data.sale_payments.push({label: "Change", altlabel: altlabels.change, amount: item.change});
             }
+          }
         }
+        // Set sale_type
+        record.isorder ? temp_data.sale_type = "Order": temp_data.sale_type = "Sale";
         // customer
         if (record.custid>0) {
             var customer = WPOS.getCustTable()[record.custid];
