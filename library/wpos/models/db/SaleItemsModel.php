@@ -231,6 +231,30 @@ class SaleItemsModel extends DbConfig
         return $this->select($sql, $placeholders);
     }
 
+    public function getStoredItemTotalsSupplier($stime, $etime, $group = 0, $novoids = true, $ttype=null){
+
+        if ($group==2){
+            $groupcol = "supplierid";
+            $grouptable = "stored_suppliers";
+        } else {
+            $groupcol = "categoryid";
+            $grouptable = "stored_categories";
+        }
+
+        $sql = "SELECT ".($group>0?'s_inv.'.$groupcol.' AS groupid, p.name AS name':'i.storeditemid AS groupid, i.name AS name').", COALESCE(SUM(i.qty), 0) AS itemnum, COALESCE(SUM(i.price-(i.price*(s.discount/100))), 0) AS itemtotal, COALESCE(SUM((i.price*(s.discount/100))), 0) AS discounttotal, COALESCE(SUM(i.tax_total-(i.tax_total*(s.discount/100))), 0) AS taxtotal, COALESCE(SUM(i.refundqty), 0) AS refnum, COALESCE(SUM(i.unit*i.refundqty), 0) AS reftotal, COALESCE(GROUP_CONCAT(DISTINCT s.ref SEPARATOR ','),'') as refs";
+        $sql.= ' FROM sale_items AS i LEFT JOIN sales AS s ON i.saleid=s.id'.($group>0 ? ' LEFT JOIN stock_items AS si ON i.storeditemid=si.id LEFT JOIN stock_inventory AS s_inv ON si.stockinventoryid=s_inv.id LEFT JOIN '.$grouptable.' AS p ON s_inv.'.$groupcol.'=p.id' : '').' WHERE (s.processdt>= :stime AND s.processdt<= :etime) '.($novoids?'AND s.status!=3':'');
+        $placeholders = [":stime"=>$stime, ":etime"=>$etime];
+
+        if ($ttype!=null){
+            $sql .= ' AND s.type=:type';
+            $placeholders[':type'] = $ttype;
+        }
+
+        $sql.= ' GROUP BY groupid, name';
+
+        return $this->select($sql, $placeholders);
+    }
+
     /**
      * @param $stime
      * @param $etime

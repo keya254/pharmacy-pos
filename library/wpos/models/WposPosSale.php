@@ -63,6 +63,10 @@ class WposPosSale {
      */
     private $salenotes;
     /**
+     * @var String updated sale payments
+     */
+    private $payments;
+    /**
      * @var int processing device id
      */
     private $deviceid;
@@ -103,6 +107,7 @@ class WposPosSale {
     private function extractSaleData()
     {
         $this->ref = $this->jsonobj->ref;
+        $this->payments = $this->jsonobj->payments;
         $this->custdata = (isset($this->jsonobj->custdata) ? $this->jsonobj->custdata : null);
         // check for void or refund data
         $this->refunddata = (isset($this->jsonobj->refunddata) ? $this->jsonobj->refunddata : null);
@@ -125,6 +130,7 @@ class WposPosSale {
     {;
         $this->ref = $data->ref;
         $this->salenotes = (isset($data->notes) ? $data->notes : null);
+        $this->payments = (isset($data->payments) ? $data->payments: null);
         // set void and refund data
         $this->refunddata = (isset($data->refunddata) ? $data->refunddata : null);
         $this->voiddata = (isset($data->voiddata) ? $data->voiddata : null);
@@ -255,8 +261,19 @@ class WposPosSale {
         unset($this->jsonobj->emailrec); // unset, we don't need to store this in the database
         // insert the transaction record
         if (($gid = $this->insertTransactionRecord(1, $orderid))) {
+            $payMdl = new SalePaymentsModel();
             $this->id = $gid;
             $this->dt = date("Y-m-d H:i:s");
+            // add global id & dt stamp to json data and set updated response
+            $this->jsonobj->id = $this->id;
+            $this->jsonobj->dt = $this->dt;
+            $this->jsonobj->balance = 0; //TODO: Actually validate that balance is 0!
+            $this->jsonobj->status = 1;
+            $deleted = $payMdl->removeBySale($this->jsonobj->id);
+            if (!$deleted && $deleted !== 0) {
+                $this->paymentErr = $payMdl->errorInfo;
+                $result['error'] = "Error checking for duplicates ".$payMdl->errorInfo;
+            }
             // insert items and payments. If these fail, try to reverse the transaction; incomplete transactions should not exist
             if (!$this->insertTransactionItems() || !$this->insertTransactionPayments()) {
                 // If the sale is a current order, roll back to previous order data, otherwise remove the sale object
@@ -273,11 +290,6 @@ class WposPosSale {
                 }
                 return $result;
             }
-            // add global id & dt stamp to json data and set updated response
-            $this->jsonobj->id = $this->id;
-            $this->jsonobj->dt = $this->dt;
-            $this->jsonobj->balance = 0; //TODO: Actually validate that balance is 0!
-            $this->jsonobj->status = 1;
 
             // Create transaction history record
             WposTransactions::addTransactionHistory($this->id, $this->jsonobj->userid, "Created", "Sale created");
@@ -286,7 +298,7 @@ class WposPosSale {
         } else {
             if ($orderid==0)
                 $this->removeTransactionRecords(); // This is probably not needed but oh well
-            $result['error'] = "My SQL server error: the transaction did not complete successfully and has been rolled back. ".$this->salesMdl->errorInfo;
+            $result['error'] = "My SQL server error: the transaction did not complete successfully and has been rolled back.".json_encode($this->jsonobj);
             return $result;
         }
         // check if the sale has void/refund data and process it
@@ -412,6 +424,60 @@ class WposPosSale {
     }
 
     /**
+     * Update payments for a current transaction
+     * @param $result
+     * @return mixed
+     */
+    public function updateTransationPayments($result){
+        $payMdl = new SalePaymentsModel();
+
+        if ($this->payments==null){
+            $result["error"] = "Payments must be provided";
+            return $result;
+        }
+        if (($sale=$this->salesMdl->getByRef($this->ref))===false){
+            $result["error"] = $this->salesMdl->errorInfo;
+            return $result;
+        }
+        // sale
+        if (sizeof($sale)===0){
+            $result["error"] = "Could not find the specified sale for updating!";
+            return $result;
+        }
+        // update the payments
+        $this->jsonobj = json_decode($sale[0]['data']);
+        if ($this->jsonobj === false){
+            $result["error"] = "Failed to decode the current sales data, it may be corrupt!";
+            return $result;
+        }
+
+        $this->jsonobj->payments = $this->payments;
+
+        $deleted = $payMdl->removeBySale($this->jsonobj->id);
+        if (!$deleted && $deleted !== 0) {
+            $this->paymentErr = $payMdl->errorInfo;
+            $result['error'] = "Error removing ".$payMdl->errorInfo;
+        }
+
+        if(!$this->insertTransactionPayments()) {
+            $rollbackRes = $this->removeTransactionRecords();
+            if ($rollbackRes!==false) {
+                $result['error'] = "My SQL server error: the transactions did not complete successfully and has been rolled back: ".$this->itemErr.$this->paymentErr;
+            } else {
+                $result['error'] = "My SQL server error: the transaction did not complete and the changes failed to roll back please contact support to remove invalid records: ".$this->itemErr.$this->paymentErr;
+            }
+            return $result;
+        }
+
+
+        if ($this->salesMdl->edit($sale[0]['id'], null, json_encode($this->jsonobj))===false){
+            $result["error"] = "Failed to update sales payments!";
+        }
+
+        return $result;
+    }
+
+    /**
      * Insert or update a transactions main record
      * @param $status
      * @param $orderid
@@ -474,10 +540,10 @@ class WposPosSale {
                 } else {
                     // return stock to original sale location
                     if (sizeof($this->jsonobj->items)>0){
-                        $wposStock = new WposAdminStock();
+                        $stockItemsMdl = new StockItemsModel();
                         foreach($this->jsonobj->items as $item){
                             if ($item->sitemid>0){
-                                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, $item->reorderpoint, false);
+                                $stockItemsMdl->decrementStockLevel($item->sitemid, $item->qty, true);
                             }
                         }
                     }
@@ -499,8 +565,6 @@ class WposPosSale {
     private function insertTransactionItems()
     {
         $itemsMdl = new SaleItemsModel();
-        //$stockMdl = new StockModel();
-        $wposStock = new WposAdminStock();
         foreach ($this->jsonobj->items as $key=>$item) {
             // fix for offline sales not containing cost field and getting stuck
             if (!isset($item->cost)) $item->cost = 0.00;
@@ -521,8 +585,8 @@ class WposPosSale {
             }
             // decrement stock level
             if ($item->sitemid>0){
-                /*$stockMdl->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, true);*/
-                $wposStock->incrementStockLevel($item->sitemid, $this->jsonobj->locid, $item->qty, $item->reorderpoint,true);
+                $stockItemsMdl = new StockItemsModel();
+                $stockItemsMdl->decrementStockLevel($item->sitemid, $item->qty, true);
             }
             $this->jsonobj->items[$key]->id = $res;
         }
@@ -538,16 +602,7 @@ class WposPosSale {
     {
         $payMdl = new SalePaymentsModel();
         foreach ($this->jsonobj->payments as $key=>$payment) {
-            $dupitems = $payMdl->getDuplicate($this->id, $payment->method, $payment->amount, $this->jsonobj->processdt);
-            if (sizeof($dupitems) > 0) { // There exists the same record
-                foreach ($dupitems as $ke=>$pay) {
-                    if (!$payMdl->removeById($pay->id)) {
-                        $this->paymentErr = $payMdl->errorInfo;
-                        return false;
-                    }
-                }
-            }
-            if (!$id=$payMdl->create($this->id, $payment->method, $payment->amount, $this->jsonobj->processdt)) {
+            if (!$id=$payMdl->create($this->jsonobj->id, $payment->method, $payment->amount, $this->jsonobj->processdt)) {
                 $this->paymentErr = $payMdl->errorInfo;
                 return false;
             }
