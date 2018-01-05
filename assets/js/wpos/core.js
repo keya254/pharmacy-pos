@@ -525,6 +525,7 @@ function WPOS() {
             $("title").text("Biashara Retail POS");
             WPOS.initPlugins();
             populateDeviceInfo();
+            WPOS.print.populatePrinters();
             setTimeout(hideLogin, 500);
         }
     }
