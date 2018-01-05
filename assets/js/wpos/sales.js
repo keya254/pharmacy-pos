@@ -1112,6 +1112,11 @@ function WPOSSales() {
         $("#paymentsdiv").dialog("close");
         // process the orders
         WPOS.orders.processOrder(salesobj, cursale);
+        console.log('Sale, ', salesobj);
+        var answer = confirm("Would you like to print a receipt?");
+        if (answer){
+          WPOS.print.printReceipt(salesobj.ref, salesobj);
+        }
     }
 
     this.loadOrder = function(ref){
@@ -1292,7 +1297,7 @@ function WPOSSales() {
             }
             var answer = confirm("Would you like to print a receipt?");
             if (answer){
-                WPOS.print.printReceipt(salesobj.ref);
+                WPOS.print.printReceipt(salesobj.ref, salesobj);
             }
 
         }

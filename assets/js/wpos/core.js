@@ -1332,6 +1332,7 @@ function WPOS() {
             itemtable = JSON.parse(data);
             // generate the stock index as well.
             generateItemIndex();
+            WPOS.items.setStock(data);
             WPOS.items.generateItemGridCategories();
             return true;
         }
