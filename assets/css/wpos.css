@@ -75,12 +75,15 @@ body {
     border: solid 1px #ccc;
     width: 100%;
     max-width: 550px;
-    min-width: 480px;
+    /*min-width: 480px;*/
     -moz-box-shadow:    3px 3px 5px 6px #ccc;
     -webkit-box-shadow: 3px 3px 5px 6px #ccc;
     box-shadow:         3px 3px 5px 6px #ccc;
     min-height: 600px;
     overflow-x: auto !important;
+}
+.registration tr {
+    /*display: inline-block;*/
 }
 .totalsbox {
     display: inline-block;
@@ -299,6 +302,12 @@ body {
     max-width:450px;
     vertical-align:top;
 }
+#refresh {
+    position: absolute;
+    top:10px;
+    right:20px;
+    z-index:100;
+}
 
 /* #Media Queries
 ================================================== */
@@ -322,8 +331,9 @@ body {
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-    #reportcontain {
-        width: 480px;
+    #admin-cog {
+        margin-right:0 !important;
+        margin-left:0;
     }
     .hlabel {
         width: 100px;
@@ -361,8 +371,9 @@ body {
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {
-    #reportcontain {
-        width: 480px;
+    #admin-cog {
+        margin-right:0 !important;
+        margin-left:0;
     }
     .hlabel {
         width: 95px;
@@ -559,14 +570,6 @@ body {
 #tabs3 {
   height: 100vh !important;
   padding-top:-15px;
-}
-#paymentdiv, .ui-dialog {
-  max-width:500px !important;
-  min-width: 500px !important;
-  /*width:500px !important;*/
-}
-.ui-dialog-content {
-  min-width: 500px !important;
 }
 .ui-dialog-title {
   font-size: 20px;

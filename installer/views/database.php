@@ -29,7 +29,7 @@
         <div class="form-group">
             <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> Host </label>
             <div class="col-sm-9">
-                <input name="host" type="text" class="col-xs-10 col-sm-5" placeholder="Host" value="<?php echo(isset($_REQUEST['host'])?$_REQUEST['host']:"127.0.0.1"); ?>">
+                <input name="host" type="text" class="col-xs-10 col-sm-5" placeholder="Host" value="mariadb">
             </div>
         </div>
         <div class="space-4"></div>
@@ -43,14 +43,14 @@
         <div class="form-group">
             <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> Database </label>
             <div class="col-sm-9">
-                <input name="database" type="text" class="col-xs-10 col-sm-5" placeholder="Database" value="<?php echo(isset($_REQUEST['database'])?$_REQUEST['database']:""); ?>">
+                <input name="database" type="text" class="col-xs-10 col-sm-5" placeholder="Database" value="pos">
             </div>
         </div>
         <div class="space-4"></div>
         <div class="form-group">
             <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> Username </label>
             <div class="col-sm-9">
-                <input name="username" type="text" class="col-xs-10 col-sm-5" placeholder="Username" value="<?php echo(isset($_REQUEST['username'])?$_REQUEST['username']:""); ?>">
+                <input name="username" type="text" class="col-xs-10 col-sm-5" placeholder="Username" value="root">
             </div>
         </div>
         <div class="space-4"></div>
@@ -58,7 +58,7 @@
             <label for="form-field-2" class="col-sm-3 control-label no-padding-right"> Password </label>
 
             <div class="col-sm-9">
-                <input name="password" type="password" class="col-xs-10 col-sm-5" placeholder="Password">
+                <input name="password" type="password" class="col-xs-10 col-sm-5" placeholder="Password" value="root">
             </div>
         </div>
         <hr/>
