@@ -128,6 +128,18 @@ function WPOSItems() {
         return results;
     };
 
+    this.findOrderItem = function(name) {
+      var itemtable = this.filterStock(WPOS.getItemsTable());
+      for (var key in itemtable) {
+        if (!itemtable.hasOwnProperty(key)) {
+          continue;
+        }
+        if (itemtable[key].name === name) {
+          return itemtable[key];
+        }
+      }
+    };
+
     this.generateItemGrid = function(categoryId){
         var iboxitems = $("#iboxitems");
         iboxitems.html('<div style="padding: 5px;"><button class="btn btn-sm btn-primary" onclick="WPOS.items.generateItemGridCategories();"><i class="icon-backward">&nbsp;</i>Categories</button></div>');
@@ -1100,6 +1112,11 @@ function WPOSSales() {
         $("#paymentsdiv").dialog("close");
         // process the orders
         WPOS.orders.processOrder(salesobj, cursale);
+        console.log('Sale, ', salesobj);
+        var answer = confirm("Would you like to print a receipt?");
+        if (answer){
+          WPOS.print.printReceipt(salesobj.ref, salesobj);
+        }
     }
 
     this.loadOrder = function(ref){
@@ -1151,7 +1168,8 @@ function WPOSSales() {
                     orderid:item.orderid
                 };
                 if (item.hasOwnProperty('mod')) data.mod = item.mod;
-                WPOS.items.addItemRow(item.qty, item.name, item.unit, item.taxid, item.reorderpoint, item.totalItems, item.sitemid, data);
+                var originalItem = WPOS.items.findOrderItem(item.name);
+                WPOS.items.addItemRow(item.qty, item.name, item.unit, item.taxid, item.reorderpoint, originalItem.qty, item.sitemid, data, originalItem.id, originalItem.qty, false);
             }
             // add a new order row
             if (WPOS.isOrderTerminal())
@@ -1190,7 +1208,7 @@ function WPOSSales() {
             WPOS.sales.updateSalesTotal();
             WPOS.sales.updatePaymentSums();
             $("#transactiondiv").dialog('close');
-            $("#wrapper").tabs("option", "active", 0);
+            $("#cash").trigger("click");
         } else {
             alert("Could not find the current record.");
         }
@@ -1279,7 +1297,7 @@ function WPOSSales() {
             }
             var answer = confirm("Would you like to print a receipt?");
             if (answer){
-                WPOS.print.printReceipt(salesobj.ref);
+                WPOS.print.printReceipt(salesobj.ref, salesobj);
             }
 
         }
