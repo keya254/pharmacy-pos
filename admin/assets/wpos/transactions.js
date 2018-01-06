@@ -93,7 +93,7 @@ function WPOSTransactions() {
         $("#transsubtotal").text(WPOS.util.currencyFormat(record.subtotal));
 
         if (record.discount > 0) {
-            $("#transdiscount").text(record.discount + "% (" + WPOS.util.currencyFormat(record.discountval) + ')');
+            $("#transdiscount").text(record.discount + " (" + WPOS.util.currencyFormat(record.discountval) + ')');
             $("#transdisdiv").show();
         } else {
             $("#transdisdiv").hide();

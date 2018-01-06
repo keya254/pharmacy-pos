@@ -626,7 +626,9 @@ function WPOSPrint(kitchenMode) {
         var cmd = getEscReceiptHeader();
         // transdetails
         cmd += (ltr ? esc_a_l : esc_a_r);
+        record.isorder ? record.sale_type = "Order": record.sale_type = "Sale";
         cmd += getEscTableRow(formatLabel(translateLabel("Transaction Ref"), true, 1), record.ref, false, false, false);
+        cmd += getEscTableRow(formatLabel(translateLabel("Transaction Type"), true, 1), record.sale_type, false, false, false);
         if (record.hasOwnProperty('id') && WPOS.getConfigTable().pos.recprintid)
             cmd += getEscTableRow(formatLabel(translateLabel("Transaction ID"), true, 2), record.id, false, false, false);
         cmd += getEscTableRow(formatLabel(translateLabel("Sale Time"), true, 7), WPOS.util.getDateFromTimestamp(record.processdt), false, false, false) + "\n";
@@ -670,7 +672,7 @@ function WPOSPrint(kitchenMode) {
             cmd += getEscTableRow(formatLabel(taxstr, true, 1), WPOS.util.currencyFormat(record.taxdata[i], false, true), false, false, true);
         }
         // discount
-        cmd += (record.discount > 0 ? getEscTableRow(formatLabel(record.discount + '% ' + translateLabel('Discount'), true, 1), WPOS.util.currencyFormat(Math.abs(parseFloat(record.total) - (parseFloat(record.subtotal) + parseFloat(record.tax))).toFixed(2), false, true), false, false, true) : '');
+        cmd += (record.discount > 0 ? getEscTableRow(formatLabel(translateLabel('Discount'), true, 1), WPOS.util.currencyFormat(Math.abs(parseFloat(record.total) - (parseFloat(record.subtotal) + parseFloat(record.tax))).toFixed(2), false, true), false, false, true) : '');
         // grand total
         cmd += getEscTableRow(formatLabel(translateLabel('Total') + ' (' + record.numitems + ' ' + translateLabel('item' + (record.numitems > 1 ? 's' : '')) + ')', true, 1), WPOS.util.currencyFormat(record.total, false, true), true, true, true);
         // payments
