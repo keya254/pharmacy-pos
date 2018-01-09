@@ -150,6 +150,11 @@ function routeApiCall($action, $data, $result) {
             $result = $setup->getDeviceRecord($result);
             break;
 
+        case "pos/subscription":
+            $setupMdl = new WposPosData();
+            $result = $setupMdl->getPOSSubscription($result);
+            break;
+
         case "items/get":
             $jsondata = new WposPosData();
             $result = $jsondata->getItems($result);

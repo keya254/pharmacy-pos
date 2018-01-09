@@ -63,6 +63,12 @@ class DbUpdater {
                     $authMdl->edit(1, null, $setupvars->adminhash);
                     // Setup general info
                     echo("Setup variables processed.\n");
+                    $data = new stdClass();
+                    $data->expiryDate = $setupvars->expiryDate;
+                    $data->status = "activated";
+                    $data->activationTime = $setupvars->activationDate;
+                    $sql = "INSERT INTO config (`name`, `data`) VALUES('subscription','".json_encode($data)."')";
+                    $this->db->_db->exec($sql);
                 }
 
                 WposAdminSettings::putValue('general', 'version', $this->getLatestVersionName());
