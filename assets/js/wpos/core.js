@@ -281,6 +281,11 @@ function WPOS() {
     function getSubscription() {
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
           if (result !== false) {
+              console.log(result);
+              if (result.errorCode === "auth"){
+                subscriptionStatus = true;
+                return;
+              }
               subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
           }
         });
