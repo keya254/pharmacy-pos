@@ -123,9 +123,6 @@ function WPOS() {
             online = true;
             return false;
         }
-        if (!initialsetup) {
-          getSubscription();
-        }
         return true;
     };
     // Plugin initiation functions
@@ -225,42 +222,37 @@ function WPOS() {
         // hash password
         password = WPOS.util.SHA256(password);
         // authenticate
-        if (initialsetup || subscriptionStatus) {
-          authenticate(username, password, function(result){
-            if (result === true) {
-              userfield.val('');
-              passfield.val('');
-              $("#logindiv").hide();
-              $("#loadingdiv").show();
-              // initiate data download/check
-              if (initialsetup) {
-                if (isUserAdmin()) {
-                  initSetup();
-                } else {
-                  alert("You must login as an administrator for first time setup");
-                  showLogin();
-                }
+
+        authenticate(username, password, function(result){
+          if (result === true) {
+            userfield.val('');
+            passfield.val('');
+            $("#logindiv").hide();
+            $("#loadingdiv").show();
+            // initiate data download/check
+            if (initialsetup) {
+              if (isUserAdmin()) {
+                initSetup();
               } else {
-                if (session_locked){
-                  stopSocket();
-                  startSocket();
-                  session_locked = false;
-                  hideLogin();
-                } else {
-                  initData(true);
-                }
+                alert("You must login as an administrator for first time setup");
+                showLogin();
+              }
+            } else {
+              if (session_locked){
+                stopSocket();
+                startSocket();
+                session_locked = false;
+                hideLogin();
+              } else {
+                initData(true);
               }
             }
-            passfield.val('');
-            $(loginbtn).val('Login');
-            $(loginbtn).prop('disabled', false);
-            WPOS.util.hideLoader();
-          });
-        } else {
-            $("#login-banner-txt").text("Your subscription is expired.");
-            $("#login-banner").show();
-            WPOS.util.hideLoader();
-        }
+          }
+          passfield.val('');
+          $(loginbtn).val('Login');
+          $(loginbtn).prop('disabled', false);
+          WPOS.util.hideLoader();
+        });
     };
 
     this.logout = function () {
@@ -422,6 +414,7 @@ function WPOS() {
 
     // get initial data for pos startup.
     function initData(loginloader) {
+        getSubscription();
         if (loginloader){
             $("#loadingprogdiv").show();
             $("#loadingdiv").show();
@@ -501,6 +494,15 @@ function WPOS() {
                 });
                 break;
           case 6:
+              setLoadingBar(70, "Getting subscription status...");
+              if (!subscriptionStatus) {
+                stopSocket();
+                showLogin("Your subscription is expired.", true);
+                return;
+              } else {
+                loadOnlineData(7, loginloader);
+              }
+          case 7:
                 // get all sales (Will limit to the weeks sales in future)
                 setLoadingBar(80, "Getting recent sales...");
                 setStatusBar(4, "Updating sales...", statusmsg, 0);
