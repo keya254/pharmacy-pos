@@ -24,6 +24,7 @@
 function WPOS() {
 
     var initialsetup = false;
+    var subscriptionStatus = false;
     this.initApp = function () {
         // if ('serviceWorker' in navigator) {
         //     navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
@@ -121,6 +122,9 @@ function WPOS() {
             initialsetup = true;
             online = true;
             return false;
+        }
+        if (!initialsetup) {
+          getSubscription();
         }
         return true;
     };
@@ -221,36 +225,42 @@ function WPOS() {
         // hash password
         password = WPOS.util.SHA256(password);
         // authenticate
-        authenticate(username, password, function(result){
+        if (initialsetup || subscriptionStatus) {
+          authenticate(username, password, function(result){
             if (result === true) {
-                userfield.val('');
-                passfield.val('');
-                $("#logindiv").hide();
-                $("#loadingdiv").show();
-                // initiate data download/check
-                if (initialsetup) {
-                    if (isUserAdmin()) {
-                        initSetup();
-                    } else {
-                        alert("You must login as an administrator for first time setup");
-                        showLogin();
-                    }
+              userfield.val('');
+              passfield.val('');
+              $("#logindiv").hide();
+              $("#loadingdiv").show();
+              // initiate data download/check
+              if (initialsetup) {
+                if (isUserAdmin()) {
+                  initSetup();
                 } else {
-                    if (session_locked){
-                        stopSocket();
-                        startSocket();
-                        session_locked = false;
-                        hideLogin();
-                    } else {
-                        initData(true);
-                    }
+                  alert("You must login as an administrator for first time setup");
+                  showLogin();
                 }
+              } else {
+                if (session_locked){
+                  stopSocket();
+                  startSocket();
+                  session_locked = false;
+                  hideLogin();
+                } else {
+                  initData(true);
+                }
+              }
             }
             passfield.val('');
             $(loginbtn).val('Login');
             $(loginbtn).prop('disabled', false);
             WPOS.util.hideLoader();
-        });
+          });
+        } else {
+            $("#login-banner-txt").text("Your subscription is expired.");
+            $("#login-banner").show();
+            WPOS.util.hideLoader();
+        }
     };
 
     this.logout = function () {
@@ -267,6 +277,14 @@ function WPOS() {
             WPOS.util.hideLoader();
         }
     };
+
+    function getSubscription() {
+        WPOS.getJsonDataAsync("pos/subscription", function (result) {
+          if (result !== false) {
+              subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
+          }
+        });
+    }
 
     function logout(){
         WPOS.getJsonDataAsync("logout", function(result){
