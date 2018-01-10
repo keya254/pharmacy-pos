@@ -389,11 +389,17 @@
         // fill location selects
         var locselect = $(".locselect");
         locselect.html('');
+        var config = JSON.parse(localStorage.getItem('wpos_config'));
+        var location = config.locationname;
         for (key in WPOS.locations){
             if (key == 0){
                 locselect.append('<option class="form-control locid-0" value="0">Warehouse</option>');
             } else {
-                locselect.append('<option class="form-control locid-'+WPOS.locations[key].id+'" value="'+WPOS.locations[key].id+'">'+WPOS.locations[key].name+'</option>');
+              if (location === WPOS.locations[key].name) {
+                locselect.append('<option selected class="form-control locid-' + WPOS.locations[key].id + '" value="' + WPOS.locations[key].id + '">' + WPOS.locations[key].name + '</option>');
+              }else {
+                locselect.append('<option class="form-control locid-' + WPOS.locations[key].id + '" value="' + WPOS.locations[key].id + '">' + WPOS.locations[key].name + '</option>');
+              }
             }
         }
 
