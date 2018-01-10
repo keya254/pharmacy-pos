@@ -1251,9 +1251,7 @@ function WPOS() {
     var categoryindex;
 
     this.getItemsTable = function () {
-        if (itemtable == null) {
-            loadItemsTable();
-        }
+        loadItemsTable();
         return itemtable;
     };
 
