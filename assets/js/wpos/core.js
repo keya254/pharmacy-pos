@@ -1258,9 +1258,7 @@ function WPOS() {
     };
 
     this.getStockLevel = function() {
-       if (stocktable == null) {
-            loadStockTable();
-        }
+        loadStockTable();
         return stocktable;
     };
 
@@ -1363,6 +1361,7 @@ function WPOS() {
         var data = localStorage.getItem("stock_items");
         if (data != null) {
             stocktable = JSON.parse(data);
+            WPOS.items.stock = {};
             WPOS.items.stock = data;
             return true;
         }
