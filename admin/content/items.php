@@ -137,12 +137,12 @@
 <div id="adddialog" class="hide">
     <table>
         <tr>
-           <td style="text-align: right;"><label>Name:&nbsp;</label></td>
+           <td style="text-align: right;"><label>Name(<span class="text-danger">Required</span>):&nbsp;</label></td>
            <td><input id="newitemname" class="form-control" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Description:&nbsp;</label></td>
-            <td><input id="newitemdesc" class="form-control" type="text"/></td>
+            <td><input id="newitemdesc" value="Unit" class="form-control" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Category:&nbsp;</label></td>
@@ -156,7 +156,7 @@
         </tr>
         <tr>
             <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-            <td><input id="newitemreorderpoint" class="form-control" type="text"/></td>
+            <td><input id="newitemreorderpoint" value="1" class="form-control" type="text"/></td>
         </tr>
     </table>
 </div>
@@ -326,7 +326,10 @@
         var taxsel = $(".taxselect");
         taxsel.html('');
         for (key in WPOS.getTaxTable().rules){
-            taxsel.append('<option class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
+            if (WPOS.getTaxTable().rules[key].name === "VAT")
+              taxsel.append('<option selected class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
+            else
+              taxsel.append('<option class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
         }
         // populate category & supplier records in select boxes
         var supsel = $(".supselect");

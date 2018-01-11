@@ -7,6 +7,7 @@
             <i class="icon-double-angle-right"></i>
             overview &amp; stats
         </small>
+        <p class="pull-right">Subscription Status : <span id="status"></span></p>
     </h1>
 </div><!-- /.page-header -->
     <div class="row">
@@ -636,6 +637,11 @@
         reloadGraph();
     }
 
+    function loadSubscriptionStatus(data) {
+      var isExpired =  new Date(data.subscription.expiryDate).getTime() > new Date().getTime();
+      isExpired ? $("#status").html('<span style="vertical-align: middle;margin-right: 5px;" class="label label-success arrowed">Activated</span> Expires on: <small>'+ new Date(data.subscription.expiryDate).toDateString() + '</small>'): $("#status").html('<span style="vertical-align: middle;" class="label label-danger arrowed">Expired</span>');
+    }
+
     jQuery(function($) {
 
         // Chart hover Tooltip
@@ -686,7 +692,7 @@
         var ttoday = getTodayTimeVals();
         var pvals = getPieValues();
         var gvals = getTimeVals($("#grange").text());
-        var req = {"stats/itemselling":{"stime":tmonth[0], "etime":tmonth[1]}, "stats/general":{"stime":ttoday[0], "etime":ttoday[1]}, "graph/general":{"stime":gvals[0], "etime":gvals[1], "interval":86400000}};
+        var req = {"stats/itemselling":{"stime":tmonth[0], "etime":tmonth[1]}, "stats/general":{"stime":ttoday[0], "etime":ttoday[1]}, "graph/general":{"stime":gvals[0], "etime":gvals[1], "interval":86400000}, "pos/subscription":{}};
         req[pvals[0]] = {"stime":pvals[1], "etime":pvals[2], "totals":true};
         var data = WPOS.sendJsonData("multi", JSON.stringify(req));
         // Load todays stats
@@ -697,6 +703,8 @@
         generatePieChart(data[pvals[0]]);
         // load popular items
         loadPopularItems(data['stats/itemselling']);
+        // load susbscription status
+        loadSubscriptionStatus(data['pos/subscription']);
         // hide loader
         WPOS.util.hideLoader();
     });

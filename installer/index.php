@@ -218,7 +218,7 @@ if (isset($_REQUEST['checkdb'])){
 }
 
 if (isset($_REQUEST['doinstall'])){
-    $_SESSION['setupvars'] = json_encode(["adminhash"=>hash('sha256', $_REQUEST['password'])]);
+    $_SESSION['setupvars'] = json_encode(["adminhash"=>hash('sha256', $_REQUEST['password']), "expiryDate"=>$_REQUEST["subscriptionTime"], "activationDate"=>$_REQUEST["activationTime"]]);
     $_SESSION['install_screen'] = 4;
 }
 

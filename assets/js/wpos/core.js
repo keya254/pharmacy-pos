@@ -24,6 +24,7 @@
 function WPOS() {
 
     var initialsetup = false;
+    var subscriptionStatus = false;
     this.initApp = function () {
         // if ('serviceWorker' in navigator) {
         //     navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
@@ -221,35 +222,36 @@ function WPOS() {
         // hash password
         password = WPOS.util.SHA256(password);
         // authenticate
+
         authenticate(username, password, function(result){
-            if (result === true) {
-                userfield.val('');
-                passfield.val('');
-                $("#logindiv").hide();
-                $("#loadingdiv").show();
-                // initiate data download/check
-                if (initialsetup) {
-                    if (isUserAdmin()) {
-                        initSetup();
-                    } else {
-                        alert("You must login as an administrator for first time setup");
-                        showLogin();
-                    }
-                } else {
-                    if (session_locked){
-                        stopSocket();
-                        startSocket();
-                        session_locked = false;
-                        hideLogin();
-                    } else {
-                        initData(true);
-                    }
-                }
-            }
+          if (result === true) {
+            userfield.val('');
             passfield.val('');
-            $(loginbtn).val('Login');
-            $(loginbtn).prop('disabled', false);
-            WPOS.util.hideLoader();
+            $("#logindiv").hide();
+            $("#loadingdiv").show();
+            // initiate data download/check
+            if (initialsetup) {
+              if (isUserAdmin()) {
+                initSetup();
+              } else {
+                alert("You must login as an administrator for first time setup");
+                showLogin();
+              }
+            } else {
+              if (session_locked){
+                stopSocket();
+                startSocket();
+                session_locked = false;
+                hideLogin();
+              } else {
+                initData(true);
+              }
+            }
+          }
+          passfield.val('');
+          $(loginbtn).val('Login');
+          $(loginbtn).prop('disabled', false);
+          WPOS.util.hideLoader();
         });
     };
 
@@ -267,6 +269,14 @@ function WPOS() {
             WPOS.util.hideLoader();
         }
     };
+
+    function getSubscription() {
+        WPOS.getJsonDataAsync("pos/subscription", function (result) {
+          if (result !== false) {
+              subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
+          }
+        });
+    }
 
     function logout(){
         WPOS.getJsonDataAsync("logout", function(result){
@@ -404,6 +414,7 @@ function WPOS() {
 
     // get initial data for pos startup.
     function initData(loginloader) {
+        getSubscription();
         if (loginloader){
             $("#loadingprogdiv").show();
             $("#loadingdiv").show();
@@ -483,6 +494,15 @@ function WPOS() {
                 });
                 break;
           case 6:
+              setLoadingBar(70, "Getting subscription status...");
+              if (!subscriptionStatus) {
+                stopSocket();
+                showLogin("Your subscription is expired.", true);
+                return;
+              } else {
+                loadOnlineData(7, loginloader);
+              }
+          case 7:
                 // get all sales (Will limit to the weeks sales in future)
                 setLoadingBar(80, "Getting recent sales...");
                 setStatusBar(4, "Updating sales...", statusmsg, 0);
@@ -1238,9 +1258,7 @@ function WPOS() {
     };
 
     this.getStockLevel = function() {
-       if (stocktable == null) {
-            loadStockTable();
-        }
+        loadStockTable();
         return stocktable;
     };
 
@@ -1343,6 +1361,7 @@ function WPOS() {
         var data = localStorage.getItem("stock_items");
         if (data != null) {
             stocktable = JSON.parse(data);
+            WPOS.items.stock = {};
             WPOS.items.stock = data;
             return true;
         }
