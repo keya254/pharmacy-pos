@@ -75,13 +75,8 @@
                 <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
                 <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Reports</a></li>
                 <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown"> <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="admin" target="_blank">Admin Panel</a></li>
-                        <li><a href="#" onClick="WPOS.logout();" data-toggle="tab">Logout</a></li>
-                    </ul>
-                </li>
+                <li><a href="#" onClick="WPOS.logout();" data-toggle="tab">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
+                <li><a href="admin" style="padding:5px 10px; margin-top:3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; " target="_blank" class="btn btn-danger">Admin</a></li>
             </ul>
         </div>
         <div class="panel-body">
