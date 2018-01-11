@@ -114,7 +114,7 @@
 <div id="addstockdialog" class="hide">
     <table>
         <tr>
-            <td style="text-align: right;"><label>Item:</label></td>
+            <td style="text-align: right;"><label>Item(<span class="text-danger">Required</span>):</label></td>
             <td><select id="addstockitemid" class="itemselect form-control">
                 </select></td>
         </tr>
@@ -129,15 +129,15 @@
           </select></td>
       </tr>
         <tr>
-            <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Qty(<span class="text-danger">Required</span>):&nbsp;</label></td>
             <td><input id="addstockqty" type="text" class="form-control" value="1"/></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Cost:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Cost(<span class="text-danger">Required</span>):&nbsp;</label></td>
             <td><input id="addstockcost" class="form-control" value="0.00" type="text"/></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Price:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Price(<span class="text-danger">Required</span>):&nbsp;</label></td>
             <td><input id="addstockprice" class="form-control" value="0.00" type="text"/></td>
         </tr>
         <tr>
