@@ -74,8 +74,14 @@
                 <li id="cashier" class="active"><a href="#tab1primary" id="cash" data-toggle="tab">Cashier</a></li>
                 <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
                 <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Reports</a></li>
-                <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
-                <li><a href="#" onClick="WPOS.logout();" data-toggle="tab">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-cog"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
+                        <li><a href="#" onClick="WPOS.logout();" data-toggle="tab">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
+                    </ul>
+                </li>
                 <li><a href="admin" style="padding:5px 10px; margin-top:3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; " target="_blank" class="btn btn-danger">Admin</a></li>
             </ul>
         </div>
