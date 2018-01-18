@@ -29,7 +29,7 @@ function WPOSItems() {
      */
     this.addManualItemRow = function () {
         // add the row
-        addItemRow(1, "", "0.00", 1, 0, 0, 0, {desc:"", cost:0.00, unit_original:0.00}, 0, 0, false);
+        addItemRow(1, "", "0.00", 1, 0, 0, 0, {desc:"general", cost:0.00, unit_original:0.00}, 0, 0, false);
         // focus on qty
         $("#itemtable")
             .children('tr :last')
@@ -264,11 +264,12 @@ function WPOSItems() {
         var disable = (sitemid>0); // disable fields that are filled by the stored item
         // var disableprice = (sitemid>0 && WPOS.getConfigTable().pos.priceedit!="always");
         var disabletax = (!WPOS.getConfigTable().pos.hasOwnProperty('taxedit') || WPOS.getConfigTable().pos.taxedit=='no');
+        var newItem = (sitemid===0 && totalStockLevel ===0);
         var row = $('<tr class="item_row"' + ' style="display: '+ (hidden? "none": "visible")+';">' +
-            '<td><input type="hidden" class="reorderpoint" value="' + reorderpoint + '" /><input type="hidden" name="relatedItems[]" class="otherRelatedItemsId" value="' + otherRelatedItemsId + '" /><input type="hidden" class="totalStockLevel" value="' + totalStockLevel + '" /><input type="hidden" class="totalItems" value="' + totalItems + '" data-options=\''+JSON.stringify(data)+'\' /><input class="itemid form-control" type="hidden" value="' + sitemid + '" data-options=\''+JSON.stringify(data)+'\' /><input onChange="WPOS.sales.updateSalesTotal();" style="width:50px;" type="text" class="itemqty numpad form-control" value="' + qty + '" /></td>' +
+            '<td><input type="hidden" class="reorderpoint" value="' + reorderpoint + '" /><input type="hidden" class="newItem" value="true" /><input type="hidden" name="relatedItems[]" class="otherRelatedItemsId" value="' + otherRelatedItemsId + '" /><input type="hidden" class="totalStockLevel" value="' + totalStockLevel + '" /><input type="hidden" class="totalItems" value="' + totalItems + '" data-options=\''+JSON.stringify(data)+'\' /><input class="itemid form-control" type="hidden" value="' + sitemid + '" data-options=\''+JSON.stringify(data)+'\' /><input onChange="WPOS.sales.updateSalesTotal();" style="width:50px;" type="text" class="itemqty numpad form-control" value="' + qty + '" /></td>' +
             '<td><input '+((disable==true && name!="")?"disabled":"")+' type="text" class="itemname form-control" value="' + name + '" onChange="WPOS.sales.updateSalesTotal();" /><div class="itemmodtxt"></div></td>' +
             '<td><input onChange="WPOS.sales.updateSalesTotal();" style="max-width:50px;" type="text" class="itemunit form-control numpad" value="' + unit + '" /></td>' +
-            '<td><select '+((disabletax==true && taxid!=null)?"disabled":"")+' onChange="WPOS.sales.updateSalesTotal();" style="max-width:110px;" class="itemtax form-control">' +getTaxSelectHTML(taxid)+ '</select><input class="itemtaxval" type="hidden" value="0.00" /></td>' +
+            '<td><select '+((!newItem && disabletax==true && taxid!=null)?"disabled":"")+' onChange="WPOS.sales.updateSalesTotal();" style="max-width:110px;" class="itemtax form-control">' +getTaxSelectHTML(taxid)+ '</select><input class="itemtaxval" type="hidden" value="0.00" /></td>' +
             '<td><input style="max-width:75px;" type="text" class="itemprice form-control" value="0.00" disabled /></td>' +
             '<td style="text-align: center;"><button class="btn btn-sm btn-danger" onclick="WPOS.items.removeItem($(this));"><span class="glyphicon glyphicon-trash"></span></button></td>' +
             '</tr>');
@@ -887,6 +888,7 @@ function WPOSSales() {
         var qty,name, unit, mod, tempprice, tempcost, totalStockLevel, stockLevel, otherItems;
         var numinvalid = 0;
         var allow_negative = WPOS.getConfigTable().pos.negative_items;
+        var newItem = false;
         $("#itemtable").children(".item_row").each(function (index, element) {
                 qty = parseFloat($(element).find(".itemqty").val());
                 stockLevel = parseFloat($(element).find(".totalItems").val());
@@ -897,10 +899,15 @@ function WPOSSales() {
                 var itemdata = $(element).find(".itemid").data('options');
                 mod = itemdata.hasOwnProperty('mod') ? itemdata.mod.total : 0;
                 tempprice = parseFloat("0.00");
-                if (qty > totalStockLevel) {
+                newItem = $(element).find(".newItem").val();
+                if (name === "" || unit <= 0 || totalStockLevel <=0)
+                  $(element).find(".newItem").val("true");
+                else
+                  $(element).find(".newItem").val("false");
+                if (!newItem && qty > totalStockLevel) {
                     alert('The store has ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty);
                 }
-                if (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative)) {
+                if (newItem || (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative))) {
                     // add item modification total to unit price & calculate item total
                     tempprice = qty * (unit + mod);
                     tempcost = qty * itemdata.cost;
@@ -1363,68 +1370,102 @@ function WPOSSales() {
           totalStockLevel = parseFloat($(element).find(".totalStockLevel").val());
           stockLevel = parseFloat($(element).find(".totalItems").val());
           otherItemsId = $(element).find(".otherRelatedItemsId").val();
-
-          // Check qty if you should add other supplier items
-          otherItemsId = otherItemsId.split(",");
-          // add # items to total
-          numitems += tempqty;
-          while(tempqty > 0) {
-            // Add the other amount from the other supplier
-            var item = WPOS.getStockLevel()[otherItemsId[otherItemsId.length -1]]; // pick the item on top of the list
-            if (item.stocklevel >= tempqty) { // Can be sold from one item
-              qty = tempqty;
-              tempqty = 0;
-            } else {
-              qty = item.stocklevel; // add all items
-              tempqty -= qty;
-            }
-
-            // calculate item tax
-            var unit = parseFloat(item.price).toFixed(2);
-            var tempprice = qty*unit;
-            var tempcost = qty*parseFloat(item.cost).toFixed(2);
-            var taxdata = WPOS.util.calcTax(item.taxid, tempprice, tempcost);
-            if (!taxdata.inclusive) {
-              tempprice += taxdata.total;
-            }
-
+          newItem = $(element).find(".newItem").val();
+          if (newItem) {
             // add tax information into the tax totals array
+            taxdata = $(element).find(".itemtaxval").data('taxdata');
+            taxruleid = $(element).find(".itemtax").val();
             for (var i in taxdata.values) {
               if (!taxtotals.hasOwnProperty(i)) {
                 taxtotals[i] = 0;
               }
               taxtotals[i] += taxdata.values[i];
             }
+            // add # items to total
+            tempqty = parseFloat($(element).find(".itemqty").val());
+            numitems += tempqty;
             // add item to the array
             var data = {
               "ref": WPOS.util.getRandomId(), // use index as reference for this sale item,
-              "sitemid": item.id,
-              "reorderpoint": item.reorderPoint,
-              "qty": qty,
-              "name": item.name,
-              "unit": unit,
+              "sitemid": $(element).find(".itemid").val(),
+              "qty": tempqty,
+              "name": $(element).find(".itemname").val(),
+              "unit": parseFloat($(element).find(".itemunit").val()).toFixed(2),
               "taxid": taxruleid,
               "tax": taxdata,
-              "price": parseFloat(tempprice).toFixed(2)
+              "price": parseFloat($(element).find(".itemprice").val()).toFixed(2)
             };
-            itemdata = {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.name};
+            itemdata = $(element).find(".itemid").data('options');
             for (var x in itemdata) {
               data[x] = itemdata[x];
             }
             if (data.cost>0)
               totalcost += (data.cost*data.qty);
             items.push(data);
-            otherItemsId.pop(); // Remove the last item id
+          } else {
+            // Check qty if you should add other supplier items
+            otherItemsId = otherItemsId.split(",");
+            // add # items to total
+            numitems += tempqty;
+            while(tempqty > 0) {
+              // Add the other amount from the other supplier
+              var item = WPOS.getStockLevel()[otherItemsId[otherItemsId.length -1]]; // pick the item on top of the list
+              if (item.stocklevel >= tempqty) { // Can be sold from one item
+                qty = tempqty;
+                tempqty = 0;
+              } else {
+                qty = item.stocklevel; // add all items
+                tempqty -= qty;
+              }
+
+              // calculate item tax
+              var unit = parseFloat(item.price).toFixed(2);
+              var tempprice = qty*unit;
+              var tempcost = qty*parseFloat(item.cost).toFixed(2);
+              var taxdata = WPOS.util.calcTax(item.taxid, tempprice, tempcost);
+              if (!taxdata.inclusive) {
+                tempprice += taxdata.total;
+              }
+
+              // add tax information into the tax totals array
+              for (var i in taxdata.values) {
+                if (!taxtotals.hasOwnProperty(i)) {
+                  taxtotals[i] = 0;
+                }
+                taxtotals[i] += taxdata.values[i];
+              }
+              // add item to the array
+              var data = {
+                "ref": WPOS.util.getRandomId(), // use index as reference for this sale item,
+                "sitemid": item.id,
+                "reorderpoint": item.reorderPoint,
+                "qty": qty,
+                "name": item.name,
+                "unit": unit,
+                "taxid": taxruleid,
+                "tax": taxdata,
+                "price": parseFloat(tempprice).toFixed(2)
+              };
+              itemdata = {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.name};
+              for (var x in itemdata) {
+                data[x] = itemdata[x];
+              }
+              if (data.cost>0)
+                totalcost += (data.cost*data.qty);
+              items.push(data);
+              otherItemsId.pop(); // Remove the last item id
+            }
           }
 
-                if (WPOS.isOrderTerminal()){
-                    // if order id is undefined, add to the new order
-                    if (!data.hasOwnProperty('orderid')) {
-                        data.orderid = neworderid;
-                    }
-                    // add referece to current order item; store the index for quick access to it's data, the index may change but the id will remain the same.
-                    orders[data.orderid].items[data.ref] = index;
-                }
+
+          if (WPOS.isOrderTerminal()){
+              // if order id is undefined, add to the new order
+              if (!data.hasOwnProperty('orderid')) {
+                  data.orderid = neworderid;
+              }
+              // add referece to current order item; store the index for quick access to it's data, the index may change but the id will remain the same.
+              orders[data.orderid].items[data.ref] = index;
+          }
         });
 
         // cycle through orders & match the old order items to the new, if they don't match, update the moddt
