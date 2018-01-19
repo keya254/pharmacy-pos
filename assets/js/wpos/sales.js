@@ -1373,7 +1373,7 @@ function WPOSSales() {
           stockLevel = parseFloat($(element).find(".totalItems").val());
           otherItemsId = $(element).find(".otherRelatedItemsId").val();
           newItem = $(element).find(".newItem").val();
-          if (newItem) {
+          if (newItem === "true") {
             // add tax information into the tax totals array
             taxdata = $(element).find(".itemtaxval").data('taxdata');
             taxruleid = $(element).find(".itemtax").val();
