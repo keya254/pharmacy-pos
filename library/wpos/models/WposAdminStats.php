@@ -205,29 +205,45 @@ class WposAdminStats {
             $items = $itemsMdl->getStoredItemTotals($stime, $etime, $group, true, $this->data->type);
         }
         if (is_array($items)){
-            foreach ($items as $item){
+            // Set the objects with global ids
+            foreach ($items as $item) {
                 $stats[$item['groupid']] = new stdClass();
-                if ($item['groupid']==0){
+                if ($item['groupid'] == 0) {
                     $stats[$item['groupid']]->name = "Miscellaneous";
                 } else {
                     $stats[$item['groupid']]->name = $item['name'];
                 }
-                $stats[$item['groupid']]->refs = $item['refs'];
-                $stats[$item['groupid']]->soldqty = $item['itemnum'];
-                $stats[$item['groupid']]->discounttotal = number_format($item['discounttotal'], 2, ".", "");
-                $stats[$item['groupid']]->taxtotal = number_format($item['taxtotal'], 2, ".", "");
-                $stats[$item['groupid']]->soldtotal = number_format($item['itemtotal'], 2, ".", "");
-                $stats[$item['groupid']]->refundqty = $item['refnum'];
-                $stats[$item['groupid']]->refundtotal = number_format($item['reftotal'], 2, ".", "");
-                $stats[$item['groupid']]->netqty = $item['itemnum']-$item['refnum'];
-                $stats[$item['groupid']]->balance = number_format($item['itemtotal']-$item['reftotal'], 2, ".", "");
+            }
+            // Agregate the items within the same group
+            foreach ($items as $item){
+                $stats[$item['groupid']]->refsArr[] = $item['refs'];
+                $stats[$item['groupid']]->soldqty += $item['itemnum'];
+                $stats[$item['groupid']]->discounttotal += $item['discounttotal'];
+                $stats[$item['groupid']]->taxtotal += $item['taxtotal'];
+                $stats[$item['groupid']]->soldtotal += $item['itemtotal'];
+                $stats[$item['groupid']]->refundqty += $item['refnum'];
+                $stats[$item['groupid']]->refundtotal += $item['reftotal'];
+                $stats[$item['groupid']]->netqty += ($item['itemnum']-$item['refnum']);
+                $stats[$item['groupid']]->balance += ($item['itemtotal']-$item['reftotal']);
+            }
+            // Format the final data by adding currency symbol
+            foreach ($items as $item){
+                $stats[$item['groupid']]->refs = implode(",", $stats[$item['groupid']]->refsArr);
+                $stats[$item['groupid']]->discounttotal = number_format($stats[$item['groupid']]->discounttotal, 2, ".", "");
+                $stats[$item['groupid']]->taxtotal = number_format($stats[$item['groupid']]->taxtotal, 2, ".", "");
+                $stats[$item['groupid']]->soldtotal = number_format($stats[$item['groupid']]->soldtotal, 2, ".", "");
+                $stats[$item['groupid']]->refundtotal = number_format($stats[$item['groupid']]->refundtotal, 2, ".", "");
+                $stats[$item['groupid']]->balance = number_format($stats[$item['groupid']]->balance, 2, ".", "");
+            }
+            // Reset the refsArr
+            foreach ($items as $item) {
+                unset($stats[$item['groupid']]->refsArr);
             }
         } else {
             $result['error'] = $itemsMdl->errorInfo;
         }
 
         $result['data'] = $stats;
-
         return $result;
     }
 

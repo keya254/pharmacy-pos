@@ -906,10 +906,10 @@ function WPOSSales() {
                   $(element).find(".newItem").val("true");
                 else
                   $(element).find(".newItem").val("false");
-                if (!newItem && qty > totalStockLevel) {
+                if (newItem === "false" && qty > totalStockLevel) {
                     alert('The store has ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty);
                 }
-                if (newItem || (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative))) {
+                if (newItem === "true" || (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative))) {
                     // add item modification total to unit price & calculate item total
                     tempprice = qty * (unit + mod);
                     tempcost = qty * itemdata.cost;
