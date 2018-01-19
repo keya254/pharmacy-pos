@@ -878,6 +878,8 @@ function WPOSSales() {
         curref = null;
         // remove error notice
         $("#invaliditemnotice").hide();
+        //Reload items from server
+        WPOS.refreshData();
     }
 
     function getNumSalesItems(){

@@ -607,6 +607,11 @@ function WPOS() {
         }
     };
 
+    this.refreshData = function() {
+      console.log("Refresh button clicked.");
+      loadOnlineData(1, false);
+    };
+
     this.backupOfflineSales = function(){
         var offline_sales = localStorage.getItem('wpos_osales');
 
