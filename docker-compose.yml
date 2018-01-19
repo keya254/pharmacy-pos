@@ -24,7 +24,7 @@ services:
       - ./mariadb/data:/bitnami
 
   mariadb:
-    container_name: mariadb_pos
+    container_name: mariadb
     image: "bitnami/mariadb:10.1-master"
     environment:
       - MARIADB_ROOT_PASSWORD=root

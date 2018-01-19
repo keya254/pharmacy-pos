@@ -20,7 +20,7 @@ WORKDIR /var/www/html
 
 COPY . /var/www/html
 
-RUN npm install
+#RUN npm install
 
 COPY apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 COPY mariadb/dbconfig.json library/wpos/.dbconfig.json
