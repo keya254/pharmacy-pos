@@ -344,10 +344,7 @@
         var taxsel = $(".taxselect");
         taxsel.html('');
         for (key in WPOS.getTaxTable().rules){
-            if (WPOS.getTaxTable().rules[key].name === "VAT")
-              taxsel.append('<option selected class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
-            else
-              taxsel.append('<option class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
+          taxsel.append('<option '+(WPOS.getTaxTable().rules[key].name === "VAT" ? 'selected' : '') +' class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
         }
         // populate category & supplier records in select boxes
         var supsel = $(".supselect");

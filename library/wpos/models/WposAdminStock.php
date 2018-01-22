@@ -169,6 +169,7 @@ class WposAdminStock {
             // Match Item Name
             $id = $this->getIdForName($storedItems, $item->name);
             if ($id === false || $id === null){
+                // Add item as an Inventory Item
                 if ((isset($options->add_items) && $options->add_items===true)){
                     EventStream::sendStreamData(['status'=>"Adding Item..."]);
                     $id = $storedItemsMdl->create($item);
