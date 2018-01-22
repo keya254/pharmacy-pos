@@ -330,6 +330,7 @@ CREATE TABLE IF NOT EXISTS `stored_items` (
   `name` varchar(66) NOT NULL,
   `description` varchar(66) NOT NULL,
   `reorderPoint` int(11) NOT NULL,
+  `stockType` int(11)  NOT NULL,
   `taxid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
