@@ -364,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `stored_categories` (
 --
 -- Dumping data for table `stored_categories`
 --
-INSERT INTO `stored_categories` (`name`, `dt`) VALUES('GENERAL', 'now()');
+INSERT INTO `stored_categories` (`name`, `dt`) VALUES('GENERAL', utc_timestamp());
 -- --------------------------------------------------------
 
 --
