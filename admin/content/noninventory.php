@@ -417,7 +417,7 @@
         // adding a new item
         item.name = $("#newitemname").val();
         item.description = $("#newitemdesc").val();
-        item.categoryid = $("#newitemcategory").val();
+        item.categoryid = ($("#newitemcategory").val()) ? '5': $("#newitemcategory").val();
         item.taxid = $("#newitemtax").val();
         item.reorderPoint = '0';
         item.stockType = '0';

@@ -361,6 +361,10 @@ CREATE TABLE IF NOT EXISTS `stored_categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
 
+--
+-- Dumping data for table `stored_categories`
+--
+INSERT INTO `stored_categories` (`name`, `dt`) VALUES('GENERAL', 'now()');
 -- --------------------------------------------------------
 
 --
