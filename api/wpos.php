@@ -713,6 +713,10 @@ function routeApiCall($action, $data, $result) {
             $Sserver = new WposSocketControl();
             $result = $Sserver->restartSocketServer($result);
             break;
+        case "git/update":
+            $Sserver = new WposSocketControl();
+            $result = $Sserver->updateSystem($result);
+            break;
 
         case "db/backup":
             $util = new WposAdminUtilities();

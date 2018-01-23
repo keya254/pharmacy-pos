@@ -188,6 +188,14 @@
                 </form>
             </div>
         </div>
+        <div class="widget-box transparent">
+          <div class="widget-header widget-header-flat">
+            <h4 class="lighter">Update System</h4>
+          </div>
+          <div class="widget-body" style="padding-top: 10px;">
+            <button id="updatebtn" class="btn btn-success" onclick="startGit();">Update</button>&nbsp;
+          </div>
+        </div>
     </div>
 </div>
 <div class="row">
@@ -197,6 +205,18 @@
 </div>
 <script type="text/javascript">
         var options;
+
+        function startGit(){
+          // show loader
+          // WPOS.util.showLoader();
+          if (WPOS.getJsonData("git/update")!==false){
+            console.log(true);
+          } else {
+            console.log(false);
+          }
+          // hide loader
+          // WPOS.util.hideLoader();
+        }
 
         function saveSettings(){
             // show loader

@@ -122,6 +122,27 @@ class WposSocketControl {
 		}
     }
 
+    /**
+     * Run git pull
+     * @param $result array Current result array
+     * @return mixed API result array
+     */
+    public function updateSystem($result=['error'=>'OK']){
+        if ($this->isWindows) {
+            pclose(popen('START git pull origin master','r'));
+        } else {
+            $cmd = "git pull origin master";
+            exec($cmd, $output, $res);
+            if ($res>0)
+                exec($cmd, $output, $res);
+        }
+        sleep(1);
+        if ($res>0){
+            $result['error'] = "Failed to update ! ".json_encode($res).json_encode($output);
+        }
+        return $result;
+    }
+
 }
 
 
