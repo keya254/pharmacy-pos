@@ -1,3 +1,6 @@
+<?php
+require_once './require/header.php';
+?>
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
 <div class="page-header">
     <h1 class="inline">
@@ -368,3 +371,6 @@
         WPOS.util.hideLoader();
     });
 </script>
+<?php
+require_once './require/footer.php';
+?>

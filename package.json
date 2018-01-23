@@ -10,7 +10,14 @@
   "author": "WallaceIT",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "socket.io": "~1.7.x"
+    "socket.io": "~1.7.x",
+    "bootstrap": "4.0.0-beta",
+    "chart.js": "2.6.0",
+    "flag-icon-css": "2.8.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "3.2.1",
+    "perfect-scrollbar": "0.7.1",
+    "popper.js": "1.12.5"
   },
   "engines": {
     "node": ""
