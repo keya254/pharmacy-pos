@@ -608,7 +608,6 @@ function WPOS() {
     };
 
     this.refreshData = function() {
-      console.log("Refresh button clicked.");
       loadOnlineData(1, false);
     };
 
