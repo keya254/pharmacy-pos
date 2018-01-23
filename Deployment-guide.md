@@ -26,7 +26,7 @@ Follow these steps to get Pharmacy Plus POS up and running
 5. Go to [http://localhost/installer](http://localhost/installer) in a browser. Follow the instructions to the end. If you changed the `MARIADB_ROOT_PASSWORD` in `docker-compose.yml`, replace the default password there with what you set as the password, otherwise click next. You will finally be promoted to set the admin password.
 
 
-# **Docker Containers on HospitalRun Server**
+# **Docker Containers on Pharmacy POS**
 
 **List of Containers:**
 
