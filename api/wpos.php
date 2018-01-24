@@ -320,11 +320,6 @@ function routeApiCall($action, $data, $result) {
             $adminMdl = new WposAdminItems($data);
             $result = $adminMdl->deleteCategory($result);
             break;
-        // suppliers
-        case "stock/supplier":
-            $stockMdl = new WposAdminStock($data);
-            $result = $stockMdl->editSupplier($result);
-            break;
         case "stock/get":
             $jsondata = new WposPosData();
             $result = $jsondata->getStock($result);
@@ -717,6 +712,10 @@ function routeApiCall($action, $data, $result) {
         case "node/restart":
             $Sserver = new WposSocketControl();
             $result = $Sserver->restartSocketServer($result);
+            break;
+        case "git/update":
+            $Sserver = new WposSocketControl();
+            $result = $Sserver->updateSystem($result);
             break;
 
         case "db/backup":

@@ -60,7 +60,7 @@ function WPOSItems() {
         for (var item in filteredItems) {
           if (filteredItems[item].code === code) {
             searchItem = filteredItems[item].id;
-            if (filteredItems[item].stocklevel <= 0 || filteredItems[item].locationid !== WPOS.getConfigTable().locationid) {
+            if ((filteredItems[item].stockType === '1') && (filteredItems[item].stocklevel <= 0 || filteredItems[item].locationid !== WPOS.getConfigTable().locationid)) {
               alert('Item is below 0 or belongs to another location');
               canAdd = false;
             }
@@ -159,14 +159,14 @@ function WPOSItems() {
             items[x] = tempitems[x];
           }
         }
-        sorted = this.filterStock(items);
-        // Display the items
+      sorted = this.filterStock(items);
+      // Display the items
         for (var i in sorted){
           price = (sorted[i].price==""?"??.??":parseFloat(sorted[i].price).toFixed(2));
           iboxitems.append('<div class="iboxitem col-xs-6 col-sm-4" onmouseenter="handleMOver(this);" onmouseleave="handleMOut(this);" onclick="WPOS.items.addItemFromId('+sorted[i].id[sorted[i].id.length-1]+'); toggleItemBox(false);">' +
             '<h6 class="name">'+sorted[i].name+'</h6>'+
             '<h6 class="price">'+WPOS.util.currencyFormat(price)+'</h6>'+
-            '<h6>('+sorted[i].qty+')</h6>'+
+            '<h6>'+(sorted[i].stockType==='1'? '('+sorted[i].qty+')':'')+'</h6>'+
             '</div>');
         }
     };
@@ -176,14 +176,15 @@ function WPOSItems() {
     };
 
     this.generateItemGridCategories = function(){
+      var gstock = this.filterStock(stock);
         var iboxitems = $("#iboxitems");
-        iboxitems.html('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(-1);"><h5>All Categories</h5><h6>('+Object.keys(stock).length+' items)</h6></div>');
+        iboxitems.html('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(-1);"><h5>All Categories</h5><h6>('+Object.keys(gstock).length+' items)</h6></div>');
         var catindex = WPOS.getCategoryIndex();
         var categories = WPOS.getConfigTable().item_categories;
         for (var i in categories){
           var total =0;
-          for (var s in stock) {
-            if (stock[s].categoryid == categories[i].id) {
+          for (var s in gstock) {
+            if (gstock[s].categoryid == categories[i].id) {
               total += 1;
             }
           }
@@ -192,8 +193,8 @@ function WPOSItems() {
                 '<h6>('+total+' items)</h6>'+
                 '</div>');
         }
-        var misctotal = catindex.hasOwnProperty(0)?catindex[0].length:0;
-        iboxitems.append('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(0);"><h5>Miscellaneous</h5><h6>('+misctotal+' items)</h6></div>');
+        // var misctotal = catindex.hasOwnProperty(0)?catindex[0].length:0;
+        // iboxitems.append('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(0);"><h5>Miscellaneous</h5><h6>('+misctotal+' items)</h6></div>');
     };
 
     this.filterStock = function (items) {
@@ -222,11 +223,12 @@ function WPOSItems() {
         };
         item.name = items[i].name;
         for (var s in sorted) {
-          if (items[i].name === sorted[s][1].name && sorted[s][1].locationid == locationid && sorted[s][1].stocklevel > 0) {
+          if (items[i].name === sorted[s][1].name && sorted[s][1].locationid === locationid && (items[i].stockType ==='1'?(sorted[s][1].stocklevel > 0): true)) {
             item.qty = parseInt(item.qty) + parseInt(sorted[s][1].stocklevel); // Sum all the stock
             item.price = sorted[s][1].price;
             item.id.push(sorted[s][1].id);
             item.code = sorted[s][1].code;
+            item.stockType = sorted[s][1].stockType;
             item.locationid = sorted[s][1].locationid;
             item.categoryid = sorted[s][1].categoryid;
             item.supplier = sorted[s][1].supplier;
@@ -235,9 +237,7 @@ function WPOSItems() {
           }
         }
         // Filter by location and stock amount
-        if (item.qty > 0 && item.locationid == locationid) {
-          smart.push(item);
-        }
+        (item.locationid == locationid) ? smart.push(item): "";
       }
       // Frontend lexicographic sorting
       return smart.sort(function(a, b) {
@@ -328,19 +328,21 @@ function WPOSItems() {
         alert(item.name + ' has not been stocked.');
         canSell = false;
       }
-      // Check if expired
-      if (new Date(item.expiryDate) <= new Date()) {
-        alert(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
-        canSell = false;
-      }
-      // Prevent negative sales
-      if (parseInt(item.totalStockLevel) <= 0 && canSell) {
-        alert(item.name + ' has reached 0 quantity and can\' be sold.');
-        canSell = false;
-      } else if (parseInt(item.totalStockLevel) < parseInt(item.reorderPoint) && canSell) {
-        alert(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
-      } else if (canSell && parseInt(item.totalStockLevel) === parseInt(item.reorderPoint) && item.totalStockLevel !== undefined) {
-        alert(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
+      if (item.stockType === '1') {
+        // Check if expired
+        if (new Date(item.expiryDate) <= new Date()) {
+          alert(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
+          canSell = false;
+        }
+        // Prevent negative sales
+        if (parseInt(item.totalStockLevel) <= 0 && canSell) {
+          alert(item.name + ' has reached 0 quantity and can\' be sold.');
+          canSell = false;
+        } else if (parseInt(item.totalStockLevel) < parseInt(item.reorderPoint) && canSell) {
+          alert(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
+        } else if (canSell && parseInt(item.totalStockLevel) === parseInt(item.reorderPoint) && item.totalStockLevel !== undefined) {
+          alert(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
+        }
       }
       if (canSell){
         // Item cost may be null if we're adding stored items that were created in a previous version, explicitly set the cost in this case.
