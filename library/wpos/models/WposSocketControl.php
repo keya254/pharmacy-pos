@@ -131,7 +131,7 @@ class WposSocketControl {
         $configName = 'git config --global user.name "nyugoh"';
         $configEMail = 'git config --global user.email "nyugoh@gmail.com"';
         if ($this->isWindows) {
-            pclose(popen('START "POS" git-cmd '.$configName .' & '.$configEMail.' & git pull origin master','r'));
+            pclose(popen('START "POS" git-cmd '.$configName .' & '.$configEMail.' & git pull origin develop','r'));
         } else {
             $cmd = 'git pull master';
             exec($cmd, $output, $res);
