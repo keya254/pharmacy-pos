@@ -210,9 +210,9 @@
           // show loader
           // WPOS.util.showLoader();
           if (WPOS.getJsonData("git/update")!==false){
-            console.log(true);
+            alert('Update successfull.');
           } else {
-            console.log(false);
+            alert('Update failed.');
           }
           // hide loader
           // WPOS.util.hideLoader();

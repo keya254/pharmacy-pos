@@ -128,10 +128,12 @@ class WposSocketControl {
      * @return mixed API result array
      */
     public function updateSystem($result=['error'=>'OK']){
+        $configName = 'git config --global user.name "nyugoh"';
+        $configEMail = 'git config --global user.email "nyugoh@gmail.com"';
         if ($this->isWindows) {
-            pclose(popen('START git pull origin master','r'));
+            pclose(popen('START "POS" git-cmd '.$configName .' & '.$configEMail.' & git pull origin master','r'));
         } else {
-            $cmd = "git pull origin master";
+            $cmd = 'git pull master';
             exec($cmd, $output, $res);
             if ($res>0)
                 exec($cmd, $output, $res);
