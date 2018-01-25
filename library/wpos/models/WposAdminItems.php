@@ -47,7 +47,7 @@ class WposAdminItems {
     public function addStoredItem($result)
     {
         // validate input
-        $jsonval = new JsonValidate($this->data, '{"name":"", "categoryid":1", taxid":1", reorderPoint":1, "description":""}');
+        $jsonval = new JsonValidate($this->data, '{"name":"", "categoryid":1, taxid":1, "reorderPoint":1, "stockType":1, "description":""}');
         if (($errors = $jsonval->validate()) !== true) {
             $result['error'] = $errors;
             return $result;
@@ -223,7 +223,7 @@ class WposAdminItems {
                         EventStream::sendStreamData($result);
                         return $result;
                     }
-                    $categories[] = [''=>$id, 'name'=>$item->category_name];
+                    $categories[] = ['id'=>$id, 'name'=>$item->category_name];
                 } else {
                     $result['error'] = "Could not find category id for name " . $item->category_name . " on line ".$count." of the CSV";
                     EventStream::sendStreamData($result);
@@ -246,6 +246,9 @@ class WposAdminItems {
             }
             $item->taxid = $id;
             unset($item->tax_name);
+
+            // Map Stock type from a string to a boolean value
+            strtoupper($item->stockType) == "INVENTORY" ? $item->stockType = '1': $item->stockType = '0';
 
             $dupitems = $itemMdl->getDuplicate($item);
             if ($dupitems > 0) {

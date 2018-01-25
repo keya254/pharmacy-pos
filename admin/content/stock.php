@@ -41,7 +41,7 @@
             <th data-priority="9">Expiry Date</th>
             <th data-priority="11">Tax</th>
             <th data-priority="12">Category</th>
-            <th data-priority="1" class="noexport"></th>
+            <th data-priority="1" class="noexport">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -58,17 +58,11 @@
             <input type="hidden" id="setstockid" />
             <input type="hidden" id="setstockinventoryid" />
             <input type="hidden" id="setstocklocid" />
-<!--            <input type="hidden" id="setstocksupid" />-->
         </tr>
       <tr>
         <td style="text-align: right;"><label>Name:</label></td>
         <td><input type="text" id="setstockname" class="form-control" disabled/></td>
       </tr>
-<!--      <tr>-->
-<!--        <td style="text-align: right;"><label>Supplier:</label></td>-->
-<!--        <td><select id="addstocksupid" class="supselect form-control">-->
-<!--          </select></td>-->
-<!--      </tr>-->
       <tr>
         <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
         <td><input id="setstockqty" type="text" class="form-control"/></td>
@@ -205,7 +199,8 @@
             } else {
               tempstock.taxname = "Not Defined";
             }
-            stockarray.push(tempstock);
+            if (tempstock.stockType === '1')
+              stockarray.push(tempstock);
         }
         datatable = $('#stocktable').dataTable({"bProcessing": true,
             "aaData": stockarray,
@@ -484,7 +479,8 @@
         var itemselect = $(".itemselect");
         itemselect.html('');
         for (var i in items){
-          itemselect.append('<option class="itemid-'+items[i].id+'" value="'+items[i].id+'">'+items[i].name+'</option>');
+          if (items[i].stockType === '1')
+            itemselect.append('<option class="itemid-'+items[i].id+'" value="'+items[i].id+'">'+items[i].name+'</option>');
         }
         WPOS.util.hideLoader();
     }
@@ -550,7 +546,8 @@
         for (var key in stock){
             tempstock = stock[key];
             tempstock.taxname = WPOS.getTaxTable().rules[tempstock.taxid].name;
-            stockarray.push(tempstock);
+            if (tempstock.stockType === '1')
+              stockarray.push(tempstock);
         }
         datatable.fnClearTable(false);
         datatable.fnAddData(stockarray, false);
@@ -573,21 +570,22 @@
         });
         for(var item in sorted) {
           var dataobj = JSON.parse(sorted[item][1].data);
-          data[item] = {
-            code: "",
-            name: sorted[item][1].name,
-            description: sorted[item][1].description,
-            locationid: config.deviceconfig.locationid,
-            cost: 0.00,
-            price: 0.00,
-            stocklevel: "",
-            reorderpoint: sorted[item][1].reorderPoint,
-            supplier: '',
-            inventoryNo: "0000",
-            expiryDate: "30/12/2050",
-            taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
-            categoryid: sorted[item][1].categoryid
-          };
+          if (sorted[item][1].stockType === '1')
+            data[item] = {
+              code: "",
+              name: sorted[item][1].name,
+              description: sorted[item][1].description,
+              locationid: config.deviceconfig.locationid,
+              cost: 0.00,
+              price: 0.00,
+              stocklevel: "",
+              reorderpoint: sorted[item][1].reorderPoint,
+              supplier: '',
+              inventoryNo: "0000",
+              expiryDate: "30/12/2050",
+              taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
+              categoryid: sorted[item][1].categoryid
+            };
         }
         if (Object.keys(data).length === 0) {
           data[0] = {
@@ -662,6 +660,7 @@
               locationid: getLocation(jsondata[i].location),
               cost: jsondata[i].cost,
               price: jsondata[i].price,
+              stockType: '1',
               amount: jsondata[i].amount,
               reorderPoint: jsondata[i].reorderpoint !== '' ? jsondata[i].reorderpoint: "0",
               code: jsondata[i].code !== '' ? jsondata[i].code.toUpperCase(): "0000",

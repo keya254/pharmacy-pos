@@ -81,7 +81,7 @@ class StockModel extends DbConfig
      */
     public function get($storeditemid= null, $locationid= null, $report=false){
 
-        $sql = 'SELECT s.*, items.name AS name, items.categoryid AS categoryid, items.description AS description, items.taxid AS taxid, items.reorderPoint AS reorderPoint, COALESCE(p.name, "Misc") AS supplier'.($report?', l.name AS location, s.price*s.stocklevel as stockvalue':'').' FROM stock_items as s LEFT JOIN stock_inventory as i ON s.stockinventoryid=i.id LEFT JOIN stored_items as items ON i.storeditemid=items.id LEFT JOIN stored_suppliers as p ON i.supplierid=p.id LEFT JOIN stored_categories as c ON items.categoryid=c.id'.($report?' LEFT JOIN locations as l ON s.locationid=l.id':'');
+        $sql = 'SELECT s.*, items.name AS name, items.stockType AS stockType, items.categoryid AS categoryid, items.description AS description, items.taxid AS taxid, items.reorderPoint AS reorderPoint, COALESCE(p.name, "Misc") AS supplier'.($report?', l.name AS location, s.price*s.stocklevel as stockvalue':'').' FROM stock_items as s LEFT JOIN stock_inventory as i ON s.stockinventoryid=i.id LEFT JOIN stored_items as items ON i.storeditemid=items.id LEFT JOIN stored_suppliers as p ON i.supplierid=p.id LEFT JOIN stored_categories as c ON items.categoryid=c.id'.($report?' LEFT JOIN locations as l ON s.locationid=l.id':'');
         $placeholders = [];
         if ($storeditemid !== null) {
             if (empty($placeholders)) {
