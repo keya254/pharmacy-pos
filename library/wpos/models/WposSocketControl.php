@@ -138,7 +138,6 @@ class WposSocketControl {
 
             sleep(1);
             pclose($handle);
-            // var_dump($type);
         } else {
             $cmd = 'git pull origin master';
             exec($cmd, $output, $res);
