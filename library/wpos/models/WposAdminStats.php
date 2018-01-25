@@ -448,6 +448,7 @@ class WposAdminStats {
             $stats[$stock['id']]->name = $stock['name'];
             $stats[$stock['id']]->supplier = $stock['supplier'];
             $stats[$stock['id']]->stocklevel = $stock['stocklevel'];
+            $stats[$stock['id']]->stockType = $stock['stockType'];
             $stats[$stock['id']]->stockvalue = $stock['stockvalue'];
         }
         $result['data'] = $stats;
@@ -477,6 +478,7 @@ class WposAdminStats {
                 if ($item['name'] == $stock['name']) {
                     $stats[$stock['name']]->stocklevel += $stock['stocklevel'];
                     $stats[$stock['name']]->reorderpoint = $stock['reorderPoint'];
+                    $stats[$stock['name']]->stockType = $stock['stockType'];
                 }
             }
         }

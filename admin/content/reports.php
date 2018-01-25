@@ -240,6 +240,7 @@
       for (var i in items) {
         names[items[i].name] = [];
         names[items[i].name].name = items[i].name;
+        names[items[i].name].stockType = items[i].stockType;
         names[items[i].name].stocklevel = 0;
         names[items[i].name].stockvalue = 0;
         names[items[i].name].location = items[i].location;
@@ -269,7 +270,8 @@
       repdata = list;
         for (var i in repdata){
             rowdata = repdata[i];
-            html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.stockvalue+"</td></tr>"
+            if (rowdata.stockType === '1')
+              html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.stockvalue+"</td></tr>"
         }
         html += "</tbody></table>";
 
@@ -281,8 +283,9 @@
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Stock Qty</td><td>Reorder Point</td></tr></thead><tbody>";
         for (var i in repdata){
             rowdata = repdata[i];
-            if (rowdata.stocklevel <= rowdata.reorderpoint)
+            if (parseInt(rowdata.stocklevel) <= parseInt(rowdata.reorderpoint) && rowdata.stockType === '1'){
               html += "<tr><td>"+i+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.reorderpoint+"</td></tr>"
+            }
         }
         html += "</tbody></table>";
 
