@@ -1,47 +1,39 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1 style="margin-right: 20px; display: inline-block;">
         Categories
+      <small> Manage your item categories</small>
     </h1>
-    <button onclick="$('#addcatdialog').dialog('open');" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
 </div><!-- /.page-header -->
 
 <div class="row">
-<div class="col-xs-12">
-<!-- PAGE CONTENT BEGINS -->
-
-<div class="row">
-<div class="col-xs-12">
-
-<div class="table-header">
-    Manage your item categories
-</div>
-
-<table id="categoriestable" class="table table-striped table-bordered table-hover dt-responsive" style="width: 100%;">
-<thead>
-<tr>
-    <th data-priority="0" class="center noexport">
-        <label>
-            <input type="checkbox" class="ace" />
-            <span class="lbl"></span>
-        </label>
-    </th>
-    <th data-priority="4">ID</th>
-    <th data-priority="2">Name</th>
-    <th data-priority="3"># Items</th>
-    <th data-priority="1" class="noexport"></th>
-</tr>
-</thead>
-
-<tbody>
-
-</tbody>
-</table>
-
-</div>
-</div>
-
-</div><!-- PAGE CONTENT ENDS -->
+  <div class="col-lg-12 col-12 md-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <button onclick="$('#addcatdialog').dialog('open');" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+        </div>
+        <table id="categoriestable" class="table table-striped table-bordered table-hover dt-responsive" style="width: 100%;">
+          <thead>
+            <tr>
+                <th data-priority="0" class="center noexport">
+                    <label>
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+                <th data-priority="4">ID</th>
+                <th data-priority="2">Name</th>
+                <th data-priority="3"># Items</th>
+                <th data-priority="1" class="noexport"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- PAGE CONTENT ENDS -->
 </div><!-- /.col -->
 <div id="editcatdialog" class="hide">
     <table>

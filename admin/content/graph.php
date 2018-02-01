@@ -1,5 +1,5 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1>
         <i class="icon-signal"></i>
         Graph
@@ -10,9 +10,9 @@
     </h1>
 </div><!-- /.page-header -->
 <div class="row">
-    <div class="col-md-12" style="width: 100%;">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
+    <div class="col-lg-12 col-12 mb-12" style="width: 100%;">
+        <div class="card">
+            <div class="card-body">
 
                 <div class="widget-toolbar no-border">
                     <label for="graphinterval">Interval:</label>
@@ -27,85 +27,86 @@
                     <label>Range: <input type="text" style="width: 85px;" id="graphstime" onclick="$(this).blur();" /></label>
                     <label>to <input type="text" style="width: 85px;" id="graphetime" onclick="$(this).blur();" /></label>
                 </div>
-            </div>
-
-            <div class="widget-body">
-                <div class="widget-main padding-4">
+                <div class="widget-body">
+                  <div class="widget-main padding-4">
                     <div id="plot-chart"></div>
-                </div>
-                <!-- /widget-main -->
-            </div>
-            <!-- /widget-body -->
-        </div>
-        <!-- /widget-box -->
-    </div>
-    <div class="col-sm-6">
-        <div class="widget-box transparent">
-        <div class="widget-header widget-header-flat">
-            <h4 class="lighter">
-                <i class="icon-signal"></i>
-                Add data sets:
-            </h4>
-        </div>
-        <div class="widget-body" style="text-align: center; padding-top: 10px;">
-            <select id="datasetselect">
-                <option value="method">Payment Methods</option>
-                <option value="device">Device Takings</option>
-                <option value="location">Location Takings</option>
-            </select>
-            <button onclick="userLoadDataSet();" class="btn btn-sm btn-primary">Add</button>
-        </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="widget-box transparent">
-        <div class="widget-header widget-header-flat">
-            <h4 class="lighter">
-                <i class="icon-signal"></i>
-                Data Sets:
-            </h4>
-        </div>
-        <div class="widget-body">
+                  </div>
+                  <!-- /widget-main -->
+                </div><br><br>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="widget-box transparent">
+                      <div class="widget-header widget-header-flat">
+                        <h4 class="lighter">
+                          <i class="icon-signal"></i>
+                          Add data sets:
+                        </h4>
+                      </div>
+                      <div class="widget-body" style="text-align: center; padding-top: 10px;">
+                        <select id="datasetselect">
+                          <option value="method">Payment Methods</option>
+                          <option value="device">Device Takings</option>
+                          <option value="location">Location Takings</option>
+                        </select>
+                        <button onclick="userLoadDataSet();" class="btn btn-sm btn-primary">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="widget-box transparent">
+                      <div class="widget-header widget-header-flat">
+                        <h4 class="lighter">
+                          <i class="icon-signal"></i>
+                          Data Sets:
+                        </h4>
+                      </div>
+                      <div class="widget-body">
 
-            <ol id="datasets" class="ddlist" style="margin-left: 0; padding-left: 0;">
-                <li class="dd-item">
-                    <div class="dd2-content">Sales Total
-                        <button style="float: right; margin-top: -3px;" onclick="removeUIData('sales', $(this));"
-                                class="btn btn-xs btn-danger">Remove
-                        </button>
+                        <ol id="datasets" class="ddlist" style="margin-left: 0; padding-left: 0;">
+                          <li class="dd-item">
+                            <div class="dd2-content">Sales Total
+                              <button style="float: right; margin-top: -3px;" onclick="removeUIData('sales', $(this));"
+                                      class="btn btn-xs btn-danger">Remove
+                              </button>
+                            </div>
+                          </li>
+                          <li class="dd-item">
+                            <div class="dd2-content">Refund Total
+                              <button style="float: right; margin-top: -3px;" onclick="removeUIData('refunds', $(this));"
+                                      class="btn btn-xs btn-danger">Remove
+                              </button>
+                            </div>
+                          </li>
+                          <li class="dd-item">
+                            <div class="dd2-content">Revenue
+                              <button style="float: right; margin-top: -3px;" onclick="removeUIData('takings', $(this));"
+                                      class="btn btn-xs btn-danger">Remove
+                              </button>
+                            </div>
+                          </li>
+                          <li class="dd-item">
+                            <div class="dd2-content">Cost
+                              <button style="float: right; margin-top: -3px;" onclick="removeUIData('cost', $(this));"
+                                      class="btn btn-xs btn-danger">Remove
+                              </button>
+                            </div>
+                          </li>
+                          <li class="dd-item">
+                            <div class="dd2-content">Profit
+                              <button style="float: right; margin-top: -3px;" onclick="removeUIData('profit', $(this));"
+                                      class="btn btn-xs btn-danger">Remove
+                              </button>
+                            </div>
+                          </li>
+                        </ol>
+                      </div>
                     </div>
-                </li>
-                <li class="dd-item">
-                    <div class="dd2-content">Refund Total
-                        <button style="float: right; margin-top: -3px;" onclick="removeUIData('refunds', $(this));"
-                                class="btn btn-xs btn-danger">Remove
-                        </button>
-                    </div>
-                </li>
-                <li class="dd-item">
-                    <div class="dd2-content">Revenue
-                        <button style="float: right; margin-top: -3px;" onclick="removeUIData('takings', $(this));"
-                                class="btn btn-xs btn-danger">Remove
-                        </button>
-                    </div>
-                </li>
-                <li class="dd-item">
-                    <div class="dd2-content">Cost
-                        <button style="float: right; margin-top: -3px;" onclick="removeUIData('cost', $(this));"
-                                class="btn btn-xs btn-danger">Remove
-                        </button>
-                    </div>
-                </li>
-                <li class="dd-item">
-                    <div class="dd2-content">Profit
-                        <button style="float: right; margin-top: -3px;" onclick="removeUIData('profit', $(this));"
-                                class="btn btn-xs btn-danger">Remove
-                        </button>
-                    </div>
-                </li>
-            </ol>
+                  </div>
+                </div>
+            </div>
+          <!-- /widget-body -->
         </div>
-        </div>
+      <!-- /widget-box -->
     </div>
 </div>
 <script type="text/javascript">

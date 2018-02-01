@@ -1,28 +1,62 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1 class="inline">
         Devices
     </h1>
-    <button onclick="openDevDialog(0);" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
 </div><!-- /.page-header -->
 <div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+  <div class="col-lg-12 col-12 md-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="card">
+      <div class="card-body">
+        <div class="table-header">
+          Manage POS Devices
+        </div>
+        <div>
+          <button onclick="openDevDialog(0);" id="addbtn" class="btn btn-primary pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+        </div>
+        <table id="devtable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
+            <thead>
+            <tr>
+                <th data-priority="0">ID</th>
+                <th data-priority="2">Name</th>
+                <th data-priority="4">Location</th>
+                <th data-priority="5">Type</th>
+                <th data-priority="3">Status</th>
+                <th data-priority="1"></th>
+            </tr>
+            </thead>
 
-        <div class="row">
-            <div class="col-xs-12">
+            <tbody>
 
-                <div class="table-header">
-                    Manage POS Devices
-                </div>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-                    <table id="devtable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
+
+<div class="row">
+  <div class="col-lg-12 col-12 md-12">
+    <div class="page-header">
+        <h1 class="inline">
+            Locations
+        </h1>
+    </div><!-- /.page-header -->
+    <div class="card" style="margin-top: 10px;">
+      <div class="card-body">
+        <div class="table-header">
+          Manage POS Locations
+        </div>
+        <div>
+          <button onclick="openLocDialog(0);" id="addbtn" class="btn btn-primary pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+        </div>
+        <table id="loctable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
                         <thead>
                         <tr>
                             <th data-priority="0">ID</th>
                             <th data-priority="2">Name</th>
-                            <th data-priority="4">Location</th>
-                            <th data-priority="5">Type</th>
                             <th data-priority="3">Status</th>
                             <th data-priority="1"></th>
                         </tr>
@@ -32,39 +66,9 @@
 
                         </tbody>
                     </table>
-            </div>
-        </div>
-        <div class="space-6"></div>
-        <div class="page-header">
-            <h1 class="inline">
-                Locations
-            </h1>
-            <button onclick="openLocDialog(0);" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
-        </div><!-- /.page-header -->
-        <div class="row" style="margin-top: 10px;">
-            <div class="col-xs-12">
-
-                <div class="table-header">
-                    Manage POS Locations
-                </div>
-
-                    <table id="loctable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
-                        <thead>
-                        <tr>
-                            <th data-priority="0">ID</th>
-                            <th data-priority="2">Name</th>
-                            <th data-priority="3">Status</th>
-                            <th data-priority="1"></th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-            </div>
-        </div>
-    </div><!-- PAGE CONTENT ENDS -->
+      </div>
+    </div>
+  </div><!-- PAGE CONTENT ENDS -->
 </div><!-- /.row -->
 <div id="editlocdialog" class="hide">
     <table>

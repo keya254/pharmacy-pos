@@ -1,51 +1,46 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1 style="display: inline-block;">
         Customers
+      <small>Manage your customer base</small>
     </h1>
-    <button onclick="WPOS.customers.openAddCustomerDialog();" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
-    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportCustomers();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
 </div><!-- /.page-header -->
 
 <div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+  <div class="col-lg-12 col-12 md-12">
+    <!-- PAGE CONTENT BEGINS -->
 
-        <div class="row">
-            <div class="col-xs-12">
+    <div class="card">
+      <div class="card-body">
+          <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportCustomers();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
+          <button onclick="WPOS.customers.openAddCustomerDialog();" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+          <table id="customertable" class="table table-striped table-bordered table-hover dt-responsive" style="width: 100%;">
+                      <thead>
+                      <tr>
+                          <th data-priority="0" class="center">
+                              <label>
+                                  <input type="checkbox" class="ace" />
+                                  <span class="lbl"></span>
+                              </label>
+                          </th>
+                          <th data-priority="2" >ID</th>
+                          <th data-priority="3" >Name</th>
+                          <th data-priority="4" >Email</th>
+                          <th data-priority="5" >Phone</th>
+                          <th data-priority="6" >Mobile</th>
+                          <th data-priority="7" >Suburb</th>
+                          <th data-priority="8" >Postcode</th>
+                          <th data-priority="1" ></th>
+                      </tr>
+                      </thead>
 
-                <div class="table-header">
-                    Manage your customer base
-                </div>
+                      <tbody>
 
-                    <table id="customertable" class="table table-striped table-bordered table-hover dt-responsive" style="width: 100%;">
-                        <thead>
-                        <tr>
-                            <th data-priority="0" class="center">
-                                <label>
-                                    <input type="checkbox" class="ace" />
-                                    <span class="lbl"></span>
-                                </label>
-                            </th>
-                            <th data-priority="2" >ID</th>
-                            <th data-priority="3" >Name</th>
-                            <th data-priority="4" >Email</th>
-                            <th data-priority="5" >Phone</th>
-                            <th data-priority="6" >Mobile</th>
-                            <th data-priority="7" >Suburb</th>
-                            <th data-priority="8" >Postcode</th>
-                            <th data-priority="1" ></th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-            </div>
-        </div>
-
-    </div><!-- PAGE CONTENT ENDS -->
+                      </tbody>
+                  </table>
+      </div>
+    </div>
+  </div><!-- PAGE CONTENT ENDS -->
 </div><!-- /.col -->
 
 <!-- inline scripts related to this page -->

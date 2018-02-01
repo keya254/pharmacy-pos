@@ -1,40 +1,33 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1 class="inline">
         Staff & Admins
+      <small>Manage POS users and Administrators</small>
     </h1>
-    <button onclick="$('#adduserdialog').dialog('open');" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
 </div><!-- /.page-header -->
 
 <div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-
-        <div class="row">
-            <div class="col-xs-12">
-
-                <div class="table-header">
-                    Manage POS users and Administrators
-                </div>
-
-                    <table id="usertable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
-                        <thead>
-                        <tr>
-                            <th data-priority="1">ID</th>
-                            <th data-priority="3">Username</th>
-                            <th data-priority="4">Status</th>
-                            <th data-priority="2"></th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-            </div>
+  <div class="col-lg col-12 md-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <button onclick="$('#adduserdialog').dialog('open');" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
         </div>
-
-    </div><!-- PAGE CONTENT ENDS -->
+        <table id="usertable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
+          <thead>
+            <tr>
+                <th data-priority="1">ID</th>
+                <th data-priority="3">Username</th>
+                <th data-priority="4">Status</th>
+                <th data-priority="2"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- PAGE CONTENT ENDS -->
 </div><!-- /.col -->
 <div id="edituserdialog" class="hide">
     <div style="display: inline-block; min-width: 325px; vertical-align: top; padding-bottom: 20px; margin: 0;">

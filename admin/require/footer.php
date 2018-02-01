@@ -20,46 +20,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div id="loginbox" class="login-box widget-box visible no-border">
-                  <div class="widget-main">
-                      <h2 class="header blue lighter bigger">
-                          <img style="height: 40px; margin-top: -5px;" src="/assets/images/apple-touch-icon-72x72.png">&nbsp;WallacePOS Admin
-                      </h2>
-                      <div class="space-2"></div>
-                      <div id="login-banner" class="alert alert-block alert-success" style="display:none;">
-                          <i class="icon icon-lock green" style="margin-right: 3px;"></i>
-                          <span id="login-banner-txt"></span>
-                      </div>
-                      <div class="space-10"></div>
-                      <div id="logindiv" style="display: none;">
-                          <label class="block clearfix">
-                      <span class="block input-icon input-icon-right">
-                          <input class="form-control"class="form-control" id="loguser" type="text" placeholder="Username"/>
-                          <i class="icon-user"></i>
-                      </span>
-                          </label>
-                          <label class="block clearfix">
-                      <span class="block input-icon input-icon-right">
-                          <input class="form-control"class="form-control" id="logpass" onkeypress="if(event.keyCode == 13){WPOS.login();}" type="password"  placeholder="Password"/>
-                          <i class="icon-lock" style="margin-right: 1px;"></i>
-                      </span>
-                          </label>
-                          <div class="space-6"></div>
-                          <div class="space-6"></div>
-                          <button id="loginbutton" onClick="WPOS.login();" class="btn btn-primary width-35">
-                              <i class="icon-key"></i>Login
-                          </button>
-                          <div class="space-6"></div>
-                      </div>
-                      <div id="loadingdiv">
-                          <h3 id="loadingbartxt">Initializing</h3>
-                          <div id="loadingprogdiv" class="progress progress-striped active">
-                              <div class="progress-bar" id="loadingprog" style="width: 100%;"></div>
-                          </div>
-                          <span id="loadingstat"></span>
-                      </div>
-                  </div>
-              </div> -->
             </div>
             <a style="display: none;" id="dlelem" href=""></a>
 

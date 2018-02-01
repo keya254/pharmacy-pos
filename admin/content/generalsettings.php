@@ -1,5 +1,5 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1>
         General Settings
         <small>
@@ -10,347 +10,367 @@
 </div><!-- /.page-header -->
 <div class="row">
     <div class="col-sm-6">
-        <div class="widget-box transparent">
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Formats</h4>
+              <h4 class="lighter">Formats</h4>
             </div>
-            <div class="widget-body" style="padding-top: 10px;">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Timezone:</label></div>
-                        <div class="col-sm-5">
-                            <select id="timezone">
+            <div style="padding-top: 10px;">
+              <form class="form">
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Timezone:</label></div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="timezone">
                         <?php
-                            $timezones = DateTimeZone::listIdentifiers();
-                            foreach ($timezones as $timezone){
-                                echo('<option value="'.$timezone.'">'.$timezone.'</option>');
-                            }
+                        $timezones = DateTimeZone::listIdentifiers();
+                        foreach ($timezones as $timezone){
+                            echo('<option class="form-control" value="'.$timezone.'">'.$timezone.'</option>');
+                        }
                         ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Date Format:</label></div>
-                        <div class="col-sm-5">
-                        <select id="dateformat">
-                            <option value="d/m/y">dd/mm/yy</option>
-                            <option value="m/d/y">mm/dd/yy</option>
-                            <option value="Y-m-d">yyyy-mm-dd</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Currency Symbol:</label></div>
-                        <div class="col-sm-5">
-                        <select id="currency_symbol">
-                            <option value="$">$ Dollar</option>
-                            <option value="&nbsp;Kshs">Ksh Kenyan Shillings</option>
-                            <option value="€">€ Euro</option>
-                            <option value="£">£ Pound</option>
-                            <option value="¥">¥ Yen/Yuan</option>
-                            <option value="₣">₣ Franc</option>
-                            <option value="₤">₤ Lira</option>
-                            <option value="﷼">﷼ Saudi Riyal</option>
-                            <option value="₧">₧ Peseta</option>
-                            <option value="₹">₹ Indian Rupee</option>
-                            <option value="₨">₨ Rupee</option>
-                            <option value="₩">₩ Won</option>
-                            <option value="₴">₴ Hryvnia</option>
-                            <option value="₯">₯ Drachma</option>
-                            <option value="₮">₮ Tugrik</option>
-                            <option value="₲">₲ Guarani</option>
-                            <option value="₱">₱ Peso</option>
-                            <option value="₳">₳ Austral</option>
-                            <option value="₵">₵ Cedi</option>
-                            <option value="₭">₭ Kip</option>
-                            <option value="₪">₪ New Sheqel</option>
-                            <option value="₫">₫ Dong</option>
-                            <option value="៛">៛ Riel</option>
-                            <option value="Rp">Rp Rupiah</option>
-                            <option value="kr">kr Krone/Kroon/Krona</option>
-                            <option value="Kč">Kč Koruna</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Currency Decimals:</label></div>
-                        <div class="col-sm-5">
-                            <select id="currency_decimals">
-                                <option value="0">0</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Decimal Separator:</label></div>
-                        <div class="col-sm-5">
-                            <select id="currency_decimalsep">
-                                <option value=".">.</option>
-                                <option value=",">,</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Thousand Separator:</label></div>
-                        <div class="col-sm-5">
-                            <select id="currency_thousandsep">
-                                <option value=",">,</option>
-                                <option value=".">.</option>
-                                <option value=" "> </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Symbol Position:</label></div>
-                        <div class="col-sm-5">
-                            <select id="currency_symbolpos">
-                                <option value="0">Before Amount</option>
-                                <option value="1">After Amount</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group" style="display: none;">
-                        <div class="col-sm-5"><label>Accounting Type:</label></div>
-                        <div class="col-sm-5">
-                            <select id="accntype">
-                                <option value="cash">Cash</option>
-                                <option value="accrual">Accrual</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
+                    </select>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Date Format:</label></div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="dateformat">
+                      <option class="form-control" value="d/m/y">dd/mm/yy</option>
+                      <option class="form-control" value="m/d/y">mm/dd/yy</option>
+                      <option class="form-control" value="Y-m-d">yyyy-mm-dd</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Currency Symbol:</label></div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="currency_symbol">
+                      <option class="form-control" value="$">$ Dollar</option>
+                      <option class="form-control" value="&nbsp;Kshs">Ksh Kenyan Shillings</option>
+                      <option value="€">€ Euro</option>
+                      <option value="£">£ Pound</option>
+                      <option value="¥">¥ Yen/Yuan</option>
+                      <option value="₣">₣ Franc</option>
+                      <option value="₤">₤ Lira</option>
+                      <option value="﷼">﷼ Saudi Riyal</option>
+                      <option value="₧">₧ Peseta</option>
+                      <option value="₹">₹ Indian Rupee</option>
+                      <option value="₨">₨ Rupee</option>
+                      <option value="₩">₩ Won</option>
+                      <option value="₴">₴ Hryvnia</option>
+                      <option value="₯">₯ Drachma</option>
+                      <option value="₮">₮ Tugrik</option>
+                      <option value="₲">₲ Guarani</option>
+                      <option value="₱">₱ Peso</option>
+                      <option value="₳">₳ Austral</option>
+                      <option value="₵">₵ Cedi</option>
+                      <option value="₭">₭ Kip</option>
+                      <option value="₪">₪ New Sheqel</option>
+                      <option value="₫">₫ Dong</option>
+                      <option value="៛">៛ Riel</option>
+                      <option value="Rp">Rp Rupiah</option>
+                      <option value="kr">kr Krone/Kroon/Krona</option>
+                      <option value="Kč">Kč Koruna</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Currency Decimals:</label></div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="currency_decimals">
+                      <option class="form-control" value="0">0</option>
+                      <option class="form-control" value="2">2</option>
+                      <option  class="form-control"value="3">3</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Decimal Separator:</label></div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="currency_decimalsep">
+                      <option class="form-control" value=".">.</option>
+                      <option class="form-control" value=",">,</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Thousand Separator:</label></div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="currency_thousandsep">
+                      <option class="form-control" value=",">,</option>
+                      <option class="form-control" value=".">.</option>
+                      <option class="form-control" value=" "> </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div style="margin-right: 0px" class="col-lg-6 col-6 md-6"><label>Symbol Position:</label></div>
+                  <div style="margin-right: 0px" class="col-lg-6 col-6 md-6">
+                    <select class="form-control" id="currency_symbolpos">
+                      <option class="form-control" value="0">Before Amount</option>
+                      <option class="form-control" value="1">After Amount</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group" style="display: none;">
+                  <div class="col-sm-5"><label>Accounting Type:</label></div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="accntype">
+                      <option class="form-control" value="cash">Cash</option>
+                      <option class="form-control" value="accrual">Accrual</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
-        <div class="widget-box transparent">
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Alternate Labels</h4>
+              <h4 class="lighter">Alternate Labels</h4>
             </div>
             <div class="widget-body" style="padding-top: 10px;">
-                <p>Alternate Labels are used when printing receipts in an alternate language.</p>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Cash:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_cash" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Credit:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_credit" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Eftpos:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_eftpos" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Mpesa:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_cheque" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Deposit:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_deposit" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Tendered:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_tendered" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Change:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_change" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Transaction Reference:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_transaction-ref" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Transaction ID:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_transaction-id" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Sale Time:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_sale-time" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Subtotal:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_subtotal" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Total:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_total" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Item:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_item" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Items:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_items" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Refund:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_refund" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Void Transaction:</label></div>
-                        <div class="col-sm-5"><input type="text" id="altlabel_void-transaction" /></div>
-                    </div>
-                </form>
+              <p>Alternate Labels are used when printing receipts in an alternate language.</p>
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Cash:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_cash" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Credit:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_credit" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Eftpos:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_eftpos" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Mpesa:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_cheque" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Deposit:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_deposit" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Tendered:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_tendered" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Change:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_change" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Transaction Reference:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_transaction-ref" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Transaction ID:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_transaction-id" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Sale Time:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_sale-time" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Subtotal:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_subtotal" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Total:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_total" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Item:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_item" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Items:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_items" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Refund:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_refund" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Void Transaction:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="altlabel_void-transaction" /></div>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
     <div class="col-sm-6">
-        <div class="widget-box transparent">
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Business Details</h4>
+              <h4 class="lighter">Business Details</h4>
             </div>
 
             <div class="widget-body" style="padding-top: 10px;">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Business Name:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizname" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Business #:</label></div>
-                        <div class="col-sm-5"><input type="text" id="biznumber" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Admin/Info Email:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizemail" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Address:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizaddress" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Suburb:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizsuburb" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>State:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizstate" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Postcode:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizpostcode" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Country:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizcountry" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Business Logo:</label></div>
-                        <div class="col-sm-5">
-                            <input type="text" id="bizlogo" /><br/>
-                            <img id="bizlogoprev" width="128" height="64" src="" />
-                            <input type="file" id="bizlogofile" name="file" />
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>App Icon:</label></div>
-                        <div class="col-sm-5"><input type="text" id="bizicon" /></div>
-                    </div>
-                </form>
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Business Name:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizname" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Business #:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="biznumber" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Admin/Info Email:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizemail" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Address:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizaddress" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Suburb:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizsuburb" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>State:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizstate" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Postcode:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizpostcode" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Country:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizcountry" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Business Logo:</label></div>
+                  <div class="col-sm-5">
+                    <input class="form-control" type="text" id="bizlogo" /><br/>
+                    <img id="bizlogoprev" width="128" height="64" src="" />
+                    <input class="form-control" type="file" id="bizlogofile" name="file" />
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>App Icon:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="bizicon" /></div>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
-        <div class="widget-box transparent">
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Email</h4>
+              <h4 class="lighter">Email</h4>
             </div>
             <div class="widget-body" style="padding-top: 10px;">
-                <form class="form-horizontal">
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>SMTP Host:</label></div>
-                        <div class="col-sm-5"><input type="text" id="email_host" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>SMTP Port:</label></div>
-                        <div class="col-sm-5"><input type="text" id="email_port" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>SMTP TLS (recommended):</label></div>
-                        <div class="col-sm-5"><input type="checkbox" id="email_tls" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>SMTP Username:</label></div>
-                        <div class="col-sm-5"><input type="text" id="email_user" /></div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>SMTP Password:</label></div>
-                        <div class="col-sm-5"><input type="text" id="email_pass" /></div>
-                    </div>
-                    <small>The host and user specified must be allowed to send mail as the email address specified above.</small>
-                </form>
+              <form class="form-horizontal">
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>SMTP Host:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="email_host" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>SMTP Port:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="email_port" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>SMTP TLS (recommended):</label></div>
+                  <div class="col-sm-5"><input class="form-control-check" type="checkbox" id="email_tls" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>SMTP Username:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="email_user" /></div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>SMTP Password:</label></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" id="email_pass" /></div>
+                </div>
+                <small>The host and user specified must be allowed to send mail as the email address specified above.</small>
+              </form>
             </div>
+          </div>
         </div>
-        <div class="widget-box transparent">
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Google Contacts integration</h4>
+              <h4 class="lighter">Google Contacts integration</h4>
             </div>
             <div class="widget-body" style="padding-top: 10px;">
-                <form class="form-horizontal">
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Enable:</label></div>
-                        <div class="col-sm-5">
-                            <input type="checkbox" id="gcontact" value="1" />
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"><label>Account:</label></div>
-                        <div class="col-sm-5">
-                            <a class="congaccn" style="display: none;" href="javascript:initGoogleAuth();">Connect Google Account</a>
-                            <a class="disgaccn" style="display: none;" href="javascript:removeGoogleAuth();">Disconnect Google Account</a>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"></div>
-                        <div class="col-sm-5">
-                            <input class="congaccn" style="display: none;" placeholder="Paste Google Auth Code" type="text" id="gcontactcode" />
-                        </div>
-                    </div>
-                </form>
+              <form class="form-horizontal">
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Enable:</label></div>
+                  <div class="col-sm-5">
+                    <label>Enable:<input class="form-control-input" type="checkbox" id="gcontact" value="1" /><i class="input-helper"></i></label>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"><label>Account:</label></div>
+                  <div class="col-sm-5">
+                    <a class="congaccn" style="display: none;" href="javascript:initGoogleAuth();">Connect Google Account</a>
+                    <a class="disgaccn" style="display: none;" href="javascript:removeGoogleAuth();">Disconnect Google Account</a>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"></div>
+                  <div class="col-sm-5">
+                    <input class="form-control" class="congaccn" style="display: none;" placeholder="Paste Google Auth Code" type="text" id="gcontactcode" />
+                  </div>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="col-sm-12 align-center form-actions">
+    <div class="col-sm-12 align-center form-actions text-center">
         <button class="btn btn-success" type="button" onclick="saveSettings();"><i class="icon-save align-top bigger-125"></i>Save</button>
     </div>
 </div>

@@ -1,26 +1,25 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1 style="display: inline-block;">
         Invoices
+      <small>
+        <i class="icon-double-angle-right"></i>
+        View & search invoices
+      </small>
     </h1>
-    <button class="btn btn-primary btn-sm pull-right" onclick="showInvoiceForm();"><i class="icon-plus-sign align-top bigger-125"></i>Add</button>
-    <button class="btn btn-success btn-sm pull-right" style="margin-right: 8px;" onclick="exportCurrentInvoices();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
-    <!-- <div class="pull-right refsearchbox">
-        <label for="refsearch">Ref:</label>&nbsp;<input id="refsearch" type="text" style="height: 35px;" onkeypress="if(event.keyCode == 13){doSearch();}"/>
-        <button class="btn btn-primary btn-sm" style="vertical-align: top;" onclick="doSearch();"><i class="icon-search align-top bigger-125"></i>Search</button>
-        <button id="refsearch_clearbtn" class="btn btn-warning btn-sm" style="display: none; vertical-align: top;" onclick="reloadInvoiceData();"><i class="icon-remove align-top bigger-125"></i></button>
-    </div> -->
 </div><!-- /.page-header -->
 
 <div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+  <div class="col-lg-12 col-12 mb-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="card">
+      <div>
+        <button class="btn btn-success pull-right" style="margin-right: 8px;" onclick="exportCurrentInvoices();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
+        <button class="btn btn-primary pull-right" onclick="showInvoiceForm();"><i class="icon-plus-sign align-top bigger-125"></i>Add</button>
+      </div>
+      <div class="card-body">
 
-        <div class="row">
-            <div class="col-xs-12">
-
-                <div class="table-header">
-                    View & search invoices
+              <div class="table-header">
                 </div>
 
                 <div class="wpostable">

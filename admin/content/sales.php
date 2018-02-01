@@ -1,58 +1,49 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
-    <h1 style="display: inline-block;">
-        POS Sales
-    </h1>
-    <button class="btn btn-success btn-sm pull-right" onclick="exportCurrentSales();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
-    <div class="pull-right refsearchbox">
-        <label for="refsearch">Ref:</label>&nbsp;<input id="refsearch" type="text" style="height: 35px;" onkeypress="if(event.keyCode == 13){doSearch();}"/>
-        <button class="btn btn-primary btn-sm" style="vertical-align: top;" onclick="doSearch();"><i class="icon-search align-top bigger-125"></i>Search</button>
-        <button id="refsearch_clearbtn" class="btn btn-warning btn-sm" style="display: none; vertical-align: top;" onclick="reloadSalesData();"><i class="icon-remove align-top bigger-125"></i></button>
-    </div>
-</div><!-- /.page-header -->
 
+<div>
+  <h1 class="page-heading mb-4">POS Sales</h1>
+</div>
 <div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-
-        <div class="row">
-            <div class="col-xs-12">
-
-                <div class="table-header">
-                    View & search POS transactions
-                </div>
-
-                <div class="wpostable">
-                    <table id="salestable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th data-priority="0" class="center">
-                                    <label>
-                                        <input type="checkbox" class="ace" />
-                                        <span class="lbl"></span>
-                                    </label>
-                                </th>
-                                <th data-priority="1">ID</th>
-                                <th data-priority="7">Ref</th>
-                                <th data-priority="8">User</th>
-                                <th data-priority="3">Device / Location</th>
-                                <th data-priority="9"># Items</th>
-                                <th data-priority="4">Sale Time</th>
-                                <th data-priority="6">Total</th>
-                                <th data-priority="5">Status</th>
-                                <th data-priority="2"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <div class="col-lg-12 col-12 mb-12">
+    <div class="card">
+      <div class="card-body">
+        <h6>View & search POS transactions</h6>
+        <button class="btn btn-success btn-sm pull-right" onclick="exportCurrentSales();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
+        <div class="pull-right refsearchbox">
+          <label for="refsearch">Ref:</label>&nbsp;<input id="refsearch" type="text" style="height: 35px;" onkeypress="if(event.keyCode == 13){doSearch();}"/>
+          <button class="btn btn-primary btn-sm" style="vertical-align: top;" onclick="doSearch();"><i class="icon-search align-top bigger-125"></i>Search</button>
+          <button id="refsearch_clearbtn" class="btn btn-warning btn-sm" style="display: none; vertical-align: top;" onclick="reloadSalesData();"><i class="icon-remove align-top bigger-125"></i></button>
         </div>
+        <div>
+          <table id="salestable" class="table table-striped table-bordered table-hover" style="width: 100%;">
+            <thead>
+            <tr>
+              <th data-priority="0" class="center">
+                <label>
+                  <input type="checkbox" class="ace" />
+                  <span class="lbl"></span>
+                </label>
+              </th>
+              <th data-priority="1">ID</th>
+              <th data-priority="7">Ref</th>
+              <th data-priority="8">User</th>
+              <th data-priority="3">Device / Location</th>
+              <th data-priority="9"># Items</th>
+              <th data-priority="4">Sale Time</th>
+              <th data-priority="6">Total</th>
+              <th data-priority="5">Status</th>
+              <th data-priority="2"></th>
+            </tr>
+            </thead>
+            <tbody>
 
-    </div><!-- PAGE CONTENT ENDS -->
-</div><!-- /.row -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     //var sales = null;
@@ -123,16 +114,16 @@
         var stathtml;
         switch(status){
             case 0:
-                stathtml='<span class="label label-primary arrowed">Order</span>';
+                stathtml='<span class="label text-primary arrowed">Order</span>';
                 break;
             case 1:
-                stathtml='<span class="label label-success arrowed">Complete</span>';
+                stathtml='<span class="label text-success arrowed">Complete</span>';
                 break;
             case 2:
-                stathtml='<span class="label label-danger arrowed">Void</span>';
+                stathtml='<span class="label text-danger arrowed">Void</span>';
                 break;
             case 3:
-                stathtml='<span class="label label-warning arrowed">Refunded</span>';
+                stathtml='<span class="label text-warning arrowed">Refunded</span>';
                 break;
             default:
                 stathtml='<span class="label arrowed">Unknown</span>';

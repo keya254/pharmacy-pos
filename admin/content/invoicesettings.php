@@ -1,5 +1,5 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1>
         Invoice Settings
         <small>
@@ -10,65 +10,63 @@
 </div><!-- /.page-header -->
 <div class="row">
     <div class="col-md-12">
-        <div class="widget-box transparent">
+        <div class="card">
+          <div class="card-body">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">General</h4>
+              <h4 class="lighter">General</h4>
             </div>
             <div class="widget-body" style="padding-top: 10px;">
-                <form class="form-horizontal">
+              <form class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-sm-2"><label>Default Due Date:</label></div>
-                    <div class="col-sm-6">
-                    <select id="defaultduedtnum">
-                        <option value="+1 ">1</option>
-                        <option value="+2 ">2</option>
-                        <option value="+3 ">3</option>
-                        <option value="+4 ">4</option>
-                        <option value="+5 ">5</option>
-                        <option value="+5 ">6</option>
-                        <option value="+5 ">7</option>
-                        <option value="+5 ">8</option>
-                        <option value="+5 ">9</option>
-                        <option value="+5 ">10</option>
-                        <option value="+5 ">11</option>
-                        <option value="+5 ">12</option>
+                  <div class="col-sm-2"><label class="form-control-label">Default Due Date:</label></div>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="defaultduedtnum">
+                      <option value="+1 ">1</option>
+                      <option value="+2 ">2</option>
+                      <option value="+3 ">3</option>
+                      <option value="+4 ">4</option>
+                      <option value="+5 ">5</option>
+                      <option value="+5 ">6</option>
+                      <option value="+5 ">7</option>
+                      <option value="+5 ">8</option>
+                      <option value="+5 ">9</option>
+                      <option value="+5 ">10</option>
+                      <option value="+5 ">11</option>
+                      <option value="+5 ">12</option>
+                    </select><br><br>
+                    <select class="form-control" id="defaultduedtunit">
+                      <option value="days">Days</option>
+                      <option value="weeks">Weeks</option>
+                      <option value="months">Months</option>
                     </select>
-                        <select id="defaultduedtunit">
-                            <option value="days">Days</option>
-                            <option value="weeks">Weeks</option>
-                            <option value="months">Months</option>
-                        </select>
-                    </div>
+                  </div>
                 </div>
                 <div class="space-4"></div>
                 <div class="form-group">
-                    <div class="col-sm-2"><label>Default Template:</label></div>
-                    <div class="col-sm-6">
-                        <select id="defaulttemplate"></select><br/>
-                    </div>
+                  <div class="col-sm-2"><label>Default Template:</label></div>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="defaulttemplate"></select><br/>
+                  </div>
                 </div>
                 <div class="space-4"></div>
                 <div class="form-group">
-                    <div class="col-sm-2"><label>Payment Instructions:</label></div>
-                    <div class="col-sm-6" style="max-width: 650px;">
-                        <div id="payinst" style="height: 175px; border: 1px solid #E5E5E5;" class="wysiwyg-editor">
-
-                        </div>
-                    </div>
+                  <div class="col-sm-2"><label>Payment Instructions:</label></div>
+                  <div class="col-sm-6" style="max-width: 650px;">
+                    <div id="payinst" style="height: 175px; border: 1px solid #E5E5E5;" class="wysiwyg-editor"></div>
+                  </div>
                 </div>
-                    <div class="form-group">
-                        <div class="col-sm-2"><label>Email Message:</label></div>
-                        <div class="col-sm-6" style="max-width: 650px;">
-                            <div id="emailmsg" style="height: 175px; border: 1px solid #E5E5E5;" class="wysiwyg-editor">
-
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <div class="form-group">
+                  <div class="col-sm-2"><label>Email Message:</label></div>
+                  <div class="col-sm-6" style="max-width: 650px;">
+                    <div id="emailmsg" style="height: 175px; border: 1px solid #E5E5E5;" class="wysiwyg-editor"></div>
+                  </div>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
     </div>
-    <div class="col-sm-12 align-center form-actions">
+    <div class="col-sm-12 align-center form-actions text-center">
         <button class="btn btn-success" type="button" onclick="saveSettings();"><i class="icon-save align-top bigger-125"></i>Save</button>
     </div>
 </div>

@@ -1,15 +1,197 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
 <?php ini_set("date.timezone", "Africa/Nairobi"); ?>
-<div class="page-header">
-    <h1>
-        Dashboard
-        <small>
-            <i class="icon-double-angle-right"></i>
-            overview &amp; stats
-        </small>
-        <p class="pull-right">Subscription Status : <span id="status"></span></p>
-    </h1>
-</div><!-- /.page-header -->
+<h3 class="page-heading mb-4">Dashboard
+  <small>
+    <i class="icon-double-angle-right"></i>
+    overview &amp; stats
+  </small>
+  <span class="pull-right lead">Subscription Status : <span id="status"></span></span>
+</h3>
+<!--<div class="page-header">-->
+<!--    <h1>-->
+<!--        Dashboard-->
+<!--        <small>-->
+<!--            <i class="icon-double-angle-right"></i>-->
+<!--            overview &amp; stats-->
+<!--        </small>-->
+<!--        <p class="pull-right">Subscription Status : <span id="status"></span></p>-->
+<!--    </h1>-->
+<!--</div><!-- /.page-header -->
+
+<div class="row">
+  <div class="col-lg-6 col-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-4">Today's Takings</h5>
+        <canvas id="lineChart" style="height:250px"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-4">Sales Graph</h5>
+        <div class="widget-toolbar no-border">
+          <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span id="grange">This Week</span>
+            <i class="icon-angle-down icon-on-right bigger-110"></i>
+          </button>
+
+          <ul id="grangevalues" class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
+            <li onclick="setGraph($(this));" class="active" >
+              <a class="blue">
+                <i class="icon-caret-right bigger-110">&nbsp;</i>
+                <span class="grangeval">This Week</span>
+              </a>
+            </li>
+
+            <li onclick="setGraph($(this));">
+              <a>
+                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                <span class="grangeval">Last Week</span>
+              </a>
+            </li>
+
+            <li onclick="setGraph($(this));">
+              <a>
+                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                <span class="grangeval">This Month</span>
+              </a>
+            </li>
+
+            <li onclick="setGraph($(this));">
+              <a>
+                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                <span class="grangeval">Last Month</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <canvas id="areaChart" style="height:250px"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-6 col-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-4">Popular Items This Month</h5>
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr class="text-primary">
+            <th>Name</th>
+            <th>Qty sold</th>
+            <th>Total</th>
+          </tr>
+          </thead>
+          <tbody id="popularitems">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-4">Sale stats</h5>
+        <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+          <span id="pietype">Payments</span>
+          <i class="icon-angle-down icon-on-right bigger-110"></i>
+        </button>
+
+        <ul id="pietypevalues" class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
+          <li onclick="setPieType($(this));" class="active">
+            <a class="blue">
+              <i class="icon-caret-right bigger-110">&nbsp;</i>
+              <span class="pietypeval">Payments</span>
+            </a>
+          </li>
+
+          <li onclick="setPieType($(this));">
+            <a>
+              <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+              <span class="pietypeval">Devices</span>
+            </a>
+          </li>
+
+          <li onclick="setPieType($(this));">
+            <a>
+              <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+              <span class="pietypeval">Locations</span>
+            </a>
+          </li>
+        </ul>
+        <div>
+          <div>
+          <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span id="pierange">This Week</span>
+            <i class="icon-angle-down icon-on-right bigger-110"></i>
+          </button>
+
+          <ul id="pierangevalues" class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
+            <li onclick="setPie($(this));" class="active" >
+              <a class="blue">
+                <i class="icon-caret-right bigger-110">&nbsp;</i>
+                <span class="pierangeval">This Week</span>
+              </a>
+            </li>
+
+            <li onclick="setPie($(this));">
+              <a>
+                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                <span class="pierangeval">Last Week</span>
+              </a>
+            </li>
+
+            <li onclick="setPie($(this));">
+              <a>
+                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                <span class="pierangeval">This Month</span>
+              </a>
+            </li>
+
+            <li onclick="setPie($(this));">
+              <a>
+                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+                <span class="pierangeval">Last Month</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        </div>
+        <canvas id="pieChart" style="height:250px"></canvas>
+        <div class="clearfix">
+          <div class="grid3">
+                <span class="grey">
+                  <i class="icon-shopping-cart icon-2x green"></i>
+                  &nbsp;<span id="piesalenum">-</span> sales
+                </span>
+              <h4 id="piesaletotal" class="bigger pull-right">-</h4>
+          </div>
+
+          <div class="grid3">
+                <span class="grey">
+                  <i class="icon-ban-circle icon-2x orange"></i>
+                  &nbsp;<span id="pierefundnum">-</span> refunds
+                </span>
+              <h4 id="pierefundtotal" class="bigger pull-right">-</h4>
+          </div>
+
+          <div class="grid3">
+                <span class="grey">
+                  <i class="icon-dollar icon-2x blue"></i>
+                  &nbsp; total
+                </span>
+              <h4 id="piebalance" class="bigger pull-right">-</h4>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
     <div class="row">
     <div class="col-xs-12">
 <div class="row">
@@ -159,170 +341,87 @@
 <div class="hr hr32 hr-dotted hidden-480 hidden-320 hidden-xs"></div>
 
 
-<div class="row">
-    <div class="col-sm-5">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
-                <h4 class="lighter">
-                    <i class="icon-star orange"></i>
-                    Popular Items This Month
-                </h4>
-            </div>
-
-            <div class="widget-body">
-                <div class="widget-main no-padding">
-                    <table class="table table-bordered table-striped">
-                        <thead class="thin-border-bottom">
-                        <tr>
-                            <th>
-                                <i class="icon-caret-right blue"></i>
-                                Name
-                            </th>
-
-                            <th>
-                                <i class="icon-caret-right blue"></i>
-                                Qty Sold
-                            </th>
-
-                            <th>
-                                <i class="icon-caret-right blue"></i>
-                                Total
-                            </th>
-                        </tr>
-                        </thead>
-
-                        <tbody id="popularitems">
-
-                        </tbody>
-                    </table>
-                </div><!-- /widget-main -->
-            </div><!-- /widget-body -->
-        </div><!-- /widget-box -->
-    </div>
-
-    <div class="vspace-sm"></div>
-
-    <div class="col-sm-7">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
-                <h4 class="lighter">
-                    <i class="icon-plus-sign"></i>
-                    Sale Stats
-                </h4>
-            </div>
-        </div>
-        <div class="widget-box">
-            <div class="widget-header widget-header-flat widget-header-small">
-                <i class="icon-signal"></i>
-                <div class="widget-toolbar no-border" style="float: none; display: inline-block; vertical-align: top;">
-                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span id="pietype">Payments</span>
-                        <i class="icon-angle-down icon-on-right bigger-110"></i>
-                    </button>
-
-                    <ul id="pietypevalues" class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
-                        <li onclick="setPieType($(this));" class="active">
-                            <a class="blue">
-                                <i class="icon-caret-right bigger-110">&nbsp;</i>
-                                <span class="pietypeval">Payments</span>
-                            </a>
-                        </li>
-
-                        <li onclick="setPieType($(this));">
-                            <a>
-                                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
-                                <span class="pietypeval">Devices</span>
-                            </a>
-                        </li>
-
-                        <li onclick="setPieType($(this));">
-                            <a>
-                                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
-                                <span class="pietypeval">Locations</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <h5 style="display: inline-block; margin-top: 0;"></h5>
-                <div class="widget-toolbar no-border">
-                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span id="pierange">This Week</span>
-                        <i class="icon-angle-down icon-on-right bigger-110"></i>
-                    </button>
-
-                    <ul id="pierangevalues" class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
-                        <li onclick="setPie($(this));" class="active" >
-                            <a class="blue">
-                                <i class="icon-caret-right bigger-110">&nbsp;</i>
-                                <span class="pierangeval">This Week</span>
-                            </a>
-                        </li>
-
-                        <li onclick="setPie($(this));">
-                            <a>
-                                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
-                                <span class="pierangeval">Last Week</span>
-                            </a>
-                        </li>
-
-                        <li onclick="setPie($(this));">
-                            <a>
-                                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
-                                <span class="pierangeval">This Month</span>
-                            </a>
-                        </li>
-
-                        <li onclick="setPie($(this));">
-                            <a>
-                                <i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
-                                <span class="pierangeval">Last Month</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="widget-body">
-                <div class="widget-main">
-                    <div id="piechart-placeholder"></div>
-
-                    <div class="hr hr8 hr-double"></div>
-
-                    <div class="clearfix">
-                        <div class="grid3">
-															<span class="grey">
-																<i class="icon-shopping-cart icon-2x green"></i>
-																&nbsp;<span id="piesalenum">-</span> sales
-															</span>
-                            <h4 id="piesaletotal" class="bigger pull-right">-</h4>
-                        </div>
-
-                        <div class="grid3">
-															<span class="grey">
-																<i class="icon-ban-circle icon-2x orange"></i>
-																&nbsp;<span id="pierefundnum">-</span> refunds
-															</span>
-                            <h4 id="pierefundtotal" class="bigger pull-right">-</h4>
-                        </div>
-
-                        <div class="grid3">
-															<span class="grey">
-																<i class="icon-dollar icon-2x blue"></i>
-																&nbsp; total
-															</span>
-                            <h4 id="piebalance" class="bigger pull-right">-</h4>
-                        </div>
-                    </div>
-                </div><!-- /widget-main -->
-            </div><!-- /widget-body -->
-        </div><!-- /widget-box -->
-    </div>
-    </div>
 </div>
 </div>
 
 <div class="hr hr32 hr-dotted"></div>
 <!-- inline scripts related to this page -->
+
+<script>
+  $(function () {
+    var areaData = {
+      labels: ["2013", "2014", "2015", "2016", "2017"],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1,
+        fill: 'origin', // 0: fill to 'origin'
+        fill: '+2', // 1: fill to dataset 3
+        fill: 1, // 2: fill to dataset 1
+        fill: false, // 3: no fill
+        fill: '-2' // 4: fill to dataset 2
+      },{
+        label: '# of Users',
+        data: [6, 9, 12, 7, 4, 9],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1,
+        fill: 'origin', // 0: fill to 'origin'
+        fill: '+2', // 1: fill to dataset 3
+        fill: 1, // 2: fill to dataset 1
+        fill: false, // 3: no fill
+        fill: '-2' // 4: fill to dataset 2
+      }]
+    };
+
+    var areaOptions = {
+      plugins: {
+        filler: {
+          propagate: true
+        }
+      }
+    };
+    if ($("#areaChart").length) {
+      var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
+      var areaChart = new Chart(areaChartCanvas, {
+        type: 'line',
+        data: areaData,
+        options: areaOptions
+      });
+    }
+
+  });
+</script>
 
 <script type="text/javascript">
 
@@ -387,7 +486,7 @@
         sort.sort(function(a, b){ return b[1] - a[1];});
 
         for (i=0; (i<6 && i<sort.length); i++){
-            $('#popularitems').append('<tr><td><b>'+order[sort[i][0]][1].name+'</b></td><td><b class="blue">'+order[sort[i][0]][1].netqty+'</b></td><td><b class="green">'+WPOS.util.currencyFormat(order[sort[i][0]][1].soldtotal)+'</b></td></tr>');
+            $('#popularitems').append('<tr><td><b>'+order[sort[i][0]][1].name+'</b></td><td><b class="text-success">'+order[sort[i][0]][1].netqty+'</b></td><td><b class="text-warning">'+WPOS.util.currencyFormat(order[sort[i][0]][1].soldtotal)+'</b></td></tr>');
         }
 
         // for (i=0; (i<6 && i<sort.length); i++){
@@ -461,44 +560,97 @@
         WPOS.util.hideLoader();
     }
 
+    function plotPieChart(labels, pieData) {
+      var doughnutPieData = {
+        datasets: [{
+          data: pieData,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)'
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ]
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: labels
+      };
+      var doughnutPieOptions = {
+        responsive: true,
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      };
+      if ($("#pieChart").length) {
+        var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas, {
+          type: 'pie',
+          data: doughnutPieData,
+          options: doughnutPieOptions
+        });
+      }
+    }
+
     function generatePieChart(data){
         if (!data){
             return false;
         }
         piedata = [];
         // generate pie chart data
+      var labels = [];
+      var pieData =  [];
         for (var i in data){
+          if(i.length > 1){
             if (i != "Totals"){
-                piedata.push({ label:(data[i].hasOwnProperty('name')?data[i].name:i), refs:data[i].refs,  data:data[i].balance});
+              piedata.push({ label:(data[i].hasOwnProperty('name')?data[i].name:i), refs:data[i].refs,  data:data[i].balance});
+              labels.push(i);
+              pieData.push(data[i].saletotal);
             }
+          } else {
+            piedata.push({ label:(data[i].hasOwnProperty('name')?data[i].name:i), refs:data[i].refs,  data:data[i].balance});
+            labels.push(data[i].name);
+            pieData.push(data[i].saletotal);
+          }
         }
-        $.plot(placeholder, piedata, {
-            series: {
-                pie: {
-                    show: true,
-                    tilt:0.8,
-                    highlight: {
-                        opacity: 0.25
-                    },
-                    stroke: {
-                        color: '#fff',
-                        width: 2
-                    },
-                    startAngle: 2
-                }
-            },
-            legend: {
-                show: true,
-                position: "ne",
-                labelBoxBorderColor: null,
-                margin:[-30,15]
-            }
-            ,
-            grid: {
-                hoverable: true,
-                clickable: true
-            }
-        });
+        plotPieChart(labels, pieData);
+        // $.plot(placeholder, piedata, {
+        //     series: {
+        //         pie: {
+        //             show: true,
+        //             tilt:0.8,
+        //             highlight: {
+        //                 opacity: 0.25
+        //             },
+        //             stroke: {
+        //                 color: '#fff',
+        //                 width: 2
+        //             },
+        //             startAngle: 2
+        //         }
+        //     },
+        //     legend: {
+        //         show: true,
+        //         position: "ne",
+        //         labelBoxBorderColor: null,
+        //         margin:[-30,15]
+        //     }
+        //     ,
+        //     grid: {
+        //         hoverable: true,
+        //         clickable: true
+        //     }
+        // });
 
         var totals = data['Totals'];
         // Fill total fields
@@ -507,6 +659,7 @@
         $("#pierefundtotal").text(WPOS.util.currencyFormat(totals.refundtotal));
         $("#pierefundnum").text(totals.refundnum);
         $("#piebalance").text(WPOS.util.currencyFormat(totals.totaltakings));
+
 
         return true;
     }
@@ -548,82 +701,6 @@
         WPOS.util.hideLoader();
     }
 
-    // Graph functions
-    function drawGraph(jdata){
-        if (!jdata){
-            return false;
-        }
-        // generate plot data
-        var tempdate;
-        var vals = getTimeVals($("#grange").text());
-        var t = vals[0];
-        var sales = [], refunds = [], takings = [],  cost = [],  profit = [], salerefs = [], refundrefs = [], takingrefs = [];
-        // create the data object
-        var sorted = [];
-        for(var pointa in jdata){
-            sorted.push(pointa);
-        }
-        sorted.sort(function(a, b){return a - b});
-        for (var s=0;s<sorted.length;s++) {
-            i = sorted[s];
-            salerefs.push(jdata[i].salerefs);
-            sales.push([ t, jdata[i].saletotal]);
-            refundrefs.push(jdata[i].refundrefs);
-            refunds.push([ t, jdata[i].refundtotal]);
-            takingrefs.push(jdata[i].refs);
-            takings.push([ t, jdata[i].totaltakings]);
-            cost.push([ t, jdata[i].cost]);
-            profit.push([ t, jdata[i].profit]);
-            t = t + 86400000;
-        }
-        // for (var i in mdata) {
-        //     tempdate = new Date();
-        //     tempdate.setTime(stime);
-        //     tempdate.setHours(0);
-        //     tempdate.setMinutes(0);
-        //     tempdate.setSeconds(0);
-        //     tempdate = tempdate.getTime();
-        //     stime = stime + 86400000;
-        //     // i = i - (86400000);
-        //     salerefs.push(mdata[i].salerefs);
-        //     sales.push([ tempdate, mdata[i].saletotal]);
-        //     refundrefs.push(mdata[i].refundrefs);
-        //     refunds.push([ tempdate, mdata[i].refundtotal]);
-        //     takingrefs.push(mdata[i].refs);
-        //     takings.push([ tempdate, mdata[i].totaltakings]);
-        //     cost.push([ tempdate, mdata[i].cost]);
-        //     profit.push([ tempdate, mdata[i].profit]);
-        // }
-        var data = [{ label: "Profit", refs: takingrefs, data: profit, color: "#29AB87" },{ label: "Cost", refs: takingrefs, data: cost, color: "#EA3C53" },{ label: "Sales", refs:salerefs, data: sales, color: "#9ABC32" },{ label: "Refunds", refs:refundrefs, data: refunds, color: "#EDC240" },{ label: "Revenue", refs: takingrefs, data: takings, color: "#3983C2" }];
-        // render the graph
-        $.plot("#sales-charts", data, {
-            hoverable: true,
-            shadowSize: 0,
-            series: {
-                lines: { show: true },
-                points: { show: true }
-            },
-            xaxis: {
-                mode: "time",
-                minTickSize: [1, "day"],
-                timeformat: "%d/%m/%y",
-                timezone: "browser"
-            },
-            yaxis: {
-                ticks: 10
-            },
-            grid: {
-                backgroundColor: { colors: [ "#fff", "#fff" ] },
-                borderWidth: 1,
-                borderColor: '#555',
-                hoverable: true,
-                clickable: true
-            }
-        });
-
-        return true;
-    }
-
     function setGraph(element){
         $("#grange").text($(element).children().children('.grangeval').text());
         $("#grangevalues li").removeClass("active");
@@ -637,9 +714,18 @@
         reloadGraph();
     }
 
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
     function loadSubscriptionStatus(data) {
       var isExpired =  new Date(data.subscription.expiryDate).getTime() > new Date().getTime();
-      isExpired ? $("#status").html('<span style="vertical-align: middle;margin-right: 5px;" class="label label-success arrowed">Activated</span> Expires on: <small>'+ new Date(data.subscription.expiryDate).toDateString() + '</small>'): $("#status").html('<span style="vertical-align: middle;" class="label label-danger arrowed">Expired</span>');
+      isExpired ? $("#status").html('<span style="vertical-align: middle;margin-right: 5px;" class="text-primary">Activated</span> Expires on: <small class="text-success">'+ new Date(data.subscription.expiryDate).toDateString() + '</small>'): $("#status").html('<span style="vertical-align: middle;" class="label label-danger arrowed">Expired</span>');
     }
 
     jQuery(function($) {
@@ -708,5 +794,122 @@
         // hide loader
         WPOS.util.hideLoader();
     });
+
+    // Graph functions
+    function drawGraph(jdata){
+      if (!jdata){
+        return false;
+      }
+      // generate plot data
+      var tempdate;
+      var vals = getTimeVals($("#grange").text());
+      var t = vals[0];
+      var sales = [], refunds = [], takings = [],  cost = [],  profit = [], salerefs = [], refundrefs = [], takingrefs = [];
+      // create the data object
+      var sorted = [];
+      for(var pointa in jdata){
+        sorted.push(pointa);
+      }
+      sorted.sort(function(a, b){return a - b});
+      for (var s=0;s<sorted.length;s++) {
+        i = sorted[s];
+        salerefs.push(jdata[i].salerefs);
+        sales.push([ t, jdata[i].saletotal]);
+        refundrefs.push(jdata[i].refundrefs);
+        refunds.push([ t, jdata[i].refundtotal]);
+        takingrefs.push(jdata[i].refs);
+        takings.push([ t, jdata[i].totaltakings]);
+        cost.push([ t, jdata[i].cost]);
+        profit.push([ t, jdata[i].profit]);
+        t = t + 86400000;
+      }
+      var data = [
+        { label: "Profit", refs: takingrefs, data: profit, color: "#29AB87" },
+        { label: "Cost", refs: takingrefs, data: cost, color: "#EA3C53" },
+        { label: "Sales", refs:salerefs, data: sales, color: "#9ABC32" },
+        { label: "Refunds", refs:refundrefs, data: refunds, color: "#EDC240" },
+        { label: "Revenue", refs: takingrefs, data: takings, color: "#3983C2" }
+    ];
+      var labels = [];
+      var lineData = [];
+      for(var i in data){
+        var item = {
+          label: data[i].label,
+          data: [],
+          borderColor: [getRandomColor()],
+          backgroundColor:[getRandomColor()],
+          borderWidth: 1,
+          fill: 'origin', // 0: fill to 'origin'
+          fill: '+2', // 1: fill to dataset 3
+          fill: 1, // 2: fill to dataset 1
+          fill: false, // 3: no fill
+          fill: '-2' // 4: fill to dataset 2
+        };
+        var subData = data[i].data;
+        var xtime = '';
+        for(var j in subData){
+          xtime = subData[j][0];
+          item.data.push(subData[j][1])
+        }
+        labels.push(xtime);
+        lineData.push(item);
+      }
+      var t = 0;
+      var xlabels = [];
+      for(var k in labels){
+        var time = new Date((labels[k]-t));
+        xlabels.push(time.getDate()+'/'+(time.getMonth()+1)+'/'+time.getFullYear());
+        t += 86400000;
+      }
+      var areaData = {
+        labels: xlabels.reverse(),
+        datasets: lineData
+      };
+
+      var areaOptions = {
+        plugins: {
+          filler: {
+            propagate: true
+          }
+        }
+      };
+
+      if ($("#areaChart").length) {
+        var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
+        var areaChart = new Chart(areaChartCanvas, {
+          type: 'line',
+          data: areaData,
+          options: areaOptions
+        });
+      }
+
+      // render the graph
+      $.plot("#sales-charts", data, {
+        hoverable: true,
+        shadowSize: 0,
+        series: {
+          lines: { show: true },
+          points: { show: true }
+        },
+        xaxis: {
+          mode: "time",
+          minTickSize: [1, "day"],
+          timeformat: "%d/%m/%y",
+          timezone: "browser"
+        },
+        yaxis: {
+          ticks: 10
+        },
+        grid: {
+          backgroundColor: { colors: [ "#fff", "#fff" ] },
+          borderWidth: 1,
+          borderColor: '#555',
+          hoverable: true,
+          clickable: true
+        }
+      });
+
+      return true;
+    }
 
 </script>

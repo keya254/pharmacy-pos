@@ -1,51 +1,44 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1 style="margin-right: 20px; display: inline-block;">
         Items
+      <small>Manage your business products</small>
     </h1>
-    <button onclick="$('#adddialog').dialog('open');" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
-    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportItems();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
-    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="openImportDialog();"><i class="icon-cloud-upload align-top bigger-125"></i>Import CSV</button>
 </div><!-- /.page-header -->
 
 <div class="row">
-<div class="col-xs-12">
-<!-- PAGE CONTENT BEGINS -->
-
-<div class="row">
-<div class="col-xs-12">
-
-<div class="table-header">
-    Manage your business products
-</div>
-
-<table id="itemstable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
-<thead>
-<tr>
-    <th data-priority="0" class="center">
-        <label>
-            <input type="checkbox" class="ace" />
-            <span class="lbl"></span>
-        </label>
-    </th>
-    <th data-priority="1">ID</th>
-    <th data-priority="2">Name</th>
-    <th data-priority="3">Description</th>
-    <th data-priority="4">Category</th>
-    <th data-priority="5">Tax</th>
-    <th data-priority="6">Reorder Point</th>
-    <th class="noexport" data-priority="2"></th>
-</tr>
-</thead>
-<tbody>
-
-</tbody>
-</table>
-
-</div>
-</div>
-
-</div><!-- PAGE CONTENT ENDS -->
+  <div class="col-lg-12 col-12 md-12">
+  <!-- PAGE CONTENT BEGINS -->
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <button onclick="$('#adddialog').dialog('open');" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+            <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportItems();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
+            <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="openImportDialog();"><i class="icon-cloud-upload align-top bigger-125"></i>Import CSV</button>
+          </div>
+          <table id="itemstable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
+            <thead>
+              <tr>
+                  <th data-priority="0" class="center">
+                      <label>
+                          <input type="checkbox" class="ace" />
+                          <span class="lbl"></span>
+                      </label>
+                  </th>
+                  <th data-priority="1">ID</th>
+                  <th data-priority="2">Name</th>
+                  <th data-priority="3">Description</th>
+                  <th data-priority="4">Category</th>
+                  <th data-priority="5">Tax</th>
+                  <th data-priority="6">Reorder Point</th>
+                  <th class="noexport" data-priority="2"></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+  </div><!-- PAGE CONTENT ENDS -->
 </div><!-- /.col -->
 <div id="editdialog" class="hide">
     <div class="tabbable" style="min-width: 360px; min-height: 310px;">

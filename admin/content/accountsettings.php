@@ -1,5 +1,5 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1>
         Accounting Setting
         <small>
@@ -10,130 +10,143 @@
 </div><!-- /.page-header -->
 <div class="row">
     <div class="col-sm-6">
-        <div class="widget-box transparent">
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Tax Rules</h4>
+              <h4 class="lighter">Tax Rules</h4>
             </div>
             <div style="padding-top: 10px;">
-                <div class="table-header">
-                    Tax rules are applied to sale items
-                </div>
-                <div class="table-responsive">
-                    <table id="tax-rule-table" class="table table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Price Inclusive</th>
-                            <th>Mode</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
+              <div class="table-header">
+                Tax rules are applied to sale items
+              </div>
+              <div class="table-responsive">
+                <table id="tax-rule-table" class="table table-striped table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price Inclusive</th>
+                    <th>Mode</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
 
-                        </tbody>
-                    </table>
-                    <br/><button id="addtaxrulebtn" class="btn btn-primary btn-sm pull-right" onclick="openTaxRuleDialog(0)"><i class="icon-pencil align-top bigger-125"></i>Add</button>
-                </div>
+                  </tbody>
+                </table>
+                <br/><button id="addtaxrulebtn" class="btn btn-primary pull-right" onclick="openTaxRuleDialog(0)"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="space-26"></div>
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Tax Items</h4>
-            </div>
-            <div style="padding-top: 10px;">
-                <div class="table-responsive">
-                    <div class="table-header">
-                        Tax items/components are included in tax rules
-                    </div>
-                    <table id="tax-item-table" class="table table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th class="hidden-480">Value</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-
-                        </tbody>
-                    </table>
-                    <br/><button id="addtaxitembtn" class="btn btn-primary btn-sm pull-right" onclick="openTaxItemDialog(0)"><i class="icon-pencil align-top bigger-125"></i>Add</button>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    <div class="col-sm-6" style="display: none;">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
         <div class="widget-box transparent">
+          <div class="widget-header widget-header-flat">
+            <h4 class="lighter">Tax Items</h4>
+          </div>
+          <div style="padding-top: 10px;">
+            <div class="table-responsive">
+              <div class="table-header">
+                Tax items/components are included in tax rules
+              </div>
+              <table id="tax-item-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th class="hidden-480">Value</th>
+                  <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+
+                </tbody>
+              </table>
+              <br/><button id="addtaxitembtn" class="btn btn-primary pull-right" onclick="openTaxItemDialog(0)"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6" style="display: none;">
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">Xero Accounting Export</h4>
+              <h4 class="lighter">Xero Accounting Export</h4>
             </div>
             <div class="widget-body" style="padding-top: 10px;">
-                <form id="accnsettings" class="form-horizontal">
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-3"><label>Enable:</label></div>
-                        <div class="col-sm-7">
-                            <input type="checkbox" id="xeroenabled" value="1" />
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-3"><label>Account:</label></div>
-                        <div class="col-sm-7">
-                            <a class="conxaccn" style="display: none;" href="javascript:initXeroAuth();">Connect Xero Account</a>
-                            <a class="disxaccn" style="display: none;" href="javascript:removeXeroAuth();">Disconnect Xero Account</a>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3"><label>Account Mappings:</label></div>
-                        <div class="col-sm-7 disxaccn" style="display: none;">
-                            <table class="table table-responsive">
-                                <tbody>
-                                    <tr>
-                                        <td><label>Sales<select id="xeromap-sales" class="width-100"></select></label></td>
-                                        <td><label>Refunds<select id="xeromap-refunds" class="width-100"></select></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Cash Payments<select id="xeromap-pay-cash" class="xeropayselect width-100"></select></label></td>
-                                        <td><label>Card Payments<select id="xeromap-pay-card" class="xeropayselect width-100"></select></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Deposit Payments<select id="xeromap-pay-deposit" class="xeropayselect width-100"></select></label></td>
-                                        <td><label>Mpesa Payments<select id="xeromap-pay-cheque" class="xeropayselect width-100"></select></label></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3"><label>Tax Mappings:</label></div>
-                        <div class="col-sm-7 disxaccn" style="display: none;">
-                            <table class="table table-responsive">
-                                <tbody id="taxmaptable">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <i>Xero export does not support multi mode tax rules at this time.</i>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-5"></div>
-                        <div class="col-sm-5 disxaccn">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="showSalesExportDialog();">Export Sales to Xero</button>
-                        </div>
-                    </div>
-                </form>
+              <form id="accnsettings" class="form-horizontal">
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-3"><label>Enable:</label></div>
+                  <div class="col-sm-7">
+                    <input type="checkbox" id="xeroenabled" value="1" />
+                  </div>
+                </div>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-3"><label>Account:</label></div>
+                  <div class="col-sm-7">
+                    <a class="conxaccn" style="display: none;" href="javascript:initXeroAuth();">Connect Xero Account</a>
+                    <a class="disxaccn" style="display: none;" href="javascript:removeXeroAuth();">Disconnect Xero Account</a>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-3"><label>Account Mappings:</label></div>
+                  <div class="col-sm-7 disxaccn" style="display: none;">
+                    <table class="table table-responsive">
+                      <tbody>
+                      <tr>
+                        <td><label>Sales<select id="xeromap-sales" class="width-100"></select></label></td>
+                        <td><label>Refunds<select id="xeromap-refunds" class="width-100"></select></label></td>
+                      </tr>
+                      <tr>
+                        <td><label>Cash Payments<select id="xeromap-pay-cash" class="xeropayselect width-100"></select></label></td>
+                        <td><label>Card Payments<select id="xeromap-pay-card" class="xeropayselect width-100"></select></label></td>
+                      </tr>
+                      <tr>
+                        <td><label>Deposit Payments<select id="xeromap-pay-deposit" class="xeropayselect width-100"></select></label></td>
+                        <td><label>Mpesa Payments<select id="xeromap-pay-cheque" class="xeropayselect width-100"></select></label></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-3"><label>Tax Mappings:</label></div>
+                  <div class="col-sm-7 disxaccn" style="display: none;">
+                    <table class="table table-responsive">
+                      <tbody id="taxmaptable">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <i>Xero export does not support multi mode tax rules at this time.</i>
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <div class="col-sm-5"></div>
+                  <div class="col-sm-5 disxaccn">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="showSalesExportDialog();">Export Sales to Xero</button>
+                  </div>
+                </div>
+              </form>
             </div>
-        </div>
-        <div class="col-sm-12 align-center form-actions">
+          </div>
+          <div class="col-sm-12 align-center form-actions">
             <button class="btn btn-success" type="button" onclick="saveSettings();"><i class="icon-save align-top bigger-125"></i>Save</button>
+          </div>
         </div>
+      </div>
     </div>
 </div>
 <div id="edittaxitemdialog" class="hide">

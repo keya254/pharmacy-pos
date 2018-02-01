@@ -1,54 +1,78 @@
-<?php
-require_once './require/header.php';
-?>
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
-    <h1 class="inline">
-        Reports
-    </h1>
-    <select id="reptype" onchange="generateReport();" style="vertical-align: middle; margin-right: 20px; margin-bottom: 5px;">
-        <option value="stats/general">Summary</option>
-        <option value="stats/takings">Cash Count</option>
-        <option value="stats/itemselling">Item Sales</option>
-        <option value="stats/categoryselling">Category Sales</option>
-        <option value="stats/supplyselling">Supplier Sales</option>
-        <option value="stats/stock">Current Stock</option>
-        <option value="stats/order">Purchase Order</option>
-        <option value="stats/expired">Expired Items</option>
-<!--        <option value="stats/costs">Suppliers Cost</option>-->
-        <option value="stats/devices">Device Cash</option>
-        <option value="stats/locations">Location Cash</option>
-        <option value="stats/users">User Cash</option>
-        <option value="stats/tax">Tax Breakdown</option>
-    </select>
-    <div style="display: inline-block; vertical-align:middle; margin-right: 20px;">
-        <label>Transactions
-        <select id="reptranstype" onchange="generateReport();" style="vertical-align: middle; margin-right: 20px; margin-bottom: 5px;">
-            <option value="all">All Sales</option>
-            <option value="sale">POS Sales</option>
-            <option value="invoice">Invoices</option>
-        </select>
-        </label>
-    </div>
-    <div style="display: inline-block; vertical-align:middle; margin-right: 20px;">
-        <label>Range: <input type="text" style="width: 85px;" id="repstime" onclick="$(this).blur();" /></label>
-        <label>to <input type="text" style="width: 85px;" id="repetime" onclick="$(this).blur();" /></label>
-    </div>
-    <div style="display: inline-block; vertical-align: top;">
-        <button onclick="printCurrentReport();" class="btn btn-primary btn-sm"><i class="icon-print align-top bigger-125"></i>Print</button>&nbsp;
-        <button class="btn btn-success btn-sm" onclick="exportCurrentReport();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
-    </div>
+<h2 class="page-heading mb-4">Reports</h2>
+<div class="text-md-center">
+
+
 </div><!-- /.page-header -->
 <div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div style="overflow-x: auto; padding: 10px;">
-            <div id="reportcontain">
-
-            </div>
+  <div class="col-lg-12 col-12 mb-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group text-center">
+          <div style="display: inline-block; vertical-align:middle; margin-right: 20px;">
+            <label>Report Type
+              <select class="form-control" id="reptype" onchange="generateReport();" style="vertical-align: middle; margin-right: 20px; margin-bottom: 5px;width:inherit">
+                <option value="stats/general">Summary</option>
+                <option value="stats/takings">Cash Count</option>
+                <option value="stats/itemselling">Item Sales</option>
+                <option value="stats/categoryselling">Category Sales</option>
+                <option value="stats/supplyselling">Supplier Sales</option>
+                <option value="stats/stock">Current Stock</option>
+                <option value="stats/order">Purchase Order</option>
+                <option value="stats/expired">Expired Items</option>
+                <option value="stats/devices">Device Cash</option>
+                <option value="stats/locations">Location Cash</option>
+                <option value="stats/users">User Cash</option>
+                <option value="stats/tax">Tax Breakdown</option>
+              </select>
+            </label>
+          </div>
+          <div style="display: inline-block; vertical-align:middle; margin-right: 20px;">
+            <label>Transactions
+              <select class="form-control" id="reptranstype" onchange="generateReport();" style="vertical-align: middle; margin-right: 20px; margin-bottom: 5px;">
+                <option value="all">All Sales</option>
+                <option value="sale">POS Sales</option>
+                <option value="invoice">Invoices</option>
+              </select>
+            </label>
+          </div>
+          <div style="display: inline-block; vertical-align:middle; margin-right: 20px;">
+            <label>Range:
+              <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control"id="repstime" onclick="$(this).blur();" />
+                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+              </div>
+            </label>
+            <label>to
+              <div class='input-group date' id='datetimepicker2'>
+                <input type='text' class="form-control"id="repetime" onclick="$(this).blur();" />
+                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+              </div>
+            </label>
+          </div>
+          <div style="display: inline-block; vertical-align: middle;margin-top:5px;">
+            <button onclick="printCurrentReport();" class="btn btn-primary btn-outline"><i class="icon-print align-top bigger-125"></i>Print</button>&nbsp;
+            <button class="btn btn-success btn-outline" onclick="exportCurrentReport();"><i class="icon-cloud-download align-top bigger-125"></i>Export CSV</button>
+          </div>
         </div>
-    </div><!-- PAGE CONTENT ENDS -->
+      </div>
+    </div>
+  </div>
 </div><!-- /.col -->
+<div class="row">
+  <div class="col-lg-12 col-12 mb-12">
+    <div class="card">
+      <div class="card-body">
+        <div id="reportcontain">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
     var repdata;
     var etime;
@@ -346,22 +370,25 @@ require_once './require/header.php';
         etime = new Date().getTime();
         stime = (etime - 604800000); // a week ago
 
-        $("#repstime").datepicker({dateFormat:"dd/mm/yy", maxDate: new Date(etime),
-            onSelect: function(text, inst){
-                var date = $("#repstime").datepicker("getDate");
-                date.setHours(0); date.setMinutes(0); date.setSeconds(0);
-                stime = date.getTime();
-                generateReport();
-            }
-        });
-        $("#repetime").datepicker({dateFormat:"dd/mm/yy", maxDate: new Date(etime),
-            onSelect: function(text, inst){
-                var date = $("#repetime").datepicker("getDate");
-                date.setHours(23); date.setMinutes(59); date.setSeconds(59);
-                etime = date.getTime();
-                generateReport();
-            }
-        });
+        // $("#datetimepicker1").datepicker({dateFormat:"dd/mm/yy", maxDate: new Date(etime),
+        //     onSelect: function(text, inst){
+        //         var date = $("#repstime").datepicker("getDate");
+        //         date.setHours(0); date.setMinutes(0); date.setSeconds(0);
+        //         stime = date.getTime();
+        //         generateReport();
+        //     }
+        // });
+        // $("#datetimepicker2").datepicker({dateFormat:"dd/mm/yy", maxDate: new Date(etime),
+        //     onSelect: function(text, inst){
+        //         var date = $("#repetime").datepicker("getDate");
+        //         date.setHours(23); date.setMinutes(59); date.setSeconds(59);
+        //         etime = date.getTime();
+        //         generateReport();
+        //     }
+        // });
+
+        // $('#datetimepicker1').datetimepicker();
+        // $('#datetimepicker2').datetimepicker();
 
         $("#repstime").datepicker('setDate', new Date(stime));
         $("#repetime").datepicker('setDate', new Date(etime));
@@ -371,6 +398,3 @@ require_once './require/header.php';
         WPOS.util.hideLoader();
     });
 </script>
-<?php
-require_once './require/footer.php';
-?>

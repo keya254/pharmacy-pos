@@ -1,56 +1,50 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1 class="inline">
         Item Inventory
+      <small>Manage your product inventory</small>
     </h1>
-    <button onclick="openAddStockDialog();" id="addbtn" class="btn btn-primary btn-sm pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
-    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="exportStock();"><i class="icon-cloud-download align-top bigger-125"></i>Download Template</button>
-    <button class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" onclick="openImportDialog();"><i class="icon-cloud-upload align-top bigger-125"></i>Update Inventory</button>
-<!--    <input type="file" id="files" name="inventory" data-buttonText="" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;"/>-->
 </div><!-- /.page-header -->
 
 <div class="row">
-<div class="col-xs-12">
-<!-- PAGE CONTENT BEGINS -->
-
-<div class="row">
-<div class="col-xs-12">
-
-<div class="table-header">
-    Manage your product inventory
-</div>
-
-<table id="stocktable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
-    <thead>
-        <tr>
-            <th data-priority="0" class="center">
-                <label>
-                    <input type="checkbox" class="ace" />
-                    <span class="lbl"></span>
-                </label>
-            </th>
-            <th data-priority="7">Code</th>
-            <th data-priority="2">Name</th>
-            <th data-priority="10">Description</th>
-            <th data-priority="3">Location</th>
-            <th data-priority="5">Cost</th>
-            <th data-priority="6">Price</th>
-            <th data-priority="4">Qty</th>
-            <th data-priority="5">Supplier</th>
-            <th data-priority="8">Invoice No</th>
-            <th data-priority="9">Expiry Date</th>
-            <th data-priority="11">Tax</th>
-            <th data-priority="12">Category</th>
-            <th data-priority="1" class="noexport"></th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-</div>
-</div>
-
-</div><!-- PAGE CONTENT ENDS -->
+  <div class="col-xs-12">
+  <!-- PAGE CONTENT BEGINS -->
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <button onclick="openAddStockDialog();" id="addbtn" class="btn btn-primary pull-right"><i class="icon-pencil align-top bigger-125"></i>Add</button>
+          <button class="btn btn-success pull-right" style="margin-right: 10px;" onclick="exportStock();"><i class="icon-cloud-download align-top bigger-125"></i>Download Template</button>
+          <button class="btn btn-success pull-right" style="margin-right: 10px;" onclick="openImportDialog();"><i class="icon-cloud-upload align-top bigger-125"></i>Update Inventory</button>
+        </div>
+        <table id="stocktable" class="table table-striped table-bordered table-hover dt-responsive" style="width:100%;">
+          <thead>
+              <tr>
+                  <th data-priority="0" class="center">
+                      <label>
+                          <input type="checkbox" class="ace" />
+                          <span class="lbl"></span>
+                      </label>
+                  </th>
+                  <th data-priority="7">Code</th>
+                  <th data-priority="2">Name</th>
+                  <th data-priority="10">Description</th>
+                  <th data-priority="3">Location</th>
+                  <th data-priority="5">Cost</th>
+                  <th data-priority="6">Price</th>
+                  <th data-priority="4">Qty</th>
+                  <th data-priority="5">Supplier</th>
+                  <th data-priority="8">Invoice No</th>
+                  <th data-priority="9">Expiry Date</th>
+                  <th data-priority="11">Tax</th>
+                  <th data-priority="12">Category</th>
+                  <th data-priority="1" class="noexport"></th>
+              </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- PAGE CONTENT ENDS -->
 </div><!-- /.row -->
 <div id="editstockdialog" class="hide">
     <table>

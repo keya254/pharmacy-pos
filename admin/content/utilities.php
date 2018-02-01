@@ -1,5 +1,5 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
-<div class="page-header">
+<div class="page-heading md-4">
     <h1>
         Utilities
         <small>
@@ -8,58 +8,68 @@
         </small>
     </h1>
 </div><!-- /.page-header -->
+<div class="row">
+
+</div>
 <div class="col-sm-12" style="padding-bottom: 10px;">
     <div class="col-sm-5">
-        <div class="widget-box transparent">
+      <div class="card">
+        <div class="card-body">
+          <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
-                <h4 class="lighter">
-                    <i class="icon-bullhorn blue" onclick="$('#nodebootbtn').show(); $('#noderestartbtn').removeClass('hidden');"></i>
-                    Feed Server
-                </h4>
+              <h4 class="lighter">
+                <i class="icon-bullhorn blue" onclick="$('#nodebootbtn').show(); $('#noderestartbtn').removeClass('hidden');"></i>
+                Feed Server
+              </h4>
             </div>
 
             <div class="widget-body">
-                <div class="widget-main no-padding" style="text-align: center;">
-                        <div style="padding: 10px;">
-                            <h3 style="display: inline-block">Status:</h3>&nbsp;&nbsp;
-                            <i id="nodestaticon" class="icon-lightbulb icon-2x"></i>
-                            <h4 style="display: inline-block" id="nodestattxt">Loading...</h4>
-                        </div>
-                        <button id="nodebootbtn" style="display: none;" class="btn btn-success" onclick="startNode();">Start</button>&nbsp;
-                        <button id="noderestartbtn" class="btn btn-warning hidden" onclick="restartNode();">Restart</button>
+              <div class="widget-main no-padding" style="text-align: center;">
+                <div style="padding: 10px;">
+                  <h3 style="display: inline-block">Status:</h3>&nbsp;&nbsp;
+                  <i id="nodestaticon" class="icon-lightbulb icon-2x"></i>
+                  <h4 style="display: inline-block" id="nodestattxt">Loading...</h4>
                 </div>
-                <br/>
+                <button id="nodebootbtn" style="display: none;" class="btn btn-success" onclick="startNode();">Start</button>&nbsp;
+                <button id="noderestartbtn" class="btn btn-warning hidden" onclick="restartNode();">Restart</button>
+              </div>
+              <br/>
                 <?php
-                    if ($_SERVER['SERVER_NAME']!='demo.wallacepos.com'){
-                ?>
-                <form class="form-horizontal">
+                if ($_SERVER['SERVER_NAME']!='demo.wallacepos.com'){
+                    ?>
+                  <form class="form-horizontal">
                     <div class="space-4"></div>
                     <div class="form-group">
-                        <div class="col-sm-3"><label for="feedserver_port">Feed Server port:</label></div>
-                        <div class="col-sm-7">
-                            <input type="number" id="feedserver_port" /><br/>
-                            <small>This is the port that the node.js server operates on.<br/>You may need to change to another port if the default 8080 is already in use by another application.</small>
-                        </div>
+                      <div class="col-sm-3"><label for="feedserver_port">Feed Server port:</label></div>
+                      <div class="col-sm-7">
+                        <input type="number" id="feedserver_port" /><br/>
+                        <small>This is the port that the node.js server operates on.<br/>You may need to change to another port if the default 8080 is already in use by another application.</small>
+                      </div>
                     </div>
                     <div class="space-4"></div>
                     <div class="form-group">
-                        <div class="col-sm-3"><label for="feedserver_proxy">Proxied connection:</label></div>
-                        <div class="col-sm-7">
-                            <input type="checkbox" id="feedserver_proxy" value="true" /><br/>
-                            <small>By default, feed server connections are proxied through apache wsproxy.<br/>Uncheck this for a direct connect to the port above.</small>
-                            <br/><strong>Un-proxied connections do not work when using HTTPS</strong>
-                        </div>
+                      <div class="col-sm-3"><label for="feedserver_proxy">Proxied connection:</label></div>
+                      <div class="col-sm-7">
+                        <input type="checkbox" id="feedserver_proxy" value="true" /><br/>
+                        <small>By default, feed server connections are proxied through apache wsproxy.<br/>Uncheck this for a direct connect to the port above.</small>
+                        <br/><strong>Un-proxied connections do not work when using HTTPS</strong>
+                      </div>
                     </div>
                     <div class="space-4"></div>
-                </form>
-                <div class="text-center">
+                  </form>
+                  <div class="text-center">
                     <button class="btn btn-success" onclick="saveFeedSettings();"><i class="icon-save"></i> Save</button>
-                </div>
+                  </div>
                 <?php } ?>
             </div>
+          </div>
         </div>
+      </div>
     </div>
     <div class="col-sm-7">
+      <div class="card">
+        div.card
+      </div>
         <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
                 <h4 class="lighter">
