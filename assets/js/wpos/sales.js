@@ -1281,7 +1281,7 @@ function WPOSSales() {
             swal({
                 type: 'error',
                 title: 'Oops...',
-                text: 'Please balance the sale before continuing'
+                text: 'Please add a payment method before continuing'
               });
               
             salebtn.prop("disabled", false);
