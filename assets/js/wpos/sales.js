@@ -982,7 +982,12 @@ function WPOSSales() {
             $("#paymentsdiv").dialog('open');
             $("#endsalebtn").prop("disabled", false); // make sure the damn button is active, dunno why but when the page reloads it seems to keep its state.
         } else {
-            swal("Please add some valid items to the sale before proceeding!");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please add some valid items to the sale before proceeding!'
+              });
+              
         }
     };
 
