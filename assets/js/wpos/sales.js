@@ -70,7 +70,12 @@ function WPOSItems() {
 
         }
         if (searchItem === null || searchItem === undefined || searchItem === "" || !canAdd) {//ADAM: Should use triple equals
-            swal("Item not found");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Item not found'
+              });
+              
             $("#codeinput").val('');
         } else {
             // add the item
@@ -96,7 +101,12 @@ function WPOSItems() {
           }
         }
         if (item === null) {
-            swal("Item not found");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Item not found'
+              });
+              
         } else {
             // add the item
             addItem(item);
@@ -835,13 +845,7 @@ function WPOSSales() {
     /**
      *
      */
-    this.test = function(){
-        swal(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-          );
-    };
+   
 
     this.userAbortSale = function () {
         /*var answer = confirm("Are you sure you want to abort this order?");
@@ -933,7 +937,12 @@ function WPOSSales() {
                 else
                   $(element).find(".newItem").val("false");
                 if (newItem === "false" && qty > totalStockLevel) {
-                    swal('Your inventory has only ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty +'. You can only sell' +' '+totalStockLevel +' '+'now and then restock your inventory to sell more.');
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Your inventory has only ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty +'. You can only sell' +' '+totalStockLevel +' '+'now and then restock your inventory to sell more.'
+                      });
+                      
                 }
                 if (newItem === "true" || (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative))) {
                     // add item modification total to unit price & calculate item total
@@ -1178,7 +1187,12 @@ function WPOSSales() {
                     // process the orders
                     WPOS.orders.processOrder(ref, cursale);
                 } else {
-                    swal("Could not delete the order!");
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Could not delete the order!'
+                      });
+                      
                 }
                 WPOS.util.hideLoader();
                 WPOS.trans.showTransactionView();
@@ -1250,7 +1264,12 @@ function WPOSSales() {
             $("#transactiondiv").dialog('close');
             $("#cash").trigger("click");
         } else {
-            swal("Could not find the current record.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Could not find the current record.'
+              });
+              
         }
     }
 
@@ -1259,12 +1278,22 @@ function WPOSSales() {
         var salebtn = $("#endsalebtn");
         salebtn.prop("disabled", true);
         if (!isSaleBalanced()){
-            swal("Please balance the sale before continuing");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please balance the sale before continuing'
+              });
+              
             salebtn.prop("disabled", false);
             return;
         }
         if (!validatePayments()){
-            swal("Only cash-out payments may have a negative amount");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Only cash-out payments may have a negative amount'
+              });
+              
             salebtn.prop("disabled", false);
             return;
         }
@@ -1726,7 +1755,12 @@ function WPOSSales() {
         }
 
         if ($("#voidreason").val()==""){
-            swal("Reason must not be blank.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Reason must not be blank.'
+              });
+              
             return;
         }
         var answer = confirm("Are you sure you want to void this transaction?");
@@ -1742,7 +1776,12 @@ function WPOSSales() {
 
     this.processRefund = function(){
         if ($("#refundreason").val()==""){
-            swal("Reason must not be blank.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Reason must not be blank.'
+              });
+              
             return;
         }
         if ($("#refundamount").val()<=0){
@@ -1875,7 +1914,12 @@ function WPOSSales() {
         if (addOfflineSale(jsondata, action)){
             if (removefromsales) removeSalesRecord(jsondata.ref);
         } else {
-            swal("Failed to update the record in offline storage, the sale has not been updated.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Failed to update the record in offline storage, the sale has not been updated.'
+              });
+              
         }
     }
 
