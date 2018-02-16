@@ -147,7 +147,12 @@ function WPOSTransactions() {
     function loadTransaction(ref){
         var trans = WPOS.sendJsonData("transactions/get", JSON.stringify({ref: ref}));
         if (!trans.hasOwnProperty(ref)){
-            alert("Could not load the selected transaction.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Could not load the selected transaction.'
+              });
+              
             return false;
         }
         transactions[ref] = trans[ref];

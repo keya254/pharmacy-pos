@@ -147,7 +147,12 @@ function WPOSAdmin(){
                     curuser = user;
                     WPOS.initAdmin();
                 } else {
-                    alert("You do not have permission to enter this area");
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'You do not have permission to enter this area'
+                      });
+                      
                 }
             }
             $('#loadingdiv').hide();
@@ -214,7 +219,12 @@ function WPOSAdmin(){
                     curuser = user;
                     WPOS.initAdmin();
                 } else {
-                    alert("You do not have permission to enter this area");
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'You do not have permission to enter this area'
+                      });
+                      
                 }
             }
             passfield.val('');
@@ -320,7 +330,12 @@ function WPOSAdmin(){
             if (err == "OK") {
                 // echo warning if set
                 if (json.hasOwnProperty('warning')){
-                    alert(json.warning);
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: json.warning
+                      });
+                      
                 }
                 return json.data;
             } else {
@@ -328,13 +343,22 @@ function WPOSAdmin(){
                     WPOS.sessionExpired();
                     return false;
                 } else {
-                    alert(err);
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: err
+                      });
+                      
                     return false;
                 }
             }
         }
-
-        alert("There was an error connecting to the server: \n"+response.statusText);
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: "There was an error connecting to the server: \n"+response.statusText
+          });
+          
         return false;
     }
 
@@ -353,7 +377,12 @@ function WPOSAdmin(){
                     if (err == "OK") {
                         // echo warning if set
                         if (json.hasOwnProperty('warning')){
-                            alert(json.warning);
+                            swal({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: json.warning
+                              });
+                              
                         }
                         if (callback)
                             callback(json.data);
@@ -362,19 +391,34 @@ function WPOSAdmin(){
                             WPOS.sessionExpired();
                             return false;
                         }
-                        alert(err);
+                        swal({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: err
+                          });
+                          
                         if (callback)
                             callback(false);
                     }
                 },
                 error   : function(jqXHR, status, error){
-                    alert(error);
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: error
+                      });
+                      
                     if (callback)
                         callback(false);
                 }
             });
         } catch (ex) {
-            alert("Exception: "+ex);
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: "Exception: "+ex
+              });
+              
             if (callback)
                 callback(false);
         }
@@ -394,7 +438,12 @@ function WPOSAdmin(){
         if (response.status == "200") {
             var json = JSON.parse(response.responseText);
             if (json == null) {
-                alert("Error: The response that was returned from the server could not be parsed!");
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: "Error: The response that was returned from the server could not be parsed!"
+                  });
+                  
                 return false;
             }
             var errCode = json.errorCode;
@@ -402,7 +451,12 @@ function WPOSAdmin(){
             if (err == "OK") {
                 // echo warning if set
                 if (json.hasOwnProperty('warning')){
-                    alert(json.warning);
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: json.warning
+                      });
+                      
                 }
                 return json.data;
             } else {
@@ -410,12 +464,22 @@ function WPOSAdmin(){
                     WPOS.sessionExpired();
                     return false;
                 } else {
-                    alert(err);
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: err
+                      });
+                      
                     return false;
                 }
             }
         }
-        alert("There was an error connecting to the server: \n"+response.statusText);
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: "There was an error connecting to the server: \n"+response.statusText
+          });
+          
         return false;
     };
 
@@ -435,7 +499,12 @@ function WPOSAdmin(){
                     if (err == "OK") {
                         // echo warning if set
                         if (json.hasOwnProperty('warning')){
-                            alert(json.warning);
+                            swal({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: json.warning
+                              });
+                              
                         }
                         callback(json.data);
                     } else {
@@ -444,7 +513,12 @@ function WPOSAdmin(){
                         } else {
                             if (typeof errorCallback == "function")
                                 return errorCallback(json.error);
-                            alert(err);
+                            swal({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: err
+                              });
+                              
                         }
                         callback(false);
                     }
@@ -453,7 +527,12 @@ function WPOSAdmin(){
                     if (typeof errorCallback == "function")
                         return errorCallback(error);
 
-                    alert(error);
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: error
+                      });
+                      
                     callback(false);
                 }
             });
@@ -462,7 +541,12 @@ function WPOSAdmin(){
             if (typeof errorCallback == "function")
                 return errorCallback(error.message);
 
-            alert(ex.message);
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: ex.message
+              });
+              
             callback(false);
             return false;
         }
@@ -495,7 +579,12 @@ function WPOSAdmin(){
                         WPOS.sessionExpired();
                         return false;
                     } else {
-                        alert(err);
+                        swal({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: err
+                          });
+                          
                         return false;
                     }
                 }
@@ -505,7 +594,12 @@ function WPOSAdmin(){
             },
             error: function(jqXHR, textStatus, errorThrown){
                 // Handle errors here
-                alert("There was an error connecting to the server: \n"+response.statusText);
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: "There was an error connecting to the server: \n"+response.statusText
+                  });
+                  
                 // hide loader
                 WPOS.util.hideLoader();
             }
@@ -515,7 +609,12 @@ function WPOSAdmin(){
     // function for event source processes
     this.startEventSourceProcess = function(url, dataCallback, errorCallback){
         if (typeof(EventSource) === "undefined"){
-            alert("Your browser does not support EventSource, please update your browser to continue.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: "Your browser does not support EventSource, please update your browser to continue."
+              });
+              
             return;
         }
         showModalLoader();
@@ -590,8 +689,12 @@ function WPOSAdmin(){
                                 return;
                             }
                         }
-
-                        alert(data.data.message);
+                        swal({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: data.data.message
+                          });
+                          
                         break;
                 }
                 //alert(data.a);
@@ -604,7 +707,12 @@ function WPOSAdmin(){
 
     function socketError(){
         if (socketon) // A fix for mod_proxy_wstunnel causing error on disconnect
-            alert("Update feed could not be connected, \nyou will not receive realtime updates!");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: "Update feed could not be connected, \nyou will not receive realtime updates!"
+              });
+              
         socketon = false;
         authretry = false;
         //socket = null;
