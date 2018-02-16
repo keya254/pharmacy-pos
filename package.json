@@ -10,7 +10,8 @@
   "author": "WallaceIT",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "socket.io": "~1.7.x"
+    "socket.io": "^1.7.4",
+    "sweetalert2": "^7.12.3"
   },
   "engines": {
     "node": ""
