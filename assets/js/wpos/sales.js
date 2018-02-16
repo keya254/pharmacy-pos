@@ -70,7 +70,7 @@ function WPOSItems() {
 
         }
         if (searchItem === null || searchItem === undefined || searchItem === "" || !canAdd) {//ADAM: Should use triple equals
-            alert("Item not found");
+            swal("Item not found");
             $("#codeinput").val('');
         } else {
             // add the item
@@ -96,7 +96,7 @@ function WPOSItems() {
           }
         }
         if (item === null) {
-            alert("Item not found");
+            swal("Item not found");
         } else {
             // add the item
             addItem(item);
@@ -327,23 +327,23 @@ function WPOSItems() {
       var canSell =  true;
       // Check if item has been stocked
       if (item === null) {
-        alert(item.name + ' has not been stocked.');
+        swal(item.name + ' has not been stocked.');
         canSell = false;
       }
       if (item.stockType === '1') {
         // Check if expired
         if (new Date(item.expiryDate) <= new Date()) {
-          alert(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
+          swal(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
           canSell = false;
         }
         // Prevent negative sales
         if (parseInt(item.totalStockLevel) <= 0 && canSell) {
-          alert(item.name + ' has reached 0 quantity and can\' be sold.');
+          swal(item.name + ' has reached 0 quantity and can\' be sold.');
           canSell = false;
         } else if (parseInt(item.totalStockLevel) < parseInt(item.reorderPoint) && canSell) {
-          alert(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
+          swal(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
         } else if (canSell && parseInt(item.totalStockLevel) === parseInt(item.reorderPoint) && item.totalStockLevel !== undefined) {
-          alert(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
+          swal(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
         }
       }
       if (canSell){
@@ -453,7 +453,7 @@ function WPOSItems() {
         var newqty = parseInt(qtyelem.text()) + (positive?1:-1);
         if (newqty<minqty || newqty>maxqty){
             var ismax = newqty>maxqty;
-            alert("Cannot have "+(ismax?"more":"less")+" than "+(ismax?maxqty:minqty)+" "+row.find('.modname').text());
+            swal("Cannot have "+(ismax?"more":"less")+" than "+(ismax?maxqty:minqty)+" "+row.find('.modname').text());
             return;
         }
         var modqty = newqty-defaultqty;
@@ -1037,7 +1037,7 @@ function WPOSSales() {
                             $(".keypad-popup").hide();
                             var cashout =  parseFloat($("#cashoutamount").val()).toFixed(2);
                             if (cashout<0){
-                                alert("Cashout value must be positive or 0");
+                                swal("Cashout value must be positive or 0");
                                 return;
                             }
                             codialog.dialog('close');
@@ -1122,7 +1122,7 @@ function WPOSSales() {
     function processOrder(){
         var salesobj = getSaleObject();
         var sales_json = JSON.stringify(salesobj);
-        if (sales_json.length > 16384) return alert('Too Many Items'); // depends on database field size for sales.data
+        if (sales_json.length > 16384) return swal('Too Many Items'); // depends on database field size for sales.data
         if (curref!=null){
             salesobj.ref = curref;
             var cursale = WPOS.trans.getTransactionRecord(curref);
@@ -1173,7 +1173,7 @@ function WPOSSales() {
                     // process the orders
                     WPOS.orders.processOrder(ref, cursale);
                 } else {
-                    alert("Could not delete the order!");
+                    swal("Could not delete the order!");
                 }
                 WPOS.util.hideLoader();
                 WPOS.trans.showTransactionView();
@@ -1245,7 +1245,7 @@ function WPOSSales() {
             $("#transactiondiv").dialog('close');
             $("#cash").trigger("click");
         } else {
-            alert("Could not find the current record.");
+            swal("Could not find the current record.");
         }
     }
 
@@ -1254,12 +1254,12 @@ function WPOSSales() {
         var salebtn = $("#endsalebtn");
         salebtn.prop("disabled", true);
         if (!isSaleBalanced()){
-            alert("Please balance the sale before continuing");
+            swal("Please balance the sale before continuing");
             salebtn.prop("disabled", false);
             return;
         }
         if (!validatePayments()){
-            alert("Only cash-out payments may have a negative amount");
+            swal("Only cash-out payments may have a negative amount");
             salebtn.prop("disabled", false);
             return;
         }
@@ -1288,7 +1288,7 @@ function WPOSSales() {
     function ProcessSaleTransaction(){
         var salesobj = getSaleObject();
         var sales_json = JSON.stringify(salesobj);
-        if (sales_json.length > 16384) return alert('Too Many Items'); // depends on database field size for sales.data
+        if (sales_json.length > 16384) return swal('Too Many Items'); // depends on database field size for sales.data
 
         // check for sale reference, indicating an exiting order and set it's reference onto the new data
         var cursale = null;
@@ -1682,7 +1682,7 @@ function WPOSSales() {
             var netqty = parseInt($(item).find('.refundsqty').val());
             // check if the amount is larger than bought qty
             if (refundqty>netqty){
-                alert("Cannot return more items than sold + returned!");
+                swal("Cannot return more items than sold + returned!");
                 $(item).find('.refundqty').val(netqty);
                 return false;
             }
@@ -1715,13 +1715,13 @@ function WPOSSales() {
         var trans = WPOS.trans.getTransactionRecord(ref);
         for (var i in trans.payments){
             if (trans.payments[i].method=="tyro"){
-                alert("Sales with Eftpos transactions cannot be voided. Refund this transaction instead.");
+                swal("Sales with Eftpos transactions cannot be voided. Refund this transaction instead.");
                 return;
             }
         }
 
         if ($("#voidreason").val()==""){
-            alert("Reason must not be blank.");
+            swal("Reason must not be blank.");
             return;
         }
         var answer = confirm("Are you sure you want to void this transaction?");
@@ -1737,11 +1737,11 @@ function WPOSSales() {
 
     this.processRefund = function(){
         if ($("#refundreason").val()==""){
-            alert("Reason must not be blank.");
+            swal("Reason must not be blank.");
             return;
         }
         if ($("#refundamount").val()<=0){
-            alert("Amount must be larger than 0.");
+            swal("Amount must be larger than 0.");
             return;
         }
         var ref = $("#refundref").val();
@@ -1870,7 +1870,7 @@ function WPOSSales() {
         if (addOfflineSale(jsondata, action)){
             if (removefromsales) removeSalesRecord(jsondata.ref);
         } else {
-            alert("Failed to update the record in offline storage, the sale has not been updated.");
+            swal("Failed to update the record in offline storage, the sale has not been updated.");
         }
     }
 
