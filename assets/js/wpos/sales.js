@@ -61,7 +61,9 @@ function WPOSItems() {
           if (filteredItems[item].code === code) {
             searchItem = filteredItems[item].id;
             if ((filteredItems[item].stockType === '1') && (filteredItems[item].stocklevel <= 0 || filteredItems[item].locationid !== WPOS.getConfigTable().locationid)) {
-              alert('Item is below 0 or belongs to another location');
+             /* alert('Item is below 0 or belongs to another location');*/
+             //changed the styling of the above message above
+             swal('Item is below 0 or belongs to another location');
               canAdd = false;
             }
           }
@@ -931,7 +933,7 @@ function WPOSSales() {
                 else
                   $(element).find(".newItem").val("false");
                 if (newItem === "false" && qty > totalStockLevel) {
-                    alert('The store has ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty);
+                    swal('Your inventory has only ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty +'. You can only sell' +' '+totalStockLevel +' '+'now and then restock your inventory to sell more.');
                 }
                 if (newItem === "true" || (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative))) {
                     // add item modification total to unit price & calculate item total
