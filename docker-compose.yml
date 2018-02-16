@@ -1,0 +1,35 @@
+version: '2.0'
+services:
+  apache:
+    image: 'pharmacy-pos-apache:0.1'
+    container_name: pharmacy-pos-apache
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - mariadb
+    depends_on:
+      - mariadb
+    volumes:
+      - '.:/var/www/html/'
+  fix-mariadb-permissions:
+    image: 'bitnami/mariadb:10.1-master'
+    user: root
+    command: 'chown -R 1001:1001 /bitnami'
+    volumes:
+      - './mariadb/data:/bitnami'
+  mariadb:
+    container_name: mariadb
+    image: 'bitnami/mariadb:10.1-master'
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_DATABASE=pos
+    ports:
+      - '3306:3306'
+    volumes:
+      - './mariadb/data:/bitnami/mariadb'
+    depends_on:
+      - fix-mariadb-permissions

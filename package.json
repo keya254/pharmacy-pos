@@ -24,7 +24,7 @@
     "socket.io": "~1.7.x"
   },
   "engines": {
-    "node": "~4.2.x"
+    "node": ""
   },
   "devDependencies": {
     "electron": "^1.7.9",
