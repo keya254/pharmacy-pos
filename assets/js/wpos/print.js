@@ -394,7 +394,12 @@ function WPOSPrint(kitchenMode) {
         var result = openCashDraw();
         if (!silentfail)
             if (!result) {
-                alert("Cash draw not connected or configured!!");
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Cash draw not connected or configured!!'
+                  });
+                  
             }
     };
 
