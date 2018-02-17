@@ -397,7 +397,7 @@ function WPOSPrint(kitchenMode) {
                 swal({
                     type: 'error',
                     title: 'Oops...',
-                    text: 'Cash draw not connected or configured!!'
+                    text: 'Cash drawer not connected or configured!!'
                   });
                   
             }
