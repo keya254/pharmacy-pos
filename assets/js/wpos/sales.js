@@ -1162,8 +1162,26 @@ function WPOSSales() {
         // process the orders
         WPOS.orders.processOrder(salesobj, cursale);
         console.log('Sale, ', salesobj);
-        var answer = confirm("Would you like to print a receipt?");
-        if (answer){
+      //  var answer = confirm("Would you like to print a receipt?");
+
+        swal({
+            title: 'Print Receipt',
+            text: "Would you like to print a receipt?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Print it!'
+          }).then(function(result){
+            if (result.value) {
+              swal(
+                'Print!',
+                'Your receipt has been printed.',
+                'success'
+              )
+            }
+          });
+        if (result){
           WPOS.print.printReceipt(salesobj.ref, salesobj);
         }
     }
