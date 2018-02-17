@@ -1164,26 +1164,28 @@ function WPOSSales() {
         console.log('Sale, ', salesobj);
       //  var answer = confirm("Would you like to print a receipt?");
 
-        swal({
-            title: 'Print Receipt',
-            text: "Would you like to print a receipt?",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Print it!'
-          }).then(function(result){
-            if (result.value) {
-              swal(
-                'Print!',
-                'Your receipt has been printed.',
-                'success'
-              )
-            }
-          });
-        if (result){
-          WPOS.print.printReceipt(salesobj.ref, salesobj);
+
+      swal({
+        title: 'Order Receipt',
+        text: "Would you like to print an order receipt?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Print it!'
+      }).then(function (result) {
+       if (result.value) {
+        
+        WPOS.print.printReceipt(salesobj.ref, salesobj);
+            setTimeout(
+                function() 
+                {
+                    swal('Printed!', 'Your Order Receipt has been printed. You can use use the transaction reference on it to trace and complete this order!', 'success');
+                }, 200);
+                      
         }
+      });
+
     }
 
     this.loadOrder = function(ref){
@@ -1405,7 +1407,7 @@ function WPOSSales() {
            // var answer = confirm("Would you like to print a receipt");
 
             swal({
-                title: 'Print Receipt',
+                title: 'Sale Receipt',
                 text: "Would you like to print a receipt?",
                 type: 'warning',
                 showCancelButton: true,
