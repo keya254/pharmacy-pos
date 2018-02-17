@@ -423,7 +423,12 @@
         }
       }
       if (l === -1) {
-        alert(location + ' is not a registered location. Item will be added to Warehouse');
+        swal({
+                type: 'error',
+                title: 'Oops...',
+                text: location + ' is not a registered location. Item will be added to Warehouse'
+            });
+
       }
       return l;
     }
