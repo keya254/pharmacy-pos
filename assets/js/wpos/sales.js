@@ -1191,8 +1191,19 @@ function WPOSSales() {
     };
 
     this.removeOrder = function(ref){
-        var answer = confirm("Are you sure you want to delete this order?");
-        if (answer){
+       // var answer = confirm("Are you sure you want to delete this order?");
+
+        swal({
+            title: 'Delete Order',
+            text: "Are you sure you want to delete this order?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Delete it!'
+          }).then(function (result) {
+           if (result.value) {
+            
             WPOS.util.showLoader();
             WPOS.sendJsonDataAsync("orders/remove", JSON.stringify({ref: ref}), function(result){
 
@@ -1215,7 +1226,16 @@ function WPOSSales() {
                 WPOS.util.hideLoader();
                 WPOS.trans.showTransactionView();
             });
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Deleted!', 'Your Order has been deleted.', 'success');
+                    }, 200);
+                          
+            }
+          });
+
+        
     };
 
     function loadOrder(ref){
@@ -1382,10 +1402,34 @@ function WPOSSales() {
             if (psetting == "email" && recemailed){
                 return; // receipt has been emailed
             }
-            var answer = confirm("Would you like to print a receipt?");
-            if (answer){
-                WPOS.print.printReceipt(salesobj.ref, salesobj);
-            }
+           // var answer = confirm("Would you like to print a receipt");
+
+            swal({
+                title: 'Print Receipt',
+                text: "Would you like to print a receipt?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Print it!'
+              }).then(function (result) {
+               if (result.value) {
+                
+                    WPOS.print.printReceipt(salesobj.ref, salesobj);
+                    setTimeout(
+                        function() 
+                        {
+                            swal('Printed!', 'Your Receipt has been printed.', 'success');
+                        }, 200);
+                              
+                }
+              });
+              
+
+
+          //  if (answer){
+           //     WPOS.print.printReceipt(salesobj.ref, salesobj);
+           // }
 
         }
     }
@@ -1781,15 +1825,42 @@ function WPOSSales() {
               
             return;
         }
-        var answer = confirm("Are you sure you want to void this transaction?");
-        if (answer){
+        //var answer = confirm("Are you sure you want to void this transaction?");
+
+        swal({
+            title: 'Void Transaction',
+            text: "Are you sure you want to void this transaction?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Void it!'
+          }).then(function (result) {
+           if (result.value) {
+            
             $("#procvoidbtn").prop('disabled', true);
             processVoidTransaction(ref, false);
             $("#formdiv").dialog('close');
             lasttransref = ref;
             // update transaction info
             WPOS.trans.populateTransactionInfo(ref);
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Voided!', 'Your Transaction has been voided.', 'success');
+                    }, 200);
+                          
+            }
+          });
+          
+       /* if (answer){
+            $("#procvoidbtn").prop('disabled', true);
+            processVoidTransaction(ref, false);
+            $("#formdiv").dialog('close');
+            lasttransref = ref;
+            // update transaction info
+            WPOS.trans.populateTransactionInfo(ref);
+        }*/
     };
 
     this.processRefund = function(){
@@ -1807,15 +1878,42 @@ function WPOSSales() {
             return;
         }
         var ref = $("#refundref").val();
-        var answer = confirm("Are you sure you want to refund this transaction?");
-        if (answer){
+      //  var answer = confirm("Are you sure you want to refund this transaction?");
+
+        swal({
+            title: 'Refund Transaction',
+            text: "Are you sure you want to refund this transaction?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes,Refund it!'
+          }).then(function (result) {
+           if (result.value) {
             $("#procvoidbtn").prop('disabled', true);
             processVoidTransaction(ref, true);
             $("#formdiv").dialog('close');
             lasttransref = ref;
             // update transaction info
             WPOS.trans.populateTransactionInfo(ref);
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Printed!', 'Your Refund Receipt has been printed.', 'success');
+                    }, 200);
+                          
+            }
+          });
+
+
+     /*   if (answer){
+            $("#procvoidbtn").prop('disabled', true);
+            processVoidTransaction(ref, true);
+            $("#formdiv").dialog('close');
+            lasttransref = ref;
+            // update transaction info
+            WPOS.trans.populateTransactionInfo(ref);
+        }*/
     };
 
     this.eftposRefund = function(){
@@ -1856,6 +1954,8 @@ function WPOSSales() {
                 WPOS.print.printReceipt(refundobj.ref);
             } else {
                 var answer = confirm("Would you like to print a receipt?");
+
+                              
                 if (answer){
                     WPOS.print.printReceipt(refundobj.ref);
                 }

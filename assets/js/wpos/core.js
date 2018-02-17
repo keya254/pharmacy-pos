@@ -281,8 +281,18 @@ function WPOS() {
     };
 
     this.logout = function () {
-        var answer = confirm("Are you sure you want to logout?");
-        if (answer) {
+       // var answer = confirm("Are you sure you want to logout?");
+        swal({
+            title: 'Logout',
+            text: "Are you sure you want to logout?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Log Out!'
+          }).then(function (result) {
+           if (result.value) {
+            
             var sales = WPOS.sales.getOfflineSalesNum();
             if (sales>0) {
                 answer = confirm("You have offline sales that have not been uploaded to the server.\nWould you like to back them up?");
@@ -292,7 +302,26 @@ function WPOS() {
             WPOS.util.showLoader();
             logout();
             WPOS.util.hideLoader();
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Logged Out!', 'You have been succesfully logged out.', 'success');
+                    }, 200);
+                          
+            }
+          });
+
+      /*  if (answer) {
+            var sales = WPOS.sales.getOfflineSalesNum();
+            if (sales>0) {
+                answer = confirm("You have offline sales that have not been uploaded to the server.\nWould you like to back them up?");
+                if (answer)
+                    this.backupOfflineSales();
+            }
+            WPOS.util.showLoader();
+            logout();
+            WPOS.util.hideLoader();
+        }*/
     };
 
     function getSubscription() {
@@ -614,6 +643,9 @@ function WPOS() {
     this.removeDeviceRegistration = function(){
         if (isUserAdmin()){
             var answer = confirm("Are you sure you want to delete this devices registration?\nYou will be logged out and this device will need to be re registered.");
+            
+            
+            
             if (answer){
                 // show loader
                 WPOS.util.showLoader();
@@ -717,10 +749,30 @@ function WPOS() {
     };
 
     this.refreshRemoteData = function(){
-        var answer = confirm("Are you sure you want to reload data from the server?");
-        if (answer){
+       // var answer = confirm("Are you sure you want to reload data from the server?");
+        swal({
+            title: 'Reload Data',
+            text: "Are you sure you want to reload data from the server?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Reload it!'
+          }).then(function (result) {
+           if (result.value) {
+            
             loadOnlineData(1, false);
-        }
+                            setTimeout(
+                    function() 
+                    {
+                        swal('Reloaded!', 'Your data has been reloaded from the server.', 'success');
+                    }, 200);
+                          
+            }
+          });
+       /* if (answer){
+            loadOnlineData(1, false);
+        }*/
     };
 
     this.refreshData = function() {
