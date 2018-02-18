@@ -630,7 +630,8 @@
             }
         }
         var answer = confirm("Are you sure you want to delete this tax item?");
-        if (answer){
+
+                if (answer){
             WPOS.util.showLoader();
             if (WPOS.sendJsonData("tax/items/delete", '{"id":'+id+'}')){
                 delete taxtable.items[id];

@@ -390,20 +390,34 @@
             isadmin = ($("#permaccess :selected").val()=="admin"?1:0);
         }
         if (username==""){
-            alert("Please enter a username");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please enter a username'
+                });
+
             return false;
         }
         if (isnewitem || pass != ""){
             if (pass == cpass){
                 hpass = WPOS.util.SHA256(pass);
             } else {
-                alert("Passwords do not match");
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Passwords do not match'
+                    });
+
                 return false;
             }
         }
         if (isnewitem){
             if (pass == ""){
-                alert("Please enter a new password");
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter a new password'
+                    });
                 return false;
             }
             // adding a new item
