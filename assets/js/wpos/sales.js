@@ -343,7 +343,7 @@ function WPOSItems() {
       if (item.stockType === '1') {
         // Check if expired
         if (new Date(item.expiryDate) <= new Date()) {
-          swal(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
+          swal(item.name + ' expired on ' + item.expiryDate + ' can\'t be sold');
           canSell = false;
         }
         // Prevent negative sales
@@ -354,7 +354,7 @@ function WPOSItems() {
           swal({
             type: "info",
             title: "Inventory Alert", 
-            text: item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.'
+            text: item.name + ' is below reorder point, You can sell now, but make a purchase order soon, only ' + item.totalStockLevel + ' remaining.'
         
         });
 
