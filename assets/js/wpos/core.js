@@ -987,7 +987,6 @@ function WPOS() {
         data.uuid = getDeviceUUID();
         return WPOS.sendJsonDataAsync("config/get", JSON.stringify(data), function(data){
             if (data) {
-                //console.log(data);
                 if (data=="removed" || data=="disabled"){ // return false if dev is disabled
                     if (data=="removed")
                         removeDeviceUUID();
