@@ -227,7 +227,7 @@ class SalePaymentsModel extends DbConfig
     public function getTotals($stime, $etime, $status=null, $statparity= true, $groupmethod=false, $ttype=null){
 
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        $sql = "SELECT s.*, p.method as method, COALESCE(SUM(p.amount), 0) as stotal, COUNT(p.id) as snum, COALESCE(GROUP_CONCAT(s.ref SEPARATOR ','),'') as refs FROM sale_payments as p LEFT JOIN sales as s ON p.saleid=s.id WHERE (s.processdt>= :stime AND s.processdt<= :etime)";
+        $sql = "SELECT s.*, p.method as method, COALESCE(SUM(p.amount), 0) as stotal, COUNT(p.id) as snum, COALESCE(GROUP_CONCAT(s.ref ),'') as refs FROM sale_payments as p LEFT JOIN sales as s ON p.saleid=s.id WHERE (s.processdt>= :stime AND s.processdt<= :etime)";
 
         if ($status !== null) {
             $sql .= ' AND s.status'.($statparity?'=':'!=').' :status';

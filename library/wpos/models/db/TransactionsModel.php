@@ -174,7 +174,7 @@ class TransactionsModel extends DbConfig
     public function getTotals($stime, $etime, $status=null, $statparity=true, $includeorders=false, $ttype=null){
 
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        $sql = "SELECT *, COALESCE(SUM(total), 0) as stotal, COALESCE(SUM(cost), 0) as ctotal, COUNT(id) as snum, COALESCE(GROUP_CONCAT(ref SEPARATOR ','),'') as refs FROM sales WHERE (processdt>= :stime AND processdt<= :etime)";
+        $sql = "SELECT *, COALESCE(SUM(total), 0) as stotal, COALESCE(SUM(cost), 0) as ctotal, COUNT(id) as snum, COALESCE(GROUP_CONCAT(ref),'') as refs FROM sales WHERE (processdt>= :stime AND processdt<= :etime)";
 
         if ($status !== null) {
             $sql .= ' AND status'.($statparity?'=':'!=').' :status';
@@ -205,7 +205,7 @@ class TransactionsModel extends DbConfig
     public function getUnaccountedTotals($stime, $etime, $includeorders=false, $ttype=null){
 
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        $sql = "SELECT *, COALESCE(SUM(s.balance), 0) as stotal, COUNT(s.id) as snum, COALESCE(GROUP_CONCAT(s.ref SEPARATOR ','),'') as refs FROM sales AS s WHERE (s.processdt>= :stime AND s.processdt<= :etime) AND (s.status!=3 AND s.balance!=0)";
+        $sql = "SELECT *, COALESCE(SUM(s.balance), 0) as stotal, COUNT(s.id) as snum, COALESCE(GROUP_CONCAT(s.ref),'') as refs FROM sales AS s WHERE (s.processdt>= :stime AND s.processdt<= :etime) AND (s.status!=3 AND s.balance!=0)";
 
         // do not total orders & invoices for reporting functions
         if ($includeorders==false){
@@ -248,7 +248,7 @@ class TransactionsModel extends DbConfig
         }
 
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        $sql = "SELECT *, d.id as groupid, ".($grouptype=='device'?"CONCAT(d.name, ' (', l.name, ')')":'d.name')." as name, SUM(s.total) as stotal, COUNT(s.id) as snum, COALESCE(GROUP_CONCAT(s.ref SEPARATOR ','),'') as refs FROM sales as s LEFT JOIN ".$joinsql." WHERE (s.processdt>= :stime AND s.processdt<= :etime)";
+        $sql = "SELECT *, d.id as groupid, ".($grouptype=='device'?"CONCAT(d.name, ' (', l.name, ')')":'d.name')." as name, SUM(s.total) as stotal, COUNT(s.id) as snum, COALESCE(GROUP_CONCAT(s.ref),'') as refs FROM sales as s LEFT JOIN ".$joinsql." WHERE (s.processdt>= :stime AND s.processdt<= :etime)";
 
         if ($status !== null) {
             $sql .= ' AND status'.($statparity?'=':'!=').' :status';
