@@ -1127,7 +1127,7 @@ function WPOSSales() {
             exmethod+ '</select>' +
             '<div class="cashvals" '+(method!='cash'?'style="display: none"':'width:150px;')+'>' +
             '<div style="margin:5px 0px;">Tendered:</div> <input onChange="WPOS.sales.updatePaymentChange($(this).parent());" class="paytender numpad form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(tender!=null?tender:value))+'" />' +
-            '<div style="margin:5px 0px;">Change:</div> <input class="paychange form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(change!=null?change:0.00))+'" readonly />' +
+            '<div style="margin:5px 0px;"><h3><strong>Change:</strong></h3></div> <input class="paychange form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(change!=null?change:0.00))+'" readonly />' +
             '</div></td>' +
             '<td>'+curBefore+'<input onChange="WPOS.sales.updatePaymentSums();" class="payamount numpad form-control" style="width:80px;display:inline;" type="text" value="'+value+'" autocomplete="off"/> '+curAfter+'</td>' +
             '<td><button class="btn btn-xs btn-danger" onclick="WPOS.sales.removePayment($(this));">X</button></td></tr>';
