@@ -886,7 +886,7 @@ function WPOSSales() {
      *
      */
     function clearSalesForm() {
-        $('#paymentsdiv').dialog('close');
+        $('#paydiv').dialog('close');
         // clear sales form
         $("#itemtable").html('');
         // add a new order row
@@ -998,7 +998,7 @@ function WPOSSales() {
             } else {
                 inteftbtn.hide();
             }
-            $("#paymentsdiv").dialog('open');
+            $("#paydiv").dialog('open');
             $("#endsalebtn").prop("disabled", false); // make sure the damn button is active, dunno why but when the page reloads it seems to keep its state.
         } else {
             swal({
@@ -1052,7 +1052,7 @@ function WPOSSales() {
                 width : 'auto',
                 modal   : true,
                 autoOpen: false,
-                appendTo: "#paymentsdiv",
+                appendTo: "#paydiv",
                 buttons: [
                     {
                         html: "<i class='icon-check bigger-110'></i>&nbsp; Ok",
@@ -1168,7 +1168,7 @@ function WPOSSales() {
         }
         // close the payment dialog and clear form
         clearSalesForm();
-        $("#paymentsdiv").dialog("close");
+        $("#paydiv").dialog("close");
         // process the orders
         WPOS.orders.processOrder(salesobj, cursale);
         console.log('Sale, ', salesobj);
@@ -1396,7 +1396,7 @@ function WPOSSales() {
         var recemailed = $("#emailreceipt").is(":checked");
         // close the payment dialog and clear form (clears current ref aswell)
         clearSalesForm();
-        $("#paymentsdiv").dialog("close");
+        $("#paydiv").dialog("close");
         // open the draw if a cash payment
         for (var i in salesobj.payments){
             if (salesobj.payments[i].method == "cash"){
