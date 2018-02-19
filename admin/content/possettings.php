@@ -210,9 +210,18 @@
           // show loader
           // WPOS.util.showLoader();
           if (WPOS.getJsonData("git/update")!==false){
-            alert('Update successfull.');
+            swal({
+                type: 'success',
+                title: 'Success.',
+                text: 'Update Succesful!'
+                });
           } else {
-            alert('Update failed.');
+            swal({
+                 type: 'error',
+                title: 'Oops...',
+                text: 'Update Failed!'
+                    });
+
           }
           // hide loader
           // WPOS.util.hideLoader();

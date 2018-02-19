@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="admin/assets/css/octicons.min.css"/>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link type="text/css" rel="stylesheet" href="assets/css/wpos.css"/>
+
     <!--[if IE 7]>
     <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
@@ -34,6 +35,8 @@
     <!-- UI FRAMEWORK SCRIPTS -->
     <!--[if !IE]> -->
         <script type="text/javascript" src="/assets/js/jquery-2.2.0.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/sweetalert2.css">
+
     <!-- <![endif]-->
     <!--[if IE]>
         <script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
@@ -45,6 +48,7 @@
     <script src="/assets/js/typeahead-bs2.min.js"></script>
     <script src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
     <script src="/assets/js/jquery.mustache.js"></script>
+
 
     <!-- Wpos Libraries -->
     <script type="text/javascript" src="/assets/js/wpos/core.js"></script>
@@ -1153,18 +1157,25 @@
         </table>
     </div>
 </div>
-<div id="setupdiv" class="text-center" style="display:none; padding:5px;" title="Initial Device Setup">
-    <div style="margin-bottom: 10px;">
-        Select a device<br/>
-        <select id="posdevices" class="form-control" onchange="$('#newposdevice').val('');">
+<div id="setupdiv" style="display:none; padding:5px;" title="Initial Device Setup">
+    <div style="display: inline-block; margin-bottom: 10px;">
+        Select a device to merge with or enter a new device name<br/>
+        <label>Existing device:</label><br/>
+        <select id="posdevices" onchange="$('#newposdevice').val('');">
             <option value="" selected></option>
-        </select><br/>
+        </select><br/><br/>
+
+        <label>New device name:</label><br/>
+        <input id="newposdevice" type="text" onchange="$('#posdevices>option:eq(0)').prop('selected', true);"/>
     </div>
-    <div style="">
-        Select a location for the device<br/>
-        <select id="poslocations" class="form-control" onchange="$('#newposlocation').val('');">
+    <div style="display: inline-block;">
+        Select an existing location for the device or enter a new location<br/>
+        <label>Existing location:</label><br/>
+        <select id="poslocations" onchange="$('#newposlocation').val('');">
             <option value="" selected></option>
-        </select><br/>
+        </select><br/><br/>
+        <label>New location name:</label><br/>
+        <input id="newposlocation" type="text" onchange="$('#poslocations>option:eq(0)').prop('selected', true);"/>
     </div>
     <div style="text-align: center; margin-top: 10px;">
         <button class="btn btn-primary btn-sm" onclick="WPOS.deviceSetup();">Register</button>
@@ -1276,5 +1287,7 @@
       $(item).toggleClass('active-item')
     }
 </script>
+<script src="/assets/js/sweetalert2.all.min.js"></script>
+
 </body>
 </html>

@@ -19,9 +19,9 @@ services:
   fix-mariadb-permissions:
     image: "bitnami/mariadb:10.1-master"
     user: root
-    command: chown -R 1001:1001 /bitnami
+    command: chown -R 1001:1001 /bitnami/mariadb
     volumes:
-      - ./mariadb/data:/bitnami
+      - ./mariadb/data:/bitnami/mariadb
 
   mariadb:
     container_name: mariadb
