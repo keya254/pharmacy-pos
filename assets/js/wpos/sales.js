@@ -351,9 +351,18 @@ function WPOSItems() {
           swal(item.name + ' has reached 0 quantity and can\' be sold.');
           canSell = false;
         } else if (parseInt(item.totalStockLevel) < parseInt(item.reorderPoint) && canSell) {
-          swal(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
+          swal({
+            type: "info",
+            title: "Inventory Alert", 
+            text: item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.'
+        
+        });
+
         } else if (canSell && parseInt(item.totalStockLevel) === parseInt(item.reorderPoint) && item.totalStockLevel !== undefined) {
-          swal(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
+          swal({
+            type: "info",
+            title: "Inventory Alert", 
+            text: item.name + ' has reached reorder point. You can sell now, but make a purchase order soon, only ' + item.stocklevel + ' remaining.' });
         }
       }
       if (canSell){
