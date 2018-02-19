@@ -445,7 +445,7 @@ function WPOS() {
                 if (result) {
                     currentuser = null;
                     initialsetup = false;
-                    $("#setupdiv").dialog("close");
+                    $("#initmodal").dialog("close");
                     $("#username").val("admin");
                     $("#password").val("admin");
                     showLogin();
@@ -492,8 +492,9 @@ function WPOS() {
             }
             WPOS.util.hideLoader();
             // show the setup dialog
-            $("#setupdiv").parent().css('z-index', "3200 !important");
-            $("#setupdiv").dialog("open");
+            $("#initmodal").parent().css('z-index', "1000 !important");
+            //  $("#setupdiv").dialog("open");
+            $("#initmodal").modal();
         });
     }
 
@@ -1935,7 +1936,7 @@ $(function () {
         }
     });
 
-    $("#setupdiv").dialog({
+    $("initmodal").dialog({
         width        : 200,
         maxWidth     : 200,
         modal        : true,
@@ -1943,10 +1944,10 @@ $(function () {
         autoOpen     : false,
         dialogClass: 'setup-dialog',
         open         : function (event, ui) {
-            $(".ui-dialog-titlebar-close").hide();
+            $('#initmodal').hide();
         },
         close        : function (event, ui) {
-            $(".ui-dialog-titlebar-close").show();
+            $('#initmodal').show();
         },
         create: function( event, ui ) {
             // Set maxWidth

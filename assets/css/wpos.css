@@ -82,6 +82,16 @@ body {
     min-height: 600px;
     overflow-x: auto !important;
 }
+
+.modal-header, h4, .close {
+    background-color: #5cb85c;
+    color:white !important;
+    text-align: center;
+    font-size: 25px;
+}
+.modal-footer {
+    background-color: #f9f9f9;
+}
 .registration tr {
     /*display: inline-block;*/
 }
