@@ -73,7 +73,7 @@
 <body style="overflow: hidden;">
 <div id="tabs">
     <div class="panel with-nav-tabs panel-primary" style="position: relative;">
-        <div class="panel-heading clearfix">
+        <div class="panel-heading clearfix" style="max-width: 100%">
             <ul class="nav nav-tabs pull-right" id="admin-cog">
                 <li id="cashier" class="active"><a href="#tab1primary" id="cash" data-toggle="tab">Cashier</a></li>
                 <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
@@ -95,7 +95,7 @@
                     <div id="tabs-1">
                         <div class="col-xs-12 col-sm-6">
                             <div id="sales">
-                                <div style="width:100%;">
+                                <div style="width:100%; ">
                                     <div id="items" style="padding:0;" class="ui-widget-content">
                                         <div style="margin-bottom: 10px;">
                                             <form class="form-horizontal">
@@ -135,7 +135,7 @@
                                                 </thead>
                                                 <tbody id="itemtable" style="overflow:auto;">
                                                     <tr class="order_row">
-                                                        <td style="background-color:#438EB9; color:#FFF;" colspan="7"><h4 style="text-align: center; margin: 0;">New Order</h4></td>
+                                                        <td style="background-color:#438EB9; color:#FFF;" colspan="3"><h4 style="text-align: center; margin: 0;">New Order</h4></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -148,13 +148,11 @@
                                     </div>
 
 
-                                    <br>
-                                    <br>
-                                    <br>
+
 
                                     <div id="totals">
-                                        <div class="clearfix" style= "padding:20px;" >
-                                            <table class="pull-right col-xs-12 col-sm-10 table-responsive table-condensed totals-container">
+                                        <div class="clearfix"  >
+                                            <table class="pull-right col-xs-12 col-sm-8 table-responsive table-condensed totals-container">
                                                 <tr>
                                                     <th>Subtotals</th>
                                                     
@@ -171,7 +169,7 @@
                                                     <td><span id="total" style="margin-bottom: 0px;" class="total-bill lead pull-right">Kshs 0.00</span></td>
                                                 </tr>
                                             </table>
-                                            <div class="pull-right col-xs-12 col-sm-10" id="cashierBtns">
+                                            <div class="pull-right col-xs-12 col-sm-8" id="cashierBtns">
                                                 <div class="col-xs-6 col-sm-4 til-btns">
                                                     <button class="btn btn-danger btn-block" onClick="WPOS.sales.userAbortSale();">Stop</button>
                                                     <button class="btn btn-default btn-block" onclick="WPOS.print.openCashDraw();">Drawer</button>

@@ -365,6 +365,9 @@ body {
     white-space: nowrap;
     padding-bottom: 3px;
     font-family: 'Work Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
 
     
     
@@ -372,6 +375,10 @@ body {
 .iboxitem .price {
   color:#bf211c;
   font-family: 'Work Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400; 
+  font-size: 14px;
+
 
 }
 /*.iboxitem .price:hover {
@@ -605,7 +612,7 @@ body {
 
 .taxinfo{
     font-weight: 100;
-    font-size: 40px;
+    font-size: 20px;
     font-family: 'Work Sans', sans-serif;
     font-style: italic
 
@@ -613,14 +620,14 @@ body {
 }
 .subtotals{
     font-weight: 300;
-    font-size: 40px;
+    font-size: 20px;
     font-family: 'Work Sans', sans-serif;
 
 }
 
 .total-bill {
     font-weight: 600;
-    font-size: 40px;
+    font-size: 25px;
     font-family: 'Work Sans', sans-serif;
 
 }
