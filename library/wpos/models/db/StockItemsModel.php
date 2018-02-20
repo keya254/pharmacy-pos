@@ -56,7 +56,7 @@ class StockItemsModel extends DbConfig
     public function create($stockinventoryid, $stocklevel, $expiryDate, $cost, $price, $code, $inventoryNo, $data, $locationid, $dt)
     {
         $sql          = "INSERT INTO stock_items (`stockinventoryid`, `stocklevel`, `expiryDate`,  `cost`, `price`, `code`, `inventoryNo`, `data`, `locationid`) VALUES (:stockinventoryid, :stocklevel, :expiryDate, :cost, :price, :code, :inventoryNo, :data, :locationid);";
-        $placeholders = [":stockinventoryid"=>$stockinventoryid, ":stocklevel"=>$stocklevel,   ":expiryDate"=>$expiryDate, ":cost"=>$cost, ":price"=>$price, ":code"=>$code,  ":inventoryNo"=>$inventoryNo, ":data"=>$data,  ":locationid"=>$locationid, ":dt"=>$dt];
+        $placeholders = [":stockinventoryid"=>$stockinventoryid, ":stocklevel"=>$stocklevel,   ":expiryDate"=>$expiryDate, ":cost"=>$cost, ":price"=>$price, ":code"=>$code,  ":inventoryNo"=>$inventoryNo, ":data"=>$data,  ":locationid"=>$locationid];
 
         return $this->insert($sql, $placeholders);
     }

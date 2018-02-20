@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `stock_items` (
   `inventoryNo` VARCHAR(30) NOT NULL,
   `data` VARCHAR(2048) NOT NULL,
   `locationid` INTEGER NOT NULL,
-  `dt` INTEGER NOT NULL,
+  `dt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
 
