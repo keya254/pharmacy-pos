@@ -639,6 +639,9 @@ function WPOSAdmin(){
         }
         showModalLoader();
         var jsonStream = new EventSource(url);
+        jsonStream.onopen = function (e) {
+            console.log('Stream opened ', e);
+        };
         jsonStream.onmessage = function (e) {
             var message = JSON.parse(e.data);
             if (message.hasOwnProperty('error') || message.hasOwnProperty('result'))
@@ -649,7 +652,7 @@ function WPOSAdmin(){
         };
         jsonStream.onerror = function(e){
             jsonStream.close();
-            console.log("Stream closed on error");
+            console.log("Stream closed on error", e);
             if (typeof errorCallback == "function")
                 errorCallback(e);
         }

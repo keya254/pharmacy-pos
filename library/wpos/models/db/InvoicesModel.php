@@ -212,7 +212,6 @@ class InvoicesModel extends TransactionsModel
 
         // just get invoice transactions
         $sql .= " AND type= 'invoice'";
-
         return $this->select($sql, $placeholders);
     }
 
