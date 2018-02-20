@@ -11,7 +11,7 @@ const {
 } = electron;
 
 let mainWindow;
-exec('php -S localhost:9000 -t '+__dirname +' router.php');
+exec('php -S localhost:9000 -t . router.php');
 
 function createWindow () {
   mainWindow = new BrowserWindow({
