@@ -3,56 +3,39 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Pharmacy+ POS - Administration</title>
-        <meta name="copyright" content="Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html>" />
-        <meta name="description" content="overview &amp; stats" />
+    <meta name="copyright" content="Copyright (c) 2017" />
+    <meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="shortcut icon" href="/assets/images/favicon.ico">
-        <link rel="apple-touch-icon" href="/assets/images/pos-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/pos-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/pos-icon142x142.png">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/pos-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/pos-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/pos-icon142x142.png">
 		<!-- basic styles -->
-
 		<link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-
 		<link rel="stylesheet" href="./assets/css/octicons.min.css" />
 		<link rel="stylesheet" href="./assets/css/font-awesome.min.css" />
-
 		<!-- fonts -->
-
 		<link rel="stylesheet" href="./assets/css/ace-fonts.css" />
-
 		<!-- ace styles -->
-
 		<link rel="stylesheet" href="./assets/css/uncompressed/ace.css" />
-		<!--<link rel="stylesheet" href="./assets/css/ace-rtl.min.css" />
-		<link rel="stylesheet" href="./assets/css/ace-skins.min.css" />-->
-
 		<!--[if lte IE 8]>
-		  <link rel="stylesheet" href="./assets/css/ace-ie.min.css" />
+    <link rel="stylesheet" href="./assets/css/ace-ie.min.css" />
 		<![endif]-->
-
-		<!-- inline styles related to this page -->
-
-		<!-- ace settings handler -->
-
 		<script src="./assets/js/ace-extra.min.js"></script>
-
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
 		<!--[if lt IE 9]>
 		<script src="./assets/js/html5shiv.js"></script>
 		<script src="./assets/js/respond.min.js"></script>
 		<![endif]-->
-
-        <!-- Styles used on most pages ->
-        <!-- page specific plugin styles -->
-        <link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.full.min.css" />
-        <link rel="stylesheet" href="./assets/css/bootstrap-datepicker.min.css" />
-        <link rel="stylesheet" href="./assets/js/select2/select2.css" />
-        <link rel="stylesheet" href="/assets/libs/datatables/datatables.min.css" />
-
-        <link rel="stylesheet" href="./assets/css/wposadmin.css" />
+    <!-- Styles used on most pages ->
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="/assets/css/sweetalert2.css">
+    <link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.full.min.css" />
+    <link rel="stylesheet" href="./assets/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="./assets/js/select2/select2.css" />
+    <link rel="stylesheet" href="/assets/libs/datatables/datatables.min.css" />
+    <link rel="stylesheet" href="./assets/css/wposadmin.css" />
 	</head>
 
 	<body>
@@ -61,9 +44,9 @@
 			<script type="text/javascript">
 				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
 			</script>
-            <div style="vertical-align: middle;margin-top:10px;">
-                <h3 style="margin-left:30px; display: inline;">Pharmacy POS Admin Dashboard <span onclick="WPOS.logout();" style="margin-right: 20px; line-height:1.5;" class="octicon octicon-sign-out pull-right"></span></h3>
-            </div>
+        <div style="vertical-align: middle;margin-top:10px;">
+            <h3 style="margin-left:30px; display: inline;">Pharmacy POS Admin Dashboard <span onclick="WPOS.logout();" style="margin-right: 20px; line-height:1.5;" class="octicon octicon-sign-out pull-right"></span></h3>
+        </div>
 		</div>
 
 		<div class="main-container" id="main-container">
@@ -884,6 +867,7 @@
         <!-- ace scripts -->
         <script src="./assets/js/ace-elements.min.js"></script>
         <script src="./assets/js/ace.min.js"></script>
+        <script src="/assets/js/sweetalert2.all.min.js"></script>
 
         <!-- Scripts included on many of the pages -->
         <script src="../assets/js/wpos/utilities.js"></script>
