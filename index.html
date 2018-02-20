@@ -146,14 +146,21 @@
                                         </span>
                                         <button style="float:right; font-size: 14px !important; margin-top:10px;" class="btn btn-sm btn-primary" onClick="WPOS.items.addManualItemRow();">Add Item</button>
                                     </div>
+
+
+                                    <br>
+                                    <br>
+                                    <br>
+
                                     <div id="totals">
-                                        <div class="clearfix">
-                                            <table class="pull-right col-xs-12 col-sm-8 table-responsive table-condensed totals-container">
+                                        <div class="clearfix" style= "padding:20px;" >
+                                            <table class="pull-right col-xs-12 col-sm-10 table-responsive table-condensed totals-container">
                                                 <tr>
                                                     <th>Subtotals</th>
-                                                    <td><span id="subtotal">Kshs 0.00</span></td>
+                                                    
+                                                    <td><span  class="subtotals" id="subtotal">Kshs 0.00</span></td>
                                                     <th>Tax</th>
-                                                    <td class="text-right"><span id="totaltax">Kshs 0.00</span></td>
+                                                    <td class="taxinfo pull-right" ><span id="totaltax">Kshs 0.00</span></td>
                                                 </tr>
                                                 <tr>
                                                     <th>Discount</th>
@@ -161,10 +168,10 @@
                                                       <input class="form-control" onChange="WPOS.sales.updateDiscount();" size="2" id="salediscount" type="text" class="numpad" value="0" autocomplete="off"/>
                                                     </td>
                                                     <th>Total</th>
-                                                    <td><span id="total" style="font-family: Lato Bold;margin-bottom: 0px;" class="total-bill lead pull-right">Kshs 0.00</span></td>
+                                                    <td><span id="total" style="margin-bottom: 0px;" class="total-bill lead pull-right">Kshs 0.00</span></td>
                                                 </tr>
                                             </table>
-                                            <div class="pull-right col-xs-12 col-sm-8" id="cashierBtns">
+                                            <div class="pull-right col-xs-12 col-sm-10" id="cashierBtns">
                                                 <div class="col-xs-6 col-sm-4 til-btns">
                                                     <button class="btn btn-danger btn-block" onClick="WPOS.sales.userAbortSale();">Stop</button>
                                                     <button class="btn btn-default btn-block" onclick="WPOS.print.openCashDraw();">Drawer</button>

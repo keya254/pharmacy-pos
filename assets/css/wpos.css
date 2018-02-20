@@ -602,9 +602,27 @@ body {
 .process-btn button{
     /*margin:5px;*/
 }
+
+.taxinfo{
+    font-weight: 100;
+    font-size: 40px;
+    font-family: 'Work Sans', sans-serif;
+    font-style: italic
+
+
+}
+.subtotals{
+    font-weight: 300;
+    font-size: 40px;
+    font-family: 'Work Sans', sans-serif;
+
+}
+
 .total-bill {
-    font-weight: 400;
-    font-size: 22px;
+    font-weight: 600;
+    font-size: 40px;
+    font-family: 'Work Sans', sans-serif;
+
 }
 .active-item {
   background-color: rgba(151, 193, 228, 0.45);
