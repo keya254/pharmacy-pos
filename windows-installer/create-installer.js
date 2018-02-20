@@ -12,16 +12,16 @@ getInstallerConfig()
 function getInstallerConfig () {
   console.log('creating windows installer...');
   const rootPath = './';
-  const outPath = path.join(rootPath, 'release-builds');
+  const outPath = path.join(rootPath, '../release-builds');
 
   return Promise.resolve({
-    appDirectory: path.join(rootPath, 'release-builds/pharmacy-pos-win32-ia32'),
-    authors: 'Magnum Digital Limited Kenya',
+    appDirectory: path.join(__dirname, '../release-builds/pharmacy-pos-win32-ia32'),
+    authors: 'Joe Nyugoh',
     noMsi: true,
-    outputDirectory: path.join(outPath, 'windows-installer'),
+    outputDirectory: path.join(__dirname, '../release-builds/windows-installer'),
     exe: 'pharmacy-pos.exe',
     setupExe: 'PharmacyPOSInstaller.exe',
-    setupIcon: path.join(rootPath, 'assets/images/favicon.ico')
+    setupIcon: path.join(__dirname, '../assets/images/favicon.ico')
   });
   //   return Promise.resolve({
   //   appDirectory: '../release-builds/pharmacy-pos-win32-ia32',

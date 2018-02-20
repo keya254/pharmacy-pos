@@ -11,7 +11,7 @@
     "package": "asar pack pos-linux-x64/resources/app pos-linux-x64/resources/pos.asar",
     "package-linux": "electron-packager . pharmacy-pos --ignore=node_modules/electron-* --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/images/pos-icon142x142.png --prune=true --out=release-builds",
     "package-mac": "electron-packager . pos --ignore=node_modules/electron-* --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.png.hqx --prune=true --out=release-builds",
-    "package-win": "electron-packager . pharmacy-pos --ignore=node_modules/electron-* --overwrite --platform=win32 --arch=ia32 --icon=assets/images/favicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Pharmacy POS\"",
+    "package-win": "electron-packager . pharmacy-pos --ignore=node_modules/electron-* --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/images/favicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Pharmacy POS\"",
     "create-debian-installer": "electron-installer-debian --src release-builds/pharmacy-pos-linux-x64/ --arch amd64 --config debian.json",
     "create-win-installer": "node windows-installer/create-installer"
   },
