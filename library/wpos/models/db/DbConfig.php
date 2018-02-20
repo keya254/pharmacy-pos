@@ -81,7 +81,8 @@ class DbConfig
         $dsn = self::$_dsnPrefix . ':host=' . self::$_hostname . ';port=' . self::$_port . ';dbname=' . self::$_database;
 
         try {
-            if (!$this->_db = new \PDO('sqlite:/home/joe/Ripos/Tuts/sqlite/test.sqlite')){
+            $dbFile = $_SERVER['DOCUMENT_ROOT'].'/poss.sqlite';
+            if (!$this->_db = new \PDO('sqlite:'.$dbFile)){
                 throw new PDOException('Failed to connect to database, php PDO extension may not be installed', 0, 0);
             }
 
