@@ -133,7 +133,7 @@ function WPOS() {
                 title: 'Oops...',
                 text: 'The device has not been setup yet, please login as an administrator to setup the device.'
               });
-              
+            getSubscription();
             initialsetup = true;
             online = true;
             return false;
@@ -1935,8 +1935,8 @@ $(function () {
     });
 
     $("#setupdiv").dialog({
-        width        : 200,
-        maxWidth     : 200,
+        width        : 500,
+        maxWidth     : 500,
         modal        : true,
         closeOnEscape: false,
         autoOpen     : false,
@@ -1949,7 +1949,7 @@ $(function () {
         },
         create: function( event, ui ) {
             // Set maxWidth
-            $(this).css("maxWidth", "200px");
+            $(this).css("maxWidth", "500px");
         }
     });
 
