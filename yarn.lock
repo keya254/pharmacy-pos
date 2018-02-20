@@ -1734,6 +1734,10 @@ sumchecker@^1.2.0:
     debug "^2.2.0"
     es6-promise "^4.0.5"
 
+sweetalert2@^7.12.3:
+  version "7.12.11"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-7.12.11.tgz#dd44956994bcf9bf38f688d28423c80b93219b4f"
+
 temp@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/temp/-/temp-0.8.3.tgz#e0c6bc4d26b903124410e4fed81103014dfc1f59"
