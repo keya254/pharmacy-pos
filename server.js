@@ -1,16 +1,26 @@
 const express = require('express');
 var proxy = require('http-proxy-middleware');
+var bodyParse = require('body-parser');
+var exec = require('child_process').exec;
+
 let port = 3000;
 let server = express();
 
 // Settings
 server.set('port', process.env.PORT || port);
 
+exec('php -S localhost:9000');
+server.use(bodyParse.json());
+server.use(bodyParse.urlencoded({extended: true}));
+
 // Log all api requests
-server.get('/api/*', (req, res, next)=>{
-  console.log('Api request:: %s', req.url);
+var endPoint = '';
+server.all('/api/:reqType', function(req, res, next){
+  endPoint = req.params.reqType;
+  console.log('Api request:: ', endPoint);
   next();
-})
+});
+
 // Middlewares
 server.use('/assets', express.static(require('path').join(__dirname, 'assets')));
 server.use('/docs', express.static(require('path').join(__dirname, 'docs')));
@@ -33,6 +43,24 @@ server.all('/api/:reqType', function(req, res, next){
   server.use('/api', proxy({target: endPoint, changeOrigin: true}));
   	res.end();
 });
+
+function onProxyReq(proxyReq, req, res) {
+  if (req.body) {
+    let bodyData = JSON.stringify(req.body);
+    // incase if content-type is application/x-www-form-urlencoded -> we need to change to application/json
+    proxyReq.setHeader('Content-Type','application/json');
+    proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+    // stream the content
+    proxyReq.write(bodyData);
+  } else {
+    console.log('no body..')
+  }
+}
+
+function onProxyRes(proxyReq, req, res) {
+  console.log('Data returned');
+  console.log(res);
+};
 
 
 // Routes

@@ -24,6 +24,20 @@
 // Set the root of the install
 $_SERVER['APP_ROOT'] = "/";
 
+$qPosition = stripos($_SERVER["REQUEST_URI"], "?");
+// Remove any _ query string
+if ($qPosition > 1)
+    $_SERVER["REQUEST_URI"] = substr($_SERVER["REQUEST_URI"], 0, $qPosition);
+
+$segments = explode('/', $_SERVER["REQUEST_URI"]);
+foreach ($segments as $segment) {
+    if ($segment == 'hello' || $segment == 'auth' || $segment == 'multi') {
+        $_REQUEST["a"] = $segment;
+        break;
+    } else {
+        $_REQUEST["a"] = substr($_SERVER['REQUEST_URI'], 5);
+    }
+}
 require($_SERVER['DOCUMENT_ROOT'] . $_SERVER['APP_ROOT'] . 'library/wpos/config.php');
 // setup api error handling
 set_error_handler("errorHandler", E_ERROR | E_PARSE);
@@ -148,6 +162,11 @@ function routeApiCall($action, $data, $result) {
         case "config/get":
             $setup = new WposPosSetup($data);
             $result = $setup->getDeviceRecord($result);
+            break;
+
+        case "pos/subscription":
+            $setupMdl = new WposPosData();
+            $result = $setupMdl->getPOSSubscription($result);
             break;
 
         case "items/get":
@@ -314,11 +333,6 @@ function routeApiCall($action, $data, $result) {
         case "categories/delete":
             $adminMdl = new WposAdminItems($data);
             $result = $adminMdl->deleteCategory($result);
-            break;
-        // suppliers
-        case "stock/supplier":
-            $stockMdl = new WposAdminStock($data);
-            $result = $stockMdl->editSupplier($result);
             break;
         case "stock/get":
             $jsondata = new WposPosData();
@@ -712,6 +726,10 @@ function routeApiCall($action, $data, $result) {
         case "node/restart":
             $Sserver = new WposSocketControl();
             $result = $Sserver->restartSocketServer($result);
+            break;
+        case "git/update":
+            $Sserver = new WposSocketControl();
+            $result = $Sserver->updateSystem($result);
             break;
 
         case "db/backup":

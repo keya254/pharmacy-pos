@@ -31,6 +31,7 @@
     <th data-priority="1">ID</th>
     <th data-priority="2">Name</th>
     <th data-priority="3">Description</th>
+    <th data-priority="7">Stock Type</th>
     <th data-priority="4">Category</th>
     <th data-priority="5">Tax</th>
     <th data-priority="6">Reorder Point</th>
@@ -48,101 +49,142 @@
 </div><!-- PAGE CONTENT ENDS -->
 </div><!-- /.col -->
 <div id="editdialog" class="hide">
-    <div class="tabbable" style="min-width: 360px; min-height: 310px;">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#itemdetails" data-toggle="tab">
-                    Details
-                </a>
-            </li>
-            <li class="">
-                <a href="#itemoptions" data-toggle="tab">
-                    Options
-                </a>
-            </li>
-        </ul>
-        <div class="tab-content" style="min-height: 320px;padding-top:5px;">
-            <div class="tab-pane active in" id="itemdetails">
-                <table>
-                    <tr>
-                        <td style="text-align: right;"><label>Name:&nbsp;</label></td>
-                        <td><input id="itemname" class="form-control" type="text"/>
-                            <input id="itemid" type="hidden"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Description:&nbsp;</label></td>
-                        <td><input class="form-control" id="itemdesc" type="text"/></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Category:&nbsp;</label></td>
-                        <td><select id="itemcategory" class="catselect form-control">
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
-                        <td><select id="itemtax" class="taxselect form-control">
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-                        <td><input class="form-control" id="itemreorderpoint" type="text"/></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="tab-pane" id="itemoptions" style="min-height: 280px;">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-4"><label>Item Type:</label></div>
-                        <div class="col-sm-8">
-                            <select id="itemtype">
-                                <option value="general">General</option>
-                                <option value="food">Food</option>
-                                <option value="beverage">Beverage</option>
-                            </select>
-                            <br/><small>Used for kitchen terminal dispatch</small>
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
-                    <div class="form-group">
-                        <div class="col-sm-12"><label>Simple Modifiers:</label></div>
-                        <table class="table table-stripped table-responsive" style="margin-bottom: 0; padding-left: 10px; margin-right: 10px;">
-                            <thead class="table-header smaller">
-                                <tr>
-                                    <th><small>Qty</small></th>
-                                    <th><small>Min Qty</small></th>
-                                    <th><small>Max Qty</small></th>
-                                    <th><small>Name</small></th>
-                                    <th><small>Price</small></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="itemmodtable">
-
-                            </tbody>
-                        </table>
-                        <button style="float: right; margin-right: 8px;" class="btn btn-primary btn-xs" onclick="addItemModifier();">Add</button>
-                        <div class="col-sm-12"><label>Select Modifiers:</label></div>
-                        <table class="table table-stripped table-responsive" style="margin-bottom: 0; padding-left: 10px; margin-right: 10px;">
-                            <tbody id="itemselmodtable">
-
-                            </tbody>
-                        </table>
-                        <button style="float: right; margin-right: 8px;" class="btn btn-primary btn-xs" onclick="addSelectItemModifier();">Add</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+  <div class="tab-pane active in" id="itemdetails">
+    <table>
+      <tr>
+        <td style="text-align: right;"><label>Name:&nbsp;</label></td>
+        <td><input id="itemname" class="form-control" type="text"/>
+          <input id="itemid" type="hidden"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Description:&nbsp;</label></td>
+        <td><input class="form-control" id="itemdesc" type="text"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Category:&nbsp;</label></td>
+        <td><select id="itemcategory" class="catselect form-control">
+          </select></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Tax:&nbsp;</label></td>
+        <td><select id="itemtax" class="taxselect form-control">
+          </select></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
+        <td><input class="form-control" id="itemreorderpoint" type="text"/></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;"><label>Stock Type:&nbsp;</label></td>
+        <td>
+          <select id="stocktype" class="stockselect form-control">
+          </select>
+        </td>
+      </tr>
+    </table>
+  </div>
+<!--    <div class="tabbable" style="min-width: 360px; min-height: 310px;">-->
+<!--        <ul class="nav nav-tabs">-->
+<!--            <li class="active">-->
+<!--                <a href="#itemdetails" data-toggle="tab">-->
+<!--                    Details-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="">-->
+<!--                <a href="#itemoptions" data-toggle="tab">-->
+<!--                    Options-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--        <div class="tab-content" style="min-height: 320px;padding-top:5px;">-->
+<!--            <div class="tab-pane active in" id="itemdetails">-->
+<!--                <table>-->
+<!--                    <tr>-->
+<!--                        <td style="text-align: right;"><label>Name:&nbsp;</label></td>-->
+<!--                        <td><input id="itemname" class="form-control" type="text"/>-->
+<!--                            <input id="itemid" type="hidden"/></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td style="text-align: right;"><label>Description:&nbsp;</label></td>-->
+<!--                        <td><input class="form-control" id="itemdesc" type="text"/></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td style="text-align: right;"><label>Category:&nbsp;</label></td>-->
+<!--                        <td><select id="itemcategory" class="catselect form-control">-->
+<!--                            </select></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td style="text-align: right;"><label>Tax:&nbsp;</label></td>-->
+<!--                        <td><select id="itemtax" class="taxselect form-control">-->
+<!--                            </select></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>-->
+<!--                        <td><input class="form-control" id="itemreorderpoint" type="text"/></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                      <td style="text-align: right;"><label>Stock Type:&nbsp;</label></td>-->
+<!--                      <td>-->
+<!--                        <select id="stocktype" class="stockselect form-control">-->
+<!--                        </select>-->
+<!--                      </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div class="tab-pane" id="itemoptions" style="min-height: 280px;">-->
+<!--                <form class="form-horizontal">-->
+<!--                    <div class="form-group">-->
+<!--                        <div class="col-sm-4"><label>Item Type:</label></div>-->
+<!--                        <div class="col-sm-8">-->
+<!--                            <select id="itemtype">-->
+<!--                                <option value="general">General</option>-->
+<!--                                <option value="food">Food</option>-->
+<!--                                <option value="beverage">Beverage</option>-->
+<!--                            </select>-->
+<!--                            <br/><small>Used for kitchen terminal dispatch</small>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="space-4"></div>-->
+<!--                    <div class="form-group">-->
+<!--                        <div class="col-sm-12"><label>Simple Modifiers:</label></div>-->
+<!--                        <table class="table table-stripped table-responsive" style="margin-bottom: 0; padding-left: 10px; margin-right: 10px;">-->
+<!--                            <thead class="table-header smaller">-->
+<!--                                <tr>-->
+<!--                                    <th><small>Qty</small></th>-->
+<!--                                    <th><small>Min Qty</small></th>-->
+<!--                                    <th><small>Max Qty</small></th>-->
+<!--                                    <th><small>Name</small></th>-->
+<!--                                    <th><small>Price</small></th>-->
+<!--                                    <th></th>-->
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody id="itemmodtable">-->
+<!---->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                        <button style="float: right; margin-right: 8px;" class="btn btn-primary btn-xs" onclick="addItemModifier();">Add</button>-->
+<!--                        <div class="col-sm-12"><label>Select Modifiers:</label></div>-->
+<!--                        <table class="table table-stripped table-responsive" style="margin-bottom: 0; padding-left: 10px; margin-right: 10px;">-->
+<!--                            <tbody id="itemselmodtable">-->
+<!---->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                        <button style="float: right; margin-right: 8px;" class="btn btn-primary btn-xs" onclick="addSelectItemModifier();">Add</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 <div id="adddialog" class="hide">
     <table>
         <tr>
-           <td style="text-align: right;"><label>Name:&nbsp;</label></td>
+           <td style="text-align: right;"><label>Name(<span class="text-danger">Required</span>):&nbsp;</label></td>
            <td><input id="newitemname" class="form-control" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Description:&nbsp;</label></td>
-            <td><input id="newitemdesc" class="form-control" type="text"/></td>
+            <td><input id="newitemdesc" value="Unit" class="form-control" type="text"/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Category:&nbsp;</label></td>
@@ -156,7 +198,16 @@
         </tr>
         <tr>
             <td style="text-align: right;"><label>Reorder Point:&nbsp;</label></td>
-            <td><input id="newitemreorderpoint" class="form-control" type="text"/></td>
+            <td><input id="newitemreorderpoint" value="1" class="form-control" type="text"/></td>
+        </tr>
+        <tr>
+          <td style="text-align: right;"><label>Stock Type:&nbsp;</label></td>
+          <td>
+            <select id="newstocktype" class="form-control">
+              <option value="0">Non-Inventory Stock</option>
+              <option selected value="1">Inventory Stock</option>
+            </select>
+          </td>
         </tr>
     </table>
 </div>
@@ -200,6 +251,7 @@
                 { "mData":"id" },
                 { "mData":"name" },
                 { "mData":"description" },
+                { "mData":function(data){return (data.stockType === '1' ?'Inventory':'Non-Inventory'); } },
                 { "mData":function(data,type,val){return (categories.hasOwnProperty(data.categoryid)?categories[data.categoryid].name:'None'); } },
                 { "mData":"taxname"},
                 { "mData":"reorderPoint"},
@@ -326,7 +378,7 @@
         var taxsel = $(".taxselect");
         taxsel.html('');
         for (key in WPOS.getTaxTable().rules){
-            taxsel.append('<option class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
+          taxsel.append('<option '+(WPOS.getTaxTable().rules[key].name === "VAT" ? 'selected' : '') +' class="taxid-'+WPOS.getTaxTable().rules[key].id+'" value="'+WPOS.getTaxTable().rules[key].id+'">'+WPOS.getTaxTable().rules[key].name+'</option>');
         }
         // populate category & supplier records in select boxes
         var supsel = $(".supselect");
@@ -347,6 +399,18 @@
         WPOS.util.hideLoader();
     });
     // updating records
+    function selectStockType(type) {
+      // populate stock type records in select boxes
+      var stocksel = $(".stockselect");
+      stocksel.html('');
+      if (type === '1') {
+        stocksel.append('<option value="0">Non-Inventory Stock</option>');
+        stocksel.append('<option selected value="1">Inventory Stock</option>');
+      } else {
+        stocksel.append('<option selected value="0">Non-Inventory Stock</option>');
+        stocksel.append('<option value="1">Inventory Stock</option>');
+      }
+    }
     function openEditDialog(id){
         var item = stock[id];
         $("#itemid").val(item.id);
@@ -360,6 +424,7 @@
         var modselecttable = $("#itemselmodtable");
         modtable.html('');
         modselecttable.html('');
+        selectStockType(item.stockType);
         if (item.hasOwnProperty('modifiers')){
             var mod;
             for (var i=0; i<item.modifiers.length; i++){
@@ -409,6 +474,7 @@
             item.categoryid = $("#newitemcategory").val();
             item.taxid = $("#newitemtax").val();
             item.reorderPoint = $("#newitemreorderpoint").val();
+            item.stockType = $("#newstocktype").val();
             item.type = "general";
             item.modifiers = [];
             result = WPOS.sendJsonData("items/add", JSON.stringify(item));
@@ -425,6 +491,7 @@
           item.categoryid = $("#itemcategory").val();
           item.taxid = $("#itemtax").val();
           item.reorderPoint = $("#itemreorderpoint").val();
+          item.stockType = $("#stocktype").val();
           item.type = $("#itemtype").val();
           item.modifiers = [];
             item.modifiers = [];
@@ -538,14 +605,15 @@
             id: sorted[item][0],
             name: sorted[item][1].name,
             description: sorted[item][1].description,
+            stockType: sorted[item][1].stockType === '1'? 'Inventory': 'Non-Inventory',
             categoryid: sorted[item][1].categoryid,
             taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
             reorderPoint: sorted[item][1].reorderPoint
           };
         }
         var csv = WPOS.data2CSV(
-            ['ID', 'Name', 'Description', 'Category Name', 'Tax', 'Reorder Point'],
-            ['id', 'name', 'description',
+            ['ID', 'Name', 'Description', 'Stock Type', 'Category Name', 'Tax', 'Reorder Point'],
+            ['id', 'name', 'description', 'stockType',
                 {key:'categoryid', func: function(value){ return categories.hasOwnProperty(value) ? categories[value].name : 'Unknown'; }},
               'taxname', 'reorderPoint'
             ],
@@ -566,7 +634,8 @@
                 'description': {title:'Description', required: true},
                 'category_name': {title:'Category Name', required: true},
                 'tax_name': {title:'Tax Name', required: true},
-                'reorderPoint': {title:'Reorder Point', required: true}
+                'reorderPoint': {title:'Reorder Point', required: true},
+                'stockType': {title:'Stock Type', required: true}
             },
             csvHasHeader: true,
             importOptions: [
@@ -584,6 +653,7 @@
                     name: jsondata[i].name,
                     description: jsondata[i].description !== '' ? jsondata[i].description: "No description",
                     reorderPoint: jsondata[i].reorderPoint !== '' ? jsondata[i].reorderPoint: "0",
+                    stockType: jsondata[i].stockType !== '' ? jsondata[i].stockType: "Inventory",
                     tax_name: jsondata[i].tax_name !== '' ? jsondata[i].tax_name.toUpperCase(): "No Tax",
                     category_name: jsondata[i].category_name !== '' ? jsondata[i].category_name.toUpperCase(): "GENERAL"
                   });

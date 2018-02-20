@@ -124,7 +124,12 @@ function WPOSTransactions() {
         var salebtn = $("#endcreditbtn");
         salebtn.prop("disabled", true);
         if (!validatePayments()){
-          alert("Only cash-out payments may have a negative amount");
+          swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Only cash-out payments may have a negative amount'
+          });
+          
           salebtn.prop("disabled", false);
           return;
         }
@@ -161,7 +166,13 @@ function WPOSTransactions() {
             payments.push(payment);
         });
         if (paymenttotal <= 0) {
-            alert('Please balance the amount');
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please balance the amount'
+              });
+              
+
             return;
         }
         // Check if credit is complete
@@ -201,7 +212,12 @@ function WPOSTransactions() {
     this.recallLastTransaction = function(){
         var lastref = WPOS.sales.getLastRef();
         if (lastref == null){
-            alert("No transactions yet for this session.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'No transactions yet for this session.'
+              });
+              
             return;
         }
         WPOS.trans.showTransactionInfo(lastref);
@@ -330,7 +346,12 @@ function WPOSTransactions() {
         var record = getTransactionRecord(ref);
         var status = getTransactionStatus(ref);
         if (record===false){
-            alert("Could not find the transaction record!");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Could not find the transaction record!'
+              });
+              
         }
         // set values in info div
         $("#transstat").html(getStatusHtml(status));
@@ -636,7 +657,12 @@ function WPOSTransactions() {
         if (Object.keys(searchdata).length>0){
             searchRemoteTransactions(searchdata);
         } else {
-            alert("Please select at least one search option.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please select at least one search option.'
+              });
+              
         }
     };
 
@@ -662,7 +688,12 @@ function WPOSTransactions() {
             updateSaleNotes();
         } else {
             // TODO: update notes and misc info offline
-            alert("Updating notes offline is not supported at this time\nsorry for the inconvenience");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Updating notes offline is not supported at this time\nsorry for the inconvenience'
+              });
+              
         }
     };
 
@@ -698,7 +729,12 @@ function WPOSTransactions() {
           updateSalePayments();
         } else {
             // TODO: update notes and misc info offline
-            alert("Updating notes offline is not supported at this time\nsorry for the inconvenience");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Updating notes offline is not supported at this time\nsorry for the inconvenience'
+              });
+              
         }
     };
 

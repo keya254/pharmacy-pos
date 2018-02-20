@@ -84,6 +84,27 @@ class WposPosData
     }
 
     /**
+     * @param array $result current result array
+     * @return array API result array
+     */
+    public function getPOSSubscription($result){
+        $result['data'] = new stdClass();
+        $configMdl = new ConfigModel();
+        $data = $configMdl->get();
+        if ($data===false){
+            return false;
+        }
+        $settings = [];
+        foreach ($data as $setting){
+            $settings[$setting['name']] = json_decode($setting['data']);
+        }
+        $result['data']->subscription = $settings['subscription'];
+
+        return $result;
+    }
+
+
+    /**
      * @param array $result
      *
      * @return array of stored item records

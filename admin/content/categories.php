@@ -228,6 +228,8 @@
     function removeCategory(id){
 
         var answer = confirm("Are you sure you want to delete this category?");
+
+        
         if (answer){
             // show loader
             WPOS.util.hideLoader();

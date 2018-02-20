@@ -122,6 +122,37 @@ class WposSocketControl {
 		}
     }
 
+    /**
+     * Run git pull
+     * @param $result array Current result array
+     * @return mixed API result array
+     */
+    public function updateSystem($result=['error'=>'OK']){
+        $configName = 'git config --global user.name "nyugoh"';
+        $configEMail = 'git config --global user.email "nyugoh@gmail.com"';
+        if ($this->isWindows) {
+            $handle = popen('START "Pharmacy POS System Update" git pull origin master','r');
+            $type = gettype($handle);
+            if ($type == 'NULL')
+                $result["error"] = "Git is not configured.";
+
+            sleep(1);
+            pclose($handle);
+        } else {
+            $cmd = 'git pull origin master';
+            exec($cmd, $output, $res);
+            if ($res>0)
+                exec($cmd, $output, $res);
+
+            sleep(1);
+            if ($res>0){
+                $result['error'] = "Failed to update ! ".json_encode($res).json_encode($output);
+            }
+        }
+
+        return $result;
+    }
+
 }
 
 

@@ -228,7 +228,7 @@ class DevicesModel extends DbConfig
      */
     public function addUuid($uuid, $deviceId){
 
-        $sql = "INSERT INTO device_map (deviceid, uuid, ip, useragent, dt) VALUES (:deviceid, :uuid, :ip, :useragent, NOW())";
+        $sql = "INSERT INTO device_map (deviceid, uuid, ip, useragent) VALUES (:deviceid, :uuid, :ip, :useragent)";
         $placeholders = [':uuid'=>$uuid, ':deviceid'=>$deviceId, ':ip'=>$_SERVER['REMOTE_ADDR'], ':useragent'=>$_SERVER['HTTP_USER_AGENT']];
 
         return $this->insert($sql, $placeholders);

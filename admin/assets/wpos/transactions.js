@@ -93,7 +93,7 @@ function WPOSTransactions() {
         $("#transsubtotal").text(WPOS.util.currencyFormat(record.subtotal));
 
         if (record.discount > 0) {
-            $("#transdiscount").text(record.discount + "% (" + WPOS.util.currencyFormat(record.discountval) + ')');
+            $("#transdiscount").text(record.discount + " (" + WPOS.util.currencyFormat(record.discountval) + ')');
             $("#transdisdiv").show();
         } else {
             $("#transdisdiv").hide();
@@ -147,7 +147,12 @@ function WPOSTransactions() {
     function loadTransaction(ref){
         var trans = WPOS.sendJsonData("transactions/get", JSON.stringify({ref: ref}));
         if (!trans.hasOwnProperty(ref)){
-            alert("Could not load the selected transaction.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Could not load the selected transaction.'
+              });
+              
             return false;
         }
         transactions[ref] = trans[ref];
@@ -422,7 +427,6 @@ function WPOSTransactions() {
         itemprice = isNaN(itemprice) ? 0 : itemprice;
         // calculate item tax
         var taxdata = WPOS.util.calcTax($('#transitemtaxid').val(), itemprice, itemcost);
-        console.log(taxdata);
         if (!taxdata.inclusive){
             itemprice = (itemprice + taxdata.total).toFixed(2);
         }
@@ -537,9 +541,21 @@ function WPOSTransactions() {
 
     // DATA FUNCTIONS
     this.updateInvoice = function() {
-        var answer = confirm("Save invoice details?");
-        if (answer) {
-            // show loader
+    //   var answer = confirm("Save invoice details?");
+
+
+        swal({
+            title: 'Invoice Details',
+            text: "Save invoice details?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Save it!'
+          }).then(function (result) {
+           if (result.value) {
+            
+                 // show loader
             WPOS.util.showLoader();
             var result = WPOS.sendJsonData("invoices/edit", JSON.stringify({id: curid, processdt: $("#invprocessdt").datepicker("getDate").getTime(), duedt: $("#invduedt").datepicker("getDate").getTime(), closedt: ($("#invclosedt").val() == "" ? "" : $("#invclosedt").datepicker("getDate").getTime()), discount: $("#invdiscountval").val(), notes: $('#transnotes').val()}));
             if (result !== false) {
@@ -549,7 +565,18 @@ function WPOSTransactions() {
             }
             // hide loader
             WPOS.util.hideLoader();
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Saved!', 'Your Invoice details have been saved.', 'success');
+                    }, 200);
+                          
+            }
+          });
+
+
+
+       
     };
 
     this.saveInvoiceItem = function() {
@@ -805,7 +832,7 @@ function WPOSTransactions() {
             var upquery = query.toUpperCase();
             // search items for the text.
             if (items === null) {
-                items = WPOS.getJsonData("items/get");
+                items = WPOS.getJsonData("stock/get");
             }
             for (var key in items) {
                 if (!items.hasOwnProperty(key)) {

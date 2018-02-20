@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="admin/assets/css/octicons.min.css"/>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link type="text/css" rel="stylesheet" href="assets/css/wpos.css"/>
+
     <!--[if IE 7]>
     <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
@@ -30,11 +31,13 @@
     <![endif]-->
     <link rel="stylesheet" href="assets/libs/datatables/datatables.min.css"/>
 
+    <link rel="stylesheet" href="/assets/css/sweetalert2.css">
     <!-- Fixes jQuery not found in electron app  -->
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <!-- UI FRAMEWORK SCRIPTS -->
     <!--[if !IE]> -->
-        <script type="text/javascript" src="assets/js/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery-2.2.0.min.js"></script>
+
     <!-- <![endif]-->
     <!--[if IE]>
         <script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
@@ -46,6 +49,7 @@
     <script src="assets/js/typeahead-bs2.min.js"></script>
     <script src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
     <script src="assets/js/jquery.mustache.js"></script>
+
 
     <!-- Wpos Libraries -->
     <script type="text/javascript" src="assets/js/wpos/core.js"></script>
@@ -68,21 +72,22 @@
 
 </head>
 <body style="overflow: hidden;">
-<div class="">
+<div id="tabs">
     <div class="panel with-nav-tabs panel-primary" style="position: relative;">
         <div class="panel-heading clearfix">
             <ul class="nav nav-tabs pull-right" id="admin-cog">
-                <li id="cashier" class="active"><a href="#tab1primary" onclick="WPOS.sales.setItemListPadding();" data-toggle="tab">Cashier</a></li>
+                <li id="cashier" class="active"><a href="#tab1primary" id="cash" data-toggle="tab">Cashier</a></li>
                 <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
                 <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Reports</a></li>
-                <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown"> <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="admin" target="_blank">Admin Panel</a></li>
-                        <li><a href="#" onClick="WPOS.logout();" data-toggle="tab">Logout</a></li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="glyphicon glyphicon-cog"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
+                        <li><a href="#" onClick="WPOS.logout();" data-toggle="tab">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
                     </ul>
                 </li>
+                <li><a href="/admin/" style="padding:5px 10px; margin-top:3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; " target="_blank" class="btn btn-danger">Admin</a></li>
             </ul>
         </div>
         <div class="panel-body">
@@ -96,14 +101,14 @@
                                         <div style="margin-bottom: 10px;">
                                             <form class="form-horizontal">
                                               <div class="form-group">
-                                                <div class="col-sm-6">
+                                                <div class="form-group col-sm-6">
                                                     <label class="col-xs-3" style="vertical-align:bottom;" for="codeinput">Stock Code:</label>
                                                     <div class="col-xs-8 input-group"  id="codeInput">
                                                       <input class="form-control" id="codeinput" type="text" onkeypress="if(event.keyCode=='13' || event.keyCode=='7'){ WPOS.items.addItemFromStockCode($('#codeinput').val()); }" placeholder="Add Stock Code ..." />
                                                       <div class="input-group-addon" onclick="WPOS.items.addItemFromStockCode($('#codeinput').val());">Add</div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="form-group col-sm-6">
                                                     <label class="col-xs-3" style="vertical-align:bottom;" for="itemsearch">Stock Search:&nbsp;</label>
                                                     <div class="col-xs-8">
                                                       <input id="itemsearch" class="form-control" type="text" placeholder="Search for item ..." />
@@ -210,6 +215,7 @@
                         <!-- End of sales -->
                         <div class="col-xs-12 col-sm-6" style="margin-top: -20px;">
                            <div class="row">
+                               <button class="btn-xs btn-primary" id="refresh" onclick="WPOS.refreshRemoteData();">Refresh</button>
                               <div class="col-xs-12" id="iboxitems">
                               </div>
                           </div>
@@ -408,7 +414,7 @@
                 </div>
                 <div class="tab-pane fade" id="tab4primary">
                     <div id="tabs-4">
-                        <div class="tabbable">
+                        <div class="tabbable" style="margin:0 5px;">
                             <ul class="nav nav-tabs tab-size-bigger" id="myTab">
                                 <li class="active">
                                     <a data-toggle="tab" href="#settings-tab-1">
@@ -451,7 +457,7 @@
                                             </h4>
                                         </div>
                                         <div class="widget-body" style="padding-top: 10px; text-align: left;">
-                                            <table class="table tab-pane">
+                                            <table class="table tab-pane registration">
                                                 <tr>
                                                     <td>Device ID: </td>
                                                     <td class="device_id"></td>
@@ -468,10 +474,10 @@
                                                     <td>Registration ID: </td>
                                                     <td class="devicereg_id"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Registration UUID: </td>
-                                                    <td class="devicereg_uuid"></td>
-                                                </tr>
+                                                <!--<tr>-->
+                                                    <!--<td>Registration UUID: </td>-->
+                                                    <!--<td class="devicereg_uuid"></td>-->
+                                                <!--</tr>-->
                                                 <tr>
                                                     <td>Registration DT: </td>
                                                     <td class="devicereg_dt"></td>
@@ -915,8 +921,8 @@
                 <span id="login-banner-txt"></span>
             </div>
             <form class="login-form">
-              <input type="text" id="username" name="username" placeholder="username"/>
-              <input type="password" id="password" name="password" placeholder="password" onkeypress="if(event.keyCode == 13){WPOS.userLogin();}"/>
+              <input type="text" id="username" name="username" value="admin"/>
+              <input type="password" id="password" name="password" value="admin" onkeypress="if(event.keyCode == 13){WPOS.userLogin();}"/>
               <button id="loginbutton" onClick="WPOS.userLogin();">login</button>
             </form>
             <div id="loadingdiv" style="height: 225px;">
@@ -1282,6 +1288,11 @@
       $(item).toggleClass('active-item')
     }
 </script>
+<<<<<<< HEAD
 <script>if (window.module) module = window.module;</script>
+=======
+<script src="/assets/js/sweetalert2.all.min.js"></script>
+
+>>>>>>> node-php
 </body>
 </html>

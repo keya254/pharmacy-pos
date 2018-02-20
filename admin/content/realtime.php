@@ -253,7 +253,12 @@ var onlinedev = {};
 
 function sendMessage() {
     if (Object.keys(onlinedev).length <= 1) {
-        alert("There are no devices online to message");
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'There are no devices online to message'
+            });
+
         return;
     }
     // show loader
@@ -262,7 +267,12 @@ function sendMessage() {
     var devid = $("#msgdevice option:selected").val();
     var msg = $("#msgtext").val();
     if (msg.length == 0) {
-        alert("Please enter a message to send.");
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Please enter a message to send.'
+            });
+
         return;
     }
     var result;
@@ -280,7 +290,12 @@ function sendMessage() {
 
 function sendReset() {
     if (Object.keys(onlinedev).length <= 1) {
-        alert("There are no devices online to reset");
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'There are no devices online to reset'
+            });
+
         return;
     }
     var answer = confirm("Are you sure you want to reset the selected devices?");
@@ -298,7 +313,11 @@ function sendReset() {
         result = WPOS.sendJsonData("device/reset", JSON.stringify({device: devid}));
     }
     if (result!==false){
-        alert("The reset request has been sent to the selected devices.");
+        swal({
+            type: 'success',
+            title: 'Success.',
+            text: 'The reset request has been sent to the selected devices.'
+            });
     }
     // hide loader
     WPOS.util.hideLoader();

@@ -89,7 +89,12 @@
     function doSearch(){
         var ref = $("#refsearch").val();
         if (ref==""){
-            alert("Please enter a full or partial transaction reference.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                 text: 'Please enter a full or partial transaction reference.'
+                    });
+
             return;
         }
         var data = {ref: ref};

@@ -5,3 +5,4 @@ library/wpos/.dbconfig.json
 docs/
 node_modules
 release-builds/
+mariadb/data

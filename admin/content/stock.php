@@ -41,7 +41,7 @@
             <th data-priority="9">Expiry Date</th>
             <th data-priority="11">Tax</th>
             <th data-priority="12">Category</th>
-            <th data-priority="1" class="noexport"></th>
+            <th data-priority="1" class="noexport">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -58,17 +58,11 @@
             <input type="hidden" id="setstockid" />
             <input type="hidden" id="setstockinventoryid" />
             <input type="hidden" id="setstocklocid" />
-<!--            <input type="hidden" id="setstocksupid" />-->
         </tr>
       <tr>
         <td style="text-align: right;"><label>Name:</label></td>
         <td><input type="text" id="setstockname" class="form-control" disabled/></td>
       </tr>
-<!--      <tr>-->
-<!--        <td style="text-align: right;"><label>Supplier:</label></td>-->
-<!--        <td><select id="addstocksupid" class="supselect form-control">-->
-<!--          </select></td>-->
-<!--      </tr>-->
       <tr>
         <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
         <td><input id="setstockqty" type="text" class="form-control"/></td>
@@ -114,7 +108,7 @@
 <div id="addstockdialog" class="hide">
     <table>
         <tr>
-            <td style="text-align: right;"><label>Item:</label></td>
+            <td style="text-align: right;"><label>Item(<span class="text-danger">Required</span>):</label></td>
             <td><select id="addstockitemid" class="itemselect form-control">
                 </select></td>
         </tr>
@@ -129,15 +123,15 @@
           </select></td>
       </tr>
         <tr>
-            <td style="text-align: right;"><label>Qty:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Qty(<span class="text-danger">Required</span>):&nbsp;</label></td>
             <td><input id="addstockqty" type="text" class="form-control" value="1"/></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Cost:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Cost(<span class="text-danger">Required</span>):&nbsp;</label></td>
             <td><input id="addstockcost" class="form-control" value="0.00" type="text"/></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Price:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Price(<span class="text-danger">Required</span>):&nbsp;</label></td>
             <td><input id="addstockprice" class="form-control" value="0.00" type="text"/></td>
         </tr>
         <tr>
@@ -205,7 +199,8 @@
             } else {
               tempstock.taxname = "Not Defined";
             }
-            stockarray.push(tempstock);
+            if (tempstock.stockType === '1')
+              stockarray.push(tempstock);
         }
         datatable = $('#stocktable').dataTable({"bProcessing": true,
             "aaData": stockarray,
@@ -389,11 +384,17 @@
         // fill location selects
         var locselect = $(".locselect");
         locselect.html('');
+        var config = JSON.parse(localStorage.getItem('wpos_config'));
+        var location = config.locationname;
         for (key in WPOS.locations){
             if (key == 0){
                 locselect.append('<option class="form-control locid-0" value="0">Warehouse</option>');
             } else {
-                locselect.append('<option class="form-control locid-'+WPOS.locations[key].id+'" value="'+WPOS.locations[key].id+'">'+WPOS.locations[key].name+'</option>');
+              if (location === WPOS.locations[key].name) {
+                locselect.append('<option selected class="form-control locid-' + WPOS.locations[key].id + '" value="' + WPOS.locations[key].id + '">' + WPOS.locations[key].name + '</option>');
+              }else {
+                locselect.append('<option class="form-control locid-' + WPOS.locations[key].id + '" value="' + WPOS.locations[key].id + '">' + WPOS.locations[key].name + '</option>');
+              }
             }
         }
 
@@ -422,7 +423,12 @@
         }
       }
       if (l === -1) {
-        alert(location + ' is not a registered location. Item will be added to Warehouse');
+        swal({
+                type: 'error',
+                title: 'Oops...',
+                text: location + ' is not a registered location. Item will be added to Warehouse'
+            });
+
       }
       return l;
     }
@@ -478,7 +484,8 @@
         var itemselect = $(".itemselect");
         itemselect.html('');
         for (var i in items){
-          itemselect.append('<option class="itemid-'+items[i].id+'" value="'+items[i].id+'">'+items[i].name+'</option>');
+          if (items[i].stockType === '1')
+            itemselect.append('<option class="itemid-'+items[i].id+'" value="'+items[i].id+'">'+items[i].name+'</option>');
         }
         WPOS.util.hideLoader();
     }
@@ -544,7 +551,8 @@
         for (var key in stock){
             tempstock = stock[key];
             tempstock.taxname = WPOS.getTaxTable().rules[tempstock.taxid].name;
-            stockarray.push(tempstock);
+            if (tempstock.stockType === '1')
+              stockarray.push(tempstock);
         }
         datatable.fnClearTable(false);
         datatable.fnAddData(stockarray, false);
@@ -567,21 +575,22 @@
         });
         for(var item in sorted) {
           var dataobj = JSON.parse(sorted[item][1].data);
-          data[item] = {
-            code: "",
-            name: sorted[item][1].name,
-            description: sorted[item][1].description,
-            locationid: config.deviceconfig.locationid,
-            cost: 0.00,
-            price: 0.00,
-            stocklevel: "",
-            reorderpoint: sorted[item][1].reorderPoint,
-            supplier: '',
-            inventoryNo: "0000",
-            expiryDate: "30/12/2050",
-            taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
-            categoryid: sorted[item][1].categoryid
-          };
+          if (sorted[item][1].stockType === '1')
+            data[item] = {
+              code: "",
+              name: sorted[item][1].name,
+              description: sorted[item][1].description,
+              locationid: config.deviceconfig.locationid,
+              cost: 0.00,
+              price: 0.00,
+              stocklevel: "",
+              reorderpoint: sorted[item][1].reorderPoint,
+              supplier: '',
+              inventoryNo: "0000",
+              expiryDate: "30/12/2050",
+              taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
+              categoryid: sorted[item][1].categoryid
+            };
         }
         if (Object.keys(data).length === 0) {
           data[0] = {
@@ -656,6 +665,7 @@
               locationid: getLocation(jsondata[i].location),
               cost: jsondata[i].cost,
               price: jsondata[i].price,
+              stockType: '1',
               amount: jsondata[i].amount,
               reorderPoint: jsondata[i].reorderpoint !== '' ? jsondata[i].reorderpoint: "0",
               code: jsondata[i].code !== '' ? jsondata[i].code.toUpperCase(): "0000",

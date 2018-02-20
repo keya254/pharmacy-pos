@@ -29,7 +29,7 @@ function WPOSItems() {
      */
     this.addManualItemRow = function () {
         // add the row
-        addItemRow(1, "", "0.00", 1, 0, 0, 0, {desc:"", cost:0.00, unit_original:0.00}, 0, 0, false);
+        addItemRow(1, "", "0.00", 1, 0, 0, 0, {desc:"general", cost:0.00, unit_original:0.00}, 0, 0, false);
         // focus on qty
         $("#itemtable")
             .children('tr :last')
@@ -60,15 +60,22 @@ function WPOSItems() {
         for (var item in filteredItems) {
           if (filteredItems[item].code === code) {
             searchItem = filteredItems[item].id;
-            if (filteredItems[item].stocklevel <= 0 || filteredItems[item].locationid !== WPOS.getConfigTable().locationid) {
-              alert('Item is below 0 or belongs to another location');
+            if ((filteredItems[item].stockType === '1') && (filteredItems[item].stocklevel <= 0 || filteredItems[item].locationid !== WPOS.getConfigTable().locationid)) {
+             /* alert('Item is below 0 or belongs to another location');*/
+             //changed the styling of the above message above
+             swal('Item is below 0 or belongs to another location');
               canAdd = false;
             }
           }
 
         }
         if (searchItem === null || searchItem === undefined || searchItem === "" || !canAdd) {//ADAM: Should use triple equals
-            alert("Item not found");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Item not found'
+              });
+              
             $("#codeinput").val('');
         } else {
             // add the item
@@ -94,7 +101,12 @@ function WPOSItems() {
           }
         }
         if (item === null) {
-            alert("Item not found");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Item not found'
+              });
+              
         } else {
             // add the item
             addItem(item);
@@ -128,6 +140,18 @@ function WPOSItems() {
         return results;
     };
 
+    this.findOrderItem = function(name) {
+      var itemtable = this.filterStock(WPOS.getItemsTable());
+      for (var key in itemtable) {
+        if (!itemtable.hasOwnProperty(key)) {
+          continue;
+        }
+        if (itemtable[key].name === name) {
+          return itemtable[key];
+        }
+      }
+    };
+
     this.generateItemGrid = function(categoryId){
         var iboxitems = $("#iboxitems");
         iboxitems.html('<div style="padding: 5px;"><button class="btn btn-sm btn-primary" onclick="WPOS.items.generateItemGridCategories();"><i class="icon-backward">&nbsp;</i>Categories</button></div>');
@@ -147,14 +171,14 @@ function WPOSItems() {
             items[x] = tempitems[x];
           }
         }
-        sorted = this.filterStock(items);
-        // Display the items
+      sorted = this.filterStock(items);
+      // Display the items
         for (var i in sorted){
           price = (sorted[i].price==""?"??.??":parseFloat(sorted[i].price).toFixed(2));
           iboxitems.append('<div class="iboxitem col-xs-6 col-sm-4" onmouseenter="handleMOver(this);" onmouseleave="handleMOut(this);" onclick="WPOS.items.addItemFromId('+sorted[i].id[sorted[i].id.length-1]+'); toggleItemBox(false);">' +
             '<h6 class="name">'+sorted[i].name+'</h6>'+
             '<h6 class="price">'+WPOS.util.currencyFormat(price)+'</h6>'+
-            '<h6>('+sorted[i].qty+')</h6>'+
+            '<h6>'+(sorted[i].stockType==='1'? '('+sorted[i].qty+')':'')+'</h6>'+
             '</div>');
         }
     };
@@ -164,14 +188,15 @@ function WPOSItems() {
     };
 
     this.generateItemGridCategories = function(){
+      var gstock = this.filterStock(stock);
         var iboxitems = $("#iboxitems");
-        iboxitems.html('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(-1);"><h5>All Categories</h5><h6>('+Object.keys(stock).length+' items)</h6></div>');
+        iboxitems.html('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(-1);"><h5>All Categories</h5><h6>('+Object.keys(gstock).length+' items)</h6></div>');
         var catindex = WPOS.getCategoryIndex();
         var categories = WPOS.getConfigTable().item_categories;
         for (var i in categories){
           var total =0;
-          for (var s in stock) {
-            if (stock[s].categoryid == categories[i].id) {
+          for (var s in gstock) {
+            if (gstock[s].categoryid == categories[i].id) {
               total += 1;
             }
           }
@@ -180,8 +205,8 @@ function WPOSItems() {
                 '<h6>('+total+' items)</h6>'+
                 '</div>');
         }
-        var misctotal = catindex.hasOwnProperty(0)?catindex[0].length:0;
-        iboxitems.append('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(0);"><h5>Miscellaneous</h5><h6>('+misctotal+' items)</h6></div>');
+        // var misctotal = catindex.hasOwnProperty(0)?catindex[0].length:0;
+        // iboxitems.append('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(0);"><h5>Miscellaneous</h5><h6>('+misctotal+' items)</h6></div>');
     };
 
     this.filterStock = function (items) {
@@ -210,11 +235,12 @@ function WPOSItems() {
         };
         item.name = items[i].name;
         for (var s in sorted) {
-          if (items[i].name === sorted[s][1].name && sorted[s][1].locationid == locationid && sorted[s][1].stocklevel > 0) {
+          if (items[i].name === sorted[s][1].name && sorted[s][1].locationid === locationid && (items[i].stockType ==='1'?(sorted[s][1].stocklevel > 0): true)) {
             item.qty = parseInt(item.qty) + parseInt(sorted[s][1].stocklevel); // Sum all the stock
             item.price = sorted[s][1].price;
             item.id.push(sorted[s][1].id);
             item.code = sorted[s][1].code;
+            item.stockType = sorted[s][1].stockType;
             item.locationid = sorted[s][1].locationid;
             item.categoryid = sorted[s][1].categoryid;
             item.supplier = sorted[s][1].supplier;
@@ -223,9 +249,7 @@ function WPOSItems() {
           }
         }
         // Filter by location and stock amount
-        if (item.qty > 0 && item.locationid == locationid) {
-          smart.push(item);
-        }
+        (item.locationid == locationid) ? smart.push(item): "";
       }
       // Frontend lexicographic sorting
       return smart.sort(function(a, b) {
@@ -252,11 +276,12 @@ function WPOSItems() {
         var disable = (sitemid>0); // disable fields that are filled by the stored item
         // var disableprice = (sitemid>0 && WPOS.getConfigTable().pos.priceedit!="always");
         var disabletax = (!WPOS.getConfigTable().pos.hasOwnProperty('taxedit') || WPOS.getConfigTable().pos.taxedit=='no');
+        var newItem = (sitemid===0 && totalStockLevel ===0);
         var row = $('<tr class="item_row"' + ' style="display: '+ (hidden? "none": "visible")+';">' +
-            '<td><input type="hidden" class="reorderpoint" value="' + reorderpoint + '" /><input type="hidden" name="relatedItems[]" class="otherRelatedItemsId" value="' + otherRelatedItemsId + '" /><input type="hidden" class="totalStockLevel" value="' + totalStockLevel + '" /><input type="hidden" class="totalItems" value="' + totalItems + '" data-options=\''+JSON.stringify(data)+'\' /><input class="itemid form-control" type="hidden" value="' + sitemid + '" data-options=\''+JSON.stringify(data)+'\' /><input onChange="WPOS.sales.updateSalesTotal();" style="width:50px;" type="text" class="itemqty numpad form-control" value="' + qty + '" /></td>' +
+            '<td><input type="hidden" class="reorderpoint" value="' + reorderpoint + '" /><input type="hidden" class="newItem" value="true" /><input type="hidden" name="relatedItems[]" class="otherRelatedItemsId" value="' + otherRelatedItemsId + '" /><input type="hidden" class="totalStockLevel" value="' + totalStockLevel + '" /><input type="hidden" class="totalItems" value="' + totalItems + '" data-options=\''+JSON.stringify(data)+'\' /><input class="itemid form-control" type="hidden" value="' + sitemid + '" data-options=\''+JSON.stringify(data)+'\' /><input onChange="WPOS.sales.updateSalesTotal();" style="width:50px;" type="text" class="itemqty numpad form-control" value="' + qty + '" /></td>' +
             '<td><input '+((disable==true && name!="")?"disabled":"")+' type="text" class="itemname form-control" value="' + name + '" onChange="WPOS.sales.updateSalesTotal();" /><div class="itemmodtxt"></div></td>' +
             '<td><input onChange="WPOS.sales.updateSalesTotal();" style="max-width:50px;" type="text" class="itemunit form-control numpad" value="' + unit + '" /></td>' +
-            '<td><select '+((disabletax==true && taxid!=null)?"disabled":"")+' onChange="WPOS.sales.updateSalesTotal();" style="max-width:110px;" class="itemtax form-control">' +getTaxSelectHTML(taxid)+ '</select><input class="itemtaxval" type="hidden" value="0.00" /></td>' +
+            '<td><select '+((!newItem && disabletax==true && taxid!=null)?"disabled":"")+' onChange="WPOS.sales.updateSalesTotal();" style="max-width:110px;" class="itemtax form-control">' +getTaxSelectHTML(taxid)+ '</select><input class="itemtaxval" type="hidden" value="0.00" /></td>' +
             '<td><input style="max-width:75px;" type="text" class="itemprice form-control" value="0.00" disabled /></td>' +
             '<td style="text-align: center;"><button class="btn btn-sm btn-danger" onclick="WPOS.items.removeItem($(this));"><span class="glyphicon glyphicon-trash"></span></button></td>' +
             '</tr>');
@@ -312,22 +337,24 @@ function WPOSItems() {
       var canSell =  true;
       // Check if item has been stocked
       if (item === null) {
-        alert(item.name + ' has not been stocked.');
+        swal(item.name + ' has not been stocked.');
         canSell = false;
       }
-      // Check if expired
-      if (new Date(item.expiryDate) <= new Date()) {
-        alert(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
-        canSell = false;
-      }
-      // Prevent negative sales
-      if (parseInt(item.totalStockLevel) <= 0 && canSell) {
-        alert(item.name + ' has reached 0 quantity and can\' be sold.');
-        canSell = false;
-      } else if (parseInt(item.totalStockLevel) < parseInt(item.reorderPoint) && canSell) {
-        alert(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
-      } else if (canSell && parseInt(item.totalStockLevel) === parseInt(item.reorderPoint) && item.totalStockLevel !== undefined) {
-        alert(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
+      if (item.stockType === '1') {
+        // Check if expired
+        if (new Date(item.expiryDate) <= new Date()) {
+          swal(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
+          canSell = false;
+        }
+        // Prevent negative sales
+        if (parseInt(item.totalStockLevel) <= 0 && canSell) {
+          swal(item.name + ' has reached 0 quantity and can\' be sold.');
+          canSell = false;
+        } else if (parseInt(item.totalStockLevel) < parseInt(item.reorderPoint) && canSell) {
+          swal(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
+        } else if (canSell && parseInt(item.totalStockLevel) === parseInt(item.reorderPoint) && item.totalStockLevel !== undefined) {
+          swal(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
+        }
       }
       if (canSell){
         // Item cost may be null if we're adding stored items that were created in a previous version, explicitly set the cost in this case.
@@ -436,7 +463,7 @@ function WPOSItems() {
         var newqty = parseInt(qtyelem.text()) + (positive?1:-1);
         if (newqty<minqty || newqty>maxqty){
             var ismax = newqty>maxqty;
-            alert("Cannot have "+(ismax?"more":"less")+" than "+(ismax?maxqty:minqty)+" "+row.find('.modname').text());
+            swal("Cannot have "+(ismax?"more":"less")+" than "+(ismax?maxqty:minqty)+" "+row.find('.modname').text());
             return;
         }
         var modqty = newqty-defaultqty;
@@ -818,11 +845,28 @@ function WPOSSales() {
     /**
      *
      */
+   
+
     this.userAbortSale = function () {
-        var answer = confirm("Are you sure you want to abort this order?");
+        /*var answer = confirm("Are you sure you want to abort this order?");
         if (answer) {
             clearSalesForm();
-        }
+        }*/
+// Implemented new modal for aborting orders
+        swal({
+            title: 'Stop Transaction',
+            text: 'Are you sure you want to abort this sale?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, abort it!'
+          }).then(function (result) {
+            if (result.value) {
+                clearSalesForm();
+              swal('Aborted!', 'Your order has been aborted.', 'success');
+            }
+          });
     };
 
     this.resetSalesForm = function(){
@@ -865,6 +909,8 @@ function WPOSSales() {
         curref = null;
         // remove error notice
         $("#invaliditemnotice").hide();
+        //Reload items from server
+        WPOS.refreshData();
     }
 
     function getNumSalesItems(){
@@ -875,6 +921,7 @@ function WPOSSales() {
         var qty,name, unit, mod, tempprice, tempcost, totalStockLevel, stockLevel, otherItems;
         var numinvalid = 0;
         var allow_negative = WPOS.getConfigTable().pos.negative_items;
+        var newItem = false;
         $("#itemtable").children(".item_row").each(function (index, element) {
                 qty = parseFloat($(element).find(".itemqty").val());
                 stockLevel = parseFloat($(element).find(".totalItems").val());
@@ -885,10 +932,20 @@ function WPOSSales() {
                 var itemdata = $(element).find(".itemid").data('options');
                 mod = itemdata.hasOwnProperty('mod') ? itemdata.mod.total : 0;
                 tempprice = parseFloat("0.00");
-                if (qty > totalStockLevel) {
-                    alert('The store has ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty);
+                newItem = $(element).find(".newItem").val();
+                if (name === "" || unit <= 0 || totalStockLevel <=0)
+                  $(element).find(".newItem").val("true");
+                else
+                  $(element).find(".newItem").val("false");
+                if (newItem === "false" && qty > totalStockLevel) {
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Your inventory has only ' + totalStockLevel + ' of ' + name + ', you can\'t sell ' + qty +'. You can only sell' +' '+totalStockLevel +' '+'now and then restock your inventory to sell more.'
+                      });
+                      
                 }
-                if (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative)) {
+                if (newItem === "true" || (qty > 0 && qty <= totalStockLevel && name !== "" && (unit>0 || allow_negative))) {
                     // add item modification total to unit price & calculate item total
                     tempprice = qty * (unit + mod);
                     tempcost = qty * itemdata.cost;
@@ -935,7 +992,12 @@ function WPOSSales() {
             $("#paymentsdiv").dialog('open');
             $("#endsalebtn").prop("disabled", false); // make sure the damn button is active, dunno why but when the page reloads it seems to keep its state.
         } else {
-            alert("Please add some valid items to the sale before proceeding!");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please add some valid items to the sale before proceeding!'
+              });
+              
         }
     };
 
@@ -990,7 +1052,7 @@ function WPOSSales() {
                             $(".keypad-popup").hide();
                             var cashout =  parseFloat($("#cashoutamount").val()).toFixed(2);
                             if (cashout<0){
-                                alert("Cashout value must be positive or 0");
+                                swal("Cashout value must be positive or 0");
                                 return;
                             }
                             codialog.dialog('close');
@@ -1075,7 +1137,7 @@ function WPOSSales() {
     function processOrder(){
         var salesobj = getSaleObject();
         var sales_json = JSON.stringify(salesobj);
-        if (sales_json.length > 16384) return alert('Too Many Items'); // depends on database field size for sales.data
+        if (sales_json.length > 16384) return swal('Too Many Items'); // depends on database field size for sales.data
         if (curref!=null){
             salesobj.ref = curref;
             var cursale = WPOS.trans.getTransactionRecord(curref);
@@ -1100,6 +1162,31 @@ function WPOSSales() {
         $("#paymentsdiv").dialog("close");
         // process the orders
         WPOS.orders.processOrder(salesobj, cursale);
+        console.log('Sale, ', salesobj);
+      //  var answer = confirm("Would you like to print a receipt?");
+
+
+      swal({
+        title: 'Order Receipt',
+        text: "Would you like to print an order receipt?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Print it!'
+      }).then(function (result) {
+       if (result.value) {
+        
+        WPOS.print.printReceipt(salesobj.ref, salesobj);
+            setTimeout(
+                function() 
+                {
+                    swal('Printed!', 'Your Order Receipt has been printed. You can use use the transaction reference on it to trace and complete this order!', 'success');
+                }, 200);
+                      
+        }
+      });
+
     }
 
     this.loadOrder = function(ref){
@@ -1107,8 +1194,19 @@ function WPOSSales() {
     };
 
     this.removeOrder = function(ref){
-        var answer = confirm("Are you sure you want to delete this order?");
-        if (answer){
+       // var answer = confirm("Are you sure you want to delete this order?");
+
+        swal({
+            title: 'Delete Order',
+            text: "Are you sure you want to delete this order?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Delete it!'
+          }).then(function (result) {
+           if (result.value) {
+            
             WPOS.util.showLoader();
             WPOS.sendJsonDataAsync("orders/remove", JSON.stringify({ref: ref}), function(result){
 
@@ -1121,12 +1219,26 @@ function WPOSSales() {
                     // process the orders
                     WPOS.orders.processOrder(ref, cursale);
                 } else {
-                    alert("Could not delete the order!");
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Could not delete the order!'
+                      });
+                      
                 }
                 WPOS.util.hideLoader();
                 WPOS.trans.showTransactionView();
             });
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Deleted!', 'Your Order has been deleted.', 'success');
+                    }, 200);
+                          
+            }
+          });
+
+        
     };
 
     function loadOrder(ref){
@@ -1151,7 +1263,8 @@ function WPOSSales() {
                     orderid:item.orderid
                 };
                 if (item.hasOwnProperty('mod')) data.mod = item.mod;
-                WPOS.items.addItemRow(item.qty, item.name, item.unit, item.taxid, item.reorderpoint, item.totalItems, item.sitemid, data);
+                var originalItem = WPOS.items.findOrderItem(item.name);
+                WPOS.items.addItemRow(item.qty, item.name, item.unit, item.taxid, item.reorderpoint, originalItem.qty, item.sitemid, data, originalItem.id, originalItem.qty, false);
             }
             // add a new order row
             if (WPOS.isOrderTerminal())
@@ -1190,9 +1303,14 @@ function WPOSSales() {
             WPOS.sales.updateSalesTotal();
             WPOS.sales.updatePaymentSums();
             $("#transactiondiv").dialog('close');
-            $("#wrapper").tabs("option", "active", 0);
+            $("#cash").trigger("click");
         } else {
-            alert("Could not find the current record.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Could not find the current record.'
+              });
+              
         }
     }
 
@@ -1201,12 +1319,22 @@ function WPOSSales() {
         var salebtn = $("#endsalebtn");
         salebtn.prop("disabled", true);
         if (!isSaleBalanced()){
-            alert("Please balance the sale before continuing");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please add a payment method before continuing'
+              });
+              
             salebtn.prop("disabled", false);
             return;
         }
         if (!validatePayments()){
-            alert("Only cash-out payments may have a negative amount");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Only cash-out payments may have a negative amount'
+              });
+              
             salebtn.prop("disabled", false);
             return;
         }
@@ -1235,7 +1363,7 @@ function WPOSSales() {
     function ProcessSaleTransaction(){
         var salesobj = getSaleObject();
         var sales_json = JSON.stringify(salesobj);
-        if (sales_json.length > 16384) return alert('Too Many Items'); // depends on database field size for sales.data
+        if (sales_json.length > 16384) return swal('Too Many Items'); // depends on database field size for sales.data
 
         // check for sale reference, indicating an exiting order and set it's reference onto the new data
         var cursale = null;
@@ -1277,10 +1405,34 @@ function WPOSSales() {
             if (psetting == "email" && recemailed){
                 return; // receipt has been emailed
             }
-            var answer = confirm("Would you like to print a receipt?");
-            if (answer){
-                WPOS.print.printReceipt(salesobj.ref);
-            }
+           // var answer = confirm("Would you like to print a receipt");
+
+            swal({
+                title: 'Sale Receipt',
+                text: "Would you like to print a receipt?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Print it!'
+              }).then(function (result) {
+               if (result.value) {
+                
+                    WPOS.print.printReceipt(salesobj.ref, salesobj);
+                    setTimeout(
+                        function() 
+                        {
+                            swal('Printed!', 'Your Receipt has been printed.', 'success');
+                        }, 200);
+                              
+                }
+              });
+              
+
+
+          //  if (answer){
+           //     WPOS.print.printReceipt(salesobj.ref, salesobj);
+           // }
 
         }
     }
@@ -1345,68 +1497,102 @@ function WPOSSales() {
           totalStockLevel = parseFloat($(element).find(".totalStockLevel").val());
           stockLevel = parseFloat($(element).find(".totalItems").val());
           otherItemsId = $(element).find(".otherRelatedItemsId").val();
-
-          // Check qty if you should add other supplier items
-          otherItemsId = otherItemsId.split(",");
-          // add # items to total
-          numitems += tempqty;
-          while(tempqty > 0) {
-            // Add the other amount from the other supplier
-            var item = WPOS.getStockLevel()[otherItemsId[otherItemsId.length -1]]; // pick the item on top of the list
-            if (item.stocklevel >= tempqty) { // Can be sold from one item
-              qty = tempqty;
-              tempqty = 0;
-            } else {
-              qty = item.stocklevel; // add all items
-              tempqty -= qty;
-            }
-
-            // calculate item tax
-            var unit = parseFloat(item.price).toFixed(2);
-            var tempprice = qty*unit;
-            var tempcost = qty*parseFloat(item.cost).toFixed(2);
-            var taxdata = WPOS.util.calcTax(item.taxid, tempprice, tempcost);
-            if (!taxdata.inclusive) {
-              tempprice += taxdata.total;
-            }
-
+          newItem = $(element).find(".newItem").val();
+          if (newItem === "true") {
             // add tax information into the tax totals array
+            taxdata = $(element).find(".itemtaxval").data('taxdata');
+            taxruleid = $(element).find(".itemtax").val();
             for (var i in taxdata.values) {
               if (!taxtotals.hasOwnProperty(i)) {
                 taxtotals[i] = 0;
               }
               taxtotals[i] += taxdata.values[i];
             }
+            // add # items to total
+            tempqty = parseFloat($(element).find(".itemqty").val());
+            numitems += tempqty;
             // add item to the array
             var data = {
               "ref": WPOS.util.getRandomId(), // use index as reference for this sale item,
-              "sitemid": item.id,
-              "reorderpoint": item.reorderPoint,
-              "qty": qty,
-              "name": item.name,
-              "unit": unit,
+              "sitemid": $(element).find(".itemid").val(),
+              "qty": tempqty,
+              "name": $(element).find(".itemname").val(),
+              "unit": parseFloat($(element).find(".itemunit").val()).toFixed(2),
               "taxid": taxruleid,
               "tax": taxdata,
-              "price": parseFloat(tempprice).toFixed(2)
+              "price": parseFloat($(element).find(".itemprice").val()).toFixed(2)
             };
-            itemdata = {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.name};
+            itemdata = $(element).find(".itemid").data('options');
             for (var x in itemdata) {
               data[x] = itemdata[x];
             }
             if (data.cost>0)
               totalcost += (data.cost*data.qty);
             items.push(data);
-            otherItemsId.pop(); // Remove the last item id
+          } else {
+            // Check qty if you should add other supplier items
+            otherItemsId = otherItemsId.split(",");
+            // add # items to total
+            numitems += tempqty;
+            while(tempqty > 0) {
+              // Add the other amount from the other supplier
+              var item = WPOS.getStockLevel()[otherItemsId[otherItemsId.length -1]]; // pick the item on top of the list
+              if (item.stocklevel >= tempqty) { // Can be sold from one item
+                qty = tempqty;
+                tempqty = 0;
+              } else {
+                qty = item.stocklevel; // add all items
+                tempqty -= qty;
+              }
+
+              // calculate item tax
+              var unit = parseFloat(item.price).toFixed(2);
+              var tempprice = qty*unit;
+              var tempcost = qty*parseFloat(item.cost).toFixed(2);
+              var taxdata = WPOS.util.calcTax(item.taxid, tempprice, tempcost);
+              if (!taxdata.inclusive) {
+                tempprice += taxdata.total;
+              }
+
+              // add tax information into the tax totals array
+              for (var i in taxdata.values) {
+                if (!taxtotals.hasOwnProperty(i)) {
+                  taxtotals[i] = 0;
+                }
+                taxtotals[i] += taxdata.values[i];
+              }
+              // add item to the array
+              var data = {
+                "ref": WPOS.util.getRandomId(), // use index as reference for this sale item,
+                "sitemid": item.id,
+                "reorderpoint": item.reorderPoint,
+                "qty": qty,
+                "name": item.name,
+                "unit": unit,
+                "taxid": taxruleid,
+                "tax": taxdata,
+                "price": parseFloat(tempprice).toFixed(2)
+              };
+              itemdata = {desc:item.description, cost:item.cost, unit_original:item.price, alt_name:item.name};
+              for (var x in itemdata) {
+                data[x] = itemdata[x];
+              }
+              if (data.cost>0)
+                totalcost += (data.cost*data.qty);
+              items.push(data);
+              otherItemsId.pop(); // Remove the last item id
+            }
           }
 
-                if (WPOS.isOrderTerminal()){
-                    // if order id is undefined, add to the new order
-                    if (!data.hasOwnProperty('orderid')) {
-                        data.orderid = neworderid;
-                    }
-                    // add referece to current order item; store the index for quick access to it's data, the index may change but the id will remain the same.
-                    orders[data.orderid].items[data.ref] = index;
-                }
+
+          if (WPOS.isOrderTerminal()){
+              // if order id is undefined, add to the new order
+              if (!data.hasOwnProperty('orderid')) {
+                  data.orderid = neworderid;
+              }
+              // add referece to current order item; store the index for quick access to it's data, the index may change but the id will remain the same.
+              orders[data.orderid].items[data.ref] = index;
+          }
         });
 
         // cycle through orders & match the old order items to the new, if they don't match, update the moddt
@@ -1595,7 +1781,7 @@ function WPOSSales() {
             var netqty = parseInt($(item).find('.refundsqty').val());
             // check if the amount is larger than bought qty
             if (refundqty>netqty){
-                alert("Cannot return more items than sold + returned!");
+                swal("Cannot return more items than sold + returned!");
                 $(item).find('.refundqty').val(netqty);
                 return false;
             }
@@ -1628,45 +1814,109 @@ function WPOSSales() {
         var trans = WPOS.trans.getTransactionRecord(ref);
         for (var i in trans.payments){
             if (trans.payments[i].method=="tyro"){
-                alert("Sales with Eftpos transactions cannot be voided. Refund this transaction instead.");
+                swal("Sales with Eftpos transactions cannot be voided. Refund this transaction instead.");
                 return;
             }
         }
 
         if ($("#voidreason").val()==""){
-            alert("Reason must not be blank.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Reason must not be blank.'
+              });
+              
             return;
         }
-        var answer = confirm("Are you sure you want to void this transaction?");
-        if (answer){
+        //var answer = confirm("Are you sure you want to void this transaction?");
+
+        swal({
+            title: 'Void Transaction',
+            text: "Are you sure you want to void this transaction?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Void it!'
+          }).then(function (result) {
+           if (result.value) {
+            
             $("#procvoidbtn").prop('disabled', true);
             processVoidTransaction(ref, false);
             $("#formdiv").dialog('close');
             lasttransref = ref;
             // update transaction info
             WPOS.trans.populateTransactionInfo(ref);
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Voided!', 'Your Transaction has been voided.', 'success');
+                    }, 200);
+                          
+            }
+          });
+          
+       /* if (answer){
+            $("#procvoidbtn").prop('disabled', true);
+            processVoidTransaction(ref, false);
+            $("#formdiv").dialog('close');
+            lasttransref = ref;
+            // update transaction info
+            WPOS.trans.populateTransactionInfo(ref);
+        }*/
     };
 
     this.processRefund = function(){
         if ($("#refundreason").val()==""){
-            alert("Reason must not be blank.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Reason must not be blank.'
+              });
+              
             return;
         }
         if ($("#refundamount").val()<=0){
-            alert("Amount must be larger than 0.");
+            swal("Amount must be larger than 0.");
             return;
         }
         var ref = $("#refundref").val();
-        var answer = confirm("Are you sure you want to refund this transaction?");
-        if (answer){
+      //  var answer = confirm("Are you sure you want to refund this transaction?");
+
+        swal({
+            title: 'Refund Transaction',
+            text: "Are you sure you want to refund this transaction?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes,Refund it!'
+          }).then(function (result) {
+           if (result.value) {
             $("#procvoidbtn").prop('disabled', true);
             processVoidTransaction(ref, true);
             $("#formdiv").dialog('close');
             lasttransref = ref;
             // update transaction info
             WPOS.trans.populateTransactionInfo(ref);
-        }
+                setTimeout(
+                    function() 
+                    {
+                        swal('Printed!', 'Your Refund Receipt has been printed.', 'success');
+                    }, 200);
+                          
+            }
+          });
+
+
+     /*   if (answer){
+            $("#procvoidbtn").prop('disabled', true);
+            processVoidTransaction(ref, true);
+            $("#formdiv").dialog('close');
+            lasttransref = ref;
+            // update transaction info
+            WPOS.trans.populateTransactionInfo(ref);
+        }*/
     };
 
     this.eftposRefund = function(){
@@ -1707,6 +1957,8 @@ function WPOSSales() {
                 WPOS.print.printReceipt(refundobj.ref);
             } else {
                 var answer = confirm("Would you like to print a receipt?");
+
+                              
                 if (answer){
                     WPOS.print.printReceipt(refundobj.ref);
                 }
@@ -1783,7 +2035,12 @@ function WPOSSales() {
         if (addOfflineSale(jsondata, action)){
             if (removefromsales) removeSalesRecord(jsondata.ref);
         } else {
-            alert("Failed to update the record in offline storage, the sale has not been updated.");
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Failed to update the record in offline storage, the sale has not been updated.'
+              });
+              
         }
     }
 

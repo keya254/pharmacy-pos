@@ -258,7 +258,6 @@ class WposPosSetup
         if ($this->data->deviceid == null) {
             if ($this->data->devicename == null) {
                 $result['error'] = "The no device id or name was provided";
-
                 return $result;
             } else {
                 // create a new device using the provided name; default to general register for now
@@ -641,9 +640,9 @@ class WposPosSetup
      *
      * @return bool true if uuid insert successful
      */
-    private function addNewUuid($deviceId, $uuid)
+    private function addNewUuid($uuid, $deviceId)
     {
-        if ($this->devMdl->addUuid($deviceId, $uuid) !== false) {
+        if ($this->devMdl->addUuid($uuid, $deviceId) !== false) {
             return true;
         } else {
             return false;
