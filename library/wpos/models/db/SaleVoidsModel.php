@@ -55,7 +55,7 @@ class SaleVoidsModel extends DbConfig
      */
     public function create($saleid, $userid, $deviceid, $locationid, $reason, $method=null, $amount=null, $items=null, $void, $processdt)
     {
-        $sql = "INSERT INTO `sale_voids` (`saleid`, `userid`, `deviceid`, `locationid`, `reason`, `method`, `amount`, `items`, `void`, `processdt`, `dt`) VALUES (:saleid, :userid, :deviceid, :locationid, :reason, :method, :amount, :items, :isvoid, :processdt, now())";
+        $sql = "INSERT INTO `sale_voids` (`saleid`, `userid`, `deviceid`, `locationid`, `reason`, `method`, `amount`, `items`, `void`, `processdt`) VALUES (:saleid, :userid, :deviceid, :locationid, :reason, :method, :amount, :items, :isvoid, :processdt)";
         $placeholders = [
             ':saleid'=>$saleid,
             ':userid'=>$userid,

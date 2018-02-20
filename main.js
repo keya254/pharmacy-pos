@@ -4,12 +4,14 @@ if (setupEvents.handleSquirrelEvent()) {
 }
 
 const electron = require('electron');
+const exec = require('child_process').exec;
 const {
   app,
   BrowserWindow
 } = electron;
 
 let mainWindow;
+exec('php -S localhost:9000 -t '+ __dirname + ' router.php');
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -18,7 +20,7 @@ function createWindow () {
     backgroundColor: '#237a1b'
   });
 
-  mainWindow.loadURL('http://192.168.8.102:9000');
+  mainWindow.loadURL('http://localhost:9000');
 
   mainWindow.on('closed', function () {
     mainWindow = null

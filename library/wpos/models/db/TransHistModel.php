@@ -47,7 +47,7 @@ class TransHistModel extends DbConfig
      */
     public function create($saleid, $userid, $type, $desc)
     {
-        $sql = "INSERT INTO sale_history (saleid, userid, type, description, dt) VALUES (:saleid, :userid, :type, :desc, :dt)";
+        $sql = "INSERT INTO sale_history (saleid, userid, type, description) VALUES (:saleid, :userid, :type, :desc)";
         $placeholders = [':saleid'=>$saleid, ":userid"=>$userid, ":type"=>$type, ":desc"=>$desc, ":dt"=>date("Y-m-d H:i:s")];
 
         return $this->insert($sql, $placeholders);

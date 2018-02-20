@@ -416,7 +416,7 @@ class WposAdminStock {
         }
 
         if ($this->createStockHistory($id, $this->data->locationid, 'Stock Added', $this->data->amount)===false){
-            $result['error'] = "Could not create stock history record id=".$id;
+            $result['error'] = "Could not create stock history record";
             return $result;
         }
         // Success; log data

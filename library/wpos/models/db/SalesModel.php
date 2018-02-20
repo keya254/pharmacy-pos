@@ -54,7 +54,7 @@ class SalesModel extends TransactionsModel
      */
     public function create($ref, $data, $status, $userId, $deviceId, $locationId, $custId, $discount, $rounding, $cost, $total, $processdt)
     {
-        $sql = "INSERT INTO sales (ref, type, channel, data, userid, deviceid, locationid, custid, discount, rounding, cost, total, status, processdt, dt) VALUES (:ref, 'sale', 'pos', :data, :userid, :deviceid, :locationid, :custid, :discount, :rounding, :cost, :total, :status, :processdt, '".date("Y-m-d H:i:s")."')";
+        $sql = "INSERT INTO sales (ref, type, channel, data, userid, deviceid, locationid, custid, discount, rounding, cost, total, status, processdt) VALUES (:ref, 'sale', 'pos', :data, :userid, :deviceid, :locationid, :custid, :discount, :rounding, :cost, :total, :status, :processdt)";
         $placeholders = [
             ':ref'        => $ref,
             ':data'       => $data,

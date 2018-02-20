@@ -44,7 +44,7 @@ class SuppliersModel extends DbConfig
      */
     public function create($name)
     {
-        $sql          = "INSERT INTO stored_suppliers (`name`, `dt`) VALUES (:name, now());";
+        $sql          = "INSERT INTO stored_suppliers (`name`) VALUES (:name);";
         $placeholders = [":name"=>$name];
 
         return $this->insert($sql, $placeholders);

@@ -48,7 +48,7 @@ class StockHistoryModel extends DbConfig
      * @return bool|string Returns false on an unexpected failure, returns -1 if a unique constraint in the database fails, or the new rows id if the insert is successful
      */
     public function create($stockitemid, $locationid, $type, $amount, $auxid=-1, $direction=0){
-        $sql = "INSERT INTO stock_history (stockitemid, locationid, auxid, auxdir, type, amount, dt) VALUES (:stockitemid, :locationid, :auxid, :auxdir, :type, :amount, '".date("Y-m-d H:i:s")."');";
+        $sql = "INSERT INTO stock_history (stockitemid, locationid, auxid, auxdir, type, amount) VALUES (:stockitemid, :locationid, :auxid, :auxdir, :type, :amount);";
         $placeholders = [":stockitemid"=>$stockitemid, ":locationid"=>$locationid, ":auxid"=>$auxid, ":auxdir"=>$direction, ":type"=>$type, ":amount"=>$amount];
 
         return $this->insert($sql, $placeholders);
