@@ -1,8 +1,9 @@
 const setupEvents = require('./windows-installer/setup-events');
-const electron = require('electron');
 if (setupEvents.handleSquirrelEvent()) {
   return;
 }
+
+const electron = require('electron');
 const {
   app,
   BrowserWindow
@@ -17,7 +18,7 @@ function createWindow () {
     backgroundColor: '#237a1b'
   });
 
-  mainWindow.loadURL('http://localhost:9000');
+  mainWindow.loadURL('http://192.168.8.102:9000');
 
   mainWindow.on('closed', function () {
     mainWindow = null

@@ -2,14 +2,13 @@ const path = require('path');
 
 module.exports = {
   make_targets: {
-    win32: ['squirrel', 'zip']
+    win32: [ 'zip']
   },
   electronPackagerConfig: {
-    /* all: true, */
     appCategoryType: 'public.app-category.medical-software',
     appCopyright: 'Copyright (c) 2017 Magnum Foundation',
     icon: 'assets/images/favicon',
-    name: 'PharmacyPOS',
+    name: 'pharmacy_pos',
     osxSign: true,
     overwrite: true,
     versionString: {
@@ -19,28 +18,14 @@ module.exports = {
       InternalName: 'PharmacyPOS'
     }
   },
-  // electronInstallerDMG: {
-  //   background: 'assets/icons/bg-img-patients.png',
-  //   debug: true,
-  //   icon: 'assets/icons/favicon.icns',
-  //   iconsize: 100,
-  //   overwrite: true,
-  //   title: 'HospitalRun',
-  //   window: {
-  //     size: {
-  //       width: 400,
-  //       height: 400
-  //     }
-  //   }
-  // },
   electronWinstallerConfig: {
     authors: 'Magnum Digital Kenya Limited',
-    exe: 'PharmacyPOS.exe',
+    exe: 'pharmacy_pos.exe',
     icon: 'assets/images/favicon',
-    name: 'PharmacyPOS',
+    name: 'pharmacy_pos',
     noMSI: true,
     setupIcon: path.join(__dirname, 'assets/images/favicon.ico'),
-    setupExe: 'HospitalRun.exe',
-    title: 'HospitalRun'
+    setupExe: 'pharmacy_pos.exe',
+    title: 'PharmacyPOS'
   }
 };
