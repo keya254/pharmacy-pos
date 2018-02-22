@@ -886,7 +886,7 @@ function WPOSSales() {
      *
      */
     function clearSalesForm() {
-        $('#paydiv').dialog('close');
+        $('#paymentsdiv').dialog('close');
         // clear sales form
         $("#itemtable").html('');
         // add a new order row
@@ -998,7 +998,7 @@ function WPOSSales() {
             } else {
                 inteftbtn.hide();
             }
-            $("#paydiv").dialog('open');
+            $("#paymentsdiv").dialog('open');
             $("#endsalebtn").prop("disabled", false); // make sure the damn button is active, dunno why but when the page reloads it seems to keep its state.
         } else {
             swal({
@@ -1052,7 +1052,7 @@ function WPOSSales() {
                 width : 'auto',
                 modal   : true,
                 autoOpen: false,
-                appendTo: "#paydiv",
+                appendTo: "#paymentsdiv",
                 buttons: [
                     {
                         html: "<i class='icon-check bigger-110'></i>&nbsp; Ok",
@@ -1126,9 +1126,9 @@ function WPOSSales() {
             '<option value="deposit" '+(method=='deposit'?'selected':'')+'>Deposit</option>' +
             exmethod+ '</select>' +
             '<div class="cashvals" '+(method!='cash'?'style="display: none"':'width:150px;')+'>'+
-            '<div style="padding:40px font-weight:bold"><h3>Tendered:<h3></div><input onChange="WPOS.sales.updatePaymentChange($(this).parent());" class="paytender numpad form-control" style="width:150px;display:inline;" type="text" value="'+(method!='cash'?0.00:(tender!=null?tender:value))+'" />' +
-            //  '<div style="margin:5px 0px;"><h3><strong>Change:</strong></h3></div> <input class="paychange form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(change!=null?change:0.00))+'" readonly />' +
-            //  '</div></td>' +
+            '<div style="padding:40px font-weight:bold"><h3>Tendered:<h3></div><input onChange="WPOS.sales.updatePaymentChange($(this).parent());" class="paytender form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(tender!=null?tender:value))+'" />' +
+             '<div style="margin:5px 0px;"><h3><strong>Change:</strong></h3></div> <input class="paychange form-control" style="width:80px ;display:inline;" type="text" value="'+(method!='cash'?0.00:(change!=null?change:0.00))+'" readonly />' +
+             '</div></td>' +
             '<td>'+'<input onChange="WPOS.sales.updatePaymentSums();" class="payamount numpad form-control" style="width:80px;display:inline;" type="text" value="'+value+'" autocomplete="off"/> '+curAfter+'</td>' +
             '<td><button class="btn btn-xs btn-danger" onclick="WPOS.sales.removePayment($(this));">X</button></td></tr>';
 
@@ -1168,7 +1168,7 @@ function WPOSSales() {
         }
         // close the payment dialog and clear form
         clearSalesForm();
-        $("#paydiv").dialog("close");
+        $("#paymentsdiv").dialog("close");
         // process the orders
         WPOS.orders.processOrder(salesobj, cursale);
         console.log('Sale, ', salesobj);
@@ -1396,7 +1396,7 @@ function WPOSSales() {
         var recemailed = $("#emailreceipt").is(":checked");
         // close the payment dialog and clear form (clears current ref aswell)
         clearSalesForm();
-        $("#paydiv").dialog("close");
+        $("#paymentsdiv").dialog("close");
         // open the draw if a cash payment
         for (var i in salesobj.payments){
             if (salesobj.payments[i].method == "cash"){

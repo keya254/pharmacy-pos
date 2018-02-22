@@ -1890,7 +1890,7 @@ $(function () {
 
     $("#wrapper").tabs();
 
-    $("#paydiv").dialog({
+    $("#paymentsdiv").dialog({
         maxWidth : 5000,
         width : 'auto',
         modal   : true,
@@ -2083,7 +2083,7 @@ $(function () {
         // handle cursor keys
         var x;
         var keypad = $(".keypad-popup");
-        var paymentsopen = $("#paydiv").is(":visible");
+        var paymentsopen = $("#paymentsdiv").is(":visible");
         switch (event.which){
             /*case 37: // left arrow
                 keypad.hide();
