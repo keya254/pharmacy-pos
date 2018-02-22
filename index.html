@@ -77,7 +77,7 @@
             <ul class="nav nav-tabs pull-right" id="admin-cog">
                 <li id="cashier" class="active"><a href="#tab1primary" id="cash" data-toggle="tab">Cashier</a></li>
                 <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
-                <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Reports</a></li>
+                <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Daily Reports</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="glyphicon glyphicon-cog"></span></a>
@@ -265,6 +265,7 @@
                                         <button class="btn btn-primary btn-sm" onclick="WPOS.reports.generateTakingsReport();">Money In</button>
                                         <button class="btn btn-primary btn-sm" onclick="WPOS.reports.generateWhatsSellingReport();">What's Selling</button>
                                         <button class="btn btn-primary btn-sm" onclick="WPOS.reports.generateSellerReport();">Seller Report</button>
+                                        <button class="btn btn-primary btn-xs" onclick="WPOS.print.printCurrentReport();"><i class="icon-print"></i>&nbsp;Print</button>
                                   
                                     <div id="tyroreports" class="hide" style="display: inline-block;">
                                         <select id="tyroreptype" style="height: 34px; vertical-align: bottom; margin-left: 5px;">
@@ -276,7 +277,7 @@
                                 </div>
                                 <hr>
                                 <div style="text-align: left; margin-bottom: 10px; margin-left: 10px;">
-                                    <button class="btn btn-primary btn-xs" onclick="WPOS.print.printCurrentReport();"><i class="icon-print"></i>&nbsp;Print</button>
+                                   
                                 </div>
                                 <div style="padding: 10px; padding-top: 0;">
                                     <div id="reportcontain">
@@ -297,7 +298,7 @@
                             <div class="widget-header widget-header-flat">
                                 <h4 class="lighter">
                                     <i class="icon-check"></i>
-                                    Cash Reconciliation
+                                    Today's Cash Reconciliation / End of Day Balancing
                                 </h4>
                             </div>
                             <div class="widget-body" style="padding-top: 10px; text-align: center;">

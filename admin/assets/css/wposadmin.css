@@ -128,8 +128,17 @@ html, body {
 }
 .brand-logo {
   margin-left: 10px;
- 
 }
+
+#admintitle {
+    font-weight: 600 !important;
+    font-size: 25px !important;
+    font-family: 'Work Sans', sans-serif !important;
+    margin-left:30px; 
+    display: inline;
+}
+
+
 #loginmodal {
     position:absolute;
     left:0;
@@ -165,14 +174,14 @@ html, body {
     margin-bottom: 0 !important;
 }
 #reportcontain {
-    width: 650px;
+    width: 1050px;
     position: relative;
     margin: 0 auto;
     border: solid 1px #ccc;
     -moz-box-shadow: 3px 3px 5px 6px #ccc;
     -webkit-box-shadow: 3px 3px 5px 6px #ccc;
     box-shadow: 3px 3px 5px 6px #ccc;
-    min-height: 800px;
+    min-height: 200px;
     overflow-x: auto !important;
 }
 
@@ -263,7 +272,7 @@ table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
     #reportcontain {
-        width: 480px;
+        width: 680px;
     }
     #loginbox {
         width: 350px;
