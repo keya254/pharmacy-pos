@@ -22,10 +22,10 @@
     <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
     <!-- fonts -->
-    <link rel="stylesheet" href="admin/assets/css/ace-fonts.css"/>
+    <!-- <link rel="stylesheet" href="admin/assets/css/ace-fonts.css"/> -->
     <!-- ace styles -->
     <link rel="stylesheet" href="admin/assets/css/uncompressed/ace.css"/>
-    <link rel="stylesheet" href="/assets/css/ace-rtl.min.css"/>
+    <!-- <link rel="stylesheet" href="/assets/css/ace-rtl.min.css"/> -->
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="/assets/css/ace-ie.min.css"/>
     <![endif]-->
@@ -73,11 +73,11 @@
 <body style="overflow: hidden;">
 <div id="tabs">
     <div class="panel with-nav-tabs panel-primary" style="position: relative;">
-        <div class="panel-heading clearfix">
+        <div class="panel-heading clearfix" style="max-width: 100%">
             <ul class="nav nav-tabs pull-right" id="admin-cog">
                 <li id="cashier" class="active"><a href="#tab1primary" id="cash" data-toggle="tab">Cashier</a></li>
                 <li id="salesLink" onclick="WPOS.trans.setupTransactionView();"><a href="#tab2primary" onclick="$('#transactiontable_filter').find('input').attr('placeholder', 'Receipt No...');" data-toggle="tab">Sales</a></li>
-                <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Reports</a></li>
+                <li><a href="#tabs-3" onclick="WPOS.reports.populateOverview()" data-toggle="tab">Daily Reports</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="glyphicon glyphicon-cog"></span></a>
@@ -95,7 +95,7 @@
                     <div id="tabs-1">
                         <div class="col-xs-12 col-sm-6">
                             <div id="sales">
-                                <div style="width:100%;">
+                                <div style="width:100%; ">
                                     <div id="items" style="padding:0;" class="ui-widget-content">
                                         <div style="margin-bottom: 10px;">
                                             <form class="form-horizontal">
@@ -135,7 +135,7 @@
                                                 </thead>
                                                 <tbody id="itemtable" style="overflow:auto;">
                                                     <tr class="order_row">
-                                                        <td style="background-color:#438EB9; color:#FFF;" colspan="7"><h4 style="text-align: center; margin: 0;">New Order</h4></td>
+                                                        <td style="background-color:#438EB9; color:#FFF;" colspan="3"><h4 style="text-align: center; margin: 0;">New Order</h4></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -146,14 +146,19 @@
                                         </span>
                                         <button style="float:right; font-size: 14px !important; margin-top:10px;" class="btn btn-sm btn-primary" onClick="WPOS.items.addManualItemRow();">Add Item</button>
                                     </div>
+
+
+
+
                                     <div id="totals">
-                                        <div class="clearfix">
+                                        <div class="clearfix"  >
                                             <table class="pull-right col-xs-12 col-sm-8 table-responsive table-condensed totals-container">
                                                 <tr>
                                                     <th>Subtotals</th>
-                                                    <td><span id="subtotal">Kshs 0.00</span></td>
+                                                    
+                                                    <td><span  class="subtotals" id="subtotal">Kshs 0.00</span></td>
                                                     <th>Tax</th>
-                                                    <td class="text-right"><span id="totaltax">Kshs 0.00</span></td>
+                                                    <td class="taxinfo pull-right" ><span id="totaltax">Kshs 0.00</span></td>
                                                 </tr>
                                                 <tr>
                                                     <th>Discount</th>
@@ -161,7 +166,7 @@
                                                       <input class="form-control" onChange="WPOS.sales.updateDiscount();" size="2" id="salediscount" type="text" class="numpad" value="0" autocomplete="off"/>
                                                     </td>
                                                     <th>Total</th>
-                                                    <td><span id="total" style="font-family: Lato Bold;margin-bottom: 0px;" class="total-bill lead pull-right">Kshs 0.00</span></td>
+                                                    <td><span id="total" style="margin-bottom: 0px;" class="total-bill lead pull-right">Kshs 0.00</span></td>
                                                 </tr>
                                             </table>
                                             <div class="pull-right col-xs-12 col-sm-8" id="cashierBtns">
@@ -246,7 +251,7 @@
                 </div>
                 <div class="tab-pane fade" style="padding:0 15px;" id="tabs-3">
                     <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-5">
                         <div class="widget-box transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="lighter">
@@ -256,11 +261,12 @@
                             </div>
                             <div class="widget-body" style="padding-top: 10px; text-align: center;">
                                 <div style="text-align: left;">
-                                    <div id="reportbuttons" class="inline hide">
+                                   
                                         <button class="btn btn-primary btn-sm" onclick="WPOS.reports.generateTakingsReport();">Money In</button>
                                         <button class="btn btn-primary btn-sm" onclick="WPOS.reports.generateWhatsSellingReport();">What's Selling</button>
                                         <button class="btn btn-primary btn-sm" onclick="WPOS.reports.generateSellerReport();">Seller Report</button>
-                                    </div>
+                                        <button class="btn btn-primary btn-xs" onclick="WPOS.print.printCurrentReport();"><i class="icon-print"></i>&nbsp;Print</button>
+                                  
                                     <div id="tyroreports" class="hide" style="display: inline-block;">
                                         <select id="tyroreptype" style="height: 34px; vertical-align: bottom; margin-left: 5px;">
                                             <option value="summary" selected>Summary</option>
@@ -271,7 +277,7 @@
                                 </div>
                                 <hr>
                                 <div style="text-align: left; margin-bottom: 10px; margin-left: 10px;">
-                                    <button class="btn btn-primary btn-xs" onclick="WPOS.print.printCurrentReport();"><i class="icon-print"></i>&nbsp;Print</button>
+                                   
                                 </div>
                                 <div style="padding: 10px; padding-top: 0;">
                                     <div id="reportcontain">
@@ -281,70 +287,18 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <br>
+                    
+                   
+
                     <div class="col-md-4">
-                        <div class="widget-box transparent">
-                            <div class="widget-header widget-header-flat">
-                                <h4 class="lighter">
-                                    <i class="icon-dollar"></i>
-                                    Today's Cash
-                                </h4>
-                            </div>
-                            <div class="widget-body" style="padding-top: 10px; text-align: center;">
-                                <div class="infobox infobox-green  ">
-                                    <div class="infobox-icon">
-                                        <i class="icon-shopping-cart"></i>
-                                    </div>
 
-                                    <div class="infobox-data">
-                                        <span id="rsalesnum" class="infobox-data-number">-</span>
-                                        <div class="infobox-content">Sales</div>
-                                    </div>
-                                    <div id="rsalestotal" class="stat stat-success">-</div>
-                                </div>
-
-                                <div class="infobox infobox-orange">
-                                    <div class="infobox-icon">
-                                        <i class="icon-backward"></i>
-                                    </div>
-
-                                    <div class="infobox-data">
-                                        <span id="rrefundsnum" class="infobox-data-number">-</span>
-                                        <div class="infobox-content">Refunds</div>
-                                    </div>
-
-                                    <div id="rrefundstotal" class="stat stat-important">-</div>
-                                </div><br/>
-
-                                <div class="infobox infobox-red">
-                                    <div class="infobox-icon">
-                                        <i class="icon-ban-circle"></i>
-                                    </div>
-
-                                    <div class="infobox-data">
-                                        <span id="rvoidsnum" class="infobox-data-number">-</span>
-                                        <div class="infobox-content">Voids</div>
-                                    </div>
-                                    <div id="rvoidstotal" class="stat stat-important">-</div>
-                                </div>
-
-                                <div class="infobox infobox-blue2">
-                                    <div class="infobox-icon">
-                                        <i class="icon-dollar"></i>
-                                    </div>
-
-                                    <div class="infobox-data">
-                                        <span id="rtotaltakings" class="infobox-data-number">-</span>
-                                        <div class="infobox-content">Cash</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
                         <div class="widget-box transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="lighter">
                                     <i class="icon-check"></i>
-                                    Cash Reconciliation
+                                    Today's Cash Reconciliation / End of Day Balancing
                                 </h4>
                             </div>
                             <div class="widget-body" style="padding-top: 10px; text-align: center;">
@@ -409,8 +363,71 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <div class="widget-box transparent">
+                            <div class="widget-header widget-header-flat">
+                                <h4 class="lighter">
+                                    <i class="icon-dollar"></i>
+                                    Today's Cash
+                                </h4>
+                            </div>
+                            <div class="widget-body" style="padding-top: 10px; text-align: center;">
+                                <div class="infobox infobox-green  ">
+                                    <div class="infobox-icon">
+                                        <i class="icon-shopping-cart"></i>
+                                    </div>
+
+                                    <div class="infobox-data">
+                                        <span id="rsalesnum" class="infobox-data-number">-</span>
+                                        <div class="infobox-content">Sales</div>
+                                    </div>
+                                    <div id="rsalestotal" class="stat stat-success">-</div>
+                                </div>
+
+                                <div class="infobox infobox-orange">
+                                    <div class="infobox-icon">
+                                        <i class="icon-backward"></i>
+                                    </div>
+
+                                    <div class="infobox-data">
+                                        <span id="rrefundsnum" class="infobox-data-number">-</span>
+                                        <div class="infobox-content">Refunds</div>
+                                    </div>
+
+                                    <div id="rrefundstotal" class="stat stat-important">-</div>
+                                </div><br/>
+
+                                <div class="infobox infobox-red">
+                                    <div class="infobox-icon">
+                                        <i class="icon-ban-circle"></i>
+                                    </div>
+
+                                    <div class="infobox-data">
+                                        <span id="rvoidsnum" class="infobox-data-number">-</span>
+                                        <div class="infobox-content">Voids</div>
+                                    </div>
+                                    <div id="rvoidstotal" class="stat stat-important">-</div>
+                                </div>
+
+                                <div class="infobox infobox-blue2">
+                                    <div class="infobox-icon">
+                                        <i class="icon-dollar"></i>
+                                    </div>
+
+                                    <div class="infobox-data">
+                                        <span id="rtotaltakings" class="infobox-data-number">-</span>
+                                        <div class="infobox-content">Cash</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                        <hr>
+      
+                   
                 </div>
+            </div>
+
                 <div class="tab-pane fade" id="tab4primary">
                     <div id="tabs-4">
                         <div class="tabbable" style="margin:0 5px;">
@@ -934,70 +951,43 @@
          </div>
     </div>
 </div>
-<div id="paymentsdiv" style="display:none; padding:5px;max-width: 370px !important;" title="Complete Sale">
-    <div class="modal-content" style="width:480px;border:none;">
-        <div class="modal-body">
-            <div style="margin-bottom:10px;">
-                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('cash');">Cash</button>
-                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('mpesa');">Mpesa</button>
-                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('credit');">Credit</button>
-                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('eftpos');">Eftpos</button>
-                <button style="float: right;" class="btn btn-primary" onclick="WPOS.sales.addAdditionalPayment();">Add Payment</button>
-            </div>
-            <div style="height:250px; overflow:auto; padding:0;">
-                <table style="width: 100%; text-align: left;" class="table table-striped table-bordered table-hover">
-                    <thead class="table-header">
-                    <tr>
-                        <th>Method</th>
-                        <th>Amount</th>
-                        <th><span class="text-danger glyphicon glyphicon-trash"></span></th>
-                    </tr>
-                    </thead>
-                    <tbody id="paymentstable">
 
-                    </tbody>
-                </table>
+
+
+<div id="paymentsdiv"  >
+                   <div class="modal-body" style="margin-bottom: 2px;">
+
+                        <div style="margin-bottom:5px;">
+                                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('cash');">Cash</button>
+                                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('mpesa');">Mpesa</button>
+                                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('credit');">Credit</button>
+                                <button class="btn btn-primary" onclick="WPOS.sales.addPayment('eftpos');">Eftpos</button>
+                                <button style="float: right;" class="btn btn-primary" onclick="WPOS.sales.addAdditionalPayment();">Add Payment</button>
+                            </div>
             </div>
-        </div>
-        <div class="modal-footer">
+            <div style="height:300px; overflow:auto; padding:2px;">
+
+                    <table id="classTable"  style="width: 100%; " class=" table table-striped table-inverse table-bordered ">
+                            <thead class="thead-dark">
+                                    <th><strong><h5>Method</h5></strong></th>
+                                    <th><strong><h5>Amount</h5></strong></th>
+                                    <th><strong><h5>Cancel</h5></strong></th>
+                            </thead>
+                            <tbody id="paymentstable">
+                              
+                            </tbody>
+                          </table>
+               
+            </div>
+        <div class="modal-footer" style="background-color:#f9f9f9;">
             <button id="endsalebtn" class="btn btn-success" onclick="WPOS.sales.processSale();">Complete</button>
             <button id="savesalebtn" class="btn btn-primary" onclick="WPOS.sales.saveOrder();">Add Order</button>
-            <button class="btn btn-danger" onClick="$('#paymentsdiv').dialog('close');" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-danger" onclick="$('#paydiv').dialog('close');">Cancel</button>
         </div>
     </div>
-</div>
-<div id="creditpaymentsdiv" style="display:none; padding:5px;max-width: 370px !important;" title="Collect Credit">
-    <div class="modal-content" style="width:480px;border:none;">
-        <div class="modal-body">
-            <div>
-                <p>Credit: <span id="credit"></span></p>
-            </div>
-            <div style="margin-bottom:10px;">
-                <button class="btn btn-primary" onclick="WPOS.trans.addPayment('cash');">Cash</button>
-                <button class="btn btn-primary" onclick="WPOS.trans.addPayment('mpesa');">Mpesa</button>
-                <button class="btn btn-primary" onclick="WPOS.trans.addPayment('eftpos');">Eftpos</button>
-            </div>
-            <div style="height:250px; overflow:auto; padding:0;">
-                <table style="width: 100%; text-align: left;" class="table table-striped table-bordered table-hover">
-                    <thead class="table-header">
-                    <tr>
-                        <th>Method</th>
-                        <th>Amount</th>
-                        <th><span class="text-danger glyphicon glyphicon-trash"></span></th>
-                    </tr>
-                    </thead>
-                    <tbody id="creditpaymentstable">
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button id="endcreditbtn" class="btn btn-success" onclick="WPOS.trans.processSale();">Complete</button>
-            <button class="btn btn-danger" onClick="$('#creditpaymentsdiv').dialog('close');" data-dismiss="modal">Cancel</button>
-        </div>
-    </div>
-</div>
+
+
 <div id="custdiv" style="display:none;" title="Customer Details">
     <form id="custform">
     <label style="width: 80px;">Name:</label><input onchange="WPOS.sales.setUpdateCust();" type="text" id="custname"/><br/>
@@ -1012,6 +1002,7 @@
         <button class="btn btn-primary" onclick="$('#custdiv').dialog('close');">Close</button>
     </div>
 </div>
+
 <div id="transactiondiv" style="display:none; padding: 4px; min-height: 450px;" title="Transaction Details">
     <div id="transactioninfo">
         <div class="row" style="padding-top: 8px; margin: 0;">
@@ -1157,31 +1148,64 @@
         </table>
     </div>
 </div>
-<div id="setupdiv" style="display:none; padding:5px;" title="Initial Device Setup">
-    <div style="display: inline-block; margin-bottom: 10px;">
-        Select a device to merge with or enter a new device name<br/>
-        <label>Existing device:</label><br/>
-        <select id="posdevices" onchange="$('#newposdevice').val('');">
-            <option value="" selected></option>
-        </select><br/><br/>
 
-        <label>New device name:</label><br/>
-        <input id="newposdevice" type="text" onchange="$('#posdevices>option:eq(0)').prop('selected', true);"/>
+
+ <!-- Initialization Modal changed to rely on bootstrap -->
+ <div class="modal fade" id="setupdiv" role="modal">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h2> <span class="glyphicon glyphicon-cog"> </span> Initial Device Setup</h2>
+        </div>
+        <div class="modal-body" style="padding:40px 50px;">
+              <h5>Select a device to merge with or enter a new device name<br/></h5>  
+          <form role="form">
+            <div class="form-group">
+              <label for="Existing device:">Existing device:</label>
+              <select class="form-control" id="posdevices" onchange="$('#newposdevice').val('');">
+                    <option value="" selected></option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label for="New device name:"> New device name:</label>
+              <input class="form-control" placeholder="Enter New Device name" id="newposdevice" type="text" onchange="$('#posdevices>option:eq(0)').prop('selected', true);"/>
+            </div>
+
+<br/>
+            <h5>Select an existing location for the device or enter a new location<br/></h5>
+
+            <form role="form">
+                    <div class="form-group">
+                      <label for="Existing location:">Existing location:</label>
+                      <select class="form-control" id="poslocations" onchange="$('#newposlocation').val('');">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="form-group">
+                      <label for="New location name:">New location name:</label>
+                      <input class="form-control" placeholder="Enter New Device name" id="newposlocation" type="text" onchange="$('#poslocations>option:eq(0)').prop('selected', true);"/>
+                    </div>                 
+          </form>
+        </div>
+        <div class="modal-footer">
+                <button  type="submit" data-dismiss="modal" class="btn btn-success btn-lg" onclick="WPOS.deviceSetup();"><span class="glyphicon glyphicon-off"></span> Register</button>
+               
+        </div>
+      </div>
+      
     </div>
-    <div style="display: inline-block;">
-        Select an existing location for the device or enter a new location<br/>
-        <label>Existing location:</label><br/>
-        <select id="poslocations" onchange="$('#newposlocation').val('');">
-            <option value="" selected></option>
-        </select><br/><br/>
-        <label>New location name:</label><br/>
-        <input id="newposlocation" type="text" onchange="$('#poslocations>option:eq(0)').prop('selected', true);"/>
-    </div>
-    <div style="text-align: center; margin-top: 10px;">
-        <button class="btn btn-primary btn-sm" onclick="WPOS.deviceSetup();">Register</button>
-    </div>
-</div>
-<div id="formdiv" style="display:none; padding:5px; z-index: 1100;" title="">
+  </div> 
+
+
+
+
+  <div id="formdiv" style="display:none; padding:5px; z-index: 1100;" title="">
     <div id="voidform">
         <input id="voidref" type="hidden" value=""/>
         <label>Reason:

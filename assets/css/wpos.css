@@ -1,12 +1,145 @@
  CSS Document */
+
+ /* work-sans-100 - latin */
+@font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 100;
+    src: url('/assets/fonts/work-sans-v3-latin-100.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans Thin'), local('WorkSans-Thin'),
+         url('/assets/fonts/work-sans-v3-latin-100.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-100.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-100.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-100.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-100.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-200 - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 200;
+    src: url('/assets/fonts/work-sans-v3-latin-200.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans ExtraLight'), local('WorkSans-ExtraLight'),
+         url('/assets/fonts/work-sans-v3-latin-200.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-200.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-200.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-200.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-200.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-300 - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: url('/assets/fonts/work-sans-v3-latin-300.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans Light'), local('WorkSans-Light'),
+         url('/assets/fonts/work-sans-v3-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-300.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-300.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-regular - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/assets/fonts/work-sans-v3-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans'), local('WorkSans-Regular'),
+         url('/assets/fonts/work-sans-v3-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-regular.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-500 - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 500;
+    src: url('/assets/fonts/work-sans-v3-latin-500.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans Medium'), local('WorkSans-Medium'),
+         url('/assets/fonts/work-sans-v3-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-500.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-500.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-600 - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: url('/assets/fonts/work-sans-v3-latin-600.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans SemiBold'), local('WorkSans-SemiBold'),
+         url('/assets/fonts/work-sans-v3-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-600.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-600.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-700 - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/assets/fonts/work-sans-v3-latin-700.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans Bold'), local('WorkSans-Bold'),
+         url('/assets/fonts/work-sans-v3-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-700.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-700.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-800 - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 800;
+    src: url('/assets/fonts/work-sans-v3-latin-800.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans ExtraBold'), local('WorkSans-ExtraBold'),
+         url('/assets/fonts/work-sans-v3-latin-800.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-800.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-800.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-800.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-800.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+  /* work-sans-900 - latin */
+  @font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 900;
+    src: url('/assets/fonts/work-sans-v3-latin-900.eot'); /* IE9 Compat Modes */
+    src: local('Work Sans Black'), local('WorkSans-Black'),
+         url('/assets/fonts/work-sans-v3-latin-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/assets/fonts/work-sans-v3-latin-900.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-900.woff') format('woff'), /* Modern Browsers */
+         url('/assets/fonts/work-sans-v3-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/assets/fonts/work-sans-v3-latin-900.svg#WorkSans') format('svg'); /* Legacy iOS */
+  }
+
+
+
+
+
+
+
+
+
+
+
 html, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Work Sans', sans-serif !important;
+
 }
 body {
   /*background-color:#000000 !important;*/
     min-height: 100vh !important;
+   
+
 }
 #wrapper {
   margin: auto;
@@ -40,6 +173,10 @@ body {
     /*top:410 !important;*/
     /*bottom: 0;*/
 }
+
+
+
+
 #loginmodal {
     position:absolute;
     left:0;
@@ -79,8 +216,18 @@ body {
     -moz-box-shadow:    3px 3px 5px 6px #ccc;
     -webkit-box-shadow: 3px 3px 5px 6px #ccc;
     box-shadow:         3px 3px 5px 6px #ccc;
-    min-height: 600px;
+    min-height: 500px;
     overflow-x: auto !important;
+}
+
+.modal-header, .close {
+    background-color: #5cb85c;
+    color:white !important;
+    text-align: center;
+    font-size: 25px;
+}
+.modal-footer {
+    background-color: #f9f9f9;
 }
 .registration tr {
     /*display: inline-block;*/
@@ -163,6 +310,11 @@ body {
     margin-bottom: 38px;
     overflow: visible !important;
     overflow-x: visible !important; /* Needed for when overflow is overridden */
+    font-family: 'Work Sans', sans-serif;
+    font-style: normal;
+    font-weight: !important 400;
+    font-size: !important 16px;
+
 }
 #iboxhandle {
     position: absolute;
@@ -182,6 +334,11 @@ body {
     height: 100%;
     /*background-color: white;*/
     overflow-x: hidden !important;
+    font-family: 'Work Sans', sans-serif;
+    font-style: normal;
+    font-weight:!important 400;
+    font-size: !important 16px;
+
 }
 #iboxitems {
     background-color: rgba(66, 139, 202, 0.45);
@@ -191,6 +348,12 @@ body {
     height:calc(100vh - 85px);
     overflow-y: scroll;
     overflow-x: hidden !important;
+    font-family: 'Work Sans', sans-serif;
+    font-style: normal;
+    font-weight:!important 400;
+    font-size: !important 16px;
+
+
 }
 .iboxitem {
     width: 134px;
@@ -205,6 +368,11 @@ body {
     vertical-align: middle;
     cursor: pointer;
     transition: all 0.5s ease;
+    font-family: 'Work Sans', sans-serif;
+    font-style: normal;
+    font-weight: !important 400;
+    font-size:!important 16px;
+
 }
 .iboxitem .name {
     width: 100%;
@@ -212,9 +380,22 @@ body {
     overflow: hidden;
     white-space: nowrap;
     padding-bottom: 3px;
+    font-family: 'Work Sans', sans-serif;
+    font-style: normal;
+    font-weight: !important 400;
+    font-size: !important 16px;
+
+    
+    
 }
 .iboxitem .price {
   color:#bf211c;
+  font-family: 'Work Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400; 
+  font-size: 14px;
+
+
 }
 /*.iboxitem .price:hover {
   color:#ffffff;
@@ -255,6 +436,11 @@ body {
 .field-button-attach {
     margin-left: -4px !important;
 }
+
+
+  
+
+
 #watermark {
     content : "";
     display: block;
@@ -278,6 +464,431 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
 }
+.infobox {
+    display: inline-block;
+    width: 250px;
+    height: 66px;
+    color: #555;
+    background-color: #FFF;
+    box-shadow: none;
+    border-radius: 0;
+    margin: -1px 0 0 -1px;
+    padding: 8px 3px 6px 9px;
+    border: 1px dotted;
+    border-color: #D8D8D8 ;
+    vertical-align: middle;
+    text-align: left;
+    position: relative;
+  }
+
+  .infobox > .infobox-icon {
+    display: inline-block;
+    vertical-align: top;
+    width: 44px;
+  }
+
+
+  .infobox > .infobox-icon > [class*="icon-"] {
+    display: inline-block;
+    height: 42px;
+    margin: 0;
+    padding: 1px 1px 0 2px;
+    background-color: transparent;
+    border: none;
+    text-align: center;
+    position: relative;
+    border-radius: 100%;
+    -webkit-box-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  }
+  .infobox > .infobox-icon > [class*="icon-"]:before {
+    font-size: 24px;
+    display: block;
+    padding: 6px 0 7px;
+    width: 40px;
+    text-align: center;
+    border-radius: 100%;
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.2);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
+  }
+  .infobox .infobox-content {
+    color: #555;
+  }
+
+  .infobox .infobox-content:first-child {
+    /* like in small infoboxes that have no number data etc */
+  
+    font-weight: bold;
+  }
+  .infobox > .infobox-data {
+    display: inline-block;
+    border: none;
+    border-top-width: 0;
+    font-size: 13px;
+    text-align: left;
+    line-height: 21px;
+    min-width: 130px;
+    padding-left: 8px;
+    position: relative;
+    top: 0;
+  }
+  .infobox > .infobox-data > .infobox-data-number {
+    display: block;
+    font-size: 22px;
+    margin: 2px 0 4px;
+    position: relative;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+  }
+  .infobox > .infobox-data > .infobox-text {
+    display: block;
+    font-size: 16px;
+    margin: 2px 0 4px;
+    position: relative;
+    text-shadow: none;
+  }
+  .infobox.no-border {
+    border: none ;
+  }
+  @media only screen and (max-width: 460px) {
+    .infobox {
+      min-width: 95%;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+  }
+  .infobox-purple {
+    color: #6f3cc4;
+    border-color: #6f3cc4;
+  }
+  .infobox-purple > .infobox-icon > [class*="icon-"] {
+    background-color: #6f3cc4;
+  }
+  .infobox-purple.infobox-dark {
+    background-color: #6f3cc4;
+    border-color: #6f3cc4;
+  }
+  .infobox-purple2 {
+    color: #5f47b0;
+    border-color: #5f47b0;
+  }
+  .infobox-purple2 > .infobox-icon > [class*="icon-"] {
+    background-color: #5f47b0;
+  }
+  .infobox-purple2.infobox-dark {
+    background-color: #5f47b0;
+    border-color: #5f47b0;
+  }
+  .infobox-pink {
+    color: #cb6fd7;
+    border-color: #cb6fd7;
+  }
+  .infobox-pink > .infobox-icon > [class*="icon-"] {
+    background-color: #cb6fd7;
+  }
+  .infobox-pink.infobox-dark {
+    background-color: #cb6fd7;
+    border-color: #cb6fd7;
+  }
+  .infobox-blue {
+    color: #6fb3e0;
+    border-color: #6fb3e0;
+  }
+  .infobox-blue > .infobox-icon > [class*="icon-"] {
+    background-color: #6fb3e0;
+  }
+  .infobox-blue.infobox-dark {
+    background-color: #6fb3e0;
+    border-color: #6fb3e0;
+  }
+  .infobox-blue2 {
+    color: #3983c2;
+    border-color: #3983c2;
+  }
+  .infobox-blue2 > .infobox-icon > [class*="icon-"] {
+    background-color: #3983c2;
+  }
+  .infobox-blue2.infobox-dark {
+    background-color: #3983c2;
+    border-color: #3983c2;
+  }
+  .infobox-blue3 {
+    color: #1144eb;
+    border-color: #1144eb;
+  }
+  .infobox-blue3 > .infobox-icon > [class*="icon-"] {
+    background-color: #1144eb;
+  }
+  .infobox-blue3.infobox-dark {
+    background-color: #1144eb;
+    border-color: #1144eb;
+  }
+  .infobox-red {
+    color: #d53f40;
+    border-color: #d53f40;
+  }
+  .infobox-red > .infobox-icon > [class*="icon-"] {
+    background-color: #d53f40;
+  }
+  .infobox-red.infobox-dark {
+    background-color: #d53f40;
+    border-color: #d53f40;
+  }
+  .infobox-brown {
+    color: #c67a3e;
+    border-color: #c67a3e;
+  }
+  .infobox-brown > .infobox-icon > [class*="icon-"] {
+    background-color: #c67a3e;
+  }
+  .infobox-brown.infobox-dark {
+    background-color: #c67a3e;
+    border-color: #c67a3e;
+  }
+  .infobox-wood {
+    color: #7b3f25;
+    border-color: #7b3f25;
+  }
+  .infobox-wood > .infobox-icon > [class*="icon-"] {
+    background-color: #7b3f25;
+  }
+  .infobox-wood.infobox-dark {
+    background-color: #7b3f25;
+    border-color: #7b3f25;
+  }
+  .infobox-light-brown {
+    color: #cebea5;
+    border-color: #cebea5;
+  }
+  .infobox-light-brown > .infobox-icon > [class*="icon-"] {
+    background-color: #cebea5;
+  }
+  .infobox-light-brown.infobox-dark {
+    background-color: #cebea5;
+    border-color: #cebea5;
+  }
+  .infobox-orange {
+    color: #e8b110;
+    border-color: #e8b110;
+  }
+  .infobox-orange > .infobox-icon > [class*="icon-"] {
+    background-color: #e8b110;
+  }
+  .infobox-orange.infobox-dark {
+    background-color: #e8b110;
+    border-color: #e8b110;
+  }
+  .infobox-orange2 {
+    color: #f79263;
+    border-color: #f79263;
+  }
+  .infobox-orange2 > .infobox-icon > [class*="icon-"] {
+    background-color: #f79263;
+  }
+  .infobox-orange2.infobox-dark {
+    background-color: #f79263;
+    border-color: #f79263;
+  }
+  .infobox-green {
+    color: #9abc32;
+    border-color: #9abc32;
+  }
+  .infobox-green > .infobox-icon > [class*="icon-"] {
+    background-color: #9abc32;
+  }
+  .infobox-green.infobox-dark {
+    background-color: #9abc32;
+    border-color: #9abc32;
+  }
+  .infobox-green2 {
+    color: #0490a6;
+    border-color: #0490a6;
+  }
+  .infobox-green2 > .infobox-icon > [class*="icon-"] {
+    background-color: #0490a6;
+  }
+  .infobox-green2.infobox-dark {
+    background-color: #0490a6;
+    border-color: #0490a6;
+  }
+  .infobox-grey {
+    color: #999999;
+    border-color: #999999;
+  }
+  .infobox-grey > .infobox-icon > [class*="icon-"] {
+    background-color: #999999;
+  }
+  .infobox-grey.infobox-dark {
+    background-color: #999999;
+    border-color: #999999;
+  }
+  .infobox-black {
+    color: #393939;
+    border-color: #393939;
+  }
+  .infobox-black > .infobox-icon > [class*="icon-"] {
+    background-color: #393939;
+  }
+  .infobox-black.infobox-dark {
+    background-color: #393939;
+    border-color: #393939;
+  }
+  .infobox-dark {
+    margin: 1px 1px 0 0;
+    border-color: transparent !important;
+    border: none;
+    color: #FFF;
+    padding: 4px;
+  }
+  .infobox-dark > .infobox-icon > [class*="icon-"],
+  .infobox-dark > .infobox-icon > [class*="icon-"]:before {
+    background-color: transparent;
+    box-shadow: none;
+    text-shadow: none;
+    border-radius: 0;
+    font-size: 30px;
+  }
+  .infobox-dark > .infobox-icon > [class*="icon-"]:before {
+    opacity: 1;
+    filter: alpha(opacity=100);
+  }
+  .infobox-dark .infobox-content {
+    color: #FFF;
+  }
+  .infobox {
+    /* stat trend indicators and badges */
+  
+  }
+
+  .infobox > .infobox-progress {
+    padding-top: 0;
+    display: inline-block;
+    vertical-align: top;
+    width: 44px;
+  }
+  .infobox > .infobox-chart {
+    padding-top: 0;
+    display: inline-block;
+    vertical-align: text-bottom;
+    width: 44px;
+    text-align: center;
+  }
+  .infobox > .infobox-chart > .sparkline {
+    font-size: 24px;
+  }
+  .infobox > .infobox-chart canvas {
+    vertical-align: middle !important;
+  }
+  .infobox > .stat {
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 11px;
+    text-shadow: none;
+    color: #ABBAC3;
+    font-size: 13px;
+    font-weight: bold;
+    padding-right: 18px;
+    padding-top: 3px;
+  }
+  .infobox > .stat:before {
+    display: inline-block;
+    content: "";
+    width: 8px;
+    height: 11px;
+    background-color: #ABBAC3;
+    position: absolute;
+    right: 4px;
+    top: 7px;
+  }
+  .infobox > .stat:after {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    right: 1px;
+    top: -8px;
+    border: 12px solid transparent;
+    border-width: 8px 7px;
+    border-bottom-color: #ABBAC3;
+  }
+  .infobox > .stat.stat-success {
+    /*pointing up*/
+  
+    color: #77C646;
+  }
+  .infobox > .stat.stat-success:before {
+    background-color: #77C646;
+  }
+  .infobox > .stat.stat-success:after {
+    border-bottom-color: #77C646;
+  }
+  .infobox > .stat.stat-important {
+    /*pointing down*/
+  
+    color: #E4564F;
+  }
+  .infobox > .stat.stat-important:before {
+    background-color: #E4564F;
+    top: 3px;
+  }
+  .infobox > .stat.stat-important:after {
+    border-top-color: #E4564F;
+    border-bottom-color: transparent;
+    bottom: -6px;
+    top: auto;
+  }
+  .infobox.infobox-dark > .stat {
+    color: #FFF;
+  }
+  .infobox.infobox-dark > .stat:before {
+    background-color: #E1E5E8;
+  }
+  .infobox.infobox-dark > .stat:after {
+    border-bottom-color: #E1E5E8;
+  }
+  .infobox.infobox-dark > .stat.stat-success {
+    color: #FFF;
+  }
+  .infobox.infobox-dark > .stat.stat-success:before {
+    background-color: #D0E29E;
+  }
+  .infobox.infobox-dark > .stat.stat-success:after {
+    border-bottom-color: #D0E29E;
+  }
+  .infobox.infobox-dark > .stat.stat-important {
+    color: #FFF;
+  }
+  .infobox.infobox-dark > .stat.stat-important:before {
+    background-color: #FF8482;
+    top: 3px;
+  }
+  .infobox.infobox-dark > .stat.stat-important:after {
+    border-top-color: #FF8482;
+    border-bottom-color: transparent;
+    bottom: -6px;
+    top: auto;
+  }
+  .infobox > .badge {
+    position: absolute;
+    right: 20px;
+    top: 11px;
+    border-radius: 0;
+    text-shadow: none;
+    color: #FFF;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 15px;
+    height: 16px;
+    padding: 0 1px;
+  }
+  .infobox.infobox-dark > .badge {
+    color: #FFF;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid #F1F1F1;
+    top: 2px;
+    right: 2px;
+  }
+
 
 #transactioninfo {
     max-width: 800px;
@@ -308,6 +919,7 @@ body {
     right:20px;
     z-index:100;
 }
+
 
 /* #Media Queries
 ================================================== */
@@ -444,9 +1056,27 @@ body {
 .process-btn button{
     /*margin:5px;*/
 }
+
+.taxinfo{
+    font-weight: 100;
+    font-size: 20px;
+    font-family: 'Work Sans', sans-serif;
+    font-style: italic
+
+
+}
+.subtotals{
+    font-weight: 300;
+    font-size: 20px;
+    font-family: 'Work Sans', sans-serif;
+
+}
+
 .total-bill {
-    font-weight: 400;
-    font-size: 22px;
+    font-weight: 600;
+    font-size: 25px;
+    font-family: 'Work Sans', sans-serif;
+
 }
 .active-item {
   background-color: rgba(151, 193, 228, 0.45);
