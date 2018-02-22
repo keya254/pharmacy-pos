@@ -24,7 +24,7 @@
     <!-- fonts -->
     <!-- <link rel="stylesheet" href="admin/assets/css/ace-fonts.css"/> -->
     <!-- ace styles -->
-    <!-- <link rel="stylesheet" href="admin/assets/css/uncompressed/ace.css"/> -->
+    <link rel="stylesheet" href="admin/assets/css/uncompressed/ace.css"/>
     <!-- <link rel="stylesheet" href="/assets/css/ace-rtl.min.css"/> -->
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="/assets/css/ace-ie.min.css"/>
@@ -1161,7 +1161,7 @@
 
 
  <!-- Initialization Modal changed to rely on bootstrap -->
- <div class="modal fade" id="initmodal" role="dialog">
+ <div class="modal fade" id="setupdiv" role="modal">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -1204,7 +1204,7 @@
           </form>
         </div>
         <div class="modal-footer">
-                <button onclick="WPOS.deviceSetup();" type="submit" data-dismiss="modal" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-off"></span> Register</button>
+                <button  type="submit" data-dismiss="modal" class="btn btn-success btn-lg" onclick="WPOS.deviceSetup();"><span class="glyphicon glyphicon-off"></span> Register</button>
                
         </div>
       </div>
