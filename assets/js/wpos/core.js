@@ -133,7 +133,6 @@ function WPOS() {
                 title: 'Oops...',
                 text: 'The device has not been setup yet, please login as an administrator to setup the device.'
               });
-            getSubscription();
             initialsetup = true;
             online = true;
             return false;
@@ -326,9 +325,10 @@ function WPOS() {
 
     function getSubscription() {
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
-          if (result !== false) {
-              subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
+          if (result !== false && result.subscription !== null) {
+              // subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
           }
+          subscriptionStatus = result.subscription;
         });
     }
 
@@ -351,6 +351,7 @@ function WPOS() {
                     setCurrentUser(response);
                     updateAuthTable(response);
                 }
+                getSubscription();
                 if (callback)
                     callback(response!==false);
             });
@@ -1406,6 +1407,10 @@ function WPOS() {
         } else {
             data.locationid = locid;
         }
+        if (subscriptionStatus === null) {
+          data.subscriptionStatus = false;
+        }
+        console.log(data);
         WPOS.sendJsonDataAsync("devices/setup", JSON.stringify(data), function(configobj){
             if (configobj !== false) {
                 localStorage.setItem("wpos_config", JSON.stringify(configobj));
