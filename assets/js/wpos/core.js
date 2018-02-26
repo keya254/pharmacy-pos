@@ -1410,7 +1410,6 @@ function WPOS() {
         if (subscriptionStatus === null) {
           data.subscriptionStatus = false;
         }
-        console.log(data);
         WPOS.sendJsonDataAsync("devices/setup", JSON.stringify(data), function(configobj){
             if (configobj !== false) {
                 localStorage.setItem("wpos_config", JSON.stringify(configobj));
