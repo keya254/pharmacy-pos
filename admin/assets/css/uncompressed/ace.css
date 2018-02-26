@@ -67,8 +67,8 @@ body.breadcrumbs-fixed {
 .page-header h1 {
   padding: 0;
   margin: 0 8px;
-  font-size: 24px;
-  font-weight: lighter;
+  font-size: 30px;
+  font-weight: normal;
   color: #2679b5;
 }
 .page-header h1 small {
@@ -324,7 +324,7 @@ blockquote.pull-right {
   border-radius: 0 !important;
 }
 .lighter {
-  font-weight: lighter;
+  font-weight: normal;
 }
 .bolder {
   font-weight: bolder;

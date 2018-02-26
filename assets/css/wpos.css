@@ -1071,6 +1071,12 @@ body {
     font-family: 'Work Sans', sans-serif;
 
 }
+.endorsement{
+  font-weight: 200;
+  font-size: 12px;
+  font-family: 'Work Sans', sans-serif;
+
+}
 
 .total-bill {
     font-weight: 600;
