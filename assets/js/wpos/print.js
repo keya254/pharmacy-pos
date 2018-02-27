@@ -1336,9 +1336,7 @@ function WPOSPrint(kitchenMode) {
         // printw.document.write(html);
         // printw.document.close();
       const fs = require('fs');
-      // console.log(require(main.filename));
-      // TODO:: Make this path relative to the server root folder
-      fs.open('/home/joe/Ripos/pharmacy-pos/print.html', 'w', (err, fd) => {
+      fs.open(process.cwd()+'/print.html', 'w', (err, fd) => {
           if (err) console.log(err);
         fs.writeFile(fd, html, (err) =>{
           if (err) console.log(err);

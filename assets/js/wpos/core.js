@@ -25,6 +25,7 @@ function WPOS() {
 
     var initialsetup = false;
     var subscriptionStatus = false;
+    var daysRemaining = 0;
     this.initApp = function () {
         // if ('serviceWorker' in navigator) {
         //     navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
@@ -324,11 +325,15 @@ function WPOS() {
     };
 
     function getSubscription() {
+      var moment = require('moment');
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
           if (result !== false && result.subscription !== null) {
-              // subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
+              subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
+              // new Date(result.subscription.expiryDate).
+              daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
+          } else {
+            subscriptionStatus = result.subscription;
           }
-          subscriptionStatus = result.subscription;
         });
     }
 
@@ -500,10 +505,17 @@ function WPOS() {
 
     // get initial data for pos startup.
     function initData(loginloader) {
-        getSubscription();
+        // getSubscription();
         if (loginloader){
             $("#loadingprogdiv").show();
             $("#loadingdiv").show();
+          setTimeout(()=> {
+            swal({
+              type: 'info',
+              title: 'This is a free trial !!',
+              html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Please call +254721733354 or send an email to support@magnumdigitalke.com to get the full version.'
+            });
+          }, 1000);
         }
         if (online) {
             loadOnlineData(1, loginloader);
