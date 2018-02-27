@@ -313,12 +313,11 @@ function WPOS() {
     };
 
     function getSubscription() {
-      // var moment = require('moment');
+      var moment = require('moment');
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
           if (result !== false && result.subscription !== null) {
               subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
-              // new Date(result.subscription.expiryDate).
-              // daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
+              daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
           } else {
             subscriptionStatus = result.subscription;
           }

@@ -4,28 +4,18 @@ if (setupEvents.handleSquirrelEvent()) {
 }
 
 const electron = require('electron');
-const path = require('path');
 const child = require('child_process').exec;
 const {
-  app,
-  BrowserWindow
+  app,BrowserWindow
 } = electron;
 
 let mainWindow;
-let cmd = "C:\\POS\\php\\php -S localhost:9000 -t . C:\\POS\\pharmacy-pos-win32-x64\\router.php";
+let cmd = "C:\\POS\\php\\php -S localhost:9000 -t C:\\POS\\pharmacy-pos C:\\POS\\pharmacy-pos\\router.php";
 
-let proc = child(cmd, function (err, data) {
-  if(err){
-    console.log(err);
-  }
-  if(data){
-    console.log(data);
-  }
-
+child(cmd, function (err, data) {
+  if(err) console.log(err);
+  if(data) console.log(data);
 });
-
-let PID = proc.PID;
-let killCmd = ' /pid ' + PID + ' /F';
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -37,7 +27,6 @@ function createWindow () {
   mainWindow.loadURL('http://localhost:9000');
 
   mainWindow.on('closed', function () {
-    child('taskkill', killCmd);
     mainWindow = null
   });
 }
