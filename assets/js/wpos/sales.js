@@ -343,7 +343,7 @@ function WPOSItems() {
       if (item.stockType === '1') {
         // Check if expired
         if (new Date(item.expiryDate) <= new Date()) {
-          swal(item.name + ' expiried on ' + item.expiryDate + ' can\'t be sold');
+          swal(item.name + ' expired on ' + item.expiryDate + ' can\'t be sold');
           canSell = false;
         }
         // Prevent negative sales
@@ -351,9 +351,18 @@ function WPOSItems() {
           swal(item.name + ' has reached 0 quantity and can\' be sold.');
           canSell = false;
         } else if (parseInt(item.totalStockLevel) < parseInt(item.reorderPoint) && canSell) {
-          swal(item.name + ' is below reorder point, only ' + item.totalStockLevel + ' remaining.');
+          swal({
+            type: "info",
+            title: "Inventory Alert", 
+            text: item.name + ' is below reorder point, You can sell now, but make a purchase order soon, only ' + item.totalStockLevel + ' remaining.'
+        
+        });
+
         } else if (canSell && parseInt(item.totalStockLevel) === parseInt(item.reorderPoint) && item.totalStockLevel !== undefined) {
-          swal(item.name + ' has reached reorder point. Make a purchase order, only ' + item.stocklevel + ' remaining.');
+          swal({
+            type: "info",
+            title: "Inventory Alert", 
+            text: item.name + ' has reached reorder point. You can sell now, but make a purchase order soon, only ' + item.stocklevel + ' remaining.' });
         }
       }
       if (canSell){
@@ -1116,11 +1125,11 @@ function WPOSSales() {
             '<option value="mpesa" '+(method=='mpesa'?'selected':'')+'>Mpesa</option>' +
             '<option value="deposit" '+(method=='deposit'?'selected':'')+'>Deposit</option>' +
             exmethod+ '</select>' +
-            '<div class="cashvals" '+(method!='cash'?'style="display: none"':'width:150px;')+'>' +
-            '<div style="margin:5px 0px;">Tendered:</div> <input onChange="WPOS.sales.updatePaymentChange($(this).parent());" class="paytender numpad form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(tender!=null?tender:value))+'" />' +
-            '<div style="margin:5px 0px;">Change:</div> <input class="paychange form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(change!=null?change:0.00))+'" readonly />' +
-            '</div></td>' +
-            '<td>'+curBefore+'<input onChange="WPOS.sales.updatePaymentSums();" class="payamount numpad form-control" style="width:80px;display:inline;" type="text" value="'+value+'" autocomplete="off"/> '+curAfter+'</td>' +
+            '<div class="cashvals" '+(method!='cash'?'style="display: none"':'width:150px;')+'>'+
+            '<div style="padding:40px font-weight:bold"><h3>Tendered:<h3></div><input onChange="WPOS.sales.updatePaymentChange($(this).parent());" class="paytender form-control" style="width:80px;display:inline;" type="text" value="'+(method!='cash'?0.00:(tender!=null?tender:value))+'" />' +
+             '<div style="margin:5px 0px;"><h3><strong>Change:</strong></h3></div> <input class="paychange form-control" style="width:80px ;display:inline;" type="text" value="'+(method!='cash'?0.00:(change!=null?change:0.00))+'" readonly />' +
+             '</div></td>' +
+            '<td>'+'<input onChange="WPOS.sales.updatePaymentSums();" class="payamount numpad form-control" style="width:80px;display:inline;" type="text" value="'+value+'" autocomplete="off"/> '+curAfter+'</td>' +
             '<td><button class="btn btn-xs btn-danger" onclick="WPOS.sales.removePayment($(this));">X</button></td></tr>';
 
         $("#paymentstable").append(payrow);
@@ -1427,7 +1436,7 @@ function WPOSSales() {
                               
                 }
               });
-              
+            
 
 
           //  if (answer){
