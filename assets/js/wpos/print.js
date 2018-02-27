@@ -1333,23 +1333,15 @@ function WPOSPrint(kitchenMode) {
 
         var printw = window.open('', name, 'height='+height+',width='+width+',scrollbars=yes');
 
-        // printw.document.write(html);
-        // printw.document.close();
-      const fs = require('fs');
-      fs.open(process.cwd()+'/print.html', 'w', (err, fd) => {
+        const fs = require('fs');
+        fs.open(require('path').resolve(process.cwd(), 'print.html'), 'w', (err, fd) => {
           if (err) console.log(err);
         fs.writeFile(fd, html, (err) =>{
           if (err) console.log(err);
         });
-      });
+        });
 
         printw.location = 'http://localhost:9000/print.html';
-        // close only after printed, This is only implemented properly in firefox but can be used for others soon (part of html5 spec)
-        //if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
-        //printw.addEventListener('afterprint', function(e){ printw.close(); });
-
-        // some browsers including chrome fire the print function before the page is rendered.
-        // Print page in the onload event so we know the content is rendered.
         var printed = false;
         function windowReady(){
             if (!printed){
