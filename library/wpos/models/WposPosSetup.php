@@ -304,6 +304,18 @@ class WposPosSetup
                 }
             }
         }
+        if (isset($this->data->subscriptionStatus)) {
+            $startDate = date_add(date_create(), date_interval_create_from_date_string("30 days"));
+            $subscription = [
+                expiryDate => $startDate->format(DATE_RFC1123),
+                status => 'activated',
+                activationTime => date(DATE_RFC1123)
+            ];
+            $config = new ConfigModel();
+            if($config->create('subscription', json_encode($subscription))== false) {
+                $result['error'] = "Failed to activate subscription";
+            }
+        }
 
         $socketIO = new WposSocketIO();
         $deviceData->id = $this->data->deviceid;
