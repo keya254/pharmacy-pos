@@ -1,7 +1,7 @@
 <?php
 if (preg_match('/\/api\/.*/', $_SERVER["REQUEST_URI"])){
     include __DIR__ . '/api'. DIRECTORY_SEPARATOR . 'wpos.php';
-} else if (preg_match('/\.(?:png|jpg|jpeg|gif|css|js|ico|woff|tff)/', $_SERVER["REQUEST_URI"])) {
+} else if (preg_match('/\.(?:png|jpg|jpeg|gif|css|js|ico|woff|tff|html)/', $_SERVER["REQUEST_URI"])) {
     return false;
 } else if ($_SERVER["REQUEST_URI"] == '/admin/') {
     include __DIR__ . '/admin'. DIRECTORY_SEPARATOR . 'index.html';

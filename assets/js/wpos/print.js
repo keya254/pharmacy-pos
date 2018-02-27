@@ -378,7 +378,7 @@ function WPOSPrint(kitchenMode) {
         var printer = getPrintSetting('reports', 'printer');
         switch (getPrintSetting('reports', 'method')) {
             case "br":
-                browserPrintHtml($("#reportcontain").html(), 'WallacePOS Report', 600, 800);
+                browserPrintHtml($("#reportcontain").html(), 'Pharmacy POS Report', 600, 800);
                 break;
             case "qz":
                 alert("QZ-Print integration is no longer available, switch to the new webprint applet");
@@ -436,7 +436,7 @@ function WPOSPrint(kitchenMode) {
         var method = getPrintSetting(printer, 'method');
         switch (method) {
             case "br":
-                browserPrintHtml("<pre style='text-align: center; background-color: white;'>" + text + "</pre>", 'WallacePOS Receipt', 310, 600);
+                browserPrintHtml("<pre style='text-align: center; background-color: white;'>" + text + "</pre>", 'Pharmacy POS Receipt', 310, 600);
                 return true;
             case "qz":
                 alert("QZ-Print integration is no longer available, switch to the new webprint applet");
@@ -463,7 +463,7 @@ function WPOSPrint(kitchenMode) {
                 if (curset.printinv) {
                     browserPrintHtml(getHtmlReceipt(record, false, true), 'WallacePOS Invoice', 600, 800);
                 } else {
-                    browserPrintHtml(getHtmlReceipt(record, false), 'WallacePOS Receipt', 310, 600);
+                    browserPrintHtml(getHtmlReceipt(record, false), 'Pharmacy POS Receipt', 310, 600);
                 }
                 return true;
             case "qz":
@@ -1333,9 +1333,18 @@ function WPOSPrint(kitchenMode) {
 
         var printw = window.open('', name, 'height='+height+',width='+width+',scrollbars=yes');
 
-        printw.document.write(html);
-        printw.document.close();
+        // printw.document.write(html);
+        // printw.document.close();
+      const fs = require('fs');
+      // console.log(require(main.filename));
+      fs.open('/home/joe/Ripos/pharmacy-pos/print.html', 'w', (err, fd) => {
+          if (err) console.log(err);
+        fs.writeFile(fd, html, (err) =>{
+          if (err) console.log(err);
+        });
+      });
 
+        printw.location = 'http://localhost:9000/print.html';
         // close only after printed, This is only implemented properly in firefox but can be used for others soon (part of html5 spec)
         //if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
         //printw.addEventListener('afterprint', function(e){ printw.close(); });
