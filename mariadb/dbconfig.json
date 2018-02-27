@@ -1,1 +1,1 @@
-{"host":"mariadb","port":"3306","database":"pos","user":"root","pass":"root"}
+{"host":"localhost","port":"3306","database":"pharmacy","user":"root","pass":""}
