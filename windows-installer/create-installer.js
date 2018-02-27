@@ -11,12 +11,13 @@ getInstallerConfig()
 function getInstallerConfig () {
   console.log('Creating windows installer...');
   return Promise.resolve({
-    appDirectory: path.join(__dirname, '../release-builds/pharmacy-pos-win32-ia32'),
-    authors: 'Joe Nyugoh',
-    noMsi: false,
+    appDirectory: path.join(__dirname, '../release-builds/pharmacy-pos-win32-x64'),
+    authors: 'Magnum Digital Limited Kenya',
+    noMsi: true,
     outputDirectory: path.join(__dirname, '../release-builds/windows-installer'),
-    exe: 'pharmacy-pos.exe',
-    setupExe: 'PharmacyPOSInstaller.exe',
-    setupIcon: path.join(__dirname, '../assets/images/favicon.ico')
+    exe: 'Pharmacy-pos.exe',
+    setupExe: 'Pharmacy Plus Pos x64.exe',
+    setupIcon: path.join(__dirname, '../assets/images/favicon.ico'),
+    loadingGif: path.join(__dirname, '../assets/images/gif/pacman.gif')
   });
 }

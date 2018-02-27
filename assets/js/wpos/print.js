@@ -1335,6 +1335,7 @@ function WPOSPrint(kitchenMode) {
 
         printw.document.write(html);
         printw.document.close();
+        console.log(html)
 
         // close only after printed, This is only implemented properly in firefox but can be used for others soon (part of html5 spec)
         //if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
