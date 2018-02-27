@@ -310,27 +310,15 @@ function WPOS() {
                           
             }
           });
-
-      /*  if (answer) {
-            var sales = WPOS.sales.getOfflineSalesNum();
-            if (sales>0) {
-                answer = confirm("You have offline sales that have not been uploaded to the server.\nWould you like to back them up?");
-                if (answer)
-                    this.backupOfflineSales();
-            }
-            WPOS.util.showLoader();
-            logout();
-            WPOS.util.hideLoader();
-        }*/
     };
 
     function getSubscription() {
-      var moment = require('moment');
+      // var moment = require('moment');
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
           if (result !== false && result.subscription !== null) {
               subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
               // new Date(result.subscription.expiryDate).
-              daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
+              // daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
           } else {
             subscriptionStatus = result.subscription;
           }
@@ -1953,15 +1941,9 @@ $(function () {
         }
     });
 
-<<<<<<< HEAD
-    $("#setupdiv").dialog({
-        width        : 500,
-        maxWidth     : 500,
-=======
     $("setupdiv").dialog({
         width        : 200,
         maxWidth     : 200,
->>>>>>> master
         modal        : true,
         closeOnEscape: false,
         autoOpen     : false,
