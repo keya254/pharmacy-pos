@@ -13,10 +13,10 @@ let mainWindow;
 // let cmd = "C:\\POS\\php\\php -S localhost:9000 -t C:\\POS\\pharmacy-pos C:\\POS\\pharmacy-pos\\router.php";
 let cmd = "php -S localhost:9000 -t . router.php";
 
-child(cmd, function (err, data) {
-  if(err) console.log(err);
-  if(data) console.log(data);
-});
+// child(cmd, function (err, data) {
+//   if(err) console.log(err);
+//   if(data) console.log(data);
+// });
 
 function createWindow () {
   mainWindow = new BrowserWindow({

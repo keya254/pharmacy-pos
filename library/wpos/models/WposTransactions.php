@@ -122,7 +122,7 @@ class WposTransactions {
         if ($qres===false){
             $result['error'] = $transMdl->errorInfo;
         } else {
-            if (count($qres) > 1){
+            if (count($qres) >= 1){
                 $sales = [];
                 foreach ($qres as $sale) {
                     $jsonObj = json_decode($sale['data'], true);
