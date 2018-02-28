@@ -248,7 +248,7 @@ class TransactionsModel extends DbConfig
         }
 
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        $sql = "SELECT *, d.id as groupid, ".($grouptype=='device'?"CONCAT(d.name, ' (', l.name, ')')":'d.name')." as name, SUM(s.total) as stotal, COUNT(s.id) as snum, COALESCE(GROUP_CONCAT(s.ref),'') as refs FROM sales as s LEFT JOIN ".$joinsql." WHERE (s.processdt>= :stime AND s.processdt<= :etime)";
+        $sql = "SELECT *, d.id as groupid, ".($grouptype=='device'?"d.name || ' ' || l.name":'d.name')." as name, SUM(s.total) as stotal, COUNT(s.id) as snum, COALESCE(GROUP_CONCAT(s.ref),'') as refs FROM sales as s LEFT JOIN ".$joinsql." WHERE (s.processdt>= :stime AND s.processdt<= :etime)";
 
         if ($status !== null) {
             $sql .= ' AND status'.($statparity?'=':'!=').' :status';

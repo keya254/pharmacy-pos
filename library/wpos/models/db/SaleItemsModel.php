@@ -226,7 +226,7 @@ class SaleItemsModel extends DbConfig
             $placeholders[':type'] = $ttype;
         }
 
-        $sql.= ' GROUP BY groupid, name';
+        $sql.= ' GROUP BY groupid';
 
         return $this->select($sql, $placeholders);
     }
@@ -250,7 +250,7 @@ class SaleItemsModel extends DbConfig
             $placeholders[':type'] = $ttype;
         }
 
-        $sql.= ' GROUP BY groupid, name';
+        $sql.= ' GROUP BY groupid';
 
         return $this->select($sql, $placeholders);
     }

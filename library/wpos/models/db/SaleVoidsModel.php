@@ -204,7 +204,7 @@ class SaleVoidsModel extends DbConfig
         }
 
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        $sql = "SELECT *, d.id as groupid, ".($grouptype=='device'?"CONCAT(d.name, ' (', l.name, ')')":'d.name')." as name, SUM(v.amount) as stotal, COUNT(v.id) as snum, GROUP_CONCAT(s.ref ) as refs FROM sale_voids as v LEFT JOIN sales as s ON v.saleid=s.id LEFT JOIN ".$joinsql." WHERE (v.processdt>= :stime AND v.processdt<= :etime)";
+        $sql = "SELECT *, d.id as groupid, ".($grouptype=='device'?"d.name || ' ' || l.name":'d.name')." as name, SUM(v.amount) as stotal, COUNT(v.id) as snum, GROUP_CONCAT(s.ref ) as refs FROM sale_voids as v LEFT JOIN sales as s ON v.saleid=s.id LEFT JOIN ".$joinsql." WHERE (v.processdt>= :stime AND v.processdt<= :etime)";
 
         if ($isvoid !== null) {
             $sql .= ' AND v.void= :isvoid';

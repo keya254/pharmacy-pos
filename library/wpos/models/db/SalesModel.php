@@ -267,7 +267,7 @@ class SalesModel extends TransactionsModel
         }
 
         $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        $sql = 'SELECT *, d.id as groupid, '.($grouptype=='device'?"CONCAT(d.name, ' (', l.name, ')')":'d.name').' as name, SUM(s.total) as stotal, COUNT(s.id) as snum FROM sales as s LEFT JOIN '.$joinsql.' WHERE (processdt>= :stime AND processdt<= :etime)';
+        $sql = 'SELECT *, d.id as groupid, '.($grouptype=='device'?"d.name || ' ' || l.name":'d.name').' as name, SUM(s.total) as stotal, COUNT(s.id) as snum FROM sales as s LEFT JOIN '.$joinsql.' WHERE (processdt>= :stime AND processdt<= :etime)';
 
         if ($status !== null) {
             $sql .= ' AND status'.($statparity?'=':'!=').' :status';
