@@ -639,14 +639,10 @@ function WPOSAdmin(){
         }
         showModalLoader();
         var jsonStream = new EventSource(url);
-        jsonStream.onopen = function (e) {
-            console.log('Stream opened ', e);
-        };
         jsonStream.onmessage = function (e) {
             var message = JSON.parse(e.data);
             if (message.hasOwnProperty('error') || message.hasOwnProperty('result'))
                 jsonStream.close();
-
             if (typeof dataCallback == "function")
                 dataCallback(message);
         };

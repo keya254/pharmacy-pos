@@ -15,13 +15,18 @@
  */
 class EventStream {
     public static function iniStream(){
+        session_write_close();
+
+        // disable default disconnect checks
+        ignore_user_abort(true);
         header('Connection: keep-alive');
         header('Cache-Control: no-cache');
         header("Content-Type: text/event-stream\n\n");
+        header("Access-Control-Allow-Origin: *");
         # Set this so PHP doesn't timeout during a long stream
         set_time_limit(0);
         # Disable Apache and PHP's compression of output to the client
-        apache_setenv('no-gzip', 1);
+//        apache_setenv('no-gzip', 1);
         ini_set('zlib.output_compression', 0);
         # Set implicit flush, and flush all current buffers
         ini_set('implicit_flush', 1);

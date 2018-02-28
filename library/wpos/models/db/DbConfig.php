@@ -82,6 +82,8 @@ class DbConfig
 
         try {
             $dbFile = $_SERVER['DOCUMENT_ROOT'].'/poss.sqlite';
+//            'sqlite:'.$dbFile
+//            $dsn, self::$_username, self::$_password
             if (!$this->_db = new \PDO('sqlite:'.$dbFile)){
                 throw new PDOException('Failed to connect to database, php PDO extension may not be installed', 0, 0);
             }

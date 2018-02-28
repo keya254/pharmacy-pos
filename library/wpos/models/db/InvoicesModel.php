@@ -187,9 +187,7 @@ class InvoicesModel extends TransactionsModel
      */
     public function getRange($stime, $etime=null, $deviceids=null, $status=null, $statparity=true, $includeorders=true){
 
-        $placeholders = [":stime"=>$stime, ":etime"=>$etime];
-        if ($etime!=null)
-            $placeholders[":etime"] = $etime;
+        $placeholders = [":stime"=>$stime];
         $sql = 'SELECT s.* FROM sales as s LEFT JOIN sale_voids as v ON s.id=v.saleid WHERE ((s.processdt>= :stime'.($etime!=null?' AND s.processdt<= :etime':'').') OR (v.processdt>= :stime'.($etime!==null?' AND v.processdt<= :etime':'').'))';
 
         if ($deviceids !== null) {
@@ -197,17 +195,17 @@ class InvoicesModel extends TransactionsModel
                 $deviceids = implode(",", $deviceids);
             }
             $sql .= " AND (INSTR(:deviceid, s.deviceid) OR INSTR(:deviceid, v.deviceid))";
-            $placeholders[':deviceid'] = "%".$deviceids."%";
+            $placeholders[":deviceid"] = "%".$deviceids."%";
         }
 
         if ($status !== null) {
-            $sql .= ' AND status'.($statparity?'=':'!=').' :status';
-            $placeholders[':status'] = $status;
+            $sql .= " AND status".($statparity?"=":"!=")." :status";
+            $placeholders[":status"] = $status;
         }
 
         // do not total orders & invoices for reporting functions
         if ($includeorders==false){
-            $sql .= ' AND status!=0';
+            $sql .= " AND status!=0";
         }
 
         // just get invoice transactions
