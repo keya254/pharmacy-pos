@@ -460,16 +460,20 @@
         }
     }
     function setUserDisabled(id, disable){
-        var answer = confirm("Are you sure you want to disable this user?");
-        if (answer){
-            // show loader
-            WPOS.util.showLoader();
-            if (WPOS.sendJsonData("users/disable", '{"id":'+id+', "disable":'+disable+'}')!==false){
-                reloadTable();
-            }
-            // hide loader
-            WPOS.util.hideLoader();
-        }
+      if(disable)
+        var answer = confirm("Are you sure you want to deactivate this user?");
+      else
+        var answer = confirm("Are you sure you want to activate this user?");
+
+      if (answer){
+          // show loader
+          WPOS.util.showLoader();
+          if (WPOS.sendJsonData("users/disable", '{"id":'+id+', "disable":'+disable+'}')!==false){
+              reloadTable();
+          }
+          // hide loader
+          WPOS.util.hideLoader();
+      }
     }
     function reloadTable(){
         users = WPOS.getJsonData("users/get");

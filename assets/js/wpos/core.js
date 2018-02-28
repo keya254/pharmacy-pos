@@ -27,16 +27,6 @@ function WPOS() {
     var subscriptionStatus = false;
     var daysRemaining = 0;
     this.initApp = function () {
-        // if ('serviceWorker' in navigator) {
-        //     navigator.serviceWorker.register('/service-worker.js').then((registration)=>{
-        //         console.log('Installing service worker under scope of ', registration.scope);
-        //     }).catch(error=>{
-        //         console.log('Error installing service worker,', error.message);
-        //     })
-        // } else {
-        //   console.log('can\'t register service worker.');
-        // }
-        // set cache default to true
         $.ajaxSetup({
             cache: true
         });
@@ -242,7 +232,6 @@ function WPOS() {
         // hash password
         password = WPOS.util.SHA256(password);
         // authenticate
-
         authenticate(username, password, function(result){
           if (result === true) {
             userfield.val('');

@@ -72,7 +72,7 @@ class AuthModel extends DbConfig
         $users        = $this->select($sql, $placeholders);
         if (count($users) > 0) {
             $user = $users[0];
-            if ($user['disabled']==1){
+            if ($user['disabled'] == 1){
                 return -1;
             }
             if ($returnUser === true) {
