@@ -439,7 +439,7 @@
           item.amount = 0;
           item.cost = $("#addnoninvcost").val();
           item.price = $("#addnoninvprice").val();
-          item.expiryDate = '31/12/2050';
+          item.expiryDate = '12/31/2050';
           item.inventoryNo = 'INV0001';
           item.code = $("#addnoninvcode").val();
           if (WPOS.sendJsonData("stock/add", JSON.stringify(item))!==false){
@@ -457,7 +457,7 @@
         item.cost = $("#setnoninvcost").val();
         item.price = $("#setnoninvprice").val();
         item.code = $("#setnoninvcode").val();
-        item.expiryDate = '31/12/2050';
+        item.expiryDate = '12/31/2050';
         item.inventoryNo = 'INV0001';
         item.stocklevel = 0;
         if (WPOS.sendJsonData("stock/set", JSON.stringify(item))!==false){
