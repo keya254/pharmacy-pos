@@ -108,7 +108,8 @@ function WPOSAdmin(){
         } else {
             contenturl = "content/"+sec+".php";
         }
-        $.get(contenturl, query, function(data){
+        // Query param is been ignored
+        $.get(contenturl, '', function(data){
             if (data=="AUTH"){
                 WPOS.sessionExpired();
             } else {
