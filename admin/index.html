@@ -267,7 +267,7 @@
 								<a onclick="WPOS.goToHome();">Home</a>
 							</li>
 						</ul><!-- .breadcrumb -->
-                        <button class="btn btn-xs btn-primary pull-right" style="margin-top: 10px;" onclick="WPOS.stopSocket(); WPOS.loadPageContent(sec);"><i class="icon-refresh"></i> Refresh</button>
+            <button class="btn btn-xs btn-primary pull-right" style="margin-top: 10px;" onclick="WPOS.stopSocket(); WPOS.loadPageContent(sec);"><i class="icon-refresh"></i> Refresh</button>
 					</div>
 
 					<div id="maincontent" class="page-content">
@@ -293,7 +293,7 @@
                     <form class="login-form">
                       <input class="form-control"id="loguser" type="text" placeholder="Admin"/>
                       <input class="form-control"id="logpass" onkeypress="if(event.keyCode == 13){WPOS.login();}" type="password"  placeholder="Password"/>
-                      <button id="loginbutton" onClick="WPOS.userLogin();">login</button>
+                      <button id="loginbutton" onClick="WPOS.login();">login</button>
                     </form>
                     <div id="loadingdiv" style="height: 225px;">
                         <h3 id="loadingbartxt">Initializing</h3>

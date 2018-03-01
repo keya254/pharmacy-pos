@@ -236,7 +236,6 @@ function WPOSAdmin(){
     }
     this.logout = function () {
       //  var answer = confirm("Are you sure you want to logout?");
-
         swal({
             title: 'LogOut',
             text: "Are you sure you want to logout",
