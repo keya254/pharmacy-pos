@@ -83,8 +83,9 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="glyphicon glyphicon-cog"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#tab4primary" data-toggle="tab">Settings</a></li>
-                        <li><a href="#" onClick="WPOS.logout();" data-toggle="tab">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
+                        <li><a href="#tab4primary" data-toggle="tab" class="btn btn-xs btn-primary">Settings <i class="glyphicon glyphicon-cog"></i></a></li>
+                        <li><a href="#" onClick="WPOS.logout();" data-toggle="tab" class="btn btn-xs btn-primary">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
+                        <li><a title="Lock terminal or switch user" onClick="WPOS.lockSession();" class="btn btn-xs btn-primary">Lock &nbsp;<i class="icon icon-lock"></i></a></li>
                     </ul>
                 </li>
                 <li><a href="/admin/" style="padding:5px 10px; margin-top:3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; " target="_blank" class="btn btn-danger">Admin</a></li>
@@ -941,7 +942,7 @@
               <input type="text" id="username" name="username" value="admin"/>
               <input type="password" id="password" name="password" value="admin" onkeypress="if(event.keyCode == 13){WPOS.userLogin();}"/>
               <button id="loginbutton" onClick="WPOS.userLogin();">login</button>
-                <br><br>
+                <p style="margin-top:5px;">Or Click below for admin</p>
               <button id="adminLoginbutton" onClick="event.preventDefault();window.location = 'http://localhost:9000/admin/';">Admin</button>
             </form>
             <div id="loadingdiv" style="height: 225px;">

@@ -39,13 +39,18 @@
 	<body>
         <div class=container-fluid>
 		<div class="navbar navbar-default" id="navbar">
-			<script type="text/javascript">
-				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
-			</script>
-            <div style="vertical-align: middle;margin-top:10px;">
-                <h3 style="margin-left:30px; display: inline;">Pharmacy POS Admin Dashboard </h3>
-            </div>
-		</div>
+        <script type="text/javascript">
+        try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+        </script>
+        <div style="vertical-align: middle;margin-top:10px;">
+            <h3 style="margin-left:30px; display: inline;">
+                Pharmacy POS Admin Dashboard
+                <span title="Logout of your session" onclick="WPOS.logout();" style="cursor:pointer;margin:0 20px; line-height:1.5;" class="octicon octicon-sign-out pull-right"></span>
+                <span title="Lock session" onclick="WPOS.lockSession();" style="cursor:pointer;margin:0 20px; line-height:1.5; vertical-align: middle;"><i class="icon icon-lock pull-right"></i></span>
+                <span title="Open cashier dashboard" onclick="window.open('http://localhost:9000');" style="padding:5px 10px; margin-top:3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; cursor:pointer;margin-right:20px;position: relative; top: -7px;" class="btn btn-danger pull-right">Cashier</span>
+            </h3>
+        </div>
+    </div>
 
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">

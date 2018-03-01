@@ -275,6 +275,11 @@ function WPOSAdmin(){
         showLoginDiv("Your session has expired, please login again.");
         WPOS.util.hideLoader();
     };
+
+    this.lockSession = function(){
+        performLogout();
+        showLoginDiv("The session is locked, login to continue.");
+    };
     this.initAdmin = function(){
         // hide unallowed sections
         hidePermSections();
