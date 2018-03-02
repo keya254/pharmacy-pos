@@ -27,9 +27,7 @@
     "node": ""
   },
   "devDependencies": {
-    "electron": "^1.7.9",
-    "electron-packager": "^11.0.1",
-    "electron-winstaller": "^2.6.3"
+
   },
   "config": {
     "forge": "electron-forge-config.js"
