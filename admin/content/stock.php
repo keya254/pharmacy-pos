@@ -136,7 +136,7 @@
         </tr>
         <tr>
             <td style="text-align: right;"><label>Expiry Date:&nbsp;</label></td>
-            <td><input id="addstockexpiryDate" class="form-control" value="12/31/2050" type="text" value=""/></td>
+            <td><input id="addstockexpiryDate" class="form-control" value="31/12/2050" type="text" value=""/></td>
         </tr>
         <tr>
             <td style="text-align: right;"><label>Invoice No:&nbsp;</label></td>
@@ -587,7 +587,7 @@
               reorderpoint: sorted[item][1].reorderPoint,
               supplier: '',
               inventoryNo: "0000",
-              expiryDate: "30/12/2050",
+              expiryDate: "31/12/2050",
               taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
               categoryid: sorted[item][1].categoryid
             };
@@ -604,7 +604,7 @@
             reorderpoint: 10,
             supplier: 'Freb',
             inventoryNo: "INV0001",
-            expiryDate: "30/12/2050",
+            expiryDate: "31/12/2050",
             taxname: "VAT",
             category: "Medicine"
           }
@@ -640,7 +640,7 @@
           'reorderpoint': {title:'Reorder Point', required: false, value: "0"},
           'supplier_name': {title:'*Supplier Name', required: true},
           'inventoryNo': {title:'Inventory No', required: false, value: "0000"},
-          'expiryDate': {title:'Expiry Date', required: false, value: "12/31/2050"},
+          'expiryDate': {title:'Expiry Date', required: false, value: "31/12/2050"},
           'tax_name': {title:'Tax Name', required: false, value: "No Tax"},
           'category_name': {title:'Category Name', required: false, value: "General"}
         },

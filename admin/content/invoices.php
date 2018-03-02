@@ -75,7 +75,8 @@
     // ADD/EDIT DIALOG FUNCTIONS
     function showInvoiceForm(){
         $("#ninvprocessdt").datepicker('setDate', new Date());
-        var increment = WPOS.util.parseDateString(WPOS.getConfigTable().invoice.defaultduedt);
+        var invoiceSetting = WPOS.getConfigTable();
+        var increment = WPOS.util.parseDateString(invoiceSetting.invoice.defaultduedt);
         $("#ninvduedt").datepicker('setDate', new Date((new Date()).getTime()+increment));
         $('#addinvoicedialog').dialog('open');
     }

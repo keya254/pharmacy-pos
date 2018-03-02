@@ -296,7 +296,8 @@
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Location</td><td>Stock Qty</td><td>Expiry Date</td></tr></thead><tbody>";
         for (var i in repdata){
             rowdata = repdata[i];
-            if (new Date(rowdata.expiryDate) <= new Date())
+            var date = rowdata.expiryDate.split('/');
+            if (new Date(date['2'], (date['1']-1), date['0']) <= new Date())
               html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.expiryDate+"</td></tr>"
         }
         html += "</tbody></table>";

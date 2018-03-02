@@ -132,7 +132,6 @@ class WposPosSetup
         $WposConfig = new WposAdminSettings();
         // Get general & global pos configuration
         $settings = $WposConfig->getAllSettings();
-
         if ($settings === false){
             $result['error'] = "Global config could not be retrieved!";
         }
@@ -305,7 +304,7 @@ class WposPosSetup
             }
         }
         if (isset($this->data->subscriptionStatus)) {
-            $startDate = date_add(date_create(), date_interval_create_from_date_string("30 days"));
+            $startDate = date_add(date_create(), date_interval_create_from_date_string("14 days"));
             $subscription = [
                 expiryDate => $startDate->format(DATE_RFC1123),
                 status => 'activated',
