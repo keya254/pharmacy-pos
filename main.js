@@ -22,7 +22,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width:1200,
     height: 800,
-    backgroundColor: '#237a1b'
+    backgroundColor: '#ffffff'
   });
 
   mainWindow.loadURL('http://localhost:9000');
