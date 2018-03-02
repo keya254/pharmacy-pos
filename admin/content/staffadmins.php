@@ -87,7 +87,7 @@
         <tr>
           <td>Access</td>
           <td>
-            <select id="permaccess">
+            <select onchange="setPermState();" id="permaccess">
                 <option value="no" onclick="setPermState(0);">No</option>
                 <option value="yes" onclick="setPermState(1);">Yes</option>
                 <option value="admin" onclick="setPermState(2);">Administrator</option>
@@ -307,6 +307,12 @@
     function setPermState(state){
         var cb = $('.permcb');
         var sel = $('.permsel');
+        if (state == null || state == undefined){
+            var option = $("#permaccess").val();
+            if (option == 'no') state = 0;
+            if (option == 'yes') state = 1;
+            if (option == 'admin') state = 2;
+        }
         if (state==0){
             cb.prop('checked', false);
             cb.prop('disabled', true);
