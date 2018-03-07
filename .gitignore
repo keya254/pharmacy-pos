@@ -6,3 +6,5 @@ docs/
 node_modules
 release-builds/
 mariadb/data
+php/
+dist/

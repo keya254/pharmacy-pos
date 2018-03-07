@@ -1348,6 +1348,7 @@ function WPOSPrint(kitchenMode) {
                 printed = true;
                 printw.focus();
                 printw.print();
+                printw.location = 'http://localhost:9000/print.html';
             }
         }
         printw.onload = windowReady;
