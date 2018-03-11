@@ -1338,10 +1338,10 @@ function WPOSPrint(kitchenMode) {
           if (err) console.log(err);
             fs.writeFile(fd, html, (err) =>{
               if (err) console.log(err);
+              printw.location = 'http://localhost:9000/print.html';
             });
         });
 
-        printw.location = 'http://localhost:9000/print.html';
         var printed = false;
         function windowReady(){
             if (!printed){
@@ -1351,8 +1351,11 @@ function WPOSPrint(kitchenMode) {
                 printw.location = 'http://localhost:9000/print.html';
             }
         }
+        printw.location = 'http://localhost:9000/print.html';
         printw.onload = windowReady;
-        //setTimeout(windowReady, 1200); // possible fallback for browsers that don't support the onload event in child window
+        setTimeout(function () {
+            printw.location = 'http://localhost:9000/print.html';
+        }, 1200); // possible fallback for browsers that don't support the onload event in child window
     }
 
     // character conversion
