@@ -19,7 +19,7 @@
     "pack": "build --dir --win --ia32",
     "dist": "build --win --ia32"
   },
-  "author": "Joe Nyugoh <joenyugoh@gmail.com>",
+  "author": "Magnum Digital Limited Kenya <joenyugoh@gmail.com>",
   "license": "BSD-2-Clause",
   "dependencies": {
     "browser-window": "^0.4.0",
@@ -28,13 +28,10 @@
     "sweetalert2": "^7.12.3"
   },
   "engines": {
-    "node": ""
+    "node": ">=6.11.4"
   },
   "devDependencies": {
-    "electron": "^1.7.9",
-    "electron-builder": "^20.2.0",
-    "electron-packager": "^11.0.1",
-    "electron-winstaller": "^2.6.3"
+    "electron": "^1.8.3"
   },
   "config": {
     "forge": "electron-forge-config.js"
@@ -64,7 +61,7 @@
       ]
     },
     "win": {
-      "target": "nssi",
+      "target": "nsis",
       "icon": "assets/images/win.ico"
     }
   }
