@@ -303,11 +303,17 @@ function WPOS() {
 
     function getSubscription() {
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
-          result = JSON.parse(result.subscription);
-          if (result !== false && result !== null) {
-              daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
+          if (typeof result === 'string')
+            result = JSON.parse(result.subscription);
+          if (result !== false && result !== null){
+            if(result.subscription.status === 'activated') { // From free trial
+              subscriptionStatus = new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
+              daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
+            }else { // From server
+              daysRemaining = moment(exDay).diff(moment(), 'days');
               subscriptionStatus = daysRemaining > 0;
-          } else {
+            }
+          }else{
             subscriptionStatus = null;
           }
         });
