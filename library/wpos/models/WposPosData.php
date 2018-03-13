@@ -85,7 +85,7 @@ class WposPosData
 
     /**
      * @param array $result current result array
-     * @return array API result array
+     * @return mixed
      */
     public function getPOSSubscription($result){
         $result['data'] = new stdClass();
@@ -103,6 +103,16 @@ class WposPosData
         return $result;
     }
 
+    /**
+     * @param array $result current result array
+     * @return mixed
+     */
+    public function updatePOSSubscription($result){
+        $result['data'] = new stdClass();
+        $configMdl = new ConfigModel();
+        $result['data'] = $configMdl->edit("subscription", json_encode($_REQUEST['data']));
+        return $result;
+    }
 
     /**
      * @param array $result

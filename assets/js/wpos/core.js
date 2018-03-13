@@ -302,13 +302,13 @@ function WPOS() {
     };
 
     function getSubscription() {
-      var moment = require('moment');
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
-          if (result !== false && result.subscription !== null) {
-              subscriptionStatus =  new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
-              daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
+          result = JSON.parse(result.subscription);
+          if (result !== false && result !== null) {
+              daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
+              subscriptionStatus = daysRemaining > 0;
           } else {
-            subscriptionStatus = result.subscription;
+            subscriptionStatus = null;
           }
         });
     }
@@ -482,6 +482,56 @@ function WPOS() {
         });
     }
 
+    function licenseServer() {
+      swal({
+        title: 'Enter your email to check for subscription',
+        input: 'email',
+        showCancelButton: true,
+        confirmButtonText: 'Check',
+        showLoaderOnConfirm: true,
+        preConfirm: (email) => {
+          // console.log(fetch(`http://localhost:3001/profile/login?email=${email}`));
+          return fetch(`http://localhost:3001/profile/5aa28e25a702921978ee5e4e/subscription`);
+        },
+        allowOutsideClick: () => !swal.isLoading()
+      }).then(json => {
+        if(json.status === 404){
+          return swal("Email doesn't exist or no subscription found! ");
+        } else {
+          json.value.json().then(function (data) {
+            return processSubscriptions(data.subscriptions);
+          }).then(function (status) {
+            if(status)
+              swal("Subscription activated, login to continue");
+            else
+              swal("Sorry, you have no active subscription.");
+          })
+        }
+      }).catch(err => {
+        if (err) {
+          swal("Oh noes!", "Error contacting license server, "+err, "error");
+        } else {
+          swal.stopLoading();
+          swal.close();
+        }
+      });
+    }
+
+    function processSubscriptions(subscriptions) {
+      var found = false;
+      for(var i in subscriptions) {
+        if (subscriptions[i].status === 1 && !found) {
+          if (moment(subscriptions[i].expiryDate).diff(moment(), "days") >= 30) {
+            found = true;
+            WPOS.sendJsonDataAsync("update/subscription", JSON.stringify(subscriptions[i]), function (results) {
+              return results;
+            });
+          }
+        }
+      }
+      return found;
+    }
+
     // get initial data for pos startup.
     function initData(loginloader) {
         // getSubscription();
@@ -489,11 +539,29 @@ function WPOS() {
             $("#loadingprogdiv").show();
             $("#loadingdiv").show();
           setTimeout(()=> {
-            swal({
-              type: 'info',
-              title: 'This is a free trial !!',
-              html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Please call +254721733354 or send an email to support@magnumdigitalke.com to get the full version.'
-            });
+            if (daysRemaining <=5){
+              if (daysRemaining<=0) {
+                daysRemaining = 0;
+                swal({
+                  type: 'info',
+                  title: 'Your subscription has expired...!!!',
+                  html: 'Please call +254721733354 or send an email to support@magnumdigitalke.com to get the full version.'
+                }).then(function () {
+                  licenseServer();
+                });
+              }else {
+                swal({
+                  type: 'info',
+                  title: 'Your subscription is about to expire...!!!',
+                  html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Please call +254721733354 or send an email to support@magnumdigitalke.com to get your subscription activated. <a href=""></a>'
+                });
+              }
+            }
+            // swal({
+            //   type: 'info',
+            //   title: 'This is a free trial !!',
+            //   html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Please call +254721733354 or send an email to support@magnumdigitalke.com to get the full version.'
+            // });
           }, 1000);
         }
         if (online) {

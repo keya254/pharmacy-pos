@@ -638,8 +638,9 @@
     }
 
     function loadSubscriptionStatus(data) {
-      var isExpired =  new Date(data.subscription.expiryDate).getTime() > new Date().getTime();
-      isExpired ? $("#status").html('<span style="vertical-align: middle;margin-right: 5px;" class="label label-success arrowed">Activated</span> Expires on: <small>'+ new Date(data.subscription.expiryDate).toDateString() + '</small>'): $("#status").html('<span style="vertical-align: middle;" class="label label-danger arrowed">Expired</span>');
+      data = JSON.parse(data.subscription);
+      var isExpired =  new Date(data.expiryDate) > new Date();
+      isExpired ? $("#status").html('<span style="vertical-align: middle;margin-right: 5px;" class="label label-success arrowed">Activated</span> Expires on: <small>'+ new Date(data.expiryDate).toDateString() + '</small>'): $("#status").html('<span style="vertical-align: middle;" class="label label-danger arrowed">Expired</span>');
     }
 
     jQuery(function($) {
