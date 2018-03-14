@@ -26,6 +26,8 @@ function WPOS() {
     var initialsetup = false;
     var subscriptionStatus = false;
     var daysRemaining = 0;
+    var subscription;
+    var isTrial = false;
     this.initApp = function () {
         $.ajaxSetup({
             cache: true
@@ -303,18 +305,20 @@ function WPOS() {
 
     function getSubscription() {
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
-            if (typeof result === 'string')
+          if (result.subscription){
+            if (typeof result.subscription === 'string')
               result = JSON.parse(result.subscription);
-
-            result = JSON.parse(result.subscription);
-            if (result !== false && result !== null){
-            if(result.status === 'activated') { // From free trial
-              subscriptionStatus = new Date(result.expiryDate).getTime() > new Date().getTime();
-              daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
-            }else { // From server
-              daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
-              subscriptionStatus = daysRemaining > 0;
-            }
+            else
+              result = result.subscription;
+            if (result !== false && result !== null)
+              if(result.status === 'activated') { // From free trial
+                subscriptionStatus = new Date(result.expiryDate).getTime() > new Date().getTime();
+                daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
+                isTrial = true;
+              }else { // From server
+                daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
+                subscriptionStatus = daysRemaining >= 0;
+              }
           }else{
             subscriptionStatus = null;
           }
@@ -490,12 +494,21 @@ function WPOS() {
         });
     }
 
-    function licenseServer() {
+    function licenseServer(state) {
+      var message = '';
+      if(state===0)
+        message = 'Check your subscription status!';
+      else if (state===1)
+        message = 'Check subscription status';
+      else
+        message = 'Your subscription has expired!';
       swal({
-        title: 'Enter your email to check for subscription',
+        type: 'info',
+        title: message,
+        text: 'Enter your email to check for subscription status',
         input: 'email',
         showCancelButton: true,
-        confirmButtonText: 'Check',
+        confirmButtonText: 'Check/Renew',
         showLoaderOnConfirm: true,
         preConfirm: (email) => {
           return fetch(`http://localhost:3001/profile/license/subscription?email=${email}`);
@@ -517,14 +530,24 @@ function WPOS() {
             type: 'error'
           })
         } else {
-          if(status)
-            swal("Subscription activated, login to continue");
-          else
-            swal("Sorry, you have no active subscription.");
+          if(status){
+            swal({
+              type:'success',
+              title:"Activated!",
+              text: `Subscription activated, from ${moment(subscription.activationDate).format('Do MMM YYYY')} - ${moment(subscription.expiryDate).format('Do MMM YYYY')}, login to continue`
+            });
+          } else{
+            swal({
+              type: 'info',
+              showConfirmButton: false,
+              title: 'Sorry, you have no active subscription.',
+              html:'<a class="btn btn-sm btn-success" target="_blank" href="http://pharmacypluspos.com/page7.html">BUY</a>'
+            });
+          }
         }
       }).catch(err => {
         if (err) {
-          swal("Oh noes!", "Error contacting license server, "+err, "error");
+          swal("Connection failed", "Error contacting license server, ensure you have internet connection.If error persists call support at 0721733354.", "error");
         } else {
           swal.stopLoading();
           swal.close();
@@ -536,6 +559,7 @@ function WPOS() {
       var found = false;
       for(var i in subscriptions) {
         if (subscriptions[i].status === 1 && !found) {
+          subscription = subscriptions[i];
           if (moment(subscriptions[i].expiryDate).diff(moment(), "days") >= 30) {
             found = true;
             WPOS.sendJsonDataAsync("update/subscription", JSON.stringify(subscriptions[i]), function (results) {
@@ -554,29 +578,40 @@ function WPOS() {
             $("#loadingprogdiv").show();
             $("#loadingdiv").show();
           setTimeout(()=> {
-            if (daysRemaining <=5){
-              if (daysRemaining<=0) {
-                daysRemaining = 0;
-                swal({
-                  type: 'info',
-                  title: 'Your subscription has expired...!!!',
-                  html: 'Please call +254721733354 or send an email to support@magnumdigitalke.com to get the full version.'
-                }).then(function () {
-                  licenseServer();
-                });
-              }else {
-                swal({
-                  type: 'info',
-                  title: 'Your subscription is about to expire...!!!',
-                  html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Please call +254721733354 or send an email to support@magnumdigitalke.com to get your subscription activated. <a href=""></a>'
-                });
+            if(isTrial){
+              swal({
+                type: 'info',
+                title: 'This is a free trial !!',
+                showCancelButton: true,
+                confirmButtonText: 'Buy',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Click buy to get a subscription of your choice or cancel to continue with the trial.'
+              }).then((confirm)=> {
+                if (confirm.value)
+                  licenseServer(0)
+              });
+            } else {
+              if (daysRemaining <=5){
+                if (daysRemaining<=0) {
+                  daysRemaining = 0;
+                  licenseServer(2);
+                }else {
+                  swal({
+                    type: 'info',
+                    title: 'Your subscription is about to expire!',
+                    showCancelButton: true,
+                    confirmButtonText: 'Buy',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Click buy to renew your subscription or cancel to continue.'
+                  }).then((confirm)=> {
+                    if (confirm.value)
+                      licenseServer(1)
+                  });
+                }
               }
             }
-            // swal({
-            //   type: 'info',
-            //   title: 'This is a free trial !!',
-            //   html: '<h5 class="text-danger"><b>'+daysRemaining+' days remaining.</b></h5>Please call +254721733354 or send an email to support@magnumdigitalke.com to get the full version.'
-            // });
           }, 1000);
         }
         if (online) {
