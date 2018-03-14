@@ -303,14 +303,16 @@ function WPOS() {
 
     function getSubscription() {
         WPOS.getJsonDataAsync("pos/subscription", function (result) {
-          if (typeof result === 'string')
+            if (typeof result === 'string')
+              result = JSON.parse(result.subscription);
+
             result = JSON.parse(result.subscription);
-          if (result !== false && result !== null){
-            if(result.subscription.status === 'activated') { // From free trial
-              subscriptionStatus = new Date(result.subscription.expiryDate).getTime() > new Date().getTime();
-              daysRemaining = moment(result.subscription.expiryDate).diff(moment(), 'days');
+            if (result !== false && result !== null){
+            if(result.status === 'activated') { // From free trial
+              subscriptionStatus = new Date(result.expiryDate).getTime() > new Date().getTime();
+              daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
             }else { // From server
-              daysRemaining = moment(exDay).diff(moment(), 'days');
+              daysRemaining = moment(result.expiryDate).diff(moment(), 'days');
               subscriptionStatus = daysRemaining > 0;
             }
           }else{
@@ -496,22 +498,29 @@ function WPOS() {
         confirmButtonText: 'Check',
         showLoaderOnConfirm: true,
         preConfirm: (email) => {
-          // console.log(fetch(`http://localhost:3001/profile/login?email=${email}`));
-          return fetch(`http://localhost:3001/profile/5aa28e25a702921978ee5e4e/subscription`);
+          return fetch(`http://localhost:3001/profile/license/subscription?email=${email}`);
         },
         allowOutsideClick: () => !swal.isLoading()
       }).then(json => {
-        if(json.status === 404){
-          return swal("Email doesn't exist or no subscription found! ");
-        } else {
-          json.value.json().then(function (data) {
+          return json.value.json();
+      }).then(function (data) {
+          if (data.message !== undefined){
+            return data.message;
+          } else {
             return processSubscriptions(data.subscriptions);
-          }).then(function (status) {
-            if(status)
-              swal("Subscription activated, login to continue");
-            else
-              swal("Sorry, you have no active subscription.");
+          }
+      }).then(function (status) {
+        if (typeof status === 'string'){
+          swal({
+            title: "Error..!",
+            text: status,
+            type: 'error'
           })
+        } else {
+          if(status)
+            swal("Subscription activated, login to continue");
+          else
+            swal("Sorry, you have no active subscription.");
         }
       }).catch(err => {
         if (err) {
