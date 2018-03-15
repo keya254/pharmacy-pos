@@ -37,6 +37,7 @@
     <!-- UI FRAMEWORK SCRIPTS -->
     <!--[if !IE]> -->
     <script type="text/javascript" src="/assets/js/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/assets/js/electron-open-link-in-browser.js"></script>
 
     <!-- <![endif]-->
     <!--[if IE]>
@@ -1185,30 +1186,30 @@
           <h2> <span class="glyphicon glyphicon-cog"> </span> Initial Device Setup</h2>
         </div>
         <div class="modal-body" style="padding:40px 50px;">
-            <h5>Select a device to merge with or enter a new device name<br/></h5>
+            <h5 style="display: none;">Set business name and location<br/></h5>
             <form role="form">
-                <div class="form-group">
-                <label for="posdevices">Existing device:</label>
-                <select class="form-control" id="posdevices" onchange="$('#newposdevice').val('');">
-                    <option value="" selected></option>
-                </select>
+                <div class="form-group" style="display: none;">
+                    <label for="posdevices">Existing device:</label>
+                    <select class="form-control" id="posdevices" onchange="$('#newposdevice').val('');">
+                        <option value="" selected></option>
+                    </select>
                 </div>
                 <div class="form-group">
-                <label for="newposdevice"> New device name:</label>
-                <input class="form-control" placeholder="Enter New Device name" id="newposdevice" type="text" onchange="$('#posdevices>option:eq(0)').prop('selected', true);"/>
+                <label for="newposdevice">Your business Name:</label>
+                <input class="form-control" placeholder="Enter business name..." id="newposdevice" type="text" onchange="$('#posdevices>option:eq(0)').prop('selected', true);"/>
                 </div>
                 <br/>
-                <h5>Select an existing location for the device or enter a new location<br/></h5>
+                <h5 style="display: none;">Select an existing location for the device or enter a new location<br/></h5>
                 <form role="form">
-                    <div class="form-group">
+                    <div class="form-group" style="display: none;">
                       <label for="poslocations">Existing location:</label>
                       <select class="form-control" id="poslocations" onchange="$('#newposlocation').val('');">
                             <option value="" selected></option>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="newposlocation">New location name:</label>
-                      <input class="form-control" placeholder="Enter New Device name" id="newposlocation" type="text" onchange="$('#poslocations>option:eq(0)').prop('selected', true);"/>
+                      <label for="newposlocation">Your business Location:</label>
+                      <input class="form-control" placeholder="Enter business location..." id="newposlocation" type="text" onchange="$('#poslocations>option:eq(0)').prop('selected', true);"/>
                     </div>
                 </form>
             </form>
@@ -1325,8 +1326,14 @@
     function handleMOut(item) {
       $(item).toggleClass('active-item')
     }
+
+    function openButton() {
+     var shell = require('electron').shell;
+     shell.openExternal('http://pharmacypluspos.com/page7.html');
+    }
 </script>
 <script>if (window.module) module = window.module;</script>
+<script src="/assets/js/moment.js"></script>
 <script src="/assets/js/sweetalert2.all.min.js"></script>
 </body>
 </html>
