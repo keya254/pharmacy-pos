@@ -664,7 +664,7 @@
               supplier_name: jsondata[i].supplier_name.toUpperCase(),
               locationid: getLocation(jsondata[i].location),
               cost: jsondata[i].cost,
-              price: jsondata[i].price,
+              price: jsondata[i].price !== ''? jsondata[i].price: (jsondata[i].cost*1.3),
               stockType: '1',
               amount: jsondata[i].amount,
               reorderPoint: jsondata[i].reorderpoint !== '' ? jsondata[i].reorderpoint: "0",
