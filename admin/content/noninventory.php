@@ -552,7 +552,7 @@
         'description': {title:'Description', required: false, value: "No Description"},
         'location': {title:'*Location', required: true},
         'cost': {title:'*Unit Cost', required: true},
-        'price': {title:'*Unit Price', required: true},
+        'price': {title:'*Unit Price', required: false},
         'supplier_name': {title:'Supplier Name', required: false, value: "No supplier"},
         'tax_name': {title:'Tax Name', required: false, value: "No Tax"},
         'category_name': {title:'Category Name', required: false, value: "General"}
@@ -577,7 +577,7 @@
             supplier_name: jsondata[i].supplier_name !== ''? jsondata[i].supplier_name.toUpperCase(): "GENERAL",
             locationid: getLocation(jsondata[i].location),
             cost: jsondata[i].cost,
-            price: jsondata[i].price,
+            price: jsondata[i].price !== ''? jsondata[i].price: (jsondata[i].cost*1.3),
             amount: '0',
             reorderPoint: "0",
             stockType: '0',
