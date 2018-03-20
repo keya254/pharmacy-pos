@@ -577,7 +577,7 @@
             supplier_name: jsondata[i].supplier_name !== ''? jsondata[i].supplier_name.toUpperCase(): "GENERAL",
             locationid: getLocation(jsondata[i].location),
             cost: jsondata[i].cost,
-            price: jsondata[i].price !== ''? jsondata[i].price: (jsondata[i].cost*1.3),
+            price: jsondata[i].price,
             amount: '0',
             reorderPoint: "0",
             stockType: '0',
