@@ -573,16 +573,17 @@
         var sorted = sortable.sort(function(a, b) {
           return a[1].name.localeCompare(b[1].name);
         });
+        var i = 1;
         for(var item in sorted) {
           var dataobj = JSON.parse(sorted[item][1].data);
-          if (sorted[item][1].stockType === '1')
+          if (sorted[item][1].stockType === '1'){
             data[item] = {
               code: "",
               name: sorted[item][1].name,
               description: sorted[item][1].description,
               locationid: config.deviceconfig.locationid,
               cost: 0.00,
-              price: 0.00,
+              price: '=(PRODUCT(E'+(i+1)+',1.3))',
               stocklevel: "",
               reorderpoint: sorted[item][1].reorderPoint,
               supplier: '',
@@ -591,6 +592,8 @@
               taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
               categoryid: sorted[item][1].categoryid
             };
+            i++;
+          }
         }
         if (Object.keys(data).length === 0) {
           data[0] = {
@@ -599,7 +602,7 @@
             description: "Syrup",
             locationid: config.deviceconfig.locationid,
             cost: 100,
-            price: 150,
+            price: '=(PRODUCT(E2,1.3))',
             stocklevel: 25,
             reorderpoint: 10,
             supplier: 'Freb',
@@ -664,7 +667,7 @@
               supplier_name: jsondata[i].supplier_name.toUpperCase(),
               locationid: getLocation(jsondata[i].location),
               cost: jsondata[i].cost,
-              price: jsondata[i].price !== ''? jsondata[i].price: (jsondata[i].cost*1.3),
+              price: jsondata[i].price,
               stockType: '1',
               amount: jsondata[i].amount,
               reorderPoint: jsondata[i].reorderpoint !== '' ? jsondata[i].reorderpoint: "0",
