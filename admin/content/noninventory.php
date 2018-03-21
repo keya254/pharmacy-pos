@@ -507,7 +507,7 @@
           description: sorted[item][1].description,
           locationid: config.deviceconfig.locationid,
           cost: 0.00,
-          price: 0.00,
+          price: '=(PRODUCT(E2,1.3))',
           supplier: '',
           taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
           categoryid: sorted[item][1].categoryid
@@ -520,7 +520,7 @@
         description: "Syrup",
         locationid: config.deviceconfig.locationid,
         cost: 100,
-        price: 150,
+        price: '=(PRODUCT(E2,1.3))',
         supplier: "Freb",
         taxname: "VAT",
         category: "Medicine"
