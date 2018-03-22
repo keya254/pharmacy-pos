@@ -1,25 +1,25 @@
 {
-  "name": "Pharmacy POS",
-  "short_name": "pharmacy pos",
+  "name": "Biashara POS",
+  "short_name": "biashara pos",
   "start_url": "http://localhost",
   "display": "standalone",
   "background_color": "#237a1b",
   "theme_color": "#237a1b",
   "description": "A modern web based POS system.",
   "icons": [{
-    "src": "/assets/images/pos-icon-57x57.png",
+    "src": "/assets/images/57.png",
     "sizes": "57x57",
     "type": "image/png"
   }, {
-    "src": "/assets/images/pos-icon-72x72.png",
+    "src": "/assets/images/72.png",
     "sizes": "72x72",
     "type": "image/png"
   }, {
-    "src": "/assets/images/pos-icon-144.png",
+    "src": "/assets/images/144.png",
     "sizes": "144x144",
     "type": "image/png"
   }, {
-    "src": "/assets/images/pos-icon-192.png",
+    "src": "/assets/images/192.png",
     "sizes": "192x192",
     "type": "image/png"
   }],
