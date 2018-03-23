@@ -6,3 +6,6 @@ docs/
 node_modules
 release-builds/
 mariadb/data
+dist/
+yarn-error.log
+npm-error.log
