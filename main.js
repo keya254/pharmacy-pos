@@ -38,13 +38,28 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width:1200,
     height: 800,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    webPreferences: {
+      nativeWindowOpen: true
+    }
   });
 
   mainWindow.loadURL('http://localhost:9000');
 
   mainWindow.on('closed', function () {
     mainWindow = null
+  });
+
+  mainWindow.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
+    if (frameName === 'modal') {
+      // open window as modal
+      event.preventDefault();
+      Object.assign(options, {
+        modal: true,
+        parent: mainWindow
+      });
+      event.newGuest = new BrowserWindow(options)
+    }
   });
 }
 

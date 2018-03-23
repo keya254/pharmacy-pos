@@ -1332,30 +1332,41 @@ function WPOSPrint(kitchenMode) {
     function browserPrintHtml(html, name, width, height) {
 
         var printw = window.open('', name, 'height='+height+',width='+width+',scrollbars=yes');
-
-        const fs = require('fs');
-        fs.open('C:\\POS\\pharmacy-pos\\print.html', 'w', (err, fd) => {
-          if (err) console.log(err);
-            fs.writeFile(fd, html, (err) =>{
-              if (err) console.log(err);
-              printw.location = 'http://localhost:9000/print.html';
-            });
-        });
+        printw.document.write(html);
+        printw.document.close();
 
         var printed = false;
         function windowReady(){
             if (!printed){
-                printed = true;
-                printw.focus();
-                printw.print();
-                printw.location = 'http://localhost:9000/print.html';
+              printed = true;
+              printw.focus();
+              printw.print();
             }
         }
-        printw.location = 'http://localhost:9000/print.html';
         printw.onload = windowReady;
-        setTimeout(function () {
-            printw.location = 'http://localhost:9000/print.html';
-        }, 1200); // possible fallback for browsers that don't support the onload event in child window
+        // const fs = require('fs');
+        // fs.open('C:\\POS\\pharmacy-pos\\print.html', 'w', (err, fd) => {
+        //   if (err) console.log(err);
+        //     fs.writeFile(fd, html, (err) =>{
+        //       if (err) console.log(err);
+        //       printw.location = 'http://localhost:9000/print.html';
+        //     });
+        // });
+
+        // var printed = false;
+        // function windowReady(){
+        //     if (!printed){
+        //         printed = true;
+        //         printw.focus();
+        //         printw.print();
+        //         printw.location = 'http://localhost:9000/print.html';
+        //     }
+        // }
+        // printw.location = 'http://localhost:9000/print.html';
+        // printw.onload = windowReady;
+        // setTimeout(function () {
+        //     printw.location = 'http://localhost:9000/print.html';
+        // }, 1200); // possible fallback for browsers that don't support the onload event in child window
     }
 
     // character conversion
