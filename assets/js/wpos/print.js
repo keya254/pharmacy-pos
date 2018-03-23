@@ -1340,7 +1340,6 @@ function WPOSPrint(kitchenMode) {
             if (!printed){
                 printed = true;
                 printw.focus();
-                printw.print();
             }
         }
         printw.onload = windowReady;
