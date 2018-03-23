@@ -10,3 +10,4 @@ poss.sqlite
 php/
 dist/
 yarn-error.log
+npm-error.log

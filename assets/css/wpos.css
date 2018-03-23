@@ -341,9 +341,9 @@ body {
 
 }
 #iboxitems {
-    background-color: rgba(66, 139, 202, 0.45);
+    background-color: #42ca5a73;
     margin-top: 5px;
-    border-left:5px solid #428BCA;
+    border-left:5px solid #00a65a;
     margin-bottom: 0px;
     height:calc(100vh - 85px);
     overflow-y: scroll;
@@ -358,7 +358,7 @@ body {
 .iboxitem {
     width: 134px;
     height: 134px;
-    border: 2px solid #428BCA;
+    border: 2px solid #00a65a;
     border-radius: 4px;
     display: inline-block;
     background-color: #FFFFFF;
@@ -401,7 +401,7 @@ body {
   color:#ffffff;
 }*/
 .iboxitem:hover {
-  background-color: #69a9e8;
+  background-color: #23e08a59;
   color: #ffffff;
   border-radius: 8px;
 }
@@ -962,7 +962,7 @@ body {
         margin-left: 0;
         border-left:none;
         height: auto;
-        border-top:5px solid #428BCA; 
+        border-top:5px solid #00a65a; 
     }
     #totals {
       position: relative;
@@ -1007,7 +1007,7 @@ body {
       margin-left: 0;
       border-left:none;
       height: auto;
-      border-top:5px solid #428BCA; 
+      border-top:5px solid #00a65a; 
     }
     #totals {
       position: relative;
@@ -1279,31 +1279,31 @@ body {
 .with-nav-tabs.panel-primary .nav-tabs > li > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li > a:focus {
   color: #fff;
-  background-color: #3071a9;
+  background-color: #00a65a;
   border-color: transparent;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a,
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li.active > a:focus {
-  color: #428bca;
+  color: #00a65a;
   background-color: #fff;
-  border-color: #428bca;
+  border-color: #00a65a;
   border-bottom-color: transparent;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu {
-    background-color: #428bca;
-    border-color: #3071a9;
+    background-color: #00a65a;
+    border-color: #00a65a;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a {
     color: #fff;   
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-    background-color: #3071a9;
+    background-color: #00a65a;
 }
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a,
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
 .with-nav-tabs.panel-primary .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-    background-color: #4a9fe9;
+    background-color: #00a65a;
 }
 /*******************************************************************
