@@ -9,3 +9,4 @@ mariadb/data
 poss.sqlite
 php/
 dist/
+yarn-error.log

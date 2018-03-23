@@ -378,7 +378,7 @@ function WPOSPrint(kitchenMode) {
         var printer = getPrintSetting('reports', 'printer');
         switch (getPrintSetting('reports', 'method')) {
             case "br":
-                browserPrintHtml($("#reportcontain").html(), 'WallacePOS Report', 600, 800);
+                browserPrintHtml($("#reportcontain").html(), 'Pharmacy Plus Report', 600, 800);
                 break;
             case "qz":
                 alert("QZ-Print integration is no longer available, switch to the new webprint applet");
@@ -461,7 +461,7 @@ function WPOSPrint(kitchenMode) {
         switch (method) {
             case "br":
                 if (curset.printinv) {
-                    browserPrintHtml(getHtmlReceipt(record, false, true), 'WallacePOS Invoice', 600, 800);
+                    browserPrintHtml(getHtmlReceipt(record, false, true), 'Pharmacy Plus Invoice', 600, 800);
                 } else {
                     browserPrintHtml(getHtmlReceipt(record, false), 'Pharmacy POS Receipt', 310, 600);
                 }
@@ -1331,16 +1331,9 @@ function WPOSPrint(kitchenMode) {
     // Browser printing methods
     function browserPrintHtml(html, name, width, height) {
 
-        var printw = window.open('', name, 'height='+height+',width='+width+',scrollbars=yes');
-
-        const fs = require('fs');
-        fs.open('C:\\POS\\pharmacy-pos\\print.html', 'w', (err, fd) => {
-          if (err) console.log(err);
-            fs.writeFile(fd, html, (err) =>{
-              if (err) console.log(err);
-              printw.location = 'http://localhost:9000/print.html';
-            });
-        });
+        var printw = window.open('', 'print', 'height='+height+',width='+width+',scrollbars=yes');
+        printw.document.write(html);
+        printw.document.close();
 
         var printed = false;
         function windowReady(){
@@ -1348,14 +1341,9 @@ function WPOSPrint(kitchenMode) {
                 printed = true;
                 printw.focus();
                 printw.print();
-                printw.location = 'http://localhost:9000/print.html';
             }
         }
-        printw.location = 'http://localhost:9000/print.html';
         printw.onload = windowReady;
-        setTimeout(function () {
-            printw.location = 'http://localhost:9000/print.html';
-        }, 1200); // possible fallback for browsers that don't support the onload event in child window
     }
 
     // character conversion
