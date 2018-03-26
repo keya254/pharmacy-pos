@@ -937,8 +937,6 @@
               <input type="text" id="username" name="username" value="admin"/>
               <input type="password" id="password" name="password" value="admin" onkeypress="if(event.keyCode == 13){WPOS.userLogin();}"/>
               <button id="loginbutton" onClick="WPOS.userLogin();">login</button>
-                <p style="margin-top:5px;">OR</p>
-              <button id="adminLoginbutton" onClick="event.preventDefault();window.location = 'http://localhost:9000/admin/';">Admin Dashboard</button>
             </form>
             <div id="loadingdiv" style="height: 225px;">
                 <h3 id="loadingbartxt">Initializing</h3>
