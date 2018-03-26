@@ -1331,7 +1331,7 @@ function WPOSPrint(kitchenMode) {
     // Browser printing methods
     function browserPrintHtml(html, name, width, height) {
 
-        var printw = window.open('', 'print', 'height='+height+',width='+width+',scrollbars=yes');
+        var printw = window.open('', 'print', 'height='+height+',width='+(width+20)+',scrollbars=yes');
         printw.document.write(html);
         printw.document.close();
 
