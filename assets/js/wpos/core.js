@@ -122,7 +122,7 @@ function WPOS() {
         if (getDeviceUUID() == null) {
             // The device has not been setup yet; User will have to login as an admin to setup the device.
             swal({
-                type: 'error',
+                type: 'info',
                 title: 'Oops...',
                 text: 'The device has not been setup yet, please login as an administrator to setup the device.'
               });
