@@ -131,7 +131,22 @@ class WposSocketControl {
         $configName = 'git config --global user.name "nyugoh"';
         $configEMail = 'git config --global user.email "nyugoh@gmail.com"';
         if ($this->isWindows) {
-            $handle = popen('START "Pharmacy POS System Update" git pull origin master','r');
+            $pathA = "C:\Program Files\Pharmacy Plus POS";
+            $pathB = "C:\Program Files (x86)\Pharmacy Plus POS";
+            $git_dir = '';
+            if(is_dir("C:\Program Files\Pharmacy Plus POS")){
+                $git_dir .= $pathA;
+            }
+            if(is_dir("C:\Program Files (x86)\Pharmacy Plus POS")){
+                $git_dir = $pathB;
+            }
+//            $handle = popen('START "Pharmacy Plus POS System Update" '.$configEMail.' && '.$configName.' && git --git-dir="C:\POS-old\pharmacy-pos\.git" pull origin feature/electron','r');
+            $handle = popen('START "Pharmacy Plus POS System Update" git --git-dir="'.$git_dir.'\pharmacy-pos\.git" pull origin feature/electron','r');
+//            var_dump();
+            var_dump(is_dir("C:\Program Files\Pharmacy Plus POS"));
+            var_dump(is_dir("C:\Program Files (x86)\Pharmacy Plus POS"));
+            var_dump($git_dir);
+
             $type = gettype($handle);
             if ($type == 'NULL')
                 $result["error"] = "Git is not configured.";
@@ -139,7 +154,7 @@ class WposSocketControl {
             sleep(1);
             pclose($handle);
         } else {
-            $cmd = 'git pull origin master';
+            $cmd = 'git pull origin feature/electron';
             exec($cmd, $output, $res);
             if ($res>0)
                 exec($cmd, $output, $res);

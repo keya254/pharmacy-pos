@@ -213,7 +213,7 @@
             swal({
                 type: 'success',
                 title: 'Success.',
-                text: 'Update Succesful!'
+                text: 'Update Successful!'
                 });
           } else {
             swal({
