@@ -6,14 +6,6 @@
   "description": "Web based POS system",
   "main": "main.js",
   "scripts": {
-    "start1": "electron .",
-    "build": "electron-packager . pos --ignore=node_modules/electron-* && cp assets/icons/png/64x64.png pos-linux-x64/resources/atom.png",
-    "package": "asar pack pos-linux-x64/resources/app pos-linux-x64/resources/pos.asar",
-    "package-linux": "electron-packager . pharmacy-pos --ignore=node_modules/electron-* --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/images/pos-icon142x142.png --prune=true --out=release-builds",
-    "package-mac": "electron-packager . pos --ignore=node_modules/electron-* --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.png.hqx --prune=true --out=release-builds",
-    "package-win": "electron-packager . pharmacy-pos --ignore=node_modules/electron-* --overwrite --prune --platform=win32 --arch=x64 --icon=assets/images/favicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Pharmacy POS\"",
-    "create-debian-installer": "electron-installer-debian --src release-builds/pharmacy-pos-linux-x64/ --arch amd64 --config debian.json",
-    "create-win-installer": "node windows-installer/create-installer",
     "postinstall": "electron-builder install-app-deps",
     "start": "yarn install && electron .",
     "pack": "build --dir --win --ia32",
@@ -31,7 +23,8 @@
     "node": ">=6.11.4"
   },
   "devDependencies": {
-    "electron": "^1.8.3"
+    "electron": "^1.8.3",
+    "electron-builder": "^20.8.1"
   },
   "config": {
     "forge": "electron-forge-config.js"

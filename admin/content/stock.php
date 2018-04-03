@@ -559,7 +559,6 @@
         datatable.api().draw(false);
     }
     function exportStock(){
-        //var data  = WPOS.table2CSV($("#stocktable"));
         var filename = "stock-"+WPOS.util.getDateFromTimestamp(new Date());
         filename = filename.replace(" ", "");
 
@@ -567,34 +566,37 @@
         var config = JSON.parse(localStorage.getItem('wpos_config'));
         var sortable=[];
         var items = WPOS.getJsonData("stock/get");
-        for(var key in items)
-          if(items.hasOwnProperty(key))
-            sortable.push([key, items[key]]);
+        var list = {};
+        for(var item in items) {
+            if (items[item].stockType === '1')
+                list[items[item].name] = items[item];
+        }
+        for(var key in list)
+            if(list.hasOwnProperty(key))
+                sortable.push([key, list[key]]);
         var sorted = sortable.sort(function(a, b) {
           return a[1].name.localeCompare(b[1].name);
         });
         var i = 1;
-        for(var item in sorted) {
-          var dataobj = JSON.parse(sorted[item][1].data);
-          if (sorted[item][1].stockType === '1'){
-            data[item] = {
-              code: "",
-              name: sorted[item][1].name,
-              description: sorted[item][1].description,
-              locationid: config.deviceconfig.locationid,
-              cost: 0.00,
-              price: '=(PRODUCT(E'+(i+1)+',1.3))',
-              stocklevel: "",
-              reorderpoint: sorted[item][1].reorderPoint,
-              supplier: '',
-              inventoryNo: "0000",
-              expiryDate: "31/12/2050",
-              taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
-              categoryid: sorted[item][1].categoryid
-            };
+        for(var item in sorted){
             i++;
-          }
+            data[item] = {
+                code: "",
+                name: sorted[item][1].name,
+                description: sorted[item][1].description,
+                locationid: config.deviceconfig.locationid,
+                cost: 0.00,
+                price: '=(PRODUCT(E'+(i)+',1.3))',
+                stocklevel: "",
+                reorderpoint: sorted[item][1].reorderPoint,
+                supplier: '',
+                inventoryNo: "0000",
+                expiryDate: "31/12/2050",
+                taxname: WPOS.getTaxTable().rules[sorted[item][1].taxid].name,
+                categoryid: sorted[item][1].categoryid
+            };
         }
+
         if (Object.keys(data).length === 0) {
           data[0] = {
             code: "M00001",
@@ -622,7 +624,6 @@
             ],
             data
         );
-
         WPOS.initSave(filename, csv);
     }
 
