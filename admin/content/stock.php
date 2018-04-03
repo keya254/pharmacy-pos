@@ -80,7 +80,7 @@
         <td><input id="setstockexpiryDate" class="form-control" type="text" value=""/></td>
       </tr>
       <tr>
-        <td style="text-align: right;"><label>Inventory No:&nbsp;</label></td>
+        <td style="text-align: right;"><label>Invoice No:&nbsp;</label></td>
         <td><input id="setstockinventoryNo" class="form-control" type="text"/></td>
       </tr>
       <tr>
@@ -611,7 +611,7 @@
         }
 
         var csv = WPOS.data2CSV(
-            ['Stock Code', '*Name', 'Description', '*Location', '*Unit Cost', '*Unit Price', '*Stock Level', 'Reorder Point', '*Supplier Name', 'Inventory No', 'Expiry Date', 'Tax Name', 'Category Name'],
+            ['Stock Code', '*Name', 'Description', '*Location', '*Unit Cost', '*Unit Price', '*Stock Level', 'Reorder Point', '*Supplier Name', 'Invoice No', 'Expiry Date', 'Tax Name', 'Category Name'],
             ['code', 'name', 'description',
               {key:'locationid', func: function(value){ return WPOS.locations.hasOwnProperty(value) ? WPOS.locations[value].name : 'Unknown'; }},
               'cost', 'price', 'stocklevel', 'reorderpoint', 'supplier', 'inventoryNo', 'expiryDate', 'taxname',
@@ -639,7 +639,7 @@
           'amount': {title:'*Stock Level', required: true},
           'reorderpoint': {title:'Reorder Point', required: false, value: "0"},
           'supplier_name': {title:'*Supplier Name', required: true},
-          'inventoryNo': {title:'Inventory No', required: false, value: "0000"},
+          'inventoryNo': {title:'Invoice No', required: false, value: "0000"},
           'expiryDate': {title:'Expiry Date', required: false, value: "31/12/2050"},
           'tax_name': {title:'Tax Name', required: false, value: "No Tax"},
           'category_name': {title:'Category Name', required: false, value: "General"}
