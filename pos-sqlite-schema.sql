@@ -241,6 +241,8 @@ CREATE TABLE IF NOT EXISTS `stored_suppliers` (
   PRIMARY KEY (`id`)
 );
 
+INSERT INTO `stored_suppliers` (`id`, `name`) VALUES(1, 'GENERAL');
+
 
 CREATE TABLE IF NOT EXISTS `stored_categories` (
   `id` INTEGER NOT NULL ,
