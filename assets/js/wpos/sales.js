@@ -171,7 +171,7 @@ function WPOSItems() {
             items[x] = tempitems[x];
           }
         }
-      sorted = this.filterStock(items);
+      var sorted = this.filterStock(items);
       // Display the items
         for (var i in sorted){
           price = (sorted[i].price==""?"??.??":parseFloat(sorted[i].price).toFixed(2));
@@ -188,7 +188,7 @@ function WPOSItems() {
     };
 
     this.generateItemGridCategories = function(){
-      var gstock = this.filterStock(stock);
+        var gstock = this.filterStock(WPOS.getItemsTable());
         var iboxitems = $("#iboxitems");
         iboxitems.html('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(-1);"><h5>All Categories</h5><h6>('+Object.keys(gstock).length+' items)</h6></div>');
         var catindex = WPOS.getCategoryIndex();
@@ -200,10 +200,11 @@ function WPOSItems() {
               total += 1;
             }
           }
-            iboxitems.append('<div class="iboxitem" onclick="WPOS.items.generateItemGrid('+i+');">' +
-                '<h5>'+categories[i].name+'</h5>'+
-                '<h6>('+total+' items)</h6>'+
-                '</div>');
+          if(total >0)
+              iboxitems.append('<div class="iboxitem" onclick="WPOS.items.generateItemGrid('+i+');">' +
+                  '<h5>'+categories[i].name+'</h5>'+
+                  '<h6>('+total+' items)</h6>'+
+                  '</div>');
         }
         // var misctotal = catindex.hasOwnProperty(0)?catindex[0].length:0;
         // iboxitems.append('<div class="iboxitem" onclick="WPOS.items.generateItemGrid(0);"><h5>Miscellaneous</h5><h6>('+misctotal+' items)</h6></div>');
