@@ -146,13 +146,12 @@ class WposSocketControl {
             pclose(popen('START '.$configEMail, 'r'));
             sleep(2);
             exec($cmd, $output,$val);
-            var_dump($output);
+            foreach ($output as $out)
+                $result['data'] .= $out;
             if($val === 0){
-                foreach ($output as $out)
-                    $result['data'] .= $out;
                 $result['error'] = 'OK';
             } else
-                $result['error'] = "Failed to update ! ".json_encode($output);
+                $result['data'] = false;
         } else {
             $cmd = 'git pull origin feature/electron';
             exec($cmd, $output, $res);

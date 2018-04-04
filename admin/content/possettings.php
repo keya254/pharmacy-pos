@@ -220,7 +220,7 @@
             swal({
                  type: 'error',
                 title: 'Oops...',
-                text: result
+                text: 'Error occurred'
             });
           }
           // hide loader
