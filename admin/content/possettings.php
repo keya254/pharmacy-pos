@@ -208,23 +208,23 @@
 
         function startGit(){
           // show loader
-          // WPOS.util.showLoader();
-          if (WPOS.getJsonData("git/update")!==false){
+          WPOS.util.showLoader();
+            var result = WPOS.getJsonData("git/update");
+          if (result!==false){
             swal({
                 type: 'success',
                 title: 'Success.',
-                text: 'Update Successful!'
+                text: result
                 });
           } else {
             swal({
                  type: 'error',
                 title: 'Oops...',
-                text: 'Update Failed!'
-                    });
-
+                text: result
+            });
           }
           // hide loader
-          // WPOS.util.hideLoader();
+          WPOS.util.hideLoader();
         }
 
         function saveSettings(){

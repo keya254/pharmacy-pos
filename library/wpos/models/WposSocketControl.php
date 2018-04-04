@@ -131,28 +131,28 @@ class WposSocketControl {
         $configName = 'git config --global user.name "nyugoh"';
         $configEMail = 'git config --global user.email "nyugoh@gmail.com"';
         if ($this->isWindows) {
-            $pathA = "C:\Program Files\Pharmacy Plus POS";
-            $pathB = "C:\Program Files (x86)\Pharmacy Plus POS";
+            $pathA = "C:\Program Files\Pharmacy Plus POS\pharmacy-pos\.git";
+            $pathB = "C:\Program Files (x86)\Pharmacy Plus POS\pharmacy-pos\.git";
             $git_dir = '';
-            if(is_dir("C:\Program Files\Pharmacy Plus POS")){
-                $git_dir .= $pathA;
-            }
-            if(is_dir("C:\Program Files (x86)\Pharmacy Plus POS")){
+            if(is_dir($pathB)){
                 $git_dir = $pathB;
             }
-//            $handle = popen('START "Pharmacy Plus POS System Update" '.$configEMail.' && '.$configName.' && git --git-dir="C:\POS-old\pharmacy-pos\.git" pull origin feature/electron','r');
-            $handle = popen('START "Pharmacy Plus POS System Update" git --git-dir="'.$git_dir.'\pharmacy-pos\.git" pull origin feature/electron','r');
-//            var_dump();
-            var_dump(is_dir("C:\Program Files\Pharmacy Plus POS"));
-            var_dump(is_dir("C:\Program Files (x86)\Pharmacy Plus POS"));
-            var_dump($git_dir);
-
-            $type = gettype($handle);
-            if ($type == 'NULL')
-                $result["error"] = "Git is not configured.";
-
-            sleep(1);
-            pclose($handle);
+            if(is_dir($pathA)){
+                $git_dir = $pathA;
+            }
+            $cmd = 'git --git-dir="'.$git_dir.'" pull origin feature/electron';
+            pclose(popen('START '.$configName, 'r'));
+            sleep(2);
+            pclose(popen('START '.$configEMail, 'r'));
+            sleep(2);
+            exec($cmd, $output,$val);
+            var_dump($output);
+            if($val === 0){
+                foreach ($output as $out)
+                    $result['data'] .= $out;
+                $result['error'] = 'OK';
+            } else
+                $result['error'] = "Failed to update ! ".json_encode($output);
         } else {
             $cmd = 'git pull origin feature/electron';
             exec($cmd, $output, $res);
@@ -164,7 +164,6 @@ class WposSocketControl {
                 $result['error'] = "Failed to update ! ".json_encode($res).json_encode($output);
             }
         }
-
         return $result;
     }
 
