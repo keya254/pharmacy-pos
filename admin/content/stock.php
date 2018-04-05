@@ -565,7 +565,7 @@
         var data = {};
         var config = JSON.parse(localStorage.getItem('wpos_config'));
         var sortable=[];
-        var items = WPOS.getJsonData("stock/get");
+        var items = WPOS.getJsonData("items/get");
         var list = {};
         for(var item in items) {
             if (items[item].stockType === '1')
